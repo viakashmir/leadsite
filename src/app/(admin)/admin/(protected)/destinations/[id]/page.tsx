@@ -3,7 +3,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import DestinationForm from "@/components/admin/DestinationForm";
 import CityManager from "@/components/admin/CityManager";
-import { createCity, updateDestination } from "@/lib/adminActions";
+import { createCity, fetchDestinationPhoto, updateDestination } from "@/lib/adminActions";
 
 export default async function EditDestinationPage({
   params,
@@ -22,6 +22,7 @@ export default async function EditDestinationPage({
 
   const boundUpdate = updateDestination.bind(null, destination.id);
   const boundCreateCity = createCity.bind(null, destination.id);
+  const boundFetchPhoto = fetchDestinationPhoto.bind(null, destination.id);
 
   return (
     <div className="max-w-3xl">
@@ -32,7 +33,7 @@ export default async function EditDestinationPage({
       <p className="text-xs text-zinc-500">/destinations/{destination.slug}</p>
 
       <div className="mt-4">
-        <DestinationForm action={boundUpdate} initial={destination} />
+        <DestinationForm action={boundUpdate} initial={destination} fetchPhotoAction={boundFetchPhoto} />
       </div>
 
       <section className="mt-6 rounded-lg border border-zinc-200 bg-white p-5">

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { formatINR } from "@/lib/format";
 
 export default function PackageCard({
@@ -10,6 +11,7 @@ export default function PackageCard({
   price,
   destinationName,
   theme,
+  heroImage,
 }: {
   slug: string;
   title: string;
@@ -19,16 +21,30 @@ export default function PackageCard({
   price: number;
   destinationName: string;
   theme: string;
+  heroImage?: string | null;
 }) {
   const tags = theme.split(",").filter(Boolean);
+  const hasPhoto = heroImage?.startsWith("http");
 
   return (
     <Link
       href={`/packages/${slug}`}
       className="flex flex-col overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm transition hover:shadow-md"
     >
-      <div className="flex h-28 items-center justify-center bg-zinc-100 text-sm font-medium text-zinc-400">
-        {destinationName}
+      <div className="relative h-28 overflow-hidden bg-zinc-100">
+        {hasPhoto ? (
+          <Image
+            src={heroImage!}
+            alt={title}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center text-sm font-medium text-zinc-400">
+            {destinationName}
+          </div>
+        )}
       </div>
       <div className="flex flex-1 flex-col p-4">
         <div className="flex flex-wrap gap-1">

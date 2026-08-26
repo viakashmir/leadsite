@@ -33,6 +33,7 @@ export default async function DestinationsPage() {
             name={d.name}
             summary={d.summary}
             leadCount={d._count.leads}
+            heroImage={d.heroImage}
           />
         ))}
       </div>

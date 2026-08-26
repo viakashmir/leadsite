@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { backfillAllPhotos } from "@/lib/adminActions";
+import PixabayBackfillButton from "@/components/admin/PixabayBackfillButton";
 
 export default async function AdminDestinationsPage() {
   const destinations = await prisma.destination.findMany({
@@ -16,12 +18,15 @@ export default async function AdminDestinationsPage() {
             The destinations that power SEO landing pages, leads, and packages sitewide.
           </p>
         </div>
-        <Link
-          href="/admin/destinations/new"
-          className="rounded-md bg-blue-700 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-blue-800"
-        >
-          + New Destination
-        </Link>
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+          <PixabayBackfillButton action={backfillAllPhotos} />
+          <Link
+            href="/admin/destinations/new"
+            className="rounded-md bg-blue-700 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-blue-800"
+          >
+            + New Destination
+          </Link>
+        </div>
       </div>
 
       <div className="mt-4 overflow-x-auto rounded-lg border border-zinc-200 bg-white">

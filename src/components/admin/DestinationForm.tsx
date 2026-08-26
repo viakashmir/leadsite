@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import FetchPhotoButton from "@/components/admin/FetchPhotoButton";
 
 type Destination = {
   name: string;
@@ -14,9 +15,11 @@ type Destination = {
 export default function DestinationForm({
   action,
   initial,
+  fetchPhotoAction,
 }: {
   action: (formData: FormData) => Promise<{ error?: string }>;
   initial?: Destination;
+  fetchPhotoAction?: () => Promise<{ error?: string }>;
 }) {
   const [state, formAction, pending] = useActionState(
     async (_prev: { error?: string }, formData: FormData) => action(formData),
@@ -60,6 +63,7 @@ export default function DestinationForm({
         placeholder="Hero image URL (optional)"
         className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm"
       />
+      {fetchPhotoAction && <FetchPhotoButton action={fetchPhotoAction} />}
       <label className="flex items-center gap-2 text-sm text-zinc-700">
         <input type="checkbox" name="isInternational" defaultChecked={initial?.isInternational} className="h-4 w-4" />
         International destination

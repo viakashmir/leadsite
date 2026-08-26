@@ -105,6 +105,7 @@ export default async function Home() {
               name={d.name}
               summary={d.summary}
               leadCount={d._count.leads}
+              heroImage={d.heroImage}
             />
           ))}
         </div>
@@ -128,6 +129,7 @@ export default async function Home() {
                 price={p.price}
                 destinationName={p.destination.name}
                 theme={p.theme}
+                heroImage={p.heroImage}
               />
             ))}
           </div>

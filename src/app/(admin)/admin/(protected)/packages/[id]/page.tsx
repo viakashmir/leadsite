@@ -4,7 +4,7 @@ import { getDestinationsWithCities } from "@/lib/data";
 import { prisma } from "@/lib/prisma";
 import AdminPackageForm from "@/components/admin/AdminPackageForm";
 import ConfirmDeleteForm from "@/components/admin/ConfirmDeleteForm";
-import { deletePackage, updateAdminPackage } from "@/lib/adminActions";
+import { deletePackage, fetchPackagePhoto, updateAdminPackage } from "@/lib/adminActions";
 
 export default async function EditAdminPackagePage({
   params,
@@ -20,6 +20,7 @@ export default async function EditAdminPackagePage({
 
   const boundUpdate = updateAdminPackage.bind(null, pkg.id);
   const boundDelete = deletePackage.bind(null, pkg.id);
+  const boundFetchPhoto = fetchPackagePhoto.bind(null, pkg.id);
 
   return (
     <div className="max-w-xl">
@@ -39,7 +40,12 @@ export default async function EditAdminPackagePage({
       </p>
 
       <div className="mt-4">
-        <AdminPackageForm action={boundUpdate} destinations={destinations} initial={pkg} />
+        <AdminPackageForm
+          action={boundUpdate}
+          destinations={destinations}
+          initial={pkg}
+          fetchPhotoAction={boundFetchPhoto}
+        />
       </div>
     </div>
   );

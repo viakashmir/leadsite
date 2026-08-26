@@ -36,6 +36,7 @@ export default async function PackagesPage() {
             price={p.price}
             destinationName={p.destination.name}
             theme={p.theme}
+            heroImage={p.heroImage}
           />
         ))}
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import FetchPhotoButton from "@/components/admin/FetchPhotoButton";
 
 type Destination = { id: string; name: string; cities: { id: string; name: string }[] };
 
@@ -23,11 +24,13 @@ export default function AdminPackageForm({
   destinations,
   initial,
   defaultDestinationId,
+  fetchPhotoAction,
 }: {
   action: (formData: FormData) => Promise<{ error?: string }>;
   destinations: Destination[];
   initial?: PackageInitial;
   defaultDestinationId?: string;
+  fetchPhotoAction?: () => Promise<{ error?: string }>;
 }) {
   const [state, formAction, pending] = useActionState(
     async (_prev: { error?: string }, formData: FormData) => action(formData),
@@ -127,6 +130,7 @@ export default function AdminPackageForm({
         placeholder="Hero image URL (optional)"
         className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm"
       />
+      {fetchPhotoAction && <FetchPhotoButton action={fetchPhotoAction} />}
       <label className="flex items-center gap-2 text-sm text-zinc-700">
         <input type="checkbox" name="published" defaultChecked={initial?.published ?? true} className="h-4 w-4" />
         Published (visible on the public site)

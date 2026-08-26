@@ -34,6 +34,7 @@ access — this only affects how the *first* migration gets applied.
 | `RAZORPAY_KEY_SECRET` | Same page |
 | `RAZORPAY_WEBHOOK_SECRET` | Set when creating the webhook in step 5 below |
 | `NEXT_PUBLIC_RAZORPAY_KEY_ID` | Same value as `RAZORPAY_KEY_ID` |
+| `PIXABAY_API_KEY` | [pixabay.com/service/about/api](https://pixabay.com/service/about/api/) — optional, powers the admin panel's "Fetch photo from Pixabay" buttons |
 | `SITE_URL` | Your production URL, e.g. `https://leadsite.vercel.app` or a custom domain |
 
 ## 4. Vercel import screen (the one you have open)

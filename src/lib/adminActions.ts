@@ -7,6 +7,7 @@ import { setAgentSessionCookie } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { generateProposalNumber } from "@/lib/proposals";
 import { slugify } from "@/lib/slug";
+import { searchPixabayImage } from "@/lib/pixabay";
 import bcrypt from "bcryptjs";
 import {
   DEFAULT_KYC_CHECKLIST,
@@ -441,6 +442,80 @@ export async function deletePackage(packageId: string): Promise<void> {
   revalidatePath("/admin/packages");
   revalidatePath("/packages");
   redirect("/admin/packages");
+}
+
+// ---------- Photos (Pixabay) ----------
+
+export async function fetchDestinationPhoto(destinationId: string): Promise<{ error?: string }> {
+  await requireAdmin();
+  const destination = await prisma.destination.findUnique({ where: { id: destinationId } });
+  if (!destination) return { error: "Destination not found" };
+
+  const imageUrl = await searchPixabayImage(`${destination.name} india travel`);
+  if (!imageUrl) return { error: "No Pixabay photo found — check PIXABAY_API_KEY is set" };
+
+  await prisma.destination.update({ where: { id: destinationId }, data: { heroImage: imageUrl } });
+  revalidatePath("/admin/destinations");
+  revalidatePath(`/admin/destinations/${destinationId}`);
+  revalidatePath("/destinations");
+  revalidatePath(`/destinations/${destination.slug}`);
+  revalidatePath("/");
+  return {};
+}
+
+export async function fetchPackagePhoto(packageId: string): Promise<{ error?: string }> {
+  await requireAdmin();
+  const pkg = await prisma.package.findUnique({ where: { id: packageId }, include: { destination: true } });
+  if (!pkg) return { error: "Package not found" };
+
+  const imageUrl = await searchPixabayImage(`${pkg.destination.name} ${pkg.title}`);
+  if (!imageUrl) return { error: "No Pixabay photo found — check PIXABAY_API_KEY is set" };
+
+  await prisma.package.update({ where: { id: packageId }, data: { heroImage: imageUrl } });
+  revalidatePath("/admin/packages");
+  revalidatePath(`/admin/packages/${packageId}`);
+  revalidatePath("/packages");
+  revalidatePath(`/packages/${pkg.slug}`);
+  revalidatePath("/");
+  return {};
+}
+
+export async function backfillAllPhotos(): Promise<{ done: number; failed: number }> {
+  await requireAdmin();
+  const [destinations, packages] = await Promise.all([
+    prisma.destination.findMany(),
+    prisma.package.findMany({ include: { destination: true } }),
+  ]);
+
+  let done = 0;
+  let failed = 0;
+
+  for (const d of destinations) {
+    const imageUrl = await searchPixabayImage(`${d.name} india travel`);
+    if (imageUrl) {
+      await prisma.destination.update({ where: { id: d.id }, data: { heroImage: imageUrl } });
+      done++;
+    } else {
+      failed++;
+    }
+  }
+
+  for (const p of packages) {
+    const imageUrl = await searchPixabayImage(`${p.destination.name} ${p.title}`);
+    if (imageUrl) {
+      await prisma.package.update({ where: { id: p.id }, data: { heroImage: imageUrl } });
+      done++;
+    } else {
+      failed++;
+    }
+  }
+
+  revalidatePath("/admin/destinations");
+  revalidatePath("/admin/packages");
+  revalidatePath("/destinations");
+  revalidatePath("/packages");
+  revalidatePath("/");
+  return { done, failed };
 }
 
 // ---------- Team ----------

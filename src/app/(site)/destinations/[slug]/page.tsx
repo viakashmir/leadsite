@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getDestinationsWithCities } from "@/lib/data";
@@ -83,8 +84,19 @@ export default async function DestinationPage({
         }}
       />
 
-      <section className="bg-gradient-to-b from-blue-700 to-blue-500 py-10 text-white">
-        <div className="mx-auto max-w-6xl px-4">
+      <section className="relative overflow-hidden bg-gradient-to-b from-blue-700 to-blue-500 py-10 text-white">
+        {destination.heroImage.startsWith("http") && (
+          <Image
+            src={destination.heroImage}
+            alt={destination.name}
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-900/75 to-blue-700/75" />
+        <div className="relative mx-auto max-w-6xl px-4">
           <nav className="text-xs text-blue-100">
             <Link href="/">Home</Link> / <Link href="/destinations">Destinations</Link> /{" "}
             {destination.name}
@@ -135,6 +147,7 @@ export default async function DestinationPage({
                 price={p.price}
                 destinationName={destination.name}
                 theme={p.theme}
+                heroImage={p.heroImage}
               />
             ))}
             {destination.packages.length === 0 && (
