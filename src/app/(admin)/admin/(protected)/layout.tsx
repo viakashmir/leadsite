@@ -1,7 +1,18 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/adminAuth";
 import AdminLogoutButton from "@/components/admin/AdminLogoutButton";
+import AdminMobileNav from "@/components/admin/AdminMobileNav";
 import { SITE_NAME } from "@/lib/site";
+
+const NAV_LINKS = [
+  { href: "/admin/agents", label: "Agents CRM" },
+  { href: "/admin/leads", label: "Leads CRM" },
+  { href: "/admin/proposals", label: "Proposals" },
+  { href: "/admin/credit-packs", label: "Credit Packs" },
+  { href: "/admin/destinations", label: "Destinations" },
+  { href: "/admin/packages", label: "Packages" },
+  { href: "/admin/team", label: "Team" },
+];
 
 export default async function AdminProtectedLayout({ children }: { children: React.ReactNode }) {
   const admin = await requireAdmin();
@@ -19,29 +30,17 @@ export default async function AdminProtectedLayout({ children }: { children: Rea
             <AdminLogoutButton />
           </div>
         </div>
-        <nav className="flex gap-1 overflow-x-auto border-t border-zinc-800 px-3 py-2 text-sm md:flex-1 md:flex-col md:gap-0 md:space-y-1 md:border-t-0 md:py-4">
-          <Link href="/admin/agents" className="shrink-0 rounded-md px-3 py-2 hover:bg-zinc-800">
-            Agents CRM
-          </Link>
-          <Link href="/admin/leads" className="shrink-0 rounded-md px-3 py-2 hover:bg-zinc-800">
-            Leads CRM
-          </Link>
-          <Link href="/admin/proposals" className="shrink-0 rounded-md px-3 py-2 hover:bg-zinc-800">
-            Proposals
-          </Link>
-          <Link href="/admin/credit-packs" className="shrink-0 rounded-md px-3 py-2 hover:bg-zinc-800">
-            Credit Packs
-          </Link>
-          <Link href="/admin/destinations" className="shrink-0 rounded-md px-3 py-2 hover:bg-zinc-800">
-            Destinations
-          </Link>
-          <Link href="/admin/packages" className="shrink-0 rounded-md px-3 py-2 hover:bg-zinc-800">
-            Packages
-          </Link>
-          <Link href="/admin/team" className="shrink-0 rounded-md px-3 py-2 hover:bg-zinc-800">
-            Team
-          </Link>
+
+        <AdminMobileNav />
+
+        <nav className="hidden text-sm md:flex md:flex-1 md:flex-col md:space-y-1 md:py-4 md:px-3">
+          {NAV_LINKS.map((link) => (
+            <Link key={link.href} href={link.href} className="rounded-md px-3 py-2 hover:bg-zinc-800">
+              {link.label}
+            </Link>
+          ))}
         </nav>
+
         <div className="hidden items-center justify-between border-t border-zinc-800 px-5 py-4 md:flex">
           <span className="truncate text-xs text-zinc-400">{admin.name}</span>
           <AdminLogoutButton />
