@@ -1,0 +1,35 @@
+import Link from "next/link";
+
+export default function DestinationCard({
+  slug,
+  name,
+  summary,
+  leadCount,
+}: {
+  slug: string;
+  name: string;
+  summary: string;
+  leadCount?: number;
+}) {
+  return (
+    <Link
+      href={`/destinations/${slug}`}
+      className="group overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm transition hover:shadow-md"
+    >
+      <div className="relative flex h-32 items-end bg-gradient-to-br from-blue-600 to-blue-400 p-4">
+        {typeof leadCount === "number" && leadCount > 0 && (
+          <span className="absolute right-2 top-2 rounded-full bg-red-600 px-2 py-0.5 text-[11px] font-bold text-white shadow">
+            {leadCount >= 10 ? `${leadCount}+` : leadCount} Travel Leads
+          </span>
+        )}
+        <span className="text-lg font-bold text-white drop-shadow">{name}</span>
+      </div>
+      <div className="p-4">
+        <p className="line-clamp-2 text-sm text-zinc-600">{summary}</p>
+        <span className="mt-2 inline-block text-sm font-semibold text-blue-700 group-hover:underline">
+          Explore packages →
+        </span>
+      </div>
+    </Link>
+  );
+}

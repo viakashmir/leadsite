@@ -1,0 +1,226 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ---------- Content / SEO side ----------
+
+model Destination {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  state       String?
+  country     String   @default("India")
+  isInternational Boolean @default(false)
+  summary     String
+  heroImage   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  cities      City[]
+  packages    Package[]
+  leads       Lead[]
+  agentLinks  AgentDestination[]
+}
+
+model City {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  destinationId String
+  destination   Destination @relation(fields: [destinationId], references: [id])
+
+  packages      Package[]
+  leads         Lead[]
+
+  @@index([destinationId])
+}
+
+model Package {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title         String
+  summary       String
+  itinerary     String   // markdown/plain text
+  heroImage     String
+  durationDays  Int
+  durationNights Int
+  price         Int      // starting price in INR
+  theme         String   // comma-separated tags e.g. "Honeymoon,Family"
+  published     Boolean  @default(true)
+
+  destinationId String
+  destination   Destination @relation(fields: [destinationId], references: [id])
+  cityId        String?
+  city          City?    @relation(fields: [cityId], references: [id])
+
+  agentId       String?  // null = platform/curated package, set = agent-submitted (UGC)
+  agent         Agent?   @relation(fields: [agentId], references: [id])
+
+  leads         Lead[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([destinationId])
+  @@index([cityId])
+  @@index([agentId])
+}
+
+// ---------- Lead capture / marketplace side ----------
+
+enum LeadStatus {
+  NEW
+  VERIFIED
+  BOOKED
+  STALE
+}
+
+model Lead {
+  id            String   @id @default(cuid())
+
+  name          String
+  email         String?
+  phone         String
+  originCity    String?  // where the traveler is traveling from
+
+  destinationId String
+  destination   Destination @relation(fields: [destinationId], references: [id])
+  cityId        String?
+  city          City?    @relation(fields: [cityId], references: [id])
+  sourcePackageId String?
+  sourcePackage Package? @relation(fields: [sourcePackageId], references: [id])
+
+  travelDate    DateTime?
+  durationDays  Int?
+  adults        Int      @default(2)
+  children      Int      @default(0)
+  budgetBand    String?  // e.g. "Economy (0-2 Star)", "Rs. 25000 - Rs. 50000"
+  message       String?
+
+  status        LeadStatus @default(NEW)
+  verified      Boolean  @default(false)
+  otpVerifiedAt DateTime?
+
+  unlockPrice   Int      @default(100) // credits/INR cost to unlock contact
+  maxUnlocks    Int      @default(3)   // shared/non-exclusive, like TripClap
+
+  unlocks       LeadUnlock[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([destinationId])
+  @@index([cityId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+// ---------- Agent side ----------
+
+enum AgentStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+}
+
+enum CompanyType {
+  PROPRIETORSHIP
+  PARTNERSHIP
+  PRIVATE_LIMITED
+  LLP
+  OTHER
+}
+
+model Agent {
+  id              String   @id @default(cuid())
+  email           String   @unique
+  passwordHash    String
+
+  companyName     String
+  contactName     String
+  phone           String
+
+  servicesWanted  String   // JSON-stringified array, e.g. ["TRAVEL_LEADS","TRAVEL_CRM"]
+  dailyLeadTarget Int      @default(10)
+
+  officeAddress   String?
+  officeCity      String?
+  officeState     String?
+  gstNumber       String?
+  companySince    Int?
+  teamSize        Int?
+  companyType     CompanyType?
+  facebookUrl     String?
+  instagramUrl    String?
+
+  status          AgentStatus @default(PENDING)
+  credits         Int      @default(0)
+
+  destinations    AgentDestination[]
+  packages        Package[]
+  unlocks         LeadUnlock[]
+  transactions    CreditTransaction[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model AgentDestination {
+  id            String   @id @default(cuid())
+  agentId       String
+  agent         Agent    @relation(fields: [agentId], references: [id])
+  destinationId String
+  destination   Destination @relation(fields: [destinationId], references: [id])
+
+  @@unique([agentId, destinationId])
+  @@index([destinationId])
+}
+
+model LeadUnlock {
+  id            String   @id @default(cuid())
+  agentId       String
+  agent         Agent    @relation(fields: [agentId], references: [id])
+  leadId        String
+  lead          Lead     @relation(fields: [leadId], references: [id])
+  creditsSpent  Int
+  unlockedAt    DateTime @default(now())
+
+  @@unique([agentId, leadId])
+  @@index([leadId])
+}
+
+enum CreditTxnType {
+  TOPUP
+  UNLOCK_SPEND
+  BONUS
+  REFUND
+}
+
+model CreditTransaction {
+  id        String   @id @default(cuid())
+  agentId   String
+  agent     Agent    @relation(fields: [agentId], references: [id])
+  amount    Int      // positive = credit added, negative = spent
+  type      CreditTxnType
+  note      String?
+  createdAt DateTime @default(now())
+
+  @@index([agentId])
+}
+
+// ---------- Admin ----------
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
