@@ -66,6 +66,13 @@ export async function POST(req: NextRequest) {
           note: "Welcome bonus credits",
         },
       },
+      activities: {
+        create: {
+          type: "REGISTRATION",
+          actor: "System",
+          detail: `Registered via free signup. Destinations: ${destinations.length}. Daily lead target: ${data.dailyLeadTarget}.`,
+        },
+      },
     },
   });
 

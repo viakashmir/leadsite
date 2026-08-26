@@ -44,6 +44,14 @@ export async function unlockLead(leadId: string): Promise<{ error?: string }> {
         note: `Unlocked lead ${leadId}`,
       },
     }),
+    prisma.leadActivity.create({
+      data: {
+        leadId,
+        type: "UNLOCKED",
+        actor: agent.companyName,
+        detail: `Contact unlocked for ${lead.unlockPrice} credits`,
+      },
+    }),
   ]);
 
   revalidatePath("/agent/dashboard/leads");

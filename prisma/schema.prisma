@@ -113,6 +113,8 @@ model Lead {
   maxUnlocks    Int      @default(3)   // shared/non-exclusive, like TripClap
 
   unlocks       LeadUnlock[]
+  notes         LeadNote[]
+  activities    LeadActivity[]
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -121,6 +123,30 @@ model Lead {
   @@index([cityId])
   @@index([status])
   @@index([createdAt])
+}
+
+model LeadNote {
+  id        String   @id @default(cuid())
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id])
+  authorId  String
+  author    AdminUser @relation(fields: [authorId], references: [id])
+  body      String
+  createdAt DateTime @default(now())
+
+  @@index([leadId])
+}
+
+model LeadActivity {
+  id        String   @id @default(cuid())
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id])
+  type      String   // CREATED, VERIFIED, UNLOCKED, STATUS_CHANGE, ...
+  actor     String   // "System", an agent's company name, or an admin's name
+  detail    String
+  createdAt DateTime @default(now())
+
+  @@index([leadId])
 }
 
 // ---------- Agent side ----------
@@ -164,13 +190,45 @@ model Agent {
   status          AgentStatus @default(PENDING)
   credits         Int      @default(0)
 
+  assignedRmId    String?
+  assignedRm      AdminUser? @relation(fields: [assignedRmId], references: [id])
+
   destinations    AgentDestination[]
   packages        Package[]
   unlocks         LeadUnlock[]
   transactions    CreditTransaction[]
+  notes           AgentNote[]
+  activities      AgentActivity[]
+  proposals       Proposal[]
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+
+  @@index([assignedRmId])
+}
+
+model AgentNote {
+  id        String   @id @default(cuid())
+  agentId   String
+  agent     Agent    @relation(fields: [agentId], references: [id])
+  authorId  String
+  author    AdminUser @relation(fields: [authorId], references: [id])
+  body      String
+  createdAt DateTime @default(now())
+
+  @@index([agentId])
+}
+
+model AgentActivity {
+  id        String   @id @default(cuid())
+  agentId   String
+  agent     Agent    @relation(fields: [agentId], references: [id])
+  type      String   // REGISTRATION, TALKED, INFO, LOGIN, STATUS_CHANGE, ...
+  actor     String   // "System" or an admin's name
+  detail    String
+  createdAt DateTime @default(now())
+
+  @@index([agentId])
 }
 
 model AgentDestination {
@@ -218,9 +276,65 @@ model CreditTransaction {
 
 // ---------- Admin ----------
 
+enum ProposalStatus {
+  DRAFT
+  SENT
+  ACCEPTED
+  EXPIRED
+}
+
+model Proposal {
+  id              String   @id @default(cuid())
+  proposalNumber  String   @unique
+
+  agentId         String?
+  agent           Agent?   @relation(fields: [agentId], references: [id])
+  prospectName    String
+  prospectCompany String?
+  prospectEmail   String?
+  prospectPhone   String?
+
+  preparedById    String
+  preparedBy      AdminUser @relation(fields: [preparedById], references: [id])
+
+  planName        String
+  planTagline     String?
+  walletCredits   Int
+  validityMonths  Int
+  domesticLeadPrice    Int
+  internationalLeadPrice Int
+  features        String   // JSON-stringified array of bullet strings
+
+  subtotal        Int
+  gstPercent      Int      @default(18)
+  totalPayable    Int
+
+  paymentInstructions String?
+  kycChecklist    String   // JSON-stringified array of bullet strings
+  termsText       String
+  reversalPolicyText String
+  refundPolicyText   String
+
+  status          ProposalStatus @default(DRAFT)
+  validTill       DateTime
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([agentId])
+  @@index([preparedById])
+}
+
 model AdminUser {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
-  createdAt    DateTime @default(now())
+  id             String   @id @default(cuid())
+  email          String   @unique
+  passwordHash   String
+  name           String
+
+  managedAgents  Agent[]
+  agentNotes     AgentNote[]
+  leadNotes      LeadNote[]
+  proposals      Proposal[]
+
+  createdAt      DateTime @default(now())
 }

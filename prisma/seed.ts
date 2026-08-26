@@ -1,5 +1,6 @@
 import { PrismaClient } from "../src/generated/prisma/client";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import bcrypt from "bcryptjs";
 
 const adapter = new PrismaBetterSqlite3({
   url: process.env.DATABASE_URL ?? "file:./dev.db",
@@ -408,6 +409,17 @@ const LEADS: SeedLead[] = [
 ];
 
 async function main() {
+  console.log("Seeding admin user...");
+  await prisma.adminUser.upsert({
+    where: { email: "admin@wanderleads.com" },
+    update: {},
+    create: {
+      email: "admin@wanderleads.com",
+      passwordHash: await bcrypt.hash("admin12345", 10),
+      name: "Site Admin",
+    },
+  });
+
   console.log("Seeding destinations & cities...");
   const destinationIdBySlug = new Map<string, string>();
   const cityIdBySlug = new Map<string, string>();

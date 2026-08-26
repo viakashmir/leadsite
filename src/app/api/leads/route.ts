@@ -41,5 +41,16 @@ export async function POST(req: NextRequest) {
     },
   });
 
+  await prisma.leadActivity.create({
+    data: {
+      leadId: lead.id,
+      type: "CREATED",
+      actor: "System",
+      detail: data.sourcePackageId
+        ? "Enquiry submitted from a package page"
+        : `Enquiry submitted for ${destination.name}`,
+    },
+  });
+
   return NextResponse.json({ ok: true, leadId: lead.id }, { status: 201 });
 }
