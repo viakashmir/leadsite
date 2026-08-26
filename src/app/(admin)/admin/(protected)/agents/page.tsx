@@ -66,17 +66,17 @@ export default async function AdminAgentsPage({
       </form>
 
       <div className="mt-4 overflow-x-auto rounded-lg border border-zinc-200 bg-white">
-        <table className="w-full min-w-[900px] text-left text-sm">
+        <table className="w-full text-left text-sm">
           <thead className="border-b border-zinc-200 bg-zinc-50 text-xs uppercase text-zinc-500">
             <tr>
               <th className="px-4 py-3">Company</th>
-              <th className="px-4 py-3">Contact</th>
+              <th className="hidden px-4 py-3 md:table-cell">Contact</th>
               <th className="px-4 py-3">Mobile</th>
-              <th className="px-4 py-3">Destinations</th>
-              <th className="px-4 py-3">RM</th>
+              <th className="hidden px-4 py-3 lg:table-cell">Destinations</th>
+              <th className="hidden px-4 py-3 md:table-cell">RM</th>
               <th className="px-4 py-3">Credits</th>
               <th className="px-4 py-3">Status</th>
-              <th className="px-4 py-3">Joined</th>
+              <th className="hidden px-4 py-3 lg:table-cell">Joined</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-zinc-100">
@@ -85,14 +85,14 @@ export default async function AdminAgentsPage({
                 <td className="px-4 py-3 font-medium text-blue-700">
                   <Link href={`/admin/agents/${agent.id}`}>{agent.companyName}</Link>
                 </td>
-                <td className="px-4 py-3">{agent.contactName}</td>
+                <td className="hidden px-4 py-3 md:table-cell">{agent.contactName}</td>
                 <td className="px-4 py-3">
                   <RevealField value={agent.phone} />
                 </td>
-                <td className="px-4 py-3 text-xs text-zinc-500">
+                <td className="hidden px-4 py-3 text-xs text-zinc-500 lg:table-cell">
                   {agent.destinations.map((d) => d.destination.name).join(", ")}
                 </td>
-                <td className="px-4 py-3">{agent.assignedRm?.name ?? "—"}</td>
+                <td className="hidden px-4 py-3 md:table-cell">{agent.assignedRm?.name ?? "—"}</td>
                 <td className="px-4 py-3">{agent.credits}</td>
                 <td className="px-4 py-3">
                   <span
@@ -107,7 +107,7 @@ export default async function AdminAgentsPage({
                     {agent.status}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-xs text-zinc-500">{formatDate(agent.createdAt)}</td>
+                <td className="hidden px-4 py-3 text-xs text-zinc-500 lg:table-cell">{formatDate(agent.createdAt)}</td>
               </tr>
             ))}
           </tbody>

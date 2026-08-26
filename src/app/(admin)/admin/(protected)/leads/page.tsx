@@ -51,16 +51,16 @@ export default async function AdminLeadsPage({
       </form>
 
       <div className="mt-4 overflow-x-auto rounded-lg border border-zinc-200 bg-white">
-        <table className="w-full min-w-[900px] text-left text-sm">
+        <table className="w-full text-left text-sm">
           <thead className="border-b border-zinc-200 bg-zinc-50 text-xs uppercase text-zinc-500">
             <tr>
               <th className="px-4 py-3">Traveler</th>
               <th className="px-4 py-3">Mobile</th>
               <th className="px-4 py-3">Route (A → B)</th>
-              <th className="px-4 py-3">Travel Date</th>
+              <th className="hidden px-4 py-3 md:table-cell">Travel Date</th>
               <th className="px-4 py-3">Status</th>
-              <th className="px-4 py-3">Unlocks</th>
-              <th className="px-4 py-3">Posted</th>
+              <th className="hidden px-4 py-3 lg:table-cell">Unlocks</th>
+              <th className="hidden px-4 py-3 lg:table-cell">Posted</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-zinc-100">
@@ -75,7 +75,7 @@ export default async function AdminLeadsPage({
                 <td className="px-4 py-3 text-xs text-zinc-600">
                   {lead.originCity ?? "—"} → {lead.city ? lead.city.name : lead.destination.name}
                 </td>
-                <td className="px-4 py-3 text-xs text-zinc-500">
+                <td className="hidden px-4 py-3 text-xs text-zinc-500 md:table-cell">
                   {lead.travelDate ? formatDate(lead.travelDate) : "—"}
                 </td>
                 <td className="px-4 py-3">
@@ -93,10 +93,10 @@ export default async function AdminLeadsPage({
                     {lead.status}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-xs text-zinc-500">
+                <td className="hidden px-4 py-3 text-xs text-zinc-500 lg:table-cell">
                   {lead._count.unlocks}/{lead.maxUnlocks}
                 </td>
-                <td className="px-4 py-3 text-xs text-zinc-500">{formatDate(lead.createdAt)}</td>
+                <td className="hidden px-4 py-3 text-xs text-zinc-500 lg:table-cell">{formatDate(lead.createdAt)}</td>
               </tr>
             ))}
           </tbody>

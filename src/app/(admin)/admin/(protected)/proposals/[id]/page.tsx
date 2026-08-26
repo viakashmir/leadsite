@@ -26,11 +26,11 @@ export default async function ProposalDetailPage({
 
   return (
     <div>
-      <div className="print-hide mb-4 flex items-center justify-between">
+      <div className="print-hide mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <Link href="/admin/proposals" className="text-sm text-blue-700">
           ← All proposals
         </Link>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <ProposalStatusForm action={boundUpdateStatus} currentStatus={proposal.status} />
           <PrintButton />
         </div>

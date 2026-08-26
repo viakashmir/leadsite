@@ -47,7 +47,7 @@ export default async function AdminAgentDetailPage({
         ← All agents
       </Link>
 
-      <div className="mt-2 flex items-center justify-between">
+      <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-xl font-bold text-zinc-900">{agent.companyName}</h1>
           <p className="text-sm text-zinc-500">#{agent.id.slice(-6)} · {agent.contactName}</p>

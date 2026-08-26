@@ -11,27 +11,27 @@ export default async function AdminProposalsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-lg font-semibold text-zinc-900">Proposals</h1>
         <Link
           href="/admin/proposals/new"
-          className="rounded-md bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
+          className="rounded-md bg-blue-700 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-blue-800"
         >
           + New Proposal
         </Link>
       </div>
 
       <div className="mt-4 overflow-x-auto rounded-lg border border-zinc-200 bg-white">
-        <table className="w-full min-w-[800px] text-left text-sm">
+        <table className="w-full text-left text-sm">
           <thead className="border-b border-zinc-200 bg-zinc-50 text-xs uppercase text-zinc-500">
             <tr>
               <th className="px-4 py-3">Number</th>
               <th className="px-4 py-3">Prospect</th>
-              <th className="px-4 py-3">Plan</th>
+              <th className="hidden px-4 py-3 md:table-cell">Plan</th>
               <th className="px-4 py-3">Total</th>
-              <th className="px-4 py-3">Prepared By</th>
+              <th className="hidden px-4 py-3 lg:table-cell">Prepared By</th>
               <th className="px-4 py-3">Status</th>
-              <th className="px-4 py-3">Valid Till</th>
+              <th className="hidden px-4 py-3 lg:table-cell">Valid Till</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-zinc-100">
@@ -44,9 +44,9 @@ export default async function AdminProposalsPage() {
                   {p.prospectName}
                   {p.agent && <span className="text-xs text-zinc-400"> · {p.agent.companyName}</span>}
                 </td>
-                <td className="px-4 py-3">{p.planName}</td>
+                <td className="hidden px-4 py-3 md:table-cell">{p.planName}</td>
                 <td className="px-4 py-3">{formatINR(p.totalPayable)}</td>
-                <td className="px-4 py-3 text-xs text-zinc-500">{p.preparedBy.name}</td>
+                <td className="hidden px-4 py-3 text-xs text-zinc-500 lg:table-cell">{p.preparedBy.name}</td>
                 <td className="px-4 py-3">
                   <span
                     className={`rounded-full px-2 py-0.5 text-xs font-medium ${
@@ -62,7 +62,7 @@ export default async function AdminProposalsPage() {
                     {p.status}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-xs text-zinc-500">{formatDate(p.validTill)}</td>
+                <td className="hidden px-4 py-3 text-xs text-zinc-500 lg:table-cell">{formatDate(p.validTill)}</td>
               </tr>
             ))}
           </tbody>

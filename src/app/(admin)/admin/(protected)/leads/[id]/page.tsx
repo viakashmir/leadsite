@@ -40,7 +40,7 @@ export default async function AdminLeadDetailPage({
         ← All leads
       </Link>
 
-      <div className="mt-2 flex items-center justify-between">
+      <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-xl font-bold text-zinc-900">{lead.name}</h1>
           <p className="text-sm text-zinc-500">

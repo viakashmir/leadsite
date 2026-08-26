@@ -151,7 +151,7 @@ export default function EnquiryForm({
           type="number"
           min={1}
           placeholder="No. of days"
-          className="col-span-2 rounded-md border border-zinc-300 px-3 py-2 text-sm sm:col-span-1"
+          className="col-span-2 rounded-md border border-zinc-300 px-3 py-2 text-sm"
         />
         <input
           name="adults"
