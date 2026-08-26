@@ -427,6 +427,16 @@ async function main() {
   out.push("");
 
   const migrationChecksum = crypto.createHash("sha256").update(MIGRATION_SQL).digest("hex");
+  out.push(`CREATE TABLE IF NOT EXISTS "_prisma_migrations" (`);
+  out.push(`  "id" VARCHAR(36) NOT NULL PRIMARY KEY,`);
+  out.push(`  "checksum" VARCHAR(64) NOT NULL,`);
+  out.push(`  "finished_at" TIMESTAMPTZ,`);
+  out.push(`  "migration_name" VARCHAR(255) NOT NULL,`);
+  out.push(`  "logs" TEXT,`);
+  out.push(`  "rolled_back_at" TIMESTAMPTZ,`);
+  out.push(`  "started_at" TIMESTAMPTZ NOT NULL DEFAULT now(),`);
+  out.push(`  "applied_steps_count" INTEGER NOT NULL DEFAULT 0`);
+  out.push(`);`);
   out.push(`INSERT INTO "_prisma_migrations" (id, checksum, finished_at, migration_name, started_at, applied_steps_count)`);
   out.push(`VALUES (${sqlStr(id())}, ${sqlStr(migrationChecksum)}, now(), ${sqlStr(MIGRATION_NAME)}, now(), 1);`);
   out.push("");
