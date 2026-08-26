@@ -10,44 +10,19 @@ Also required before payments work: Razorpay API keys.
 
 Get these first — see the "Credentials needed" section below — then continue.
 
-## 2. One-time: switch the database from SQLite to Postgres
+## 2. Database: already switched to Postgres
 
-This repo currently targets SQLite for local dev speed. To point it at Supabase:
+`prisma/schema.prisma` already targets `provider = "postgresql"`, and
+`src/lib/prisma.ts` / `prisma/seed.ts` already use the `@prisma/adapter-pg`
+Postgres adapter — nothing to change here. The schema's first migration is
+committed at `prisma/migrations/20260826000000_init/`.
 
-1. In `prisma/schema.prisma`, change:
-   ```prisma
-   datasource db {
-     provider = "sqlite"
-   }
-   ```
-   to:
-   ```prisma
-   datasource db {
-     provider = "postgresql"
-   }
-   ```
-2. In `src/lib/prisma.ts` and `prisma/seed.ts`, swap the SQLite adapter for the
-   Postgres one (both packages are already installed — `pg` and
-   `@prisma/adapter-pg`):
-   ```ts
-   import { PrismaPg } from "@prisma/adapter-pg";
-   const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
-   ```
-   (replacing the `PrismaBetterSqlite3` adapter in both files).
-3. Delete the old SQLite-flavored migration history and generate a fresh one
-   against the real Postgres database:
-   ```bash
-   rm -rf prisma/migrations
-   DATABASE_URL="<your supabase connection string>" npx prisma migrate dev --name init
-   ```
-4. Seed the new database:
-   ```bash
-   DATABASE_URL="<your supabase connection string>" npm run db:seed
-   ```
-
-After this, local dev also runs against Postgres (or keep a second local
-SQLite branch for offline dev — up to you; the codebase doesn't care which,
-only the schema.prisma `provider` and the adapter matter).
+Applying that schema to your actual Supabase database is covered in step 5
+below — it uses Supabase's own SQL Editor rather than a local `prisma
+migrate` command, since this repo was developed inside a sandboxed
+environment with no raw-TCP network access to Postgres (only HTTPS to
+allowed hosts). That's fine for Vercel, which has normal outbound network
+access — this only affects how the *first* migration gets applied.
 
 ## 3. Environment variables (set in Vercel Project Settings -> Environment Variables)
 
@@ -74,14 +49,32 @@ only the schema.prisma `provider` and the adapter matter).
   from the table above before clicking Deploy.
 - Click **Deploy**.
 
-## 5. After the first deploy: run the Postgres migration once
+## 5. Apply the database schema once, via Supabase's SQL Editor
 
-Vercel doesn't run database migrations automatically. After the first
-successful deploy (with `DATABASE_URL` set), run once from your machine (or
-this session) against the production database:
+Vercel doesn't run database migrations automatically, and this schema needs
+to be applied before the site will work (destinations/packages pages,
+admin login, everything reads from these tables). Do this once, in your
+browser, no terminal needed:
+
+1. Generate the SQL file (already done for you — it's `deploy.sql` at the
+   repo root; regenerate any time with `npx tsx scripts/generate-deploy-sql.ts
+   > deploy.sql` if the schema or seed data changes).
+2. Open your Supabase project -> **SQL Editor** (left sidebar) -> **New query**.
+3. Paste the entire contents of `deploy.sql` into the editor.
+4. Click **Run**.
+
+This creates every table, applies the schema, and seeds: the admin login,
+4 credit packs, 5 sample destinations with cities and packages, and 13
+sample leads — enough to see the full site working immediately. It also
+records the migration in `_prisma_migrations`, so any future `prisma
+migrate deploy` (from a machine with normal network access) stays in sync.
+
+If you'd rather apply it from a terminal instead (e.g. from your own
+machine, which — unlike the sandbox this was built in — has normal network
+access), this also works:
 ```bash
 DATABASE_URL="<production DATABASE_URL>" npx prisma migrate deploy
-DATABASE_URL="<production DATABASE_URL>" npm run db:seed   # optional, for demo content
+DATABASE_URL="<production DATABASE_URL>" npm run db:seed
 ```
 
 ## 6. Register the Razorpay webhook

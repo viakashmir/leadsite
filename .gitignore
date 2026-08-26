@@ -48,3 +48,6 @@ next-env.d.ts
 /dev.db-journal
 /prisma/dev.db
 /prisma/dev.db-journal
+
+# generated, single-use deploy SQL (regenerate with scripts/generate-deploy-sql.ts)
+/deploy.sql
