@@ -420,6 +420,18 @@ async function main() {
     },
   });
 
+  console.log("Seeding credit packs...");
+  const creditPacks = [
+    { name: "Starter", tagline: "Try it out", amountINR: 500, baseCredits: 500, bonusCredits: 0, sortOrder: 0 },
+    { name: "Growth", tagline: "Most popular", amountINR: 1000, baseCredits: 1000, bonusCredits: 100, sortOrder: 1 },
+    { name: "Pro", tagline: "For active agencies", amountINR: 2500, baseCredits: 2500, bonusCredits: 375, sortOrder: 2 },
+    { name: "Scale", tagline: "Best value", amountINR: 5000, baseCredits: 5000, bonusCredits: 1000, sortOrder: 3 },
+  ];
+  for (const pack of creditPacks) {
+    const existing = await prisma.creditPack.findFirst({ where: { name: pack.name } });
+    if (!existing) await prisma.creditPack.create({ data: pack });
+  }
+
   console.log("Seeding destinations & cities...");
   const destinationIdBySlug = new Map<string, string>();
   const cityIdBySlug = new Map<string, string>();

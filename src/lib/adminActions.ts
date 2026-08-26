@@ -6,6 +6,8 @@ import { requireAdmin } from "@/lib/adminAuth";
 import { setAgentSessionCookie } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { generateProposalNumber } from "@/lib/proposals";
+import { slugify } from "@/lib/slug";
+import bcrypt from "bcryptjs";
 import {
   DEFAULT_KYC_CHECKLIST,
   DEFAULT_REFUND_POLICY_TEXT,
@@ -13,6 +15,38 @@ import {
   DEFAULT_TERMS_TEXT,
   getProposalPlan,
 } from "@/lib/proposalPlans";
+
+export async function grantAgentCredits(agentId: string, formData: FormData): Promise<{ error?: string }> {
+  const admin = await requireAdmin();
+  const amount = Number(formData.get("amount"));
+  const note = String(formData.get("note") ?? "").trim();
+
+  if (!Number.isFinite(amount) || amount === 0) return { error: "Enter a non-zero amount" };
+  if (!note) return { error: "Add a reason for this adjustment" };
+
+  await prisma.$transaction([
+    prisma.agent.update({ where: { id: agentId }, data: { credits: { increment: amount } } }),
+    prisma.creditTransaction.create({
+      data: {
+        agentId,
+        amount,
+        type: amount > 0 ? "BONUS" : "REFUND",
+        note: `${note} (by ${admin.name})`,
+      },
+    }),
+    prisma.agentActivity.create({
+      data: {
+        agentId,
+        type: "CREDIT_ADJUSTMENT",
+        actor: admin.name,
+        detail: `${amount > 0 ? "+" : ""}${amount} credits — ${note}`,
+      },
+    }),
+  ]);
+
+  revalidatePath(`/admin/agents/${agentId}`);
+  return {};
+}
 
 export async function addAgentNote(agentId: string, formData: FormData): Promise<{ error?: string }> {
   const admin = await requireAdmin();
@@ -116,6 +150,46 @@ export async function updateLeadStatus(leadId: string, formData: FormData): Prom
   revalidatePath("/admin/leads");
 }
 
+export async function createCreditPack(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+  const name = String(formData.get("name") ?? "").trim();
+  const amountINR = Number(formData.get("amountINR"));
+  const baseCredits = Number(formData.get("baseCredits"));
+  const bonusCredits = Number(formData.get("bonusCredits") ?? 0);
+  const sortOrder = Number(formData.get("sortOrder") ?? 0);
+  const tagline = String(formData.get("tagline") ?? "").trim() || undefined;
+
+  if (!name || !amountINR || !baseCredits) return { error: "Fill in name, price, and credits" };
+
+  await prisma.creditPack.create({
+    data: { name, tagline, amountINR, baseCredits, bonusCredits, sortOrder },
+  });
+
+  revalidatePath("/admin/credit-packs");
+  redirect("/admin/credit-packs");
+}
+
+export async function updateCreditPack(packId: string, formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+  const name = String(formData.get("name") ?? "").trim();
+  const amountINR = Number(formData.get("amountINR"));
+  const baseCredits = Number(formData.get("baseCredits"));
+  const bonusCredits = Number(formData.get("bonusCredits") ?? 0);
+  const sortOrder = Number(formData.get("sortOrder") ?? 0);
+  const tagline = String(formData.get("tagline") ?? "").trim() || undefined;
+  const active = formData.get("active") === "on";
+
+  if (!name || !amountINR || !baseCredits) return { error: "Fill in name, price, and credits" };
+
+  await prisma.creditPack.update({
+    where: { id: packId },
+    data: { name, tagline, amountINR, baseCredits, bonusCredits, sortOrder, active },
+  });
+
+  revalidatePath("/admin/credit-packs");
+  redirect("/admin/credit-packs");
+}
+
 export async function createProposal(formData: FormData): Promise<{ error?: string }> {
   const admin = await requireAdmin();
 
@@ -203,5 +277,190 @@ export async function updateProposalStatus(
   await prisma.proposal.update({ where: { id: proposalId }, data: { status: status as never } });
   revalidatePath(`/admin/proposals/${proposalId}`);
   revalidatePath("/admin/proposals");
+  return {};
+}
+
+// ---------- Content CMS: Destinations / Cities / Packages ----------
+
+export async function createDestination(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+  const name = String(formData.get("name") ?? "").trim();
+  const summary = String(formData.get("summary") ?? "").trim();
+  if (!name || !summary) return { error: "Name and summary are required" };
+
+  const state = String(formData.get("state") ?? "").trim() || undefined;
+  const country = String(formData.get("country") ?? "India").trim();
+  const isInternational = formData.get("isInternational") === "on";
+  const heroImage = String(formData.get("heroImage") ?? "").trim() || "/images/destinations/placeholder.jpg";
+
+  const slug = `${slugify(name)}-${Math.random().toString(36).slice(2, 6)}`;
+
+  const destination = await prisma.destination.create({
+    data: { slug, name, state, country, isInternational, summary, heroImage },
+  });
+
+  revalidatePath("/admin/destinations");
+  redirect(`/admin/destinations/${destination.id}`);
+}
+
+export async function updateDestination(destinationId: string, formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+  const name = String(formData.get("name") ?? "").trim();
+  const summary = String(formData.get("summary") ?? "").trim();
+  if (!name || !summary) return { error: "Name and summary are required" };
+
+  const state = String(formData.get("state") ?? "").trim() || undefined;
+  const country = String(formData.get("country") ?? "India").trim();
+  const isInternational = formData.get("isInternational") === "on";
+  const heroImage = String(formData.get("heroImage") ?? "").trim() || undefined;
+
+  await prisma.destination.update({
+    where: { id: destinationId },
+    data: { name, summary, state, country, isInternational, heroImage },
+  });
+
+  revalidatePath("/admin/destinations");
+  revalidatePath(`/admin/destinations/${destinationId}`);
+  revalidatePath("/destinations");
+  revalidatePath(`/destinations/${destinationId}`);
+  return {};
+}
+
+export async function createCity(destinationId: string, formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+  const name = String(formData.get("cityName") ?? "").trim();
+  if (!name) return { error: "City name is required" };
+
+  const slug = `${slugify(name)}-${Math.random().toString(36).slice(2, 6)}`;
+  await prisma.city.create({ data: { slug, name, destinationId } });
+
+  revalidatePath(`/admin/destinations/${destinationId}`);
+  revalidatePath("/destinations");
+  return {};
+}
+
+export async function deleteCity(cityId: string): Promise<void> {
+  await requireAdmin();
+  const city = await prisma.city.findUnique({ where: { id: cityId } });
+  if (!city) return;
+  await prisma.city.delete({ where: { id: cityId } });
+  revalidatePath(`/admin/destinations/${city.destinationId}`);
+}
+
+export async function createAdminPackage(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const title = String(formData.get("title") ?? "").trim();
+  const destinationId = String(formData.get("destinationId") ?? "");
+  const cityId = String(formData.get("cityId") ?? "") || undefined;
+  const summary = String(formData.get("summary") ?? "").trim();
+  const itinerary = String(formData.get("itinerary") ?? "").trim();
+  const durationDays = Number(formData.get("durationDays"));
+  const durationNights = Number(formData.get("durationNights"));
+  const price = Number(formData.get("price"));
+  const theme = String(formData.get("theme") ?? "").trim();
+  const heroImage = String(formData.get("heroImage") ?? "").trim() || "/images/packages/placeholder.jpg";
+  const published = formData.get("published") === "on";
+
+  if (!title || !destinationId || !summary || !durationDays || !durationNights || !price) {
+    return { error: "Please fill in all required fields" };
+  }
+
+  const slug = `${slugify(title)}-${Math.random().toString(36).slice(2, 6)}`;
+
+  const pkg = await prisma.package.create({
+    data: {
+      slug,
+      title,
+      summary,
+      itinerary: itinerary || summary,
+      heroImage,
+      durationDays,
+      durationNights,
+      price,
+      theme: theme || "General",
+      destinationId,
+      cityId,
+      published,
+    },
+  });
+
+  revalidatePath("/admin/packages");
+  revalidatePath("/packages");
+  redirect(`/admin/packages/${pkg.id}`);
+}
+
+export async function updateAdminPackage(packageId: string, formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+
+  const title = String(formData.get("title") ?? "").trim();
+  const destinationId = String(formData.get("destinationId") ?? "");
+  const cityId = String(formData.get("cityId") ?? "") || null;
+  const summary = String(formData.get("summary") ?? "").trim();
+  const itinerary = String(formData.get("itinerary") ?? "").trim();
+  const durationDays = Number(formData.get("durationDays"));
+  const durationNights = Number(formData.get("durationNights"));
+  const price = Number(formData.get("price"));
+  const theme = String(formData.get("theme") ?? "").trim();
+  const heroImage = String(formData.get("heroImage") ?? "").trim() || undefined;
+  const published = formData.get("published") === "on";
+
+  if (!title || !destinationId || !summary || !durationDays || !durationNights || !price) {
+    return { error: "Please fill in all required fields" };
+  }
+
+  const pkg = await prisma.package.update({
+    where: { id: packageId },
+    data: {
+      title,
+      summary,
+      itinerary: itinerary || summary,
+      heroImage,
+      durationDays,
+      durationNights,
+      price,
+      theme: theme || "General",
+      destinationId,
+      cityId,
+      published,
+    },
+  });
+
+  revalidatePath("/admin/packages");
+  revalidatePath("/packages");
+  revalidatePath(`/packages/${pkg.slug}`);
+  return {};
+}
+
+export async function deletePackage(packageId: string): Promise<void> {
+  await requireAdmin();
+  // Leads sourced from this package (and any agent unlocks paid for on them)
+  // must survive the package being removed — only detach the reference.
+  await prisma.lead.updateMany({ where: { sourcePackageId: packageId }, data: { sourcePackageId: null } });
+  await prisma.package.delete({ where: { id: packageId } });
+  revalidatePath("/admin/packages");
+  revalidatePath("/packages");
+  redirect("/admin/packages");
+}
+
+// ---------- Team ----------
+
+export async function createAdminUser(formData: FormData): Promise<{ error?: string }> {
+  await requireAdmin();
+  const name = String(formData.get("name") ?? "").trim();
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const password = String(formData.get("password") ?? "");
+
+  if (!name || !email) return { error: "Name and email are required" };
+  if (password.length < 6) return { error: "Password must be at least 6 characters" };
+
+  const existing = await prisma.adminUser.findUnique({ where: { email } });
+  if (existing) return { error: "An admin with this email already exists" };
+
+  await prisma.adminUser.create({
+    data: { name, email, passwordHash: await bcrypt.hash(password, 10) },
+  });
+
+  revalidatePath("/admin/team");
   return {};
 }

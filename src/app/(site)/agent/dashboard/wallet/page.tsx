@@ -1,19 +1,24 @@
+import Script from "next/script";
 import { requireAgent } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { CREDIT_PACKS } from "@/lib/credits";
+import { getActiveCreditPacks } from "@/lib/credits";
 import { formatDate } from "@/lib/format";
 import TopUpButton from "@/components/agent/TopUpButton";
 
 export default async function AgentWalletPage() {
   const agent = await requireAgent();
-  const transactions = await prisma.creditTransaction.findMany({
-    where: { agentId: agent.id },
-    orderBy: { createdAt: "desc" },
-    take: 30,
-  });
+  const [transactions, packs] = await Promise.all([
+    prisma.creditTransaction.findMany({
+      where: { agentId: agent.id },
+      orderBy: { createdAt: "desc" },
+      take: 30,
+    }),
+    getActiveCreditPacks(),
+  ]);
 
   return (
     <div>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       <h1 className="text-lg font-semibold text-zinc-900">Wallet</h1>
       <p className="mt-1 text-sm text-zinc-500">
         Current balance: <span className="font-semibold text-blue-700">{agent.credits} credits</span>.
@@ -21,9 +26,14 @@ export default async function AgentWalletPage() {
       </p>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-4">
-        {CREDIT_PACKS.map((pack, i) => (
+        {packs.map((pack, i) => (
           <TopUpButton key={pack.id} pack={pack} highlight={i === 1} />
         ))}
+        {packs.length === 0 && (
+          <p className="text-sm text-zinc-500 sm:col-span-4">
+            No credit packs are configured yet. An admin can add one in the Admin Panel.
+          </p>
+        )}
       </div>
 
       <h2 className="mt-8 text-sm font-semibold text-zinc-900">Transaction History</h2>

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireAgent } from "@/lib/auth";
-import { getCreditPack } from "@/lib/credits";
+import { slugify } from "@/lib/slug";
 
 export async function unlockLead(leadId: string): Promise<{ error?: string }> {
   const agent = await requireAgent();
@@ -57,47 +57,6 @@ export async function unlockLead(leadId: string): Promise<{ error?: string }> {
   revalidatePath("/agent/dashboard/leads");
   revalidatePath("/agent/dashboard");
   return {};
-}
-
-export async function topUpCredits(packId: string): Promise<{ error?: string }> {
-  const agent = await requireAgent();
-
-  const pack = getCreditPack(packId);
-  if (!pack) return { error: "Invalid credit pack" };
-
-  // NOTE: this is where a real payment gateway (Razorpay/Stripe) checkout
-  // would run before crediting the wallet. Credits are applied immediately
-  // here as a stand-in until that integration is wired up.
-  const totalCredits = pack.baseCredits + pack.bonusCredits;
-
-  await prisma.$transaction([
-    prisma.agent.update({
-      where: { id: agent.id },
-      data: { credits: { increment: totalCredits } },
-    }),
-    prisma.creditTransaction.create({
-      data: {
-        agentId: agent.id,
-        amount: totalCredits,
-        type: "TOPUP",
-        note: `Paid INR ${pack.amountINR} for ${pack.baseCredits} credits${
-          pack.bonusCredits ? ` + ${pack.bonusCredits} bonus` : ""
-        }`,
-      },
-    }),
-  ]);
-
-  revalidatePath("/agent/dashboard/wallet");
-  revalidatePath("/agent/dashboard");
-  return {};
-}
-
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)+/g, "");
 }
 
 export async function createAgentPackage(formData: FormData): Promise<{ error?: string }> {

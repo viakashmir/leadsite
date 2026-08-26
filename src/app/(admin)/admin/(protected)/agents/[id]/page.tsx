@@ -6,7 +6,14 @@ import NoteForm from "@/components/admin/NoteForm";
 import Timeline from "@/components/admin/Timeline";
 import { formatINR } from "@/lib/format";
 import { SERVICE_OPTIONS } from "@/lib/validation";
-import { addAgentNote, assignAgentRm, loginAsAgent, updateAgentStatus } from "@/lib/adminActions";
+import CreditAdjustForm from "@/components/admin/CreditAdjustForm";
+import {
+  addAgentNote,
+  assignAgentRm,
+  grantAgentCredits,
+  loginAsAgent,
+  updateAgentStatus,
+} from "@/lib/adminActions";
 
 export default async function AdminAgentDetailPage({
   params,
@@ -40,6 +47,7 @@ export default async function AdminAgentDetailPage({
   const boundUpdateStatus = updateAgentStatus.bind(null, agent.id);
   const boundAssignRm = assignAgentRm.bind(null, agent.id);
   const boundLoginAs = loginAsAgent.bind(null, agent.id);
+  const boundGrantCredits = grantAgentCredits.bind(null, agent.id);
 
   return (
     <div className="max-w-5xl">
@@ -177,6 +185,10 @@ export default async function AdminAgentDetailPage({
               ))}
               {transactions.length === 0 && <p className="text-zinc-500">No transactions yet.</p>}
             </ul>
+            <div className="mt-4 border-t border-zinc-100 pt-4">
+              <p className="mb-2 text-xs font-medium text-zinc-500">Manual adjustment</p>
+              <CreditAdjustForm action={boundGrantCredits} />
+            </div>
           </section>
 
           <section className="rounded-lg border border-zinc-200 bg-white p-5">

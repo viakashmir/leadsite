@@ -29,6 +29,18 @@ export default async function AdminProtectedLayout({ children }: { children: Rea
           <Link href="/admin/proposals" className="shrink-0 rounded-md px-3 py-2 hover:bg-zinc-800">
             Proposals
           </Link>
+          <Link href="/admin/credit-packs" className="shrink-0 rounded-md px-3 py-2 hover:bg-zinc-800">
+            Credit Packs
+          </Link>
+          <Link href="/admin/destinations" className="shrink-0 rounded-md px-3 py-2 hover:bg-zinc-800">
+            Destinations
+          </Link>
+          <Link href="/admin/packages" className="shrink-0 rounded-md px-3 py-2 hover:bg-zinc-800">
+            Packages
+          </Link>
+          <Link href="/admin/team" className="shrink-0 rounded-md px-3 py-2 hover:bg-zinc-800">
+            Team
+          </Link>
         </nav>
         <div className="hidden items-center justify-between border-t border-zinc-800 px-5 py-4 md:flex">
           <span className="truncate text-xs text-zinc-400">{admin.name}</span>

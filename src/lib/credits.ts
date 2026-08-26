@@ -1,19 +1,15 @@
-export type CreditPack = {
-  id: string;
-  amountINR: number;
-  baseCredits: number;
-  bonusCredits: number;
-};
+import { prisma } from "@/lib/prisma";
 
-// 1 credit = INR 1 of lead-buying power. Bonus % mirrors the "15-20% bonus
-// on first payments" pattern used by Holidify/TripCrafters to reward top-ups.
-export const CREDIT_PACKS: CreditPack[] = [
-  { id: "starter", amountINR: 500, baseCredits: 500, bonusCredits: 0 },
-  { id: "growth", amountINR: 1000, baseCredits: 1000, bonusCredits: 100 },
-  { id: "pro", amountINR: 2500, baseCredits: 2500, bonusCredits: 375 },
-  { id: "scale", amountINR: 5000, baseCredits: 5000, bonusCredits: 1000 },
-];
+// 1 credit = INR 1 of lead-buying power. Packs live in the CreditPack table so
+// admins can create/edit/retire them from /admin/credit-packs without a code change.
 
-export function getCreditPack(id: string): CreditPack | undefined {
-  return CREDIT_PACKS.find((p) => p.id === id);
+export async function getActiveCreditPacks() {
+  return prisma.creditPack.findMany({
+    where: { active: true },
+    orderBy: { sortOrder: "asc" },
+  });
+}
+
+export async function getCreditPack(id: string) {
+  return prisma.creditPack.findUnique({ where: { id } });
 }

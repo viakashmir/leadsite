@@ -200,6 +200,7 @@ model Agent {
   notes           AgentNote[]
   activities      AgentActivity[]
   proposals       Proposal[]
+  paymentOrders   PaymentOrder[]
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -272,6 +273,50 @@ model CreditTransaction {
   createdAt DateTime @default(now())
 
   @@index([agentId])
+}
+
+model CreditPack {
+  id            String   @id @default(cuid())
+  name          String
+  tagline       String?
+  amountINR     Int
+  baseCredits   Int
+  bonusCredits  Int      @default(0)
+  active        Boolean  @default(true)
+  sortOrder     Int      @default(0)
+
+  paymentOrders PaymentOrder[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum PaymentOrderStatus {
+  CREATED
+  PAID
+  FAILED
+}
+
+model PaymentOrder {
+  id               String   @id @default(cuid())
+  agentId          String
+  agent            Agent    @relation(fields: [agentId], references: [id])
+
+  razorpayOrderId  String   @unique
+  razorpayPaymentId String?
+
+  packId           String
+  pack             CreditPack @relation(fields: [packId], references: [id])
+  amountINR        Int      // paise amount charged
+  creditsToApply   Int      // credits to grant once paid (base + bonus)
+
+  status           PaymentOrderStatus @default(CREATED)
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([agentId])
+  @@index([packId])
 }
 
 // ---------- Admin ----------
