@@ -1,6 +1,55 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createLeadSchema } from "@/lib/validation";
+import type { Lead } from "@/generated/prisma/client";
+
+// Mirror new leads into the ViaItinerary CRM so agency staff see them without
+// checking this site separately. Scheduled via `after()` so it runs once the
+// response has already been sent — it can never add latency to, or fail, the
+// visitor's actual enquiry submission. A missing/unreachable CRM just means
+// this one lead isn't mirrored; it's logged and otherwise ignored.
+const VIAITINERARY_INQUIRY_URL =
+  process.env.VIAITINERARY_INQUIRY_URL || "https://crm.viakashmir.in/api/public-inquiries";
+
+async function notifyViaItinerary(lead: Lead, destinationName: string) {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    const res = await fetch(VIAITINERARY_INQUIRY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        client_name: lead.name,
+        client_email: lead.email || undefined,
+        client_phone: lead.phone,
+        destination: destinationName,
+        adults: lead.adults,
+        // The CRM splits kids into CNB / 5-12 buckets; this site only tracks
+        // a single child count, so it's folded into the 5-12 bucket rather
+        // than dropped or guessed at.
+        kids5to12: lead.children,
+        startDate: lead.travelDate ? lead.travelDate.toISOString().slice(0, 10) : undefined,
+        duration: lead.durationDays != null ? String(lead.durationDays) : undefined,
+        specialRequests:
+          [lead.budgetBand ? `Budget: ${lead.budgetBand}` : null, lead.message || null]
+            .filter(Boolean)
+            .join(" — ") || undefined,
+      }),
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    if (!res.ok) {
+      console.error(
+        "[viaitinerary-sync] CRM rejected lead",
+        lead.id,
+        res.status,
+        await res.text().catch(() => ""),
+      );
+    }
+  } catch (err) {
+    console.error("[viaitinerary-sync] failed to sync lead", lead.id, err);
+  }
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
@@ -51,6 +100,8 @@ export async function POST(req: NextRequest) {
         : `Enquiry submitted for ${destination.name}`,
     },
   });
+
+  after(() => notifyViaItinerary(lead, destination.name));
 
   return NextResponse.json({ ok: true, leadId: lead.id }, { status: 201 });
 }
