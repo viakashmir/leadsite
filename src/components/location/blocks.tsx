@@ -242,6 +242,58 @@ export function GuideBody({ content, topic }: { content: GuideContent; topic: st
   );
 }
 
+export function Seasons({ seasons }: { seasons?: GuideContent["seasons"] }) {
+  if (!seasons || seasons.length === 0) return null;
+  return (
+    <div className="grid gap-3 sm:grid-cols-2">
+      {seasons.map((s) => (
+        <div key={s.name} className="rounded-xl border border-zinc-200 bg-white p-4">
+          <p className="font-bold text-ink">{s.name}</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-brand">{s.months}</p>
+          <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{s.note}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function HowToReach({ howToReach }: { howToReach?: GuideContent["howToReach"] }) {
+  const rows = (
+    [
+      ["By air", howToReach?.air],
+      ["By train", howToReach?.rail],
+      ["By road", howToReach?.road],
+      ["Getting around", howToReach?.local],
+    ] as const
+  ).filter(([, v]) => v);
+  if (rows.length === 0) return null;
+  return (
+    <dl className="space-y-3">
+      {rows.map(([k, v]) => (
+        <div key={k}>
+          <dt className="font-bold text-ink">{k}</dt>
+          <dd className="leading-relaxed text-ink-soft">{v}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+export function QuickFacts({ facts }: { facts: { label: string; value?: string }[] }) {
+  const shown = facts.filter((f) => f.value);
+  if (shown.length === 0) return null;
+  return (
+    <dl className="grid gap-3 rounded-xl bg-panel p-4 sm:grid-cols-3">
+      {shown.map((f) => (
+        <div key={f.label}>
+          <dt className="text-xs font-bold uppercase tracking-wide text-ink-soft">{f.label}</dt>
+          <dd className="mt-0.5 text-sm font-semibold text-ink">{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 export function Faqs({ faqs }: { faqs?: { q: string; a: string }[] }) {
   if (!faqs || faqs.length === 0) return null;
   return (

@@ -127,13 +127,21 @@ export function robotsFor(status: "DRAFT" | "READY") {
   return status === "READY" ? undefined : { index: false, follow: true };
 }
 
+// Shape of Destination.content / City.content / Place.content (JSON).
+// Written in src/data/content/*.ts and loaded by prisma/seed-content.ts.
 export type GuideContent = {
-  intro?: string;
-  highlights?: string[];
+  intro?: string; // paragraphs separated by a blank line; first one answers "what is X like"
+  highlights?: string[]; // why go
+  idealDuration?: string; // e.g. "5 to 7 days"
+  bestMonths?: string; // short form for quick facts, e.g. "March to October"
+  gateway?: string; // main arrival point, e.g. "Srinagar airport (SXR)"
   bestTimeToVisit?: string;
+  seasons?: { name: string; months: string; note: string }[];
   howToReach?: { air?: string; rail?: string; road?: string; local?: string };
   thingsToKnow?: string[];
   faqs?: { q: string; a: string }[];
+  packagesDescription?: string; // meta description for /tour-packages/{slug}
+  guideDescription?: string; // meta description for /{slug}-tourism
 };
 
 export function readContent(value: Prisma.JsonValue | null | undefined): GuideContent {

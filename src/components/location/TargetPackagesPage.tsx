@@ -5,7 +5,11 @@ import {
   CardLinks,
   ChipLinks,
   Faqs,
+  GuideBody,
+  HowToReach,
   PackageGrid,
+  QuickFacts,
+  Seasons,
   PageHero,
   QuoteBox,
   Section,
@@ -53,21 +57,31 @@ function statusOf(t: Target) {
   return t.type === "city" ? t.city.contentStatus : t.destination.contentStatus;
 }
 
-export function packagesPageMetadata(t: Target, v: PackagesPageVariant): Metadata {
+// Theme/origin slices reuse the base page's copy, so they are only indexable
+// once they have enough of their own packages to be a distinct page.
+const MIN_PACKAGES_FOR_SLICE = 3;
+
+export async function packagesPageMetadata(t: Target, v: PackagesPageVariant): Promise<Metadata> {
   const title = `${packagesPageTitle(t, v)} ${year()}: Customise & Compare Quotes`;
-  const description = `Plan your ${targetName(t)} trip${
+  const isSlice = Boolean(v.theme || v.origin);
+  const own = readContent(t.type === "city" ? t.city.content : t.destination.content);
+  const sliceReady =
+    !isSlice ||
+    (await getPackagesFor(t, { themeTag: v.theme?.tag, take: MIN_PACKAGES_FOR_SLICE })).length >=
+      MIN_PACKAGES_FOR_SLICE;
+  const fallbackDescription = `Plan your ${targetName(t)} trip${
     v.origin ? ` from ${v.origin.name}` : ""
   } with verified local travel agents. Share your dates and budget, get up to 3 customised${
     v.theme ? ` ${v.theme.name.toLowerCase()}` : ""
   } package quotes and book the one that fits.`;
+  const description = (!isSlice && own.packagesDescription) || fallbackDescription;
   const path = packagesPagePath(t, v);
-  // Theme and origin slices only go in the index once the base page is ready.
   return {
     title,
     description,
     alternates: { canonical: path },
     openGraph: { title, description, url: path },
-    robots: robotsFor(statusOf(t)),
+    robots: sliceReady ? robotsFor(statusOf(t)) : { index: false, follow: true },
   };
 }
 
@@ -171,6 +185,21 @@ export default async function TargetPackagesPage({
               />
             </Section>
 
+            {!v.theme && !v.origin && (content.intro || content.highlights) && (
+              <Section title={`About ${name} tour packages`}>
+                <GuideBody content={content} topic={name} />
+                <div className="mt-4">
+                  <QuickFacts
+                    facts={[
+                      { label: "Ideal trip length", value: content.idealDuration },
+                      { label: "Best months", value: content.bestMonths },
+                      { label: "Main gateway", value: content.gateway },
+                    ]}
+                  />
+                </div>
+              </Section>
+            )}
+
             {explore.length > 0 && (
               <Section
                 title={
@@ -206,7 +235,35 @@ export default async function TargetPackagesPage({
               </Section>
             )}
 
-            {content.faqs && content.faqs.length > 0 && (
+            {!v.theme && !v.origin && content.seasons && content.seasons.length > 0 && (
+              <Section title={`Best time for a ${name} tour`}>
+                <Seasons seasons={content.seasons} />
+              </Section>
+            )}
+
+            {!v.theme && !v.origin && content.howToReach && (
+              <Section title={`How to reach ${name}`}>
+                <HowToReach howToReach={content.howToReach} />
+              </Section>
+            )}
+
+            <Section title="How booking works on TavelPackage">
+              <ol className="grid gap-3 sm:grid-cols-3">
+                {[
+                  ["Share your plan", `Tell us your ${name} dates, group size, hotel category and budget in the form. It takes about a minute.`],
+                  ["Compare up to 3 quotes", "Up to 3 verified travel agents who operate this destination call you and send customised itineraries with prices."],
+                  ["Customise and book", "Change hotels, days or activities with the agent you prefer and book directly with them. You are never obliged to book."],
+                ].map(([title, body], i) => (
+                  <li key={title} className="rounded-xl border border-zinc-200 bg-white p-4">
+                    <p className="text-xs font-bold uppercase tracking-wide text-brand">Step {i + 1}</p>
+                    <p className="mt-1 font-bold text-ink">{title}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-ink-soft">{body}</p>
+                  </li>
+                ))}
+              </ol>
+            </Section>
+
+            {!v.theme && !v.origin && content.faqs && content.faqs.length > 0 && (
               <Section title={`${name} tour FAQs`}>
                 <Faqs faqs={content.faqs} />
               </Section>

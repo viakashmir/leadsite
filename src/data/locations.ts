@@ -140,7 +140,7 @@ export const DESTINATIONS: DestinationDef[] = [
   india("kashmir", "Kashmir", "union-territory", "north-india", 1, [
     c("srinagar", "Srinagar", "lake", 1, ["Dal Lake", "Mughal Gardens", "Shalimar Bagh", "Indira Gandhi Tulip Garden", "Shankaracharya Temple", "Hazratbal Shrine"]),
     c("gulmarg", "Gulmarg", "hill-station", 1, ["Gulmarg Gondola", "Apharwat Peak", "Khilanmarg", "Alpather Lake", "St. Mary's Church"]),
-    c("pahalgam", "Pahalgam", "valley", 1, ["Betaab Valley", "Aru Valley", "Chandanwari", "Baisaran", "Sheshnag Lake"]),
+    c("pahalgam", "Pahalgam", "valley", 1, ["Betaab Valley", "Aru Valley", "Chandanwari", "Lidder River", "Sheshnag Lake"]),
     c("sonamarg", "Sonamarg", "valley", 1, ["Thajiwas Glacier", "Zojila Pass", "Vishansar Lake"]),
     c("doodhpathri", "Doodhpathri", "valley", 2, ["Shaliganga River", "Doodhpathri Meadows"]),
     c("yusmarg", "Yusmarg", "valley", 3, ["Nilnag Lake", "Doodh Ganga"]),

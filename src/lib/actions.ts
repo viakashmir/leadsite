@@ -9,50 +9,61 @@ import { slugify } from "@/lib/slug";
 export async function unlockLead(leadId: string): Promise<{ error?: string }> {
   const agent = await requireAgent();
 
-  const lead = await prisma.lead.findUnique({
-    where: { id: leadId },
-    include: { _count: { select: { unlocks: true } } },
-  });
-  if (!lead) return { error: "Lead not found" };
-
-  const already = await prisma.leadUnlock.findUnique({
-    where: { agentId_leadId: { agentId: agent.id, leadId } },
-  });
-  if (already) return {};
-
-  if (lead._count.unlocks >= lead.maxUnlocks) {
-    return { error: "This lead has already been unlocked by the maximum number of agents" };
+  // Only agents an admin has approved can see contacts; the public site
+  // promises travellers "verified" agents.
+  if (agent.status !== "ACTIVE") {
+    return { error: "Your account is awaiting verification. You can unlock leads once it is approved." };
   }
 
-  if (agent.credits < lead.unlockPrice) {
-    return { error: "Not enough credits. Please top up your wallet." };
-  }
+  const result = await prisma.$transaction(async (tx) => {
+    // Row lock so concurrent unlocks of the same lead are serialised and the
+    // 3-agent cap holds.
+    await tx.$queryRaw`SELECT id FROM "Lead" WHERE id = ${leadId} FOR UPDATE`;
 
-  await prisma.$transaction([
-    prisma.agent.update({
-      where: { id: agent.id },
+    const lead = await tx.lead.findUnique({
+      where: { id: leadId },
+      include: { _count: { select: { unlocks: true } } },
+    });
+    if (!lead) return { error: "Lead not found" };
+
+    const already = await tx.leadUnlock.findUnique({
+      where: { agentId_leadId: { agentId: agent.id, leadId } },
+    });
+    if (already) return {};
+
+    if (lead._count.unlocks >= lead.maxUnlocks) {
+      return { error: "This lead has already been unlocked by the maximum number of agents" };
+    }
+
+    // Conditional decrement: fails instead of going negative if two unlocks race.
+    const charged = await tx.agent.updateMany({
+      where: { id: agent.id, credits: { gte: lead.unlockPrice } },
       data: { credits: { decrement: lead.unlockPrice } },
-    }),
-    prisma.leadUnlock.create({
+    });
+    if (charged.count === 0) return { error: "Not enough credits. Please top up your wallet." };
+
+    await tx.leadUnlock.create({
       data: { agentId: agent.id, leadId, creditsSpent: lead.unlockPrice },
-    }),
-    prisma.creditTransaction.create({
+    });
+    await tx.creditTransaction.create({
       data: {
         agentId: agent.id,
         amount: -lead.unlockPrice,
         type: "UNLOCK_SPEND",
         note: `Unlocked lead ${leadId}`,
       },
-    }),
-    prisma.leadActivity.create({
+    });
+    await tx.leadActivity.create({
       data: {
         leadId,
         type: "UNLOCKED",
         actor: agent.companyName,
         detail: `Contact unlocked for ${lead.unlockPrice} credits`,
       },
-    }),
-  ]);
+    });
+    return {};
+  });
+  if (result.error) return result;
 
   revalidatePath("/agent/dashboard/leads");
   revalidatePath("/agent/dashboard");

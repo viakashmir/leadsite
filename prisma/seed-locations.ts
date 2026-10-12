@@ -37,6 +37,12 @@ const CITY_REPLACEMENTS: Record<string, { city?: string; destination: string }> 
   delhi: { destination: "delhi" }, // Delhi is now a destination, not a city
 };
 
+// Place paths dropped from src/data/locations.ts. Listed explicitly (rather
+// than deleting anything not in the data) so admin-added places survive.
+const REMOVED_PLACES = [
+  "pahalgam/places-to-visit/baisaran", // closed to visitors after April 2025; not promoted
+];
+
 const KIND: Record<DestinationDef["kind"], DestinationKind> = {
   state: "STATE",
   "union-territory": "UNION_TERRITORY",
@@ -231,6 +237,8 @@ async function main() {
   await seedDestinations();
   console.log("Circuits...");
   await seedCircuits();
+  const removed = await prisma.place.deleteMany({ where: { path: { in: REMOVED_PLACES } } });
+  if (removed.count) console.log(`  removed ${removed.count} retired places`);
   console.log("Legacy cities...");
   await replaceLegacyCities();
   await realignToCityDestination();

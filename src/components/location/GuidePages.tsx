@@ -7,7 +7,10 @@ import {
   ContentPending,
   Faqs,
   GuideBody,
+  HowToReach,
   PageHero,
+  QuickFacts,
+  Seasons,
   QuoteBox,
   Section,
   TwoColumn,
@@ -19,7 +22,6 @@ import {
   getCity,
   getDestination,
   readContent,
-  robotsFor,
   type CityWithPlaces,
   type DestinationWithTree,
 } from "@/lib/locations";
@@ -86,9 +88,27 @@ function names(r: GuideRoute) {
   return { where, title: `${r.place.name}, ${where}` };
 }
 
-function statusOf(r: GuideRoute) {
-  if (r.kind === "place") return r.place.contentStatus;
-  return r.city ? r.city.contentStatus : r.destination.contentStatus;
+// A guide page is indexable when its entity is READY and, for section pages,
+// when that section actually has something to show.
+async function indexable(r: GuideRoute) {
+  const status = r.kind === "place" ? r.place.contentStatus : r.city ? r.city.contentStatus : r.destination.contentStatus;
+  if (status !== "READY") return false;
+  if (r.kind !== "section") return true;
+  const c = readContent(r.city ? r.city.content : r.destination.content);
+  switch (r.section) {
+    case "best-time-to-visit":
+      return Boolean(c.bestTimeToVisit);
+    case "how-to-reach":
+      return Boolean(c.howToReach?.air || c.howToReach?.rail || c.howToReach?.road);
+    case "travel-guide-tips":
+      return Boolean(c.thingsToKnow?.length);
+    case "places-to-visit":
+    case "things-to-do": {
+      const kind = r.section === "places-to-visit" ? "PLACE" : "ACTIVITY";
+      const where = r.city ? { cityId: r.city.id } : { destinationId: r.destination.id };
+      return (await prisma.place.count({ where: { ...where, kind } })) > 0;
+    }
+  }
 }
 
 function pathOf(r: GuideRoute) {
@@ -98,18 +118,30 @@ function pathOf(r: GuideRoute) {
   return guideUrl(d, r.city?.slug);
 }
 
-export function guideMetadata(r: GuideRoute): Metadata {
+const SECTION_DESCRIPTIONS: Record<SectionSlug, (where: string) => string> = {
+  "places-to-visit": (w) => `Top places to visit in ${w}, what each is known for and how to fit them into your trip, with customised packages from verified local agents.`,
+  "things-to-do": (w) => `Things to do in ${w}: activities, experiences and day trips, with customised packages from verified local agents.`,
+  "best-time-to-visit": (w) => `Best time to visit ${w}: season-by-season weather, festivals and what each part of the year is good for.`,
+  "how-to-reach": (w) => `How to reach ${w} by air, train and road, with nearest airports, railheads, distances and local transport.`,
+  "travel-guide-tips": (w) => `${w} travel tips: permits, local rules, connectivity and practical advice to know before you go.`,
+};
+
+export async function guideMetadata(r: GuideRoute): Promise<Metadata> {
   const { title, where } = names(r);
+  const own = readContent(r.city ? r.city.content : r.destination.content);
   const description =
     r.kind === "place"
       ? `${r.place.name} in ${where}: what to see, when to go, how to get there, and tour packages that include it.`
-      : `${title}: places to visit, best time to go, how to reach and travel tips for ${where}, plus customised packages from verified local agents.`;
+      : r.kind === "section"
+        ? SECTION_DESCRIPTIONS[r.section](where)
+        : own.guideDescription ||
+          `${title}: places to visit, best time to go, how to reach and travel tips for ${where}, plus customised packages from verified local agents.`;
   return {
     title: `${title} ${new Date().getFullYear()}`,
     description,
     alternates: { canonical: pathOf(r) },
     openGraph: { title, description, url: pathOf(r) },
-    robots: robotsFor(statusOf(r)),
+    robots: (await indexable(r)) ? undefined : { index: false, follow: true },
   };
 }
 
@@ -171,6 +203,15 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
       <>
         <Section title={`About ${where}`}>
           <GuideBody content={content} topic={where} />
+          <div className="mt-4">
+            <QuickFacts
+              facts={[
+                { label: "Ideal trip length", value: content.idealDuration },
+                { label: "Best months", value: content.bestMonths },
+                { label: "Main gateway", value: content.gateway },
+              ]}
+            />
+          </div>
         </Section>
         {!r.city && d.cities.length > 0 && (
           <Section title={`Cities in ${d.name}`}>
@@ -222,7 +263,14 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
       main = (
         <Section title={title}>
           {content.bestTimeToVisit ? (
-            <p className="leading-relaxed text-ink">{content.bestTimeToVisit}</p>
+            <div className="space-y-4">
+              {content.bestTimeToVisit.split("\n\n").map((para, i) => (
+                <p key={i} className="leading-relaxed text-ink">
+                  {para}
+                </p>
+              ))}
+              <Seasons seasons={content.seasons} />
+            </div>
           ) : (
             <ContentPending topic={`best time to visit ${where}`} />
           )}
@@ -233,23 +281,7 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
       main = (
         <Section title={title}>
           {h && (h.air || h.rail || h.road) ? (
-            <dl className="space-y-3">
-              {(
-                [
-                  ["By air", h.air],
-                  ["By train", h.rail],
-                  ["By road", h.road],
-                  ["Getting around", h.local],
-                ] as const
-              )
-                .filter(([, v]) => v)
-                .map(([k, v]) => (
-                  <div key={k}>
-                    <dt className="font-bold text-ink">{k}</dt>
-                    <dd className="text-ink-soft">{v}</dd>
-                  </div>
-                ))}
-            </dl>
+            <HowToReach howToReach={h} />
           ) : (
             <ContentPending topic={`how to reach ${where}`} />
           )}

@@ -13,7 +13,8 @@
     "db:migrate:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
     "db:seed:locations": "tsx --env-file=.env prisma/seed-locations.ts",
-    "check:locations": "tsx scripts/check-locations.ts"
+    "check:locations": "tsx scripts/check-locations.ts",
+    "db:seed:content": "tsx --env-file=.env prisma/seed-content.ts"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.10.0",
