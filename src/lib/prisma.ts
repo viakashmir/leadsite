@@ -10,7 +10,8 @@ const globalForPrisma = globalThis as unknown as {
 // to the database well under Supabase's connection limit.
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
-  max: 5,
+  // PG_POOL_MAX=1 lets local dev run against a single-connection Postgres.
+  max: Number(process.env.PG_POOL_MAX) || 5,
 });
 
 export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter });

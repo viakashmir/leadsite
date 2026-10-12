@@ -315,15 +315,15 @@ export async function updateDestination(destinationId: string, formData: FormDat
   const isInternational = formData.get("isInternational") === "on";
   const heroImage = String(formData.get("heroImage") ?? "").trim() || undefined;
 
-  await prisma.destination.update({
+  const destination = await prisma.destination.update({
     where: { id: destinationId },
     data: { name, summary, state, country, isInternational, heroImage },
   });
 
   revalidatePath("/admin/destinations");
   revalidatePath(`/admin/destinations/${destinationId}`);
-  revalidatePath("/destinations");
-  revalidatePath(`/destinations/${destinationId}`);
+  revalidatePath("/tour-packages");
+  revalidatePath(`/tour-packages/${destination.slug}`);
   return {};
 }
 
@@ -336,7 +336,7 @@ export async function createCity(destinationId: string, formData: FormData): Pro
   await prisma.city.create({ data: { slug, name, destinationId } });
 
   revalidatePath(`/admin/destinations/${destinationId}`);
-  revalidatePath("/destinations");
+  revalidatePath("/tour-packages");
   return {};
 }
 
@@ -387,7 +387,7 @@ export async function createAdminPackage(formData: FormData): Promise<{ error?: 
   });
 
   revalidatePath("/admin/packages");
-  revalidatePath("/packages");
+  revalidatePath("/tour-packages");
   redirect(`/admin/packages/${pkg.id}`);
 }
 
@@ -428,7 +428,7 @@ export async function updateAdminPackage(packageId: string, formData: FormData):
   });
 
   revalidatePath("/admin/packages");
-  revalidatePath("/packages");
+  revalidatePath("/tour-packages");
   revalidatePath(`/packages/${pkg.slug}`);
   return {};
 }
@@ -440,7 +440,7 @@ export async function deletePackage(packageId: string): Promise<void> {
   await prisma.lead.updateMany({ where: { sourcePackageId: packageId }, data: { sourcePackageId: null } });
   await prisma.package.delete({ where: { id: packageId } });
   revalidatePath("/admin/packages");
-  revalidatePath("/packages");
+  revalidatePath("/tour-packages");
   redirect("/admin/packages");
 }
 
@@ -457,8 +457,8 @@ export async function fetchDestinationPhoto(destinationId: string): Promise<{ er
   await prisma.destination.update({ where: { id: destinationId }, data: { heroImage: imageUrl } });
   revalidatePath("/admin/destinations");
   revalidatePath(`/admin/destinations/${destinationId}`);
-  revalidatePath("/destinations");
-  revalidatePath(`/destinations/${destination.slug}`);
+  revalidatePath("/tour-packages");
+  revalidatePath(`/tour-packages/${destination.slug}`);
   revalidatePath("/");
   return {};
 }
@@ -474,7 +474,7 @@ export async function fetchPackagePhoto(packageId: string): Promise<{ error?: st
   await prisma.package.update({ where: { id: packageId }, data: { heroImage: imageUrl } });
   revalidatePath("/admin/packages");
   revalidatePath(`/admin/packages/${packageId}`);
-  revalidatePath("/packages");
+  revalidatePath("/tour-packages");
   revalidatePath(`/packages/${pkg.slug}`);
   revalidatePath("/");
   return {};
@@ -512,8 +512,8 @@ export async function backfillAllPhotos(): Promise<{ done: number; failed: numbe
 
   revalidatePath("/admin/destinations");
   revalidatePath("/admin/packages");
-  revalidatePath("/destinations");
-  revalidatePath("/packages");
+  revalidatePath("/tour-packages");
+  revalidatePath("/tour-packages");
   revalidatePath("/");
   return { done, failed };
 }

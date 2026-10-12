@@ -28,9 +28,9 @@ async function getData(destinationSlug: string, citySlug: string) {
   return { destination, city, leads };
 }
 
+// ~350 destination/city combinations: render each on first visit, then cache (ISR).
 export async function generateStaticParams() {
-  const cities = await prisma.city.findMany({ include: { destination: true } });
-  return cities.map((c) => ({ destinationSlug: c.destination.slug, citySlug: c.slug }));
+  return [];
 }
 
 export async function generateMetadata({

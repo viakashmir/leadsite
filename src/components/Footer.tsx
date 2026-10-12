@@ -16,13 +16,13 @@ export default function Footer() {
           <div className="font-semibold text-zinc-900">For Travelers</div>
           <ul className="mt-2 space-y-1">
             <li>
-              <Link href="/destinations" className="hover:text-blue-700">
-                Browse Destinations
+              <Link href="/tour-packages" className="hover:text-blue-700">
+                All Tour Packages
               </Link>
             </li>
             <li>
-              <Link href="/packages" className="hover:text-blue-700">
-                Browse Packages
+              <Link href="/tour-packages/india" className="hover:text-blue-700">
+                India Tour Packages
               </Link>
             </li>
             <li>

@@ -1,136 +1,98 @@
-"use client";
+import HeaderClient, { type NavMenu } from "@/components/HeaderClient";
+import { getCircuits, getDestinationsByZone } from "@/lib/locations";
+import { THEMES } from "@/data/locations";
+import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { SITE_NAME } from "@/lib/site";
+export default async function Header() {
+  const [zones, circuits] = await Promise.all([getDestinationsByZone(), getCircuits()]);
 
-const NAV_LINKS = [
-  { href: "/destinations", label: "Destinations" },
-  { href: "/packages", label: "Packages" },
-  { href: "/leads", label: "Travel Leads" },
-  { href: "/agents", label: "Find Agents" },
-];
+  const india = zones.filter((z) => z.scope === "india");
+  const abroad = zones.filter((z) => z.scope === "international");
+  const top = (scope: "india" | "international", n: number) =>
+    zones
+      .filter((z) => z.scope === scope)
+      .flatMap((z) => z.destinations)
+      .filter((d) => d.tier === 1)
+      .slice(0, n);
 
-export default function Header() {
-  const [signedIn, setSignedIn] = useState<boolean | null>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const menus: NavMenu[] = [
+    {
+      label: "India",
+      href: tourPackagesUrl("india"),
+      columns: [
+        ...india.map((z) => ({
+          title: z.name,
+          links: z.destinations.map((d) => ({ label: d.name, href: tourPackagesUrl(d.slug) })),
+        })),
+        {
+          title: "Popular circuits",
+          links: circuits
+            .filter((c) => !c.isInternational)
+            .map((c) => ({ label: c.name, href: tourPackagesUrl(c.slug) })),
+        },
+      ],
+    },
+    {
+      label: "International",
+      href: tourPackagesUrl("international"),
+      columns: [
+        ...abroad.map((z) => ({
+          title: z.name,
+          links: z.destinations.map((d) => ({ label: d.name, href: tourPackagesUrl(d.slug) })),
+        })),
+        {
+          title: "Multi-country",
+          links: circuits
+            .filter((c) => c.isInternational)
+            .map((c) => ({ label: c.name, href: tourPackagesUrl(c.slug) })),
+        },
+      ],
+    },
+    {
+      label: "Honeymoon",
+      href: themeUrl("honeymoon-packages"),
+      columns: [
+        {
+          title: "India",
+          links: top("india", 12).map((d) => ({ label: d.name, href: themeUrl("honeymoon-packages", d.slug) })),
+        },
+        {
+          title: "International",
+          links: top("international", 12).map((d) => ({
+            label: d.name,
+            href: themeUrl("honeymoon-packages", d.slug),
+          })),
+        },
+      ],
+    },
+    {
+      label: "Holiday Themes",
+      href: tourPackagesUrl(),
+      columns: [
+        {
+          title: "Browse by theme",
+          links: THEMES.map((t) => ({ label: `${t.name} Packages`, href: themeUrl(t.prefix) })),
+        },
+      ],
+    },
+    {
+      label: "Travel Guides",
+      href: tourPackagesUrl(),
+      columns: [
+        {
+          title: "India",
+          links: top("india", 16).map((d) => ({ label: `${d.name} Tourism`, href: guideUrl(d.slug) })),
+        },
+        {
+          title: "International",
+          links: top("international", 12).map((d) => ({
+            label: `${d.name} Tourism`,
+            href: guideUrl(d.slug),
+          })),
+        },
+      ],
+    },
+  ];
 
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/api/agents/me")
-      .then((res) => res.json())
-      .then((data) => {
-        if (!cancelled) setSignedIn(Boolean(data.agent));
-      })
-      .catch(() => {
-        if (!cancelled) setSignedIn(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  return (
-    <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-        <Link href="/" className="shrink-0 text-xl font-bold text-blue-700">
-          {SITE_NAME}
-        </Link>
-
-        <nav className="hidden items-center gap-6 text-sm font-medium text-zinc-700 md:flex">
-          {NAV_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="hover:text-blue-700">
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="hidden items-center gap-3 text-sm font-semibold md:flex">
-          {signedIn ? (
-            <Link
-              href="/agent/dashboard"
-              className="rounded-full bg-blue-700 px-4 py-2 text-white hover:bg-blue-800"
-            >
-              Agent Dashboard
-            </Link>
-          ) : (
-            <>
-              <Link href="/agent/login" className="text-zinc-700 hover:text-blue-700">
-                Agent Sign In
-              </Link>
-              <Link
-                href="/agent/register"
-                className="rounded-full bg-orange-500 px-4 py-2 text-white hover:bg-orange-600"
-              >
-                Join Free as Agent
-              </Link>
-            </>
-          )}
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setMenuOpen((o) => !o)}
-          aria-label="Toggle menu"
-          aria-expanded={menuOpen}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-zinc-200 text-zinc-700 md:hidden"
-        >
-          {menuOpen ? (
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          )}
-        </button>
-      </div>
-
-      {menuOpen && (
-        <div className="border-t border-zinc-200 px-4 py-3 md:hidden">
-          <nav className="flex flex-col gap-1 text-sm font-medium text-zinc-700">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="rounded-md px-2 py-2.5 hover:bg-zinc-50 hover:text-blue-700"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="mt-3 flex flex-col gap-2 border-t border-zinc-100 pt-3 text-sm font-semibold">
-            {signedIn ? (
-              <Link
-                href="/agent/dashboard"
-                onClick={() => setMenuOpen(false)}
-                className="rounded-md bg-blue-700 px-4 py-2.5 text-center text-white"
-              >
-                Agent Dashboard
-              </Link>
-            ) : (
-              <>
-                <Link
-                  href="/agent/login"
-                  onClick={() => setMenuOpen(false)}
-                  className="rounded-md border border-zinc-200 px-4 py-2.5 text-center text-zinc-700"
-                >
-                  Agent Sign In
-                </Link>
-                <Link
-                  href="/agent/register"
-                  onClick={() => setMenuOpen(false)}
-                  className="rounded-md bg-orange-500 px-4 py-2.5 text-center text-white"
-                >
-                  Join Free as Agent
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-    </header>
-  );
+  return <HeaderClient menus={menus} />;
 }

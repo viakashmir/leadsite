@@ -100,6 +100,6 @@ export async function createAgentPackage(formData: FormData): Promise<{ error?: 
   });
 
   revalidatePath("/agent/dashboard/packages");
-  revalidatePath("/packages");
+  revalidatePath("/tour-packages");
   redirect("/agent/dashboard/packages");
 }

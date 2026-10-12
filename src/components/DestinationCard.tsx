@@ -18,7 +18,7 @@ export default function DestinationCard({
 
   return (
     <Link
-      href={`/destinations/${slug}`}
+      href={`/tour-packages/${slug}`}
       className="group overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm transition hover:shadow-md"
     >
       <div className="relative flex h-32 items-end overflow-hidden bg-gradient-to-br from-blue-600 to-blue-400 p-4">

@@ -1,4 +1,4 @@
-export const SITE_NAME = "WanderLeads";
+export const SITE_NAME = "TavelPackage";
 
 function normalizeSiteUrl(value: string | undefined): string {
   if (!value) return "http://localhost:3000";
@@ -11,4 +11,4 @@ function normalizeSiteUrl(value: string | undefined): string {
 
 export const SITE_URL = normalizeSiteUrl(process.env.SITE_URL);
 export const SITE_DESCRIPTION =
-  "Compare verified tour packages across India and abroad, get quotes from trusted travel agents, and plan your next holiday.";
+  "Tell us your trip once and get up to 3 customised quotes from verified local travel agents, for every state in India and top international destinations.";

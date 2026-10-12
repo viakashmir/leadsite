@@ -89,8 +89,8 @@ export default async function PackagePage({
         <div className="absolute inset-0 bg-zinc-900/60" />
         <div className="relative mx-auto max-w-6xl px-4">
           <nav className="text-xs text-zinc-300">
-            <Link href="/">Home</Link> / <Link href="/packages">Packages</Link> /{" "}
-            <Link href={`/destinations/${pkg.destination.slug}`}>{pkg.destination.name}</Link>
+            <Link href="/">Home</Link> / <Link href="/tour-packages">Tour Packages</Link> /{" "}
+            <Link href={`/tour-packages/${pkg.destination.slug}`}>{pkg.destination.name}</Link>
           </nav>
           <h1 className="mt-2 text-2xl font-bold text-white sm:text-3xl">{pkg.title}</h1>
           <p className="mt-2 max-w-2xl text-sm text-zinc-200">{pkg.summary}</p>

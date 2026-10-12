@@ -13,7 +13,7 @@ export const revalidate = 300;
 
 export default async function Home() {
   const [destinations, packages, recentLeads, stats] = await Promise.all([
-    getDestinationsWithCitiesAndLeadCounts(),
+    getDestinationsWithCitiesAndLeadCounts({ tier: 1 }),
     prisma.package.findMany({
       where: { published: true },
       include: { destination: true },
@@ -39,7 +39,7 @@ export default async function Home() {
           description: SITE_DESCRIPTION,
           potentialAction: {
             "@type": "SearchAction",
-            target: `${SITE_URL}/packages?q={search_term_string}`,
+            target: `${SITE_URL}/tour-packages?q={search_term_string}`,
             "query-input": "required name=search_term_string",
           },
         }}
@@ -56,7 +56,7 @@ export default async function Home() {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              href="/destinations"
+              href="/tour-packages"
               className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-50"
             >
               Browse Destinations

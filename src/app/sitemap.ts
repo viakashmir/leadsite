@@ -1,52 +1,70 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { SITE_URL } from "@/lib/site";
+import { THEMES } from "@/data/locations";
+import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 
+export const revalidate = 3600;
+
+// Only pages whose content is READY are listed; DRAFT location pages render but
+// are noindex (see robotsFor in lib/locations.ts), so they stay out of here too.
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [destinations, packages, cities] = await Promise.all([
-    prisma.destination.findMany({ select: { slug: true, updatedAt: true } }),
+  const [destinations, cities, places, packages] = await Promise.all([
+    prisma.destination.findMany({
+      where: { contentStatus: "READY" },
+      select: { slug: true, kind: true, updatedAt: true },
+    }),
+    prisma.city.findMany({
+      where: { contentStatus: "READY" },
+      select: { slug: true, destination: { select: { slug: true } } },
+    }),
+    prisma.place.findMany({
+      where: { contentStatus: "READY" },
+      select: { path: true, destination: { select: { slug: true } } },
+    }),
     prisma.package.findMany({
       where: { published: true },
       select: { slug: true, updatedAt: true },
     }),
-    prisma.city.findMany({ select: { slug: true, destination: { select: { slug: true } } } }),
   ]);
 
+  const url = (path: string) => `${SITE_URL}${path}`;
+
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: `${SITE_URL}/`, changeFrequency: "daily", priority: 1 },
-    { url: `${SITE_URL}/destinations`, changeFrequency: "daily", priority: 0.9 },
-    { url: `${SITE_URL}/packages`, changeFrequency: "daily", priority: 0.9 },
-    { url: `${SITE_URL}/leads`, changeFrequency: "hourly", priority: 0.8 },
-    { url: `${SITE_URL}/agents`, changeFrequency: "daily", priority: 0.6 },
-    { url: `${SITE_URL}/agent/register`, changeFrequency: "monthly", priority: 0.5 },
+    { url: url("/"), changeFrequency: "daily", priority: 1 },
+    { url: url(tourPackagesUrl()), changeFrequency: "daily", priority: 0.9 },
+    { url: url(tourPackagesUrl("india")), changeFrequency: "daily", priority: 0.9 },
+    { url: url(tourPackagesUrl("international")), changeFrequency: "daily", priority: 0.9 },
+    ...THEMES.map((t) => ({ url: url(themeUrl(t.prefix)), changeFrequency: "weekly" as const, priority: 0.7 })),
+    { url: url("/leads"), changeFrequency: "hourly", priority: 0.6 },
+    { url: url("/agents"), changeFrequency: "daily", priority: 0.5 },
+    { url: url("/agent/register"), changeFrequency: "monthly", priority: 0.5 },
   ];
 
   const destinationRoutes: MetadataRoute.Sitemap = destinations.flatMap((d) => [
-    {
-      url: `${SITE_URL}/destinations/${d.slug}`,
-      lastModified: d.updatedAt,
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/leads/${d.slug}`,
-      changeFrequency: "hourly" as const,
-      priority: 0.7,
-    },
+    { url: url(tourPackagesUrl(d.slug)), lastModified: d.updatedAt, changeFrequency: "weekly" as const, priority: 0.9 },
+    ...(d.kind === "CIRCUIT"
+      ? []
+      : [{ url: url(guideUrl(d.slug)), lastModified: d.updatedAt, changeFrequency: "monthly" as const, priority: 0.7 }]),
   ]);
 
-  const cityRoutes: MetadataRoute.Sitemap = cities.map((c) => ({
-    url: `${SITE_URL}/leads/${c.destination.slug}/${c.slug}`,
-    changeFrequency: "hourly" as const,
-    priority: 0.6,
+  const cityRoutes: MetadataRoute.Sitemap = cities.flatMap((c) => [
+    { url: url(tourPackagesUrl(c.slug)), changeFrequency: "weekly" as const, priority: 0.8 },
+    { url: url(guideUrl(c.destination.slug, c.slug)), changeFrequency: "monthly" as const, priority: 0.6 },
+  ]);
+
+  const placeRoutes: MetadataRoute.Sitemap = places.map((p) => ({
+    url: url(guideUrl(p.destination.slug, p.path)),
+    changeFrequency: "monthly" as const,
+    priority: 0.5,
   }));
 
   const packageRoutes: MetadataRoute.Sitemap = packages.map((p) => ({
-    url: `${SITE_URL}/packages/${p.slug}`,
+    url: url(`/packages/${p.slug}`),
     lastModified: p.updatedAt,
     changeFrequency: "weekly" as const,
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...destinationRoutes, ...cityRoutes, ...packageRoutes];
+  return [...staticRoutes, ...destinationRoutes, ...cityRoutes, ...placeRoutes, ...packageRoutes];
 }

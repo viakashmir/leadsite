@@ -197,7 +197,7 @@ export default function EnquiryForm({
         {status === "submitting" ? "Sending..." : "Get Free Quotes"}
       </button>
       <p className="text-center text-xs text-zinc-500">
-        Up to 3 verified travel agents will contact you with custom quotes — compare and save.
+        Up to 3 verified travel agents will contact you with custom quotes. Compare and choose.
       </p>
     </form>
   );

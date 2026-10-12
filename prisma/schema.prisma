@@ -12,35 +12,124 @@ datasource db {
 
 // ---------- Content / SEO side ----------
 
+enum DestinationKind {
+  STATE
+  UNION_TERRITORY
+  COUNTRY
+  REGION
+  CIRCUIT
+}
+
+enum ContentStatus {
+  DRAFT // structure only: page renders but is noindex
+  READY // content reviewed: indexable
+}
+
+// Top-level travel destination, TravelTriangle-style: the name people search
+// ("kashmir", "himachal", "thailand"), plus multi-stop circuits.
+// Structure comes from src/data/locations.ts via prisma/seed-locations.ts.
 model Destination {
   id          String   @id @default(cuid())
   slug        String   @unique
   name        String
+  officialName String?
+  kind        DestinationKind @default(STATE)
+  zone        String?
   state       String?
   country     String   @default("India")
   isInternational Boolean @default(false)
-  summary     String
-  heroImage   String
+  premium     Boolean  @default(false)
+  tier        Int      @default(3)
+  sortOrder   Int      @default(0)
+  leadUnlockPrice Int? // overrides the default per-lead price for this destination
+  summary     String   @default("")
+  heroImage   String   @default("")
+  content     Json?    // guide sections: intro, bestTime, howToReach, tips, faqs...
+  seoTitle    String?
+  seoDescription String?
+  contentStatus ContentStatus @default(DRAFT)
+  legacySlugs String[] @default([])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   cities      City[]
+  places      Place[]
   packages    Package[]
   leads       Lead[]
   agentLinks  AgentDestination[]
+  circuitStops CircuitStop[] @relation("CircuitStops")
+  stopOf      CircuitStop[] @relation("StopDestination")
+
+  @@index([kind])
+  @@index([zone])
 }
 
 model City {
   id            String   @id @default(cuid())
   slug          String   @unique
   name          String
+  kind          String?  // hill-station, beach, pilgrimage...
+  tier          Int      @default(3)
+  sortOrder     Int      @default(0)
+  summary       String   @default("")
+  heroImage     String   @default("")
+  content       Json?
+  seoTitle      String?
+  seoDescription String?
+  contentStatus ContentStatus @default(DRAFT)
+  lat           Float?
+  lng           Float?
   destinationId String
   destination   Destination @relation(fields: [destinationId], references: [id])
 
+  places        Place[]
   packages      Package[]
   leads         Lead[]
+  stopOf        CircuitStop[]
 
   @@index([destinationId])
+}
+
+enum PlaceKind {
+  PLACE    // places to visit
+  ACTIVITY // things to do
+}
+
+// Attraction or activity. `path` is the URL tail under /{destination}-tourism,
+// e.g. "srinagar/places-to-visit/dal-lake" or "places-to-visit/red-fort".
+model Place {
+  id            String   @id @default(cuid())
+  path          String   @unique
+  slug          String
+  name          String
+  kind          PlaceKind @default(PLACE)
+  sortOrder     Int      @default(0)
+  summary       String   @default("")
+  heroImage     String   @default("")
+  content       Json?
+  contentStatus ContentStatus @default(DRAFT)
+  destinationId String
+  destination   Destination @relation(fields: [destinationId], references: [id])
+  cityId        String?
+  city          City?    @relation(fields: [cityId], references: [id])
+
+  @@index([destinationId])
+  @@index([cityId])
+}
+
+// Ordered stop of a circuit (a Destination with kind CIRCUIT). A stop points
+// at either a destination (e.g. "sikkim") or a city (e.g. "gangtok").
+model CircuitStop {
+  id            String   @id @default(cuid())
+  circuitId     String
+  circuit       Destination @relation("CircuitStops", fields: [circuitId], references: [id], onDelete: Cascade)
+  destinationId String?
+  destination   Destination? @relation("StopDestination", fields: [destinationId], references: [id])
+  cityId        String?
+  city          City?    @relation(fields: [cityId], references: [id])
+  sortOrder     Int      @default(0)
+
+  @@index([circuitId])
 }
 
 model Package {
