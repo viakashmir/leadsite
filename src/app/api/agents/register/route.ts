@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { agentRegisterSchema } from "@/lib/validation";
-import { setAgentSessionCookie } from "@/lib/auth";
+import { AGENT_HOME, findAdminByEmail, startSession } from "@/lib/signIn";
 import { clientIp, hit, tooManyRequests } from "@/lib/rateLimit";
 
 const SIGNUP_BONUS_CREDITS = 500;
@@ -30,17 +30,13 @@ export async function POST(req: NextRequest) {
     where: { email: { equals: data.email, mode: "insensitive" } },
     select: { id: true },
   });
-  if (existing) {
+  if (existing || (await findAdminByEmail(data.email))) {
     return NextResponse.json({ error: "An account with this email already exists" }, { status: 409 });
   }
 
-  const destinations = await prisma.destination.findMany({
-    where: { id: { in: data.destinationIds } },
-    select: { id: true },
-  });
-  if (destinations.length === 0) {
-    return NextResponse.json({ error: "Select at least one valid destination" }, { status: 400 });
-  }
+  const destinations = data.destinationIds.length
+    ? await prisma.destination.findMany({ where: { id: { in: data.destinationIds } }, select: { id: true } })
+    : [];
 
   const passwordHash = await bcrypt.hash(data.password, 10);
 
@@ -77,13 +73,13 @@ export async function POST(req: NextRequest) {
         create: {
           type: "REGISTRATION",
           actor: "System",
-          detail: `Registered via free signup. Destinations: ${destinations.length}. Daily lead target: ${data.dailyLeadTarget}.`,
+          detail: `Registered with email. Destinations: ${destinations.length}.`,
         },
       },
     },
   });
 
-  await setAgentSessionCookie({ agentId: agent.id, email: agent.email });
+  await startSession("agent", agent);
 
-  return NextResponse.json({ ok: true, agentId: agent.id }, { status: 201 });
+  return NextResponse.json({ ok: true, agentId: agent.id, redirect: AGENT_HOME }, { status: 201 });
 }

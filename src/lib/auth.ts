@@ -47,14 +47,22 @@ export async function getAgentSession(): Promise<AgentSessionPayload | null> {
   }
 }
 
-export async function requireAgent() {
+/** Signed-in, non-suspended agent, whether or not onboarding is finished. */
+export async function requireAgentAccount() {
   const session = await getAgentSession();
-  if (!session) redirect("/agent/login?next=/agent/dashboard");
+  if (!session) redirect("/login?next=/agent/dashboard");
 
   const agent = await prisma.agent.findUnique({ where: { id: session.agentId } });
-  if (!agent) redirect("/agent/login?next=/agent/dashboard");
+  if (!agent) redirect("/login?next=/agent/dashboard");
   // Suspension takes effect immediately, even for sessions issued before it.
-  if (agent.status === "SUSPENDED") redirect("/agent/login?suspended=1");
+  if (agent.status === "SUSPENDED") redirect("/login?suspended=1");
 
+  return agent;
+}
+
+/** Agent pages: also sends Google sign-ups to add their phone and company first. */
+export async function requireAgent() {
+  const agent = await requireAgentAccount();
+  if (!agent.phone.trim() || !agent.companyName.trim()) redirect("/agent/onboarding");
   return agent;
 }

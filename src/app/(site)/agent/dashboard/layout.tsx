@@ -35,6 +35,9 @@ export default async function AgentDashboardLayout({ children }: { children: Rea
           <Link href="/agent/dashboard/wallet" className="hover:text-brand">
             Wallet
           </Link>
+          <Link href="/agent/dashboard/profile" className="hover:text-brand">
+            Profile
+          </Link>
         </nav>
         <div>{children}</div>
       </div>

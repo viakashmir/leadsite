@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { requireAgent } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { maskContactsInText, maskName, maskPhone } from "@/lib/mask";
@@ -28,7 +29,11 @@ export default async function AgentLeadsPage() {
   if (destinationIds.length === 0) {
     return (
       <p className="text-sm text-zinc-600">
-        You haven&apos;t selected any destinations yet. Update your profile to see matching leads.
+        You haven&apos;t selected any destinations yet.{" "}
+        <Link href="/agent/dashboard/profile" className="font-medium text-brand underline">
+          Choose them in your profile
+        </Link>{" "}
+        to see matching leads.
       </p>
     );
   }

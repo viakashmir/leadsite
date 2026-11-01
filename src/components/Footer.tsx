@@ -54,8 +54,8 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/agent/login" className="hover:text-white">
-                Agent Sign In
+              <Link href="/login" className="hover:text-white">
+                Sign In
               </Link>
             </li>
           </ul>

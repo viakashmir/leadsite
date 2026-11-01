@@ -30,6 +30,8 @@ access — this only affects how the *first* migration gets applied.
 |---|---|
 | `DATABASE_URL` | Supabase -> Settings -> Database -> Connection string (use the **Transaction pooler** URI for serverless) |
 | `JWT_SECRET` | **Required in production** (min 32 chars; the app refuses to sign or accept sessions without it). Generate with `openssl rand -base64 32` |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Optional; turns on "Continue with Google" at `/login`. Google Cloud Console → APIs & Services → Credentials → Create OAuth client ID (Web application). Authorised redirect URI: `{SITE_URL}/api/auth/google/callback`. `SITE_URL` must be set to the live domain |
+| `ADMIN_EMAILS` | Optional, comma-separated. These Google accounts become admins on first Google sign-in. Existing admin accounts (Admin → Team) are recognised by email without being listed here |
 | `RAZORPAY_KEY_ID` | Razorpay Dashboard -> Settings -> API Keys |
 | `RAZORPAY_KEY_SECRET` | Same page |
 | `RAZORPAY_WEBHOOK_SECRET` | Set when creating the webhook in step 5 below |

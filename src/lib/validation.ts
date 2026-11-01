@@ -52,9 +52,10 @@ export const agentRegisterSchema = z.object({
     .regex(/^[0-9+\-\s]{8,15}$/, "Enter a valid phone number"),
   servicesWanted: z
     .array(z.string().refine((v) => SERVICE_OPTIONS.some((o) => o.value === v), "Unknown service"))
-    .min(1, "Select at least one service")
-    .max(20),
-  destinationIds: z.array(z.string().max(64)).min(1, "Select at least one destination").max(200),
+    .max(20)
+    .default([]),
+  // Optional at signup; agents add destinations from their profile later.
+  destinationIds: z.array(z.string().max(64)).max(200).default([]),
   dailyLeadTarget: z.coerce.number().int().min(1).max(1000).default(10),
   officeAddress: z.string().trim().max(300).optional().or(z.literal("")),
   officeCity: z.string().trim().max(100).optional().or(z.literal("")),
@@ -99,3 +100,9 @@ export const SERVICE_OPTIONS = [
   { value: "B2B_PROMOTION", label: "B2B Promotion" },
   { value: "PAYMENT_GATEWAY", label: "Payment Gateway" },
 ] as const;
+
+// Everything an agent can edit about themselves after signing up.
+export const agentProfileSchema = agentRegisterSchema.omit({ email: true, password: true });
+
+// First sign-in with Google: just enough to reach the agent and show their name.
+export const agentOnboardingSchema = agentRegisterSchema.pick({ contactName: true, companyName: true, phone: true });
