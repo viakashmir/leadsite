@@ -162,17 +162,18 @@ export const DESTINATIONS: DestinationDef[] = [
   india("himachal", "Himachal", "state", "north-india", 1, [
     c("shimla", "Shimla", "hill-station", 1, ["Mall Road", "The Ridge", "Jakhu Temple", "Kufri", "Christ Church"]),
     c("manali", "Manali", "hill-station", 1, ["Solang Valley", "Rohtang Pass", "Atal Tunnel", "Hadimba Temple", "Old Manali"]),
-    c("kullu", "Kullu", "valley", 2, ["Bijli Mahadev", "Raghunath Temple Kullu", "Beas River rafting"]),
+    c("kullu", "Kullu", "valley", 2, ["Bijli Mahadev", "Raghunath Temple Kullu", "Beas River rafting", "Shangarh"]),
     c("kasol", "Kasol", "valley", 2, ["Manikaran Sahib", "Tosh", "Kheerganga", "Malana"]),
-    c("dharamshala", "Dharamshala", "hill-station", 1, ["McLeod Ganj", "Bhagsu Waterfall", "Triund", "Dalai Lama Temple"]),
+    c("dharamshala", "Dharamshala", "hill-station", 1, ["McLeod Ganj", "Bhagsu Waterfall", "Triund", "Dalai Lama Temple", "Dharamkot"]),
     c("dalhousie", "Dalhousie", "hill-station", 2, ["Khajjiar", "Panchpula", "St. John's Church"]),
     c("spiti-valley", "Spiti Valley", "adventure", 1, ["Kaza", "Key Monastery", "Chandratal Lake", "Kibber", "Dhankar Monastery"]),
     c("kasauli", "Kasauli", "hill-station", 2, ["Sunset Point", "Christ Church Kasauli", "Gilbert Trail"]),
     c("chail", "Chail", "hill-station", 3, ["Chail Palace", "Chail Cricket Ground"]),
     c("bir-billing", "Bir Billing", "adventure", 2, ["Paragliding site", "Tibetan Colony", "Baijnath Temple"]),
     c("kinnaur", "Kinnaur", "valley", 2, ["Kalpa", "Sangla", "Chitkul"]),
-    c("jibhi", "Jibhi", "valley", 3, ["Jibhi Waterfall", "Jalori Pass", "Serolsar Lake"]),
+    c("jibhi", "Jibhi", "valley", 3, ["Jibhi Waterfall", "Jalori Pass", "Serolsar Lake", "Tirthan Valley", "Raghupur Fort"]),
     c("palampur", "Palampur", "hill-station", 3, ["Tea gardens", "Andretta", "Neugal Khad"]),
+    c("lahaul", "Lahaul Valley", "valley", 2, ["Sissu", "Keylong", "Jispa", "Baralacha La"]),
   ], { officialName: "Himachal Pradesh" }),
 
   india("uttarakhand", "Uttarakhand", "state", "north-india", 1, [

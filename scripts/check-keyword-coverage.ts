@@ -10,12 +10,18 @@
 // baseUrl defaults to http://localhost:3000. By default excluded rows
 // (fit X-*) are reported separately; --all fails on them too.
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 
 const base = (process.argv.find((a) => a.startsWith("http")) ?? "http://localhost:3000").replace(/\/$/, "");
 const strict = process.argv.includes("--all");
 const MAP = "docs/keyword-research/keyword-map.csv";
 const REPORT = "docs/keyword-research/coverage-report.csv";
+// keyword,url rows that move a keyword to the page that best answers it,
+// overriding the automatic mapping in keyword-map.csv.
+const OVERRIDES = "docs/keyword-research/url-overrides.csv";
+// keyword,reason rows the owner has decided not to target (wrong meaning,
+// illegal topic...). Listed in the report with the reason, never dropped.
+const EXCLUSIONS = "docs/keyword-research/exclusions.csv";
 
 function parseCsv(text: string): Record<string, string>[] {
   const rows: string[][] = [];
@@ -38,9 +44,14 @@ function parseCsv(text: string): Record<string, string>[] {
   return body.filter((r) => r.length > 1).map((r) => Object.fromEntries(head.map((h, i) => [h, r[i] ?? ""])));
 }
 
-const STOP = new Set(["in", "the", "a", "an", "of", "to", "for", "and", "on", "at", "from", "by", "with", "is", "me", "my"]);
+const STOP = new Set(["in", "the", "a", "an", "of", "to", "for", "and", "on", "at", "from", "by", "with", "is", "me", "my", "between"]);
+// Plural and singular count as the same word, as they do for search engines.
+const stem = (w: string) => (w.length > 3 && w.endsWith("s") && !w.endsWith("ss") ? w.slice(0, -1) : w);
+// Years ("rohtang pass in may 2018") are freshness signals, not topics: the
+// current page answers them, so they are not required in headings.
 const words = (s: string) =>
-  s.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter((w) => w && !STOP.has(w));
+  s.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter((w) => w && !STOP.has(w) && !/^(19|20)\d\d$/.test(w))
+    .map(stem);
 
 type PageCheck = { status: number; indexable: boolean; text: string };
 
@@ -55,7 +66,15 @@ async function inspect(path: string): Promise<PageCheck> {
 }
 
 async function main() {
-  const rows = parseCsv(readFileSync(MAP, "utf8"));
+  const overrides = new Map(
+    (existsSync(OVERRIDES) ? parseCsv(readFileSync(OVERRIDES, "utf8")) : []).map((o) => [o.keyword, o.url]),
+  );
+  const exclusions = new Map(
+    (existsSync(EXCLUSIONS) ? parseCsv(readFileSync(EXCLUSIONS, "utf8")) : []).map((o) => [o.keyword, o.reason]),
+  );
+  const rows = parseCsv(readFileSync(MAP, "utf8")).map((r) =>
+    overrides.has(r.keyword) ? { ...r, url: overrides.get(r.keyword)!, fit: r.fit.startsWith("X-") ? "B-planning" : r.fit } : r,
+  );
   const urls = [...new Set(rows.map((r) => r.url).filter(Boolean))];
   const pages = new Map<string, PageCheck>();
   for (let i = 0; i < urls.length; i += 8) {
@@ -63,9 +82,10 @@ async function main() {
   }
 
   const out = rows.map((r) => {
-    const excluded = r.fit.startsWith("X-");
+    const excluded = r.fit.startsWith("X-") || exclusions.has(r.keyword);
     let result: string;
-    if (!r.url) result = "MISSING_PAGE";
+    if (exclusions.has(r.keyword)) result = `EXCLUDED:${exclusions.get(r.keyword)}`;
+    else if (!r.url) result = "MISSING_PAGE";
     else {
       const p = pages.get(r.url)!;
       const have = new Set(p.text.split(" "));
@@ -93,7 +113,8 @@ async function main() {
   console.log(`Base: ${base}  pages checked: ${urls.length}`);
   console.log(`Covered: ${ok.length}/${inScope.length} keywords${strict ? " (including excluded)" : ""}`);
   for (const [k, n] of [...byResult].sort((a, b) => b[1] - a[1])) console.log(`  ${k.padEnd(26)} ${n}`);
-  console.log(`Excluded (brand/utility/local navigation): ${out.filter((r) => r.excluded).length}`);
+  console.log(`Excluded (brand/utility/local navigation): ${out.filter((r) => r.excluded && !exclusions.has(r.keyword)).length}`);
+  console.log(`Excluded by decision (see ${EXCLUSIONS}): ${exclusions.size}`);
   console.log(`Full report: ${REPORT}`);
   process.exit(ok.length === inScope.length ? 0 : 1);
 }

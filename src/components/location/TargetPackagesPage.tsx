@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import { webPageSchema } from "@/lib/schema";
+import type { GuideContent, Itinerary } from "@/lib/locations";
 import {
   CardLinks,
   ChipLinks,
@@ -16,6 +17,8 @@ import {
   Section,
   TwoColumn,
   type Crumb,
+  Blocks,
+  Prose,
 } from "@/components/location/blocks";
 import { GUIDE_SECTIONS, ORIGIN_CITIES, THEMES } from "@/data/locations";
 import {
@@ -62,12 +65,22 @@ function statusOf(t: Target) {
 // once they have enough of their own packages to be a distinct page.
 const MIN_PACKAGES_FOR_SLICE = 3;
 
+// The packages-page copy that applies to this variant: the base page's, or a
+// theme/origin slice's own.
+function sliceContent(c: GuideContent, v: PackagesPageVariant) {
+  if (v.origin) return c.packages?.fromOrigins?.[v.origin.slug];
+  if (v.theme) return c.packages?.themes?.[v.theme.prefix];
+  return c.packages;
+}
+
 export async function packagesPageMetadata(t: Target, v: PackagesPageVariant): Promise<Metadata> {
   const title = `${packagesPageTitle(t, v)} ${year()}: Customise & Compare Quotes`;
   const isSlice = Boolean(v.theme || v.origin);
   const own = readContent(t.type === "city" ? t.city.content : t.destination.content);
+  const sliceCopy = sliceContent(own, v);
   const sliceReady =
     !isSlice ||
+    Boolean(sliceCopy?.intro) ||
     (await getPackagesFor(t, { themeTag: v.theme?.tag, take: MIN_PACKAGES_FOR_SLICE })).length >=
       MIN_PACKAGES_FOR_SLICE;
   const fallbackDescription = `Plan your ${targetName(t)} trip${
@@ -99,6 +112,9 @@ export default async function TargetPackagesPage({
   const content = readContent(t.type === "city" ? t.city.content : dest.content);
   const packages = await getPackagesFor(t, { themeTag: v.theme?.tag });
   const heading = packagesPageTitle(t, v);
+  const copy = sliceContent(content, v);
+  const itineraries = (copy as { itineraries?: Itinerary[] } | undefined)?.itineraries;
+  const faqs = copy?.faqs ?? (!v.theme && !v.origin ? content.faqs : undefined);
   const isCircuit = t.type === "circuit";
   // Last change to this page's copy or to any package listed on it.
   const updated = new Date(
@@ -227,6 +243,37 @@ export default async function TargetPackagesPage({
               </Section>
             )}
 
+            {copy?.intro && (
+              <Section
+                title={
+                  v.theme || v.origin
+                    ? `Planning your ${heading.replace(/ Packages?$/, "").replace(/ Tour$/, "")} trip`
+                    : `${name} holiday packages, tours and trip plans`
+                }
+              >
+                <Prose text={copy.intro} />
+              </Section>
+            )}
+            {itineraries && itineraries.length > 0 && (
+              <Section title={`${name} itinerary`}>
+                <div className="space-y-5">
+                  {itineraries.map((it) => (
+                    <div key={it.title}>
+                      <h3 className="text-lg font-bold text-ink">{it.title}</h3>
+                      <ol className="mt-2 space-y-1.5">
+                        {it.days.map((day, i) => (
+                          <li key={i} className="leading-relaxed text-ink">
+                            <span className="font-semibold">Day {i + 1}:</span> {day}
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  ))}
+                </div>
+              </Section>
+            )}
+            <Blocks blocks={copy?.blocks} />
+
             {explore.length > 0 && (
               <Section
                 title={
@@ -290,9 +337,9 @@ export default async function TargetPackagesPage({
               </ol>
             </Section>
 
-            {!v.theme && !v.origin && content.faqs && content.faqs.length > 0 && (
-              <Section title={`${name} tour FAQs`}>
-                <Faqs faqs={content.faqs} />
+            {faqs && faqs.length > 0 && (
+              <Section title={`${heading} FAQs`}>
+                <Faqs faqs={faqs} />
               </Section>
             )}
 

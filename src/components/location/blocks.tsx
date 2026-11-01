@@ -4,7 +4,7 @@ import EnquiryForm from "@/components/EnquiryForm";
 import PackageCard from "@/components/PackageCard";
 import { EDITORIAL_TEAM, SITE_URL } from "@/lib/site";
 import { formatDate } from "@/lib/format";
-import { getEnquiryOptions, type GuideContent } from "@/lib/locations";
+import { getEnquiryOptions, type ContentBlock, type GuideContent, type MonthGuide, type RouteGuide } from "@/lib/locations";
 import type { Prisma } from "@/generated/prisma/client";
 
 export type Crumb = { name: string; href: string };
@@ -344,5 +344,85 @@ export function Faqs({ faqs }: { faqs?: { q: string; a: string }[] }) {
         ))}
       </div>
     </>
+  );
+}
+
+const paras = (text: string) =>
+  text.split("\n\n").map((p, i) => (
+    <p key={i} className="leading-relaxed text-ink">
+      {p}
+    </p>
+  ));
+
+export function Prose({ text }: { text?: string }) {
+  return text ? <div className="space-y-3">{paras(text)}</div> : null;
+}
+
+export function Blocks({ blocks }: { blocks?: ContentBlock[] }) {
+  if (!blocks?.length) return null;
+  return (
+    <>
+      {blocks.map((b) => (
+        <Section key={b.heading} title={b.heading}>
+          <div className="space-y-3">
+            {b.body && paras(b.body)}
+            {b.items && b.items.length > 0 && (
+              <ul className="list-disc space-y-1 pl-5 text-ink">
+                {b.items.map((it) => (
+                  <li key={it}>{it}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </Section>
+      ))}
+    </>
+  );
+}
+
+// Month-by-month weather. Each month is its own H3 so "{place} in {month}",
+// "{place} weather in {month}" and "{place} temperature in {month}" all have a
+// heading that answers them.
+export function Months({ where, months }: { where: string; months?: MonthGuide[] }) {
+  if (!months?.length) return null;
+  return (
+    <div className="space-y-5">
+      {months.map((m) => (
+        <div key={m.month}>
+          <h3 className="text-lg font-bold text-ink">
+            {where} in {m.month}: weather and temperature
+          </h3>
+          {m.tempC && (
+            <p className="mt-1 text-sm font-semibold text-ink-soft">Temperature: {m.tempC}</p>
+          )}
+          <p className="mt-1 leading-relaxed text-ink">{m.weather}</p>
+          {m.goodFor && <p className="mt-1 leading-relaxed text-ink-soft">{m.goodFor}</p>}
+        </div>
+      ))}
+      <p className="text-xs text-ink-soft">
+        Temperatures are typical ranges for each month, not forecasts. Check a live forecast before you travel.
+      </p>
+    </div>
+  );
+}
+
+// Route distances. Each route is an H3 "{from} to {to} distance".
+export function Routes({ routes }: { routes?: RouteGuide[] }) {
+  if (!routes?.length) return null;
+  return (
+    <div className="space-y-5">
+      {routes.map((r) => (
+        <div key={`${r.from}-${r.to}`}>
+          <h3 className="text-lg font-bold text-ink">
+            {r.from} to {r.to} distance
+          </h3>
+          <p className="mt-1 text-sm font-semibold text-ink-soft">
+            {r.distanceKm}
+            {r.time && ` · ${r.time}`}
+          </p>
+          <p className="mt-1 leading-relaxed text-ink">{r.how}</p>
+        </div>
+      ))}
+    </div>
   );
 }

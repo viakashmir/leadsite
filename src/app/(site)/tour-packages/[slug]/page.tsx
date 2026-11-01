@@ -6,7 +6,7 @@ import TargetPackagesPage, {
   type PackagesPageVariant,
 } from "@/components/location/TargetPackagesPage";
 import { ORIGIN_CITIES } from "@/data/locations";
-import { resolveTarget } from "@/lib/locations";
+import { readContent, resolveTarget } from "@/lib/locations";
 import { parseFromTo, tourPackagesUrl } from "@/lib/urls";
 
 export const revalidate = 3600;
@@ -35,8 +35,10 @@ async function resolve(slug: string) {
   if (fromTo) {
     const origin = ORIGIN_CITIES.find((o) => o.slug === fromTo.origin);
     const target = origin ? await resolveTarget(fromTo.target) : null;
-    // Origin pages exist for destinations and circuits, not individual cities.
-    if (!origin || !target || target.type === "city") return null;
+    // Origin pages exist for destinations and circuits, and for a city only
+    // when that city has its own copy for the origin (no thin duplicates).
+    if (!origin || !target) return null;
+    if (target.type === "city" && !readContent(target.city.content).packages?.fromOrigins?.[origin.slug]) return null;
     return { target, variant: { origin } satisfies PackagesPageVariant };
   }
   const target = await resolveTarget(slug);

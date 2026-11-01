@@ -129,6 +129,42 @@ export function robotsFor(status: "DRAFT" | "READY") {
 
 // Shape of Destination.content / City.content / Place.content (JSON).
 // Written in src/data/content/*.ts and loaded by prisma/seed-content.ts.
+export type Faq = { q: string; a: string };
+
+// A free-standing H2 block, e.g. "Famous food in Manali" or "Is Rohtang Pass open?".
+export type ContentBlock = { heading: string; body?: string; items?: string[] };
+
+// One month of a best-time guide; rendered as an H3 like "Leh in July: weather and temperature".
+export type MonthGuide = {
+  month: string; // "July"
+  tempC?: string; // "Day 25 to 30°C, night 10 to 15°C"
+  weather: string; // what the month is like
+  goodFor?: string; // who it suits / what is open
+};
+
+// One route of a how-to-reach guide; rendered as an H3 like "Delhi to Manali distance".
+export type RouteGuide = {
+  from: string;
+  to: string;
+  distanceKm: string; // "about 540 km by road"
+  time?: string; // "12 to 14 hours"
+  how: string; // route, transport options, notes
+};
+
+// Copy that belongs to one guide section page (/{dest}-tourism/{city}/{section}).
+export type SectionContent = { intro?: string; blocks?: ContentBlock[]; faqs?: Faq[] };
+
+// A sample day-by-day plan; rendered as an H3 like "5-day Kasol itinerary".
+export type Itinerary = { title: string; days: string[] };
+
+// Copy for /tour-packages/{slug} and its theme/origin slices. A slice with its
+// own copy here is a distinct page and becomes indexable.
+export type PackagesContent = SectionContent & {
+  itineraries?: Itinerary[];
+  fromOrigins?: Record<string, SectionContent & { itineraries?: Itinerary[] }>; // key: origin slug, e.g. "delhi"
+  themes?: Record<string, SectionContent>; // key: theme prefix, e.g. "honeymoon-packages"
+};
+
 export type GuideContent = {
   intro?: string; // paragraphs separated by a blank line; first one answers "what is X like"
   highlights?: string[]; // why go
@@ -139,7 +175,14 @@ export type GuideContent = {
   seasons?: { name: string; months: string; note: string }[];
   howToReach?: { air?: string; rail?: string; road?: string; local?: string };
   thingsToKnow?: string[];
-  faqs?: { q: string; a: string }[];
+  faqs?: Faq[];
+  facts?: { label: string; value: string }[]; // quick facts (altitude, timings, permit...)
+  blocks?: ContentBlock[]; // extra H2 sections on the overview/place page
+  months?: MonthGuide[]; // month-by-month weather (best-time page, or place page)
+  monthsWhere?: string; // name used in month headings when searchers use another one, e.g. "Leh Ladakh"
+  routes?: RouteGuide[]; // distances and routes (how-to-reach page, or place page)
+  packages?: PackagesContent;
+  sections?: Partial<Record<"places-to-visit" | "things-to-do" | "best-time-to-visit" | "how-to-reach" | "travel-guide-tips", SectionContent>>;
   packagesDescription?: string; // meta description for /tour-packages/{slug}
   guideDescription?: string; // meta description for /{slug}-tourism
 };

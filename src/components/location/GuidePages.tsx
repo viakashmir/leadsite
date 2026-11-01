@@ -16,6 +16,10 @@ import {
   Section,
   TwoColumn,
   type Crumb,
+  Blocks,
+  Months,
+  Prose,
+  Routes,
 } from "@/components/location/blocks";
 import { GUIDE_SECTIONS } from "@/data/locations";
 import { prisma } from "@/lib/prisma";
@@ -97,14 +101,17 @@ async function indexable(r: GuideRoute) {
   const c = readContent(r.city ? r.city.content : r.destination.content);
   switch (r.section) {
     case "best-time-to-visit":
-      return Boolean(c.bestTimeToVisit);
+      return Boolean(c.bestTimeToVisit || c.months?.length || c.sections?.["best-time-to-visit"]?.intro);
     case "how-to-reach":
-      return Boolean(c.howToReach?.air || c.howToReach?.rail || c.howToReach?.road);
+      return Boolean(
+        c.howToReach?.air || c.howToReach?.rail || c.howToReach?.road || c.routes?.length || c.sections?.["how-to-reach"]?.intro,
+      );
     case "travel-guide-tips":
-      return Boolean(c.thingsToKnow?.length);
+      return Boolean(c.thingsToKnow?.length || c.sections?.["travel-guide-tips"]?.intro);
     case "places-to-visit":
     case "things-to-do": {
       const kind = r.section === "places-to-visit" ? "PLACE" : "ACTIVITY";
+      if (c.sections?.[r.section]?.intro) return true;
       const where = r.city ? { cityId: r.city.id } : { destinationId: r.destination.id };
       return (await prisma.place.count({ where: { ...where, kind } })) > 0;
     }
@@ -224,10 +231,12 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
                 { label: "Ideal trip length", value: content.idealDuration },
                 { label: "Best months", value: content.bestMonths },
                 { label: "Main gateway", value: content.gateway },
+                ...(content.facts ?? []),
               ]}
             />
           </div>
         </Section>
+        <Blocks blocks={content.blocks} />
         {!r.city && d.cities.length > 0 && (
           <Section title={`Cities in ${d.name}`}>
             <CardLinks
@@ -258,6 +267,7 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
       </>
     );
   } else if (r.kind === "section") {
+    const sec = content.sections?.[r.section];
     if (r.section === "places-to-visit" || r.section === "things-to-do") {
       const kind = r.section === "places-to-visit" ? "PLACE" : "ACTIVITY";
       const items =
@@ -271,52 +281,78 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
             }));
       main = (
         <Section title={title}>
-          {items.length > 0 ? <CardLinks items={items} /> : <ContentPending topic={title.toLowerCase()} />}
+          <Prose text={sec?.intro} />
+          <div className={sec?.intro ? "mt-4" : undefined}>
+            {items.length > 0 ? <CardLinks items={items} /> : <ContentPending topic={title.toLowerCase()} />}
+          </div>
         </Section>
       );
     } else if (r.section === "best-time-to-visit") {
       main = (
-        <Section title={title}>
-          {content.bestTimeToVisit ? (
-            <div className="space-y-4">
-              {content.bestTimeToVisit.split("\n\n").map((para, i) => (
-                <p key={i} className="leading-relaxed text-ink">
-                  {para}
-                </p>
-              ))}
-              <Seasons seasons={content.seasons} />
-            </div>
-          ) : (
-            <ContentPending topic={`best time to visit ${where}`} />
+        <>
+          <Section title={title}>
+            {content.bestTimeToVisit || sec?.intro ? (
+              <div className="space-y-4">
+                <Prose text={sec?.intro} />
+                <Prose text={content.bestTimeToVisit} />
+                <Seasons seasons={content.seasons} />
+              </div>
+            ) : (
+              <ContentPending topic={`best time to visit ${where}`} />
+            )}
+          </Section>
+          {content.months && content.months.length > 0 && (
+            <Section title={`${content.monthsWhere ?? where} weather and temperature by month`}>
+              <Months where={content.monthsWhere ?? where} months={content.months} />
+            </Section>
           )}
-        </Section>
+        </>
       );
     } else if (r.section === "how-to-reach") {
       const h = content.howToReach;
       main = (
-        <Section title={title}>
-          {h && (h.air || h.rail || h.road) ? (
-            <HowToReach howToReach={h} />
-          ) : (
-            <ContentPending topic={`how to reach ${where}`} />
+        <>
+          <Section title={title}>
+            {h && (h.air || h.rail || h.road) ? (
+              <div className="space-y-4">
+                <Prose text={sec?.intro} />
+                <HowToReach howToReach={h} />
+              </div>
+            ) : sec?.intro ? (
+              <Prose text={sec.intro} />
+            ) : (
+              <ContentPending topic={`how to reach ${where}`} />
+            )}
+          </Section>
+          {content.routes && content.routes.length > 0 && (
+            <Section title={`Distances and routes to ${where}`}>
+              <Routes routes={content.routes} />
+            </Section>
           )}
-        </Section>
+        </>
       );
     } else {
       main = (
         <Section title={title}>
+          <Prose text={sec?.intro} />
           {content.thingsToKnow && content.thingsToKnow.length > 0 ? (
             <ul className="list-disc space-y-1 pl-5 text-ink">
               {content.thingsToKnow.map((tip) => (
                 <li key={tip}>{tip}</li>
               ))}
             </ul>
-          ) : (
+          ) : sec?.intro ? null : (
             <ContentPending topic={`${where} travel tips`} />
           )}
         </Section>
       );
     }
+    main = (
+      <>
+        {main}
+        <Blocks blocks={sec?.blocks} />
+      </>
+    );
   } else {
     const siblings = (r.city ? r.city.places : d.places).filter(
       (p) => p.kind === r.place.kind && p.id !== r.place.id,
@@ -325,7 +361,23 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
       <>
         <Section title={`About ${r.place.name}`}>
           <GuideBody content={content} topic={r.place.name} />
+          {content.facts && content.facts.length > 0 && (
+            <div className="mt-4">
+              <QuickFacts facts={content.facts} />
+            </div>
+          )}
         </Section>
+        <Blocks blocks={content.blocks} />
+        {content.months && content.months.length > 0 && (
+          <Section title={`${r.place.name} weather and temperature by month`}>
+            <Months where={r.place.name} months={content.months} />
+          </Section>
+        )}
+        {content.routes && content.routes.length > 0 && (
+          <Section title={`How to reach ${r.place.name}`}>
+            <Routes routes={content.routes} />
+          </Section>
+        )}
         {siblings.length > 0 && (
           <Section title={`More places in ${where}`}>
             <CardLinks items={siblings.map((p) => ({ title: p.name, href: guideUrl(d.slug, p.path) }))} />
@@ -334,6 +386,8 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
       </>
     );
   }
+
+  const faqs = r.kind === "section" ? content.sections?.[r.section]?.faqs : content.faqs;
 
   return (
     <article>
@@ -375,9 +429,9 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
                 ]}
               />
             </Section>
-            {r.kind === "overview" && content.faqs && content.faqs.length > 0 && (
-              <Section title={`${where} FAQs`}>
-                <Faqs faqs={content.faqs} />
+            {faqs && faqs.length > 0 && (
+              <Section title={`${r.kind === "place" ? r.place.name : title} FAQs`}>
+                <Faqs faqs={faqs} />
               </Section>
             )}
           </>
