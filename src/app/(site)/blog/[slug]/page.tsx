@@ -11,7 +11,7 @@ import { isPhoto } from "@/lib/media";
 import { absoluteUrl } from "@/lib/site";
 import { webPageSchema } from "@/lib/schema";
 import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
-import { BLOG_PATH, CATEGORY_THEME, getPost, postUrl, readMinutes, relatedPosts } from "@/lib/blog";
+import { BLOG_PATH, CATEGORY_THEME, getPost, metaTitle, postUrl, readMinutes, relatedPosts } from "@/lib/blog";
 
 export const revalidate = 3600;
 
@@ -44,11 +44,13 @@ export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): P
   const post = getPost(slug);
   if (!post) return {};
   const path = postUrl(post.slug);
+  const title = metaTitle(post);
   return {
-    title: post.title,
+    // Absolute: the keyword-led title uses the full width Google shows, without the site suffix.
+    title: { absolute: title },
     description: post.description,
     alternates: { canonical: path },
-    openGraph: { type: "article", title: post.title, description: post.description, url: path, publishedTime: post.date },
+    openGraph: { type: "article", title, description: post.description, url: path, publishedTime: post.date },
   };
 }
 

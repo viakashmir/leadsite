@@ -19,7 +19,7 @@ import { tourPackagesUrl } from "@/lib/urls";
 
 export const revalidate = 3600;
 
-const TITLE = "Travel Blog: Trip Plans, Itineraries and Holiday Ideas";
+const TITLE = `Tour Package Guides & Itineraries ${new Date().getFullYear()}`;
 const DESCRIPTION =
   "Day-by-day itineraries, honeymoon and family trip plans, and best-time guides for India and abroad, each with free quotes from verified local agents.";
 

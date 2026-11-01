@@ -1,4 +1,5 @@
 import { BLOG_POSTS } from "@/data/blog";
+import { META_TITLES } from "@/data/blog/meta-titles";
 import { BLOG_CATEGORIES, type BlogCategory, type BlogPost } from "@/data/blog/types";
 
 export const BLOG_PATH = "/blog";
@@ -9,6 +10,10 @@ export const postUrl = (slug: string) => `${BLOG_PATH}/${slug}`;
 
 const bySlug = new Map(BLOG_POSTS.map((p) => [p.slug, p]));
 export const getPost = (slug: string) => bySlug.get(slug);
+
+// Search title for a post, with {year} filled in; falls back to the H1.
+export const metaTitle = (post: BlogPost) =>
+  (META_TITLES[post.slug] ?? post.title).replace("{year}", String(new Date().getFullYear()));
 
 // Newest first; on the same date the featured region's guides come first.
 const featuredFirst = (p: { destination: string }) => (p.destination === FEATURED_DESTINATION.slug ? 0 : 1);
