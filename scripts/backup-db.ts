@@ -1,4 +1,6 @@
-// Dumps every table to one JSON file before a risky database change.
+// Dumps every table to its own JSON file (one folder per backup) before a
+// risky database change. One file per table, because a single JSON string of
+// the whole database (photos included) is too large for Node to build.
 // Contains personal data and password hashes: keep the file private.
 //
 //   npx tsx --env-file=.env.production.local scripts/backup-db.ts <out-dir>
@@ -16,15 +18,17 @@ async function main() {
   const tables = await prisma.$queryRaw<{ table_name: string }[]>`
     SELECT table_name FROM information_schema.tables
     WHERE table_schema = 'public' AND table_type = 'BASE TABLE' ORDER BY table_name`;
-  const dump: Record<string, unknown[]> = {};
+  const dir = join(outDir, `db-backup-${new Date().toISOString().replace(/[:.]/g, "-")}`);
+  mkdirSync(dir, { recursive: true });
   for (const { table_name } of tables) {
-    dump[table_name] = await prisma.$queryRawUnsafe(`SELECT * FROM "${table_name}"`);
-    console.log(`  ${table_name}: ${dump[table_name].length} rows`);
+    const rows = await prisma.$queryRawUnsafe<unknown[]>(`SELECT * FROM "${table_name}"`);
+    writeFileSync(
+      join(dir, `${table_name}.json`),
+      JSON.stringify(rows, (_k, v) => (typeof v === "bigint" ? v.toString() : v)),
+    );
+    console.log(`  ${table_name}: ${rows.length} rows`);
   }
-  mkdirSync(outDir, { recursive: true });
-  const file = join(outDir, `db-backup-${new Date().toISOString().replace(/[:.]/g, "-")}.json`);
-  writeFileSync(file, JSON.stringify(dump, (_k, v) => (typeof v === "bigint" ? v.toString() : v), 2));
-  console.log(`Backup written to ${file}`);
+  console.log(`Backup written to ${dir}`);
 }
 
 main()
