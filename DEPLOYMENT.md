@@ -29,7 +29,7 @@ access — this only affects how the *first* migration gets applied.
 | Variable | Where to get it |
 |---|---|
 | `DATABASE_URL` | Supabase -> Settings -> Database -> Connection string (use the **Transaction pooler** URI for serverless) |
-| `JWT_SECRET` | Generate a real random value, e.g. `openssl rand -base64 32` |
+| `JWT_SECRET` | **Required in production** (min 32 chars; the app refuses to sign or accept sessions without it). Generate with `openssl rand -base64 32` |
 | `RAZORPAY_KEY_ID` | Razorpay Dashboard -> Settings -> API Keys |
 | `RAZORPAY_KEY_SECRET` | Same page |
 | `RAZORPAY_WEBHOOK_SECRET` | Set when creating the webhook in step 5 below |

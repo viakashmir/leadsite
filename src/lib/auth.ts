@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { AGENT_AUDIENCE, getJwtSecret } from "@/lib/jwtSecret";
 
-const JWT_SECRET = process.env.JWT_SECRET ?? "dev-secret-change-in-production-please";
 const COOKIE_NAME = "agent_session";
 
 export type AgentSessionPayload = {
@@ -12,7 +12,10 @@ export type AgentSessionPayload = {
 };
 
 export function signAgentSession(payload: AgentSessionPayload): string {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: "30d" });
+  return jwt.sign({ agentId: payload.agentId, email: payload.email }, getJwtSecret(), {
+    expiresIn: "30d",
+    audience: AGENT_AUDIENCE,
+  });
 }
 
 export async function setAgentSessionCookie(payload: AgentSessionPayload) {
@@ -37,7 +40,8 @@ export async function getAgentSession(): Promise<AgentSessionPayload | null> {
   const token = store.get(COOKIE_NAME)?.value;
   if (!token) return null;
   try {
-    return jwt.verify(token, JWT_SECRET) as AgentSessionPayload;
+    const decoded = jwt.verify(token, getJwtSecret(), { audience: AGENT_AUDIENCE }) as AgentSessionPayload;
+    return typeof decoded.agentId === "string" ? decoded : null;
   } catch {
     return null;
   }
@@ -49,6 +53,8 @@ export async function requireAgent() {
 
   const agent = await prisma.agent.findUnique({ where: { id: session.agentId } });
   if (!agent) redirect("/agent/login?next=/agent/dashboard");
+  // Suspension takes effect immediately, even for sessions issued before it.
+  if (agent.status === "SUSPENDED") redirect("/agent/login?suspended=1");
 
   return agent;
 }

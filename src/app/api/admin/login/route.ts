@@ -3,8 +3,14 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { setAdminSessionCookie } from "@/lib/adminAuth";
 import { agentLoginSchema } from "@/lib/validation";
+import { DUMMY_PASSWORD_HASH } from "@/lib/password";
+import { clientIp, hit, tooManyRequests } from "@/lib/rateLimit";
 
 export async function POST(req: NextRequest) {
+  // Tighter than agent login: the admin panel controls credits and all leads.
+  const ip = clientIp(req);
+  if (!hit(`admin-login:${ip}`, 10, 15 * 60_000)) return tooManyRequests();
+
   const body = await req.json().catch(() => null);
   if (!body) return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
 
@@ -12,12 +18,13 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) {
     return NextResponse.json({ error: "Enter a valid email and password" }, { status: 400 });
   }
+  if (!hit(`admin-login:${parsed.data.email}`, 5, 15 * 60_000)) return tooManyRequests();
 
-  const admin = await prisma.adminUser.findUnique({ where: { email: parsed.data.email } });
-  if (!admin) return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
-
-  const valid = await bcrypt.compare(parsed.data.password, admin.passwordHash);
-  if (!valid) return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
+  const admin = await prisma.adminUser.findFirst({
+    where: { email: { equals: parsed.data.email, mode: "insensitive" } },
+  });
+  const valid = await bcrypt.compare(parsed.data.password, admin?.passwordHash ?? DUMMY_PASSWORD_HASH);
+  if (!admin || !valid) return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
 
   await setAdminSessionCookie({ adminId: admin.id, email: admin.email });
   return NextResponse.json({ ok: true });

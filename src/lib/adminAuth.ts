@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { ADMIN_AUDIENCE, getJwtSecret } from "@/lib/jwtSecret";
 
-const JWT_SECRET = process.env.JWT_SECRET ?? "dev-secret-change-in-production-please";
 const COOKIE_NAME = "admin_session";
 
 export type AdminSessionPayload = {
@@ -12,12 +12,15 @@ export type AdminSessionPayload = {
 };
 
 export async function setAdminSessionCookie(payload: AdminSessionPayload) {
-  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "12h" });
+  const token = jwt.sign({ adminId: payload.adminId, email: payload.email }, getJwtSecret(), {
+    expiresIn: "12h",
+    audience: ADMIN_AUDIENCE,
+  });
   const store = await cookies();
   store.set(COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: "strict",
     path: "/",
     maxAge: 60 * 60 * 12,
   });
@@ -33,7 +36,8 @@ export async function getAdminSession(): Promise<AdminSessionPayload | null> {
   const token = store.get(COOKIE_NAME)?.value;
   if (!token) return null;
   try {
-    return jwt.verify(token, JWT_SECRET) as AdminSessionPayload;
+    const decoded = jwt.verify(token, getJwtSecret(), { audience: ADMIN_AUDIENCE }) as AdminSessionPayload;
+    return typeof decoded.adminId === "string" ? decoded : null;
   } catch {
     return null;
   }

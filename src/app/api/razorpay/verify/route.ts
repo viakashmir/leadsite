@@ -3,12 +3,12 @@ import crypto from "crypto";
 import { z } from "zod";
 import { getAgentSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { fulfillPaymentOrder } from "@/lib/paymentFulfillment";
+import { fulfillPaymentOrder, signaturesMatch } from "@/lib/paymentFulfillment";
 
 const schema = z.object({
-  razorpay_order_id: z.string(),
-  razorpay_payment_id: z.string(),
-  razorpay_signature: z.string(),
+  razorpay_order_id: z.string().max(100),
+  razorpay_payment_id: z.string().max(100),
+  razorpay_signature: z.string().max(200),
 });
 
 export async function POST(req: NextRequest) {
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     .update(`${razorpay_order_id}|${razorpay_payment_id}`)
     .digest("hex");
 
-  if (expectedSignature !== razorpay_signature) {
+  if (!signaturesMatch(expectedSignature, razorpay_signature)) {
     return NextResponse.json({ error: "Signature verification failed" }, { status: 400 });
   }
 

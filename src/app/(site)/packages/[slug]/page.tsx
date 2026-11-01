@@ -14,14 +14,16 @@ import TrustTicks from "@/components/TrustTicks";
 export const revalidate = 3600;
 
 async function getPackage(slug: string) {
-  return prisma.package.findUnique({
-    where: { slug },
-    include: { destination: true, city: true, agent: true },
+  // Unpublished packages (e.g. from agents awaiting verification) stay hidden.
+  // Only the agent's public name is loaded — never their account row.
+  return prisma.package.findFirst({
+    where: { slug, published: true },
+    include: { destination: true, city: true, agent: { select: { companyName: true } } },
   });
 }
 
 export async function generateStaticParams() {
-  const packages = await prisma.package.findMany({ select: { slug: true } });
+  const packages = await prisma.package.findMany({ where: { published: true }, select: { slug: true } });
   return packages.map((p) => ({ slug: p.slug }));
 }
 

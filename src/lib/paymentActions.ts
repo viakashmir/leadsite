@@ -18,6 +18,9 @@ export type CreateOrderResult =
 
 export async function createRazorpayOrder(packId: string): Promise<CreateOrderResult> {
   const agent = await requireAgent();
+  if (typeof packId !== "string" || !packId || packId.length > 64) {
+    return { ok: false, error: "This credit pack is no longer available." };
+  }
 
   if (!isRazorpayConfigured()) {
     return { ok: false, error: "Payments are not configured yet. Please contact support." };
@@ -26,6 +29,9 @@ export async function createRazorpayOrder(packId: string): Promise<CreateOrderRe
   const pack = await prisma.creditPack.findUnique({ where: { id: packId } });
   if (!pack || !pack.active) {
     return { ok: false, error: "This credit pack is no longer available." };
+  }
+  if (pack.amountINR < 1 || pack.baseCredits + pack.bonusCredits < 1) {
+    return { ok: false, error: "This credit pack is misconfigured. Please contact support." };
   }
 
   const amountPaise = pack.amountINR * 100;
