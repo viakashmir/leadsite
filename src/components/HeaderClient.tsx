@@ -27,7 +27,7 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
 
   return (
     <header
-      className="sticky top-0 z-40 border-b border-zinc-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85"
+      className="sticky top-0 z-40 border-b border-zinc-200 bg-white"
       onMouseLeave={() => setOpenMenu(null)}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:py-3">

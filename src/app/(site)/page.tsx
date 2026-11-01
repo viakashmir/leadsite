@@ -49,10 +49,19 @@ export default async function Home() {
     [stats.destinationCount, "destinations"],
   ].filter(([n]) => Number(n) > 0);
 
-  const row = (d: (typeof rows)[number]) => (
+  // The first row's first cards are the largest thing on screen at load (the
+  // LCP image on phones), so they load eagerly at high priority.
+  const row = (d: (typeof rows)[number], rowIndex: number) => (
     <CardRow key={d.id} title={`${d.name} Tour Packages`} href={tourPackagesUrl(d.slug)} limit={3}>
-      {d.photoCities.slice(0, 6).map((c) => (
-        <PlaceCard key={c.id} href={tourPackagesUrl(c.slug)} name={c.name} summary={c.summary} heroImage={c.heroImage} />
+      {d.photoCities.slice(0, 6).map((c, i) => (
+        <PlaceCard
+          key={c.id}
+          href={tourPackagesUrl(c.slug)}
+          name={c.name}
+          summary={c.summary}
+          heroImage={c.heroImage}
+          priority={rowIndex === 0 && i < 2}
+        />
       ))}
     </CardRow>
   );
@@ -132,7 +141,7 @@ export default async function Home() {
           </nav>
         )}
 
-        {rows.slice(0, 2).map(row)}
+        {rows.slice(0, 2).map((d, i) => row(d, i))}
 
         <section className="py-5 sm:py-6">
           <h2 className="font-display text-xl font-bold tracking-tight text-ink sm:text-2xl">
@@ -181,7 +190,7 @@ export default async function Home() {
           </section>
         )}
 
-        {rows.slice(2).map(row)}
+        {rows.slice(2).map((d, i) => row(d, i + 2))}
 
         <section className="py-5 sm:py-6">
           <h2 className="font-display text-xl font-bold tracking-tight text-ink sm:text-2xl">

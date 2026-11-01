@@ -4,14 +4,18 @@ import "../globals.css";
 import Analytics from "@/components/Analytics";
 import GoogleTag from "@/components/GoogleTag";
 
+// preload: false so these admin-only fonts are not preloaded on public pages
+// (Next otherwise adds their preload links to every route's <head>).
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  preload: false,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  preload: false,
 });
 
 export const metadata: Metadata = {

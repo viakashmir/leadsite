@@ -10,12 +10,14 @@ export default function PlaceCard({
   summary,
   heroImage,
   meta,
+  priority = false,
 }: {
   href: string;
   name: string;
   summary?: string | null;
   heroImage?: string | null;
   meta?: string;
+  priority?: boolean; // above-the-fold cards: load first instead of lazily
 }) {
   return (
     <Link href={href} className="group flex h-full flex-col">
@@ -25,6 +27,7 @@ export default function PlaceCard({
             src={heroImage}
             alt={name}
             fill
+            priority={priority}
             sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 85vw"
             className="object-cover transition duration-300 group-hover:scale-[1.03]"
           />
