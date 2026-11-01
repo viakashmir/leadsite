@@ -16,7 +16,13 @@ export type SendEmailResult = { ok: true; id: string } | { ok: false; error: str
 // Until one is verified, onboarding@resend.dev works, but Resend will then
 // deliver ONLY to the email address that owns the Resend account.
 export const EMAIL_FROM = process.env.EMAIL_FROM || "Tavel Package <onboarding@resend.dev>";
-export const ADMIN_EMAIL = process.env.ADMIN_NOTIFY_EMAIL || "arfatshah.qa@gmail.com";
+// New-lead alerts go to every address here (comma-separated in the env var).
+export const ADMIN_EMAILS = (process.env.ADMIN_NOTIFY_EMAIL || "arfatshah.qa@gmail.com,aribanigar034@gmail.com")
+  .split(",")
+  .map((e) => e.trim())
+  .filter(Boolean);
+// Where customers' replies to their thank-you email land.
+export const CUSTOMER_REPLY_TO = process.env.CUSTOMER_REPLY_TO || "aribanigar034@gmail.com";
 
 export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult> {
   const apiKey = process.env.RESEND_API_KEY;

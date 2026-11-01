@@ -40,7 +40,8 @@ access — this only affects how the *first* migration gets applied.
 | `SITE_URL` | Your production URL, e.g. `https://leadsite.vercel.app` or a custom domain |
 | `RESEND_API_KEY` | [resend.com/api-keys](https://resend.com/api-keys). Sends the new-lead alert to the admin and the thank-you email to the customer |
 | `EMAIL_FROM` | Sender on a domain verified in Resend, e.g. `Tavel Package <hello@tavelpackage.in>`. Until a domain is verified, Resend only delivers to the Resend account owner's own address, so customers will not get their email |
-| `ADMIN_NOTIFY_EMAIL` | Optional. Who gets new-lead alerts (default `arfatshah.qa@gmail.com`) |
+| `ADMIN_NOTIFY_EMAIL` | Optional. Who gets new-lead alerts, comma-separated (default `arfatshah.qa@gmail.com,aribanigar034@gmail.com`) |
+| `CUSTOMER_REPLY_TO` | Optional. Where customers' replies to their thank-you email go (default `aribanigar034@gmail.com`) |
 
 ## 4. Vercel import screen (the one you have open)
 

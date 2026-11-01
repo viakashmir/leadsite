@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { isPhoto, packagePhoto } from "@/lib/media";
-import { ADMIN_EMAIL, sendEmail } from "./resend";
+import { ADMIN_EMAILS, CUSTOMER_REPLY_TO, sendEmail } from "./resend";
 import { adminNewLeadEmail, customerAcknowledgementEmail, type LeadEmailData } from "./templates";
 
 // Sends the admin alert and the customer "thanks for contacting us" email for
@@ -43,7 +43,7 @@ export async function notifyNewLead(leadId: string): Promise<void> {
     const admin = adminNewLeadEmail(data);
     const jobs: Promise<{ who: string; result: Awaited<ReturnType<typeof sendEmail>> }>[] = [
       sendEmail({
-        to: ADMIN_EMAIL,
+        to: ADMIN_EMAILS,
         subject: admin.subject,
         html: admin.html,
         text: admin.text,
@@ -97,7 +97,7 @@ export async function notifyNewLead(leadId: string): Promise<void> {
           subject: customer.subject,
           html: customer.html,
           text: customer.text,
-          replyTo: ADMIN_EMAIL,
+          replyTo: CUSTOMER_REPLY_TO,
           tags: [{ name: "type", value: "customer_ack" }],
         }).then((result) => ({ who: "customer", result })),
       );
