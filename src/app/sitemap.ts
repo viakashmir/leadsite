@@ -6,6 +6,7 @@ import { allRoutes } from "@/data/routes";
 import { THEMES } from "@/data/locations";
 import { fromToUrl, guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { readContent } from "@/lib/locations";
+import { BLOG_PATH, allPosts, postUrl } from "@/lib/blog";
 
 export const revalidate = 3600;
 
@@ -55,6 +56,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: url(tourPackagesUrl("india")), changeFrequency: "daily", priority: 0.9 },
     { url: url(tourPackagesUrl("international")), changeFrequency: "daily", priority: 0.9 },
     ...THEMES.map((t) => ({ url: url(themeUrl(t.prefix)), changeFrequency: "weekly" as const, priority: 0.7 })),
+    { url: url(BLOG_PATH), changeFrequency: "weekly", priority: 0.7 },
+    ...allPosts().map((p) => ({
+      url: url(postUrl(p.slug)),
+      lastModified: new Date(`${p.date}T00:00:00+05:30`),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
     { url: url("/leads"), changeFrequency: "hourly", priority: 0.6 },
     { url: url("/agents"), changeFrequency: "daily", priority: 0.5 },
     { url: url("/agent/register"), changeFrequency: "monthly", priority: 0.5 },

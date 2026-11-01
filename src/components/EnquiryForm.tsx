@@ -24,6 +24,15 @@ const label = "mb-0.5 block text-[11px] font-semibold text-ink-soft";
 
 const todayIso = () => new Date().toISOString().slice(0, 10);
 
+// Country calling codes, India first (the default). Travellers abroad pick theirs.
+const DIAL_CODES: [string, string][] = [
+  ["+91", "IN"], ["+971", "AE"], ["+966", "SA"], ["+974", "QA"], ["+968", "OM"], ["+965", "KW"], ["+973", "BH"],
+  ["+1", "US"], ["+1", "CA"], ["+44", "UK"], ["+61", "AU"], ["+64", "NZ"], ["+65", "SG"], ["+60", "MY"],
+  ["+66", "TH"], ["+62", "ID"], ["+977", "NP"], ["+975", "BT"], ["+880", "BD"], ["+94", "LK"], ["+960", "MV"],
+  ["+49", "DE"], ["+33", "FR"], ["+39", "IT"], ["+31", "NL"], ["+41", "CH"], ["+353", "IE"], ["+81", "JP"],
+  ["+82", "KR"], ["+86", "CN"], ["+852", "HK"], ["+27", "ZA"], ["+254", "KE"], ["+230", "MU"],
+];
+
 // Compact, high-intent enquiry form: trip first (destination, date, length,
 // group, hotel), contact last, optional details folded away. Travel date is
 // required so every lead carries a real plan.
@@ -48,6 +57,7 @@ export default function EnquiryForm({
   const [destinationId, setDestinationId] = useState(defaultDestinationId ?? "");
   const [cityId, setCityId] = useState(defaultCityId ?? "");
   const [hotel, setHotel] = useState(HOTEL_BANDS[1].value);
+  const [dialCode, setDialCode] = useState("+91");
   const [more, setMore] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -62,10 +72,19 @@ export default function EnquiryForm({
 
     const formEl = e.currentTarget;
     const form = new FormData(formEl);
-    const phone = String(form.get("phone") ?? "").replace(/\s+/g, "");
+    // Full international number: chosen country code + the number without
+    // spaces, dashes or a leading trunk 0 (a typed "+..." number is kept as is).
+    const typed = String(form.get("phone") ?? "").trim();
+    const digits = typed.replace(/\D/g, "").replace(/^0+/, "");
+    if (dialCode === "+91" && !typed.startsWith("+") && digits.length !== 10) {
+      setErrorMessage("Enter a 10-digit Indian mobile number, or choose your country code.");
+      setStatus("error");
+      return;
+    }
+    const phone = typed.startsWith("+") ? `+${typed.replace(/\D/g, "")}` : `${dialCode}${digits}`;
     const payload = {
       name: form.get("name"),
-      phone: /^\d{10}$/.test(phone) ? `+91${phone}` : phone,
+      phone,
       email: form.get("email") ?? "",
       originCity: form.get("originCity") ?? "",
       destinationId: form.get("destinationId"),
@@ -243,23 +262,6 @@ export default function EnquiryForm({
           <input id={id("name")} name="name" required minLength={2} autoComplete="name" placeholder="Your name" className={field} />
         </div>
         <div className="col-span-3">
-          <label className={label} htmlFor={id("phone")}>
-            Mobile (WhatsApp)
-          </label>
-          <input
-            id={id("phone")}
-            name="phone"
-            required
-            type="tel"
-            inputMode="tel"
-            autoComplete="tel"
-            pattern="[0-9+\-\s]{8,15}"
-            placeholder="10-digit mobile"
-            className={field}
-          />
-        </div>
-
-        <div className="col-span-6">
           <label className={label} htmlFor={id("email")}>
             Email
           </label>
@@ -273,6 +275,39 @@ export default function EnquiryForm({
             placeholder="you@example.com"
             className={field}
           />
+        </div>
+
+        <div className="col-span-6">
+          <label className={label} htmlFor={id("phone")}>
+            Mobile (WhatsApp)
+          </label>
+          <div className="flex">
+            <select
+              name="dialCode"
+              aria-label="Country code"
+              value={dialCode}
+              onChange={(e) => setDialCode(e.target.value)}
+              className={`${field.replace("w-full ", "")} w-[92px] shrink-0 rounded-r-none border-r-0 bg-zinc-50 px-2`}
+            >
+              {DIAL_CODES.map(([code, country]) => (
+                <option key={`${country}${code}`} value={code}>
+                  {country} {code}
+                </option>
+              ))}
+            </select>
+            <input
+              id={id("phone")}
+              name="phone"
+              required
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel-national"
+              pattern={dialCode === "+91" ? "[0-9\\s\\-]{10,13}" : "[0-9\\s\\-]{6,16}"}
+              title={dialCode === "+91" ? "10-digit mobile number" : "Mobile number without the country code"}
+              placeholder={dialCode === "+91" ? "10-digit mobile" : "Mobile number"}
+              className={`${field} min-w-0 flex-1 rounded-l-none`}
+            />
+          </div>
         </div>
 
         {more ? (

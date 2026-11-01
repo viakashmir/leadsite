@@ -248,7 +248,7 @@ export function PackageGrid({
 
 const durationLabel = (days: number) => (days > 1 ? `${days - 1}N / ${days}D` : `${days}D`);
 
-function DayList({ days, start = 0 }: { days: string[]; start?: number }) {
+export function DayList({ days, start = 0 }: { days: string[]; start?: number }) {
   return (
     <ol className="space-y-1.5 text-sm leading-relaxed text-ink">
       {days.map((day, i) => (

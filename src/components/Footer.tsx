@@ -33,6 +33,11 @@ export default function Footer() {
                 Find a Travel Agent
               </Link>
             </li>
+            <li>
+              <Link href="/blog" className="hover:text-white">
+                Travel Blog
+              </Link>
+            </li>
           </ul>
         </div>
         <div>
@@ -60,6 +65,7 @@ export default function Footer() {
         <Link href="/about-us" className="hover:text-white">About Us</Link>
         <Link href="/contact-us" className="hover:text-white">Contact Us</Link>
         <Link href="/editorial-policy" className="hover:text-white">Editorial Policy</Link>
+        <a href="/sitemap.xml" className="hover:text-white">Sitemap (XML)</a>
       </nav>
       <div className="border-t border-white/10 py-4 text-center text-xs text-white/50">
         © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.

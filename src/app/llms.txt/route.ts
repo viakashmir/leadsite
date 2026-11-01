@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import { guideUrl, tourPackagesUrl } from "@/lib/urls";
+import { BLOG_PATH, allPosts, postUrl } from "@/lib/blog";
 
 // llms.txt (llmstxt.org): a plain-markdown map of the site for AI assistants.
 // Lists only READY pages, the same set the sitemap exposes.
@@ -40,6 +41,10 @@ export async function GET() {
     "## Travel guides",
     ...destinations.map((d) => `- [${d.name} tourism guide](${u(guideUrl(d.slug))})`),
     ...cities.map((c) => `- [${c.name}, ${c.destination.name} travel guide](${u(guideUrl(c.destination.slug, c.slug))})`),
+    "",
+    "## Travel blog",
+    `- [Travel Blog](${u(BLOG_PATH)}): itineraries, honeymoon and family trip plans, best-time guides`,
+    ...allPosts().map((p) => `- [${p.title}](${u(postUrl(p.slug))}): ${p.description}`),
     "",
   ];
 
