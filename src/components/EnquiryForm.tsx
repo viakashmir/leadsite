@@ -11,7 +11,16 @@ export type DestinationOption = {
   cities: { id: string; slug?: string; name: string }[];
 };
 
-// Hotel category doubles as the budget signal agents price from.
+// Hotel category and per-person budget: agents price from both.
+const BUDGET_BANDS = [
+  { value: "", label: "Flexible" },
+  { value: "Under ₹15,000 per person", label: "Under 15k" },
+  { value: "₹15,000 to ₹25,000 per person", label: "15k to 25k" },
+  { value: "₹25,000 to ₹40,000 per person", label: "25k to 40k" },
+  { value: "₹40,000 to ₹60,000 per person", label: "40k to 60k" },
+  { value: "Above ₹60,000 per person", label: "60k+" },
+];
+
 const HOTEL_BANDS = [
   { value: "Economy (0-2 Star)", label: "Budget" },
   { value: "Standard (3-4 Star)", label: "3-4 Star" },
@@ -44,6 +53,7 @@ export default function EnquiryForm({
   title = "Get Free Quotes from Verified Travel Agents",
   bare = false,
   compact = false,
+  dense = false,
 }: {
   destinations: DestinationOption[];
   defaultDestinationId?: string;
@@ -51,17 +61,20 @@ export default function EnquiryForm({
   sourcePackageId?: string;
   title?: string;
   bare?: boolean; // no card chrome, for use inside a sheet
-  compact?: boolean; // tighter 5-row layout for the homepage hero
+  compact?: boolean; // tighter layout with the glass card, for the homepage hero
+  dense?: boolean; // the same tight layout on a plain card, for page sidebars
 }) {
-  const field = `${fieldBase} ${compact ? "h-9 rounded-md px-2 text-[13px]" : "h-10 rounded-lg px-2.5 text-sm"}`;
-  // Grid spans: 6 columns normally, 12 in the compact layout.
-  const span = (normal: string, tight: string) => (compact ? tight : normal);
+  const tight = compact || dense;
+  const field = `${fieldBase} ${tight ? "h-9 rounded-md px-2 text-[13px]" : "h-10 rounded-lg px-2.5 text-sm"}`;
+  // Grid spans: 6 columns normally, 12 in the tight layouts.
+  const span = (normal: string, tightSpan: string) => (tight ? tightSpan : normal);
   const uid = useId();
   const id = (name: string) => `${uid}-${name}`;
   // No default on general pages: the traveller must pick, so the lead names a real destination.
   const [destinationId, setDestinationId] = useState(defaultDestinationId ?? "");
   const [cityId, setCityId] = useState(defaultCityId ?? "");
   const [hotel, setHotel] = useState(HOTEL_BANDS[1].value);
+  const [budget, setBudget] = useState(BUDGET_BANDS[0].value);
   const [dialCode, setDialCode] = useState("+91");
   const [more, setMore] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -99,7 +112,8 @@ export default function EnquiryForm({
       durationDays: form.get("durationDays") || undefined,
       adults: form.get("adults") || 2,
       children: form.get("children") || 0,
-      budgetBand: hotel,
+      // e.g. "₹15,000 to ₹25,000 per person · Standard (3-4 Star)"
+      budgetBand: budget ? `${budget} · ${hotel}` : hotel,
       message: form.get("message") ?? "",
       website: form.get("website") ?? "",
     };
@@ -134,7 +148,9 @@ export default function EnquiryForm({
     ? ""
     : compact
       ? "rounded-2xl bg-white/95 p-4 shadow-2xl shadow-black/30 ring-1 ring-white/40 backdrop-blur"
-      : "rounded-[14px] border border-zinc-200 bg-white p-4 shadow-sm sm:p-5";
+      : dense
+        ? "rounded-xl border border-zinc-200 bg-white p-3.5 shadow-sm"
+        : "rounded-[14px] border border-zinc-200 bg-white p-4 shadow-sm sm:p-5";
 
   if (status === "success") {
     return (
@@ -229,7 +245,7 @@ export default function EnquiryForm({
           </select>
         </div>
 
-        <div className={span("col-span-2", "col-span-3")}>
+        <div className={span("col-span-1", "col-span-3")}>
           <label className={label} htmlFor={id("adults")}>
             Adults
           </label>
@@ -241,7 +257,7 @@ export default function EnquiryForm({
             ))}
           </select>
         </div>
-        <div className={span("col-span-2", "col-span-3")}>
+        <div className={span("col-span-1", "col-span-3")}>
           <label className={label} htmlFor={id("children")}>
             Kids
           </label>
@@ -254,7 +270,8 @@ export default function EnquiryForm({
           </select>
         </div>
         {compact ? (
-          // One tap instead of a dropdown.
+          // Hero: one tap for hotel, budget on its own row.
+          <>
           <div className="col-span-6" role="radiogroup" aria-labelledby={id("hotel")}>
             <span id={id("hotel")} className={label}>
               Hotel
@@ -276,7 +293,48 @@ export default function EnquiryForm({
               ))}
             </div>
           </div>
+          <div className="col-span-12">
+            <label className={label} htmlFor={id("budget")}>
+              Budget
+            </label>
+            <select id={id("budget")} value={budget} onChange={(e) => setBudget(e.target.value)} className={field}>
+              {BUDGET_BANDS.map((b) => (
+                <option key={b.label} value={b.value}>
+                  {b.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          </>
+        ) : dense ? (
+          <>
+          <div className="col-span-3">
+            <label className={label} htmlFor={id("hotel")}>
+              Hotel
+            </label>
+            <select id={id("hotel")} value={hotel} onChange={(e) => setHotel(e.target.value)} className={field}>
+              {HOTEL_BANDS.map((b) => (
+                <option key={b.value} value={b.value}>
+                  {b.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col-span-3">
+            <label className={label} htmlFor={id("budget")}>
+              Budget
+            </label>
+            <select id={id("budget")} value={budget} onChange={(e) => setBudget(e.target.value)} className={field}>
+              {BUDGET_BANDS.map((b) => (
+                <option key={b.label} value={b.value}>
+                  {b.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          </>
         ) : (
+          <>
           <div className="col-span-2">
             <label className={label} htmlFor={id("hotel")}>
               Hotel
@@ -289,6 +347,19 @@ export default function EnquiryForm({
               ))}
             </select>
           </div>
+          <div className="col-span-2">
+            <label className={label} htmlFor={id("budget")}>
+              Budget
+            </label>
+            <select id={id("budget")} value={budget} onChange={(e) => setBudget(e.target.value)} className={field}>
+              {BUDGET_BANDS.map((b) => (
+                <option key={b.label} value={b.value}>
+                  {b.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          </>
         )}
 
         <div className={span("col-span-3", "col-span-5")}>

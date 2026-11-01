@@ -238,6 +238,7 @@ export default async function PackagePage({
             defaultDestinationId={pkg.destinationId}
             defaultCityId={pkg.cityId ?? undefined}
             sourcePackageId={pkg.id}
+            dense
             title="Get a Custom Quote for this Package"
           />
         </div>

@@ -333,6 +333,7 @@ export async function QuoteBox({
         defaultDestinationId={destinationId}
         defaultCityId={cityId}
         title={title}
+        dense
       />
     </div>
   );
