@@ -16,6 +16,7 @@ import { CULTURE_CITIES, CULTURE_DESTINATIONS } from "./culture-north";
 import { GOA_CITIES, GOA_DESTINATION, GOA_PLACES } from "./goa";
 import { SOUTH_CITIES, SOUTH_DESTINATIONS, SOUTH_PLACES } from "./south-ka-kl";
 import { RJ_CITIES, RJ_DESTINATIONS, RJ_ORIGIN_COPY, RJ_PLACES } from "./rajasthan-delhi";
+import { KASHMIR_CITIES, KASHMIR_PLACES } from "./kashmir";
 
 // Supplements add FAQs, blocks and section copy on top of base content:
 // lists are appended, sections and packages are merged one level deep.
@@ -59,7 +60,7 @@ export const DESTINATION_CONTENT: Record<string, GuideContent> = Object.fromEntr
 // City slug -> guide content for /{dest}-tourism/{city} and its sections.
 export const CITY_CONTENT: Record<string, GuideContent> = mergeAll(
   mergeAll(
-    mergeAll({ ...MANALI_CITIES, ...HIMACHAL_CITIES, ...LADAKH_CITIES, ...GOA_CITIES, ...SOUTH_CITIES, ...RJ_CITIES }, { ...CITY_SUPPLEMENTS, ...LADAKH_CITY_SUPPLEMENTS }),
+    mergeAll({ ...MANALI_CITIES, ...HIMACHAL_CITIES, ...LADAKH_CITIES, ...GOA_CITIES, ...SOUTH_CITIES, ...RJ_CITIES, ...KASHMIR_CITIES }, { ...CITY_SUPPLEMENTS, ...LADAKH_CITY_SUPPLEMENTS }),
     CULTURE_CITIES,
   ),
   RJ_ORIGIN_COPY,
@@ -67,6 +68,6 @@ export const CITY_CONTENT: Record<string, GuideContent> = mergeAll(
 
 // Place path (e.g. "manali/places-to-visit/rohtang-pass") -> place page content.
 export const PLACE_CONTENT: Record<string, GuideContent> = mergeAll(
-  { ...MANALI_PLACES, ...HIMACHAL_PLACES, ...LADAKH_PLACES, ...GOA_PLACES, ...SOUTH_PLACES, ...RJ_PLACES },
+  { ...MANALI_PLACES, ...HIMACHAL_PLACES, ...LADAKH_PLACES, ...GOA_PLACES, ...SOUTH_PLACES, ...RJ_PLACES, ...KASHMIR_PLACES },
   PLACE_SUPPLEMENTS,
 );
