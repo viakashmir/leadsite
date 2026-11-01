@@ -14,6 +14,7 @@ import { PLANNING_GUIDES } from "./planning-guides";
 import { HIMACHAL_DEEP } from "./himachal-deep";
 import { KASHMIR_UPGRADES } from "./kashmir-deep";
 import { KASHMIR_UPGRADES_2 } from "./kashmir-deep-2";
+import { KASHMIR_UPGRADES_3 } from "./kashmir-deep-3";
 import { LADAKH_DEEP } from "./ladakh-deep";
 import { LADAKH_DEEP_2, LADAKH_UPGRADES } from "./ladakh-deep-2";
 import { FOCUS_BATCH_1 } from "./focus-batch-1";
@@ -49,7 +50,7 @@ const ALL_POSTS: BlogPost[] = [
 
 // Full rewrites keep the published slug, title and description and replace
 // the body, so the URL keeps its history while the page stops being thin.
-const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs">> = { ...KASHMIR_UPGRADES, ...KASHMIR_UPGRADES_2, ...HIMACHAL_UPGRADES, ...LADAKH_UPGRADES };
+const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs">> = { ...KASHMIR_UPGRADES, ...KASHMIR_UPGRADES_2, ...KASHMIR_UPGRADES_3, ...HIMACHAL_UPGRADES, ...LADAKH_UPGRADES };
 
 export const BLOG_POSTS: BlogPost[] = ALL_POSTS.filter((p) => !(p.slug in SUPERSEDED_POSTS)).map((p) =>
   UPGRADES[p.slug] ? { ...p, ...UPGRADES[p.slug] } : p,
