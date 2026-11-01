@@ -11,8 +11,15 @@ import { INTERNATIONAL_ASIA } from "./international-asia";
 import { INTERNATIONAL_WORLD } from "./international-world";
 import { WORLD_AND_ROUNDUPS } from "./world-and-roundups";
 import { PLANNING_GUIDES } from "./planning-guides";
+import { HIMACHAL_DEEP } from "./himachal-deep";
 
-export const BLOG_POSTS: BlogPost[] = [
+// Thin posts replaced by a full guide on the same topic; their URLs 301 to
+// the new post (next.config.ts redirects) so the two never compete in search.
+export const SUPERSEDED_POSTS: Record<string, string> = {
+  "manali-to-leh-road-trip-plan": "manali-to-leh-road-trip-guide",
+};
+
+const ALL_POSTS: BlogPost[] = [
   ...KASHMIR_CORE,
   ...KASHMIR_GUIDES,
   ...KASHMIR_LADAKH,
@@ -25,4 +32,7 @@ export const BLOG_POSTS: BlogPost[] = [
   ...INTERNATIONAL_WORLD,
   ...WORLD_AND_ROUNDUPS,
   ...PLANNING_GUIDES,
+  ...HIMACHAL_DEEP,
 ];
+
+export const BLOG_POSTS: BlogPost[] = ALL_POSTS.filter((p) => !(p.slug in SUPERSEDED_POSTS));

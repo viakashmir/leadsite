@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { INDEXNOW_KEY } from "./src/lib/site";
+import { SUPERSEDED_POSTS } from "./src/data/blog";
 
 // Baseline hardening for every response. A full script CSP is left out on
 // purpose: Razorpay Checkout injects its own scripts and frames.
@@ -46,6 +47,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Thin blog posts replaced by full guides on the same topic.
+      ...Object.entries(SUPERSEDED_POSTS).map(([from, to]) => ({
+        source: `/blog/${from}`,
+        destination: `/blog/${to}`,
+        permanent: true,
+      })),
       // WanderLeads-era URLs -> TravelTriangle-style structure.
       { source: "/destinations", destination: "/tour-packages", permanent: true },
       { source: "/destinations/jammu-and-kashmir", destination: "/tour-packages/kashmir", permanent: true },
