@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { getDestinationsWithCitiesAndLeadCounts, getMarketplaceStats, getSiteStats } from "@/lib/data";
+import { getLeadPricing, leadPrice } from "@/lib/leadPricing";
 import PackageCard from "@/components/PackageCard";
 import PlaceCard from "@/components/PlaceCard";
 import CardRow from "@/components/CardRow";
@@ -56,6 +57,7 @@ export default async function Home() {
     getSiteStats(),
     getMarketplaceStats(),
   ]);
+  const pricing = await getLeadPricing();
 
   // Leads agents can still buy first; sold-out ones after (they still show demand).
   const liveLeads = [...recentLeads].sort(
@@ -339,7 +341,7 @@ export default async function Home() {
                           href={`/login?next=/agent/dashboard/leads&lead=${lead.id}`}
                           className="shrink-0 rounded-md bg-brand px-3 py-2 text-xs font-semibold text-white hover:bg-brand-dark"
                         >
-                          Buy · {formatINR(lead.unlockPrice)}
+                          Buy · {formatINR(leadPrice(lead, pricing))}
                         </Link>
                       )}
                     </div>

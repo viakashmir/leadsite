@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { after } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { notifyLeadUnlocked } from "@/lib/email/agentNotifications";
+import { getLeadPricing, leadPrice } from "@/lib/leadPricing";
 import { requireAgent } from "@/lib/auth";
 import { slugify } from "@/lib/slug";
 import { agentPackageSchema } from "@/lib/validation";
@@ -19,6 +20,9 @@ export async function unlockLead(leadId: string): Promise<{ error?: string }> {
   if (agent.status !== "ACTIVE") {
     return { error: "Your account is awaiting verification. You can unlock leads once it is approved." };
   }
+
+  // Price comes from Admin -> Pricing (standard vs hot lead) at unlock time.
+  const pricing = await getLeadPricing();
 
   const result: { error?: string; unlocked?: boolean } = await prisma.$transaction(async (tx) => {
     // Row lock so concurrent unlocks of the same lead are serialised and the
@@ -48,20 +52,22 @@ export async function unlockLead(leadId: string): Promise<{ error?: string }> {
       return { error: "This lead has already been unlocked by the maximum number of agents" };
     }
 
+    const price = leadPrice(lead, pricing);
+
     // Conditional decrement: fails instead of going negative if two unlocks race.
     const charged = await tx.agent.updateMany({
-      where: { id: agent.id, credits: { gte: lead.unlockPrice } },
-      data: { credits: { decrement: lead.unlockPrice } },
+      where: { id: agent.id, credits: { gte: price } },
+      data: { credits: { decrement: price } },
     });
     if (charged.count === 0) return { error: "Not enough credits. Please top up your wallet." };
 
     await tx.leadUnlock.create({
-      data: { agentId: agent.id, leadId, creditsSpent: lead.unlockPrice },
+      data: { agentId: agent.id, leadId, creditsSpent: price },
     });
     await tx.creditTransaction.create({
       data: {
         agentId: agent.id,
-        amount: -lead.unlockPrice,
+        amount: -price,
         type: "UNLOCK_SPEND",
         note: `Unlocked lead ${leadId}`,
       },
@@ -71,7 +77,7 @@ export async function unlockLead(leadId: string): Promise<{ error?: string }> {
         leadId,
         type: "UNLOCKED",
         actor: agent.companyName,
-        detail: `Contact unlocked for ${lead.unlockPrice} credits`,
+        detail: `Contact unlocked for ${price} credits`,
       },
     });
     return { unlocked: true };

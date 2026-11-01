@@ -215,6 +215,36 @@ export async function deleteLeads(formData: FormData): Promise<{ deleted: number
   return { deleted: removed.count };
 }
 
+export async function updateLeadPricing(_prev: { error?: string; ok?: boolean }, formData: FormData): Promise<{ error?: string; ok?: boolean }> {
+  const admin = await requireAdmin();
+  const num = (k: string) => Number(formData.get(k));
+  const standardPrice = num("standardPrice");
+  const hotPrice = num("hotPrice");
+  const hotMinTravellers = num("hotMinTravellers");
+
+  if (![standardPrice, hotPrice].every((n) => Number.isInteger(n) && n >= 1 && n <= 100000)) {
+    return { error: "Prices must be whole numbers between 1 and 100000 credits." };
+  }
+  if (!Number.isInteger(hotMinTravellers) || hotMinTravellers < 2 || hotMinTravellers > 50) {
+    return { error: "Hot lead group size must be a whole number between 2 and 50." };
+  }
+
+  try {
+    await prisma.leadPricing.upsert({
+      where: { id: "default" },
+      create: { id: "default", standardPrice, hotPrice, hotMinTravellers, updatedBy: admin.name },
+      update: { standardPrice, hotPrice, hotMinTravellers, updatedBy: admin.name },
+    });
+  } catch {
+    return { error: "Couldn't save. The LeadPricing table is missing: apply the latest database migration first." };
+  }
+
+  revalidatePath("/admin/pricing");
+  revalidatePath("/admin/leads");
+  revalidatePath("/agent/dashboard/leads");
+  return { ok: true };
+}
+
 function validateCreditPackNumbers(v: { amountINR: number; baseCredits: number; bonusCredits: number; sortOrder: number }) {
   if (!Number.isInteger(v.amountINR) || v.amountINR < 1 || v.amountINR > 10_000_000) return "Price must be a whole rupee amount";
   if (!Number.isInteger(v.baseCredits) || v.baseCredits < 1) return "Credits must be a positive whole number";

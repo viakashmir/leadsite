@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import LeadCard from "@/components/LeadCard";
+import { getLeadPricing, leadPrice } from "@/lib/leadPricing";
 import { maskContactsInText, maskEmail, maskName, maskPhone } from "@/lib/mask";
 import JsonLd from "@/components/JsonLd";
 import { SITE_URL } from "@/lib/site";
@@ -58,6 +59,7 @@ export default async function CityLeadsPage({
 }: {
   params: Promise<{ destinationSlug: string; citySlug: string }>;
 }) {
+  const pricing = await getLeadPricing();
   const { destinationSlug, citySlug } = await params;
   const data = await getData(destinationSlug, citySlug);
   if (!data) notFound();
@@ -141,7 +143,7 @@ export default async function CityLeadsPage({
               verified: lead.verified,
               status: lead.status,
               createdAt: lead.createdAt,
-              unlockPrice: lead.unlockPrice,
+              unlockPrice: leadPrice(lead, pricing),
               unlockCount: lead._count.unlocks,
               maxUnlocks: lead.maxUnlocks,
             }}

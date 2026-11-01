@@ -150,11 +150,13 @@ export function LeadCardShell({
   lead,
   id,
   focused = false,
+  hot = false,
   children,
 }: {
   lead: LeadTrip;
   id?: string;
   focused?: boolean;
+  hot?: boolean;
   children: React.ReactNode;
 }) {
   const place = lead.cityName ?? lead.destinationName;
@@ -172,7 +174,14 @@ export function LeadCardShell({
       }`}
     >
       <div className="flex items-start justify-between gap-3">
-        <h3 className="text-[15px] font-semibold leading-snug text-ink">{title}</h3>
+        <h3 className="text-[15px] font-semibold leading-snug text-ink">
+          {title}
+          {hot && (
+            <span className="ml-2 inline-block rounded-full bg-orange-100 px-2 py-0.5 align-middle text-[11px] font-semibold text-orange-700">
+              Hot lead
+            </span>
+          )}
+        </h3>
         <div className="flex shrink-0 items-center gap-2">
           {lead.status === "BOOKED" && (
             <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-medium text-zinc-500">Booked</span>

@@ -492,3 +492,15 @@ model MediaAsset {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
+
+// Lead unlock pricing, set by admins on Admin -> Pricing. One row (id
+// "default"). A lead whose adults + children reach hotMinTravellers is a hot
+// lead; the price is read when an agent unlocks, so changes apply at once.
+model LeadPricing {
+  id               String   @id @default("default")
+  standardPrice    Int      @default(100)
+  hotPrice         Int      @default(200)
+  hotMinTravellers Int      @default(4)
+  updatedBy        String?
+  updatedAt        DateTime @updatedAt
+}

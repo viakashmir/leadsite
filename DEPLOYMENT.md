@@ -84,6 +84,14 @@ DATABASE_URL="<production DATABASE_URL>" npx prisma migrate deploy
 DATABASE_URL="<production DATABASE_URL>" npm run db:seed
 ```
 
+### Later schema changes
+
+New migrations land in `prisma/migrations/`. Apply them to production before
+(or right after) deploying the code, either with `./scripts/deploy-db.sh` or by
+pasting the new `migration.sql` into Supabase's SQL Editor. For example
+`20261102000000_lead_pricing` creates the table behind Admin -> Lead Pricing;
+until it exists, unlocks use the default prices (100 standard / 200 hot).
+
 ## 6. Register the Razorpay webhook
 
 Once you have a live URL:

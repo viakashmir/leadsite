@@ -5,6 +5,7 @@ import { maskContactsInText, maskEmail, maskName, maskPhone } from "@/lib/mask";
 import UnlockButton from "@/components/agent/UnlockButton";
 import { buyersLeft, HiddenContact, SoldOutBadge } from "@/components/LeadContact";
 import { LeadCardShell, LeadPerson } from "@/components/LeadCard";
+import { getLeadPricing, isHotLead, leadPrice } from "@/lib/leadPricing";
 
 export default async function AgentLeadsPage({ searchParams }: { searchParams: Promise<{ lead?: string }> }) {
   const agent = await requireAgent();
@@ -16,6 +17,7 @@ export default async function AgentLeadsPage({ searchParams }: { searchParams: P
   });
   const destinationIds = destinationLinks.map((d) => d.destinationId);
 
+  const pricing = await getLeadPricing();
   const leads = await prisma.lead.findMany({
     where: { destinationId: { in: destinationIds } },
     include: {
@@ -92,7 +94,7 @@ export default async function AgentLeadsPage({ searchParams }: { searchParams: P
           const tel = lead.phone.replace(/[^\d+]/g, "");
 
           return (
-            <LeadCardShell key={lead.id} id={`lead-${lead.id}`} focused={focused} lead={trip}>
+            <LeadCardShell key={lead.id} id={`lead-${lead.id}`} focused={focused} hot={isHotLead(lead, pricing)} lead={trip}>
               {purchased ? (
                 <>
                   <LeadPerson name={lead.name} lines={[lead.phone, lead.email]} verified={lead.verified} highlight />
@@ -122,7 +124,7 @@ export default async function AgentLeadsPage({ searchParams }: { searchParams: P
                     <SoldOutBadge />
                   ) : (
                     <div className="flex flex-col items-end gap-1">
-                      <UnlockButton leadId={lead.id} price={lead.unlockPrice} />
+                      <UnlockButton leadId={lead.id} price={leadPrice(lead, pricing)} />
                       <span className="text-[10px] text-zinc-400">
                         {left} of {lead.maxUnlocks} left
                       </span>

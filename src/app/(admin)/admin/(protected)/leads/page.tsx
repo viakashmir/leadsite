@@ -5,6 +5,7 @@ import ConfirmDeleteForm from "@/components/admin/ConfirmDeleteForm";
 import LeadStatusBadge from "@/components/admin/LeadStatusBadge";
 import { formatDate } from "@/lib/format";
 import { properCase } from "@/lib/text";
+import { getLeadPricing, isHotLead, leadPrice } from "@/lib/leadPricing";
 import { deleteLead, deleteLeads } from "@/lib/adminActions";
 import { BulkDeleteBar, SelectAllCheckbox } from "@/components/admin/BulkLeadSelect";
 
@@ -26,7 +27,7 @@ export default async function AdminLeadsPage({
   const { status, destinationId, q } = await searchParams;
   const search = q?.trim().slice(0, 100);
 
-  const [destinations, leads, counts] = await Promise.all([
+  const [destinations, leads, counts, pricing] = await Promise.all([
     prisma.destination.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } }),
     prisma.lead.findMany({
       where: {
@@ -48,6 +49,7 @@ export default async function AdminLeadsPage({
       take: 200,
     }),
     prisma.lead.groupBy({ by: ["status"], _count: { _all: true } }),
+    getLeadPricing(),
   ]);
 
   const countFor = (s: string) =>
@@ -121,7 +123,7 @@ export default async function AdminLeadsPage({
               <th className="px-3 py-2">Trip</th>
               <th className="hidden px-3 py-2 md:table-cell">Travel</th>
               <th className="px-3 py-2">Status</th>
-              <th className="hidden px-3 py-2 lg:table-cell">Unlocks</th>
+              <th className="hidden px-3 py-2 lg:table-cell">Unlocks · Price</th>
               <th className="hidden px-3 py-2 lg:table-cell">Posted</th>
               <th className="px-3 py-2 text-right">
                 <span className="sr-only">Actions</span>
@@ -167,9 +169,15 @@ export default async function AdminLeadsPage({
                 </td>
                 <td className="px-3 py-2">
                   <LeadStatusBadge status={lead.status} />
+                  {isHotLead(lead, pricing) && (
+                    <span className="ml-1 inline-block rounded-full bg-orange-100 px-2 py-0.5 text-[11px] font-semibold text-orange-700">
+                      Hot
+                    </span>
+                  )}
                 </td>
                 <td className="hidden px-3 py-2 text-xs text-zinc-600 lg:table-cell">
                   {lead._count.unlocks}/{lead.maxUnlocks}
+                  <div className="text-zinc-400">{leadPrice(lead, pricing)} cr</div>
                 </td>
                 <td className="hidden whitespace-nowrap px-3 py-2 text-xs text-zinc-500 lg:table-cell">{formatDate(lead.createdAt)}</td>
                 <td className="px-3 py-2">
