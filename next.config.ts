@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { INDEXNOW_KEY } from "./src/lib/site";
 
 const nextConfig: NextConfig = {
   images: {
@@ -6,6 +7,10 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "pixabay.com" },
       { protocol: "https", hostname: "cdn.pixabay.com" },
     ],
+  },
+  // IndexNow expects the key at /{key}.txt on the site root.
+  async rewrites() {
+    return [{ source: `/${INDEXNOW_KEY}.txt`, destination: "/indexnow.txt" }];
   },
   async redirects() {
     return [

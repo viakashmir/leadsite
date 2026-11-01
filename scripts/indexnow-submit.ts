@@ -15,7 +15,7 @@ async function main() {
     const res = await fetch("https://api.indexnow.org/indexnow", {
       method: "POST",
       headers: { "Content-Type": "application/json; charset=utf-8" },
-      body: JSON.stringify({ host, key: INDEXNOW_KEY, keyLocation: `${site}/indexnow.txt`, urlList: urls.slice(i, i + 10000) }),
+      body: JSON.stringify({ host, key: INDEXNOW_KEY, keyLocation: `${site}/${INDEXNOW_KEY}.txt`, urlList: urls.slice(i, i + 10000) }),
     });
     console.log(`IndexNow: ${Math.min(i + 10000, urls.length)}/${urls.length} URLs -> HTTP ${res.status}`);
   }

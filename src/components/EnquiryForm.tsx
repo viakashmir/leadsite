@@ -18,8 +18,8 @@ const HOTEL_BANDS = [
 ];
 
 const field =
-  "w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm text-ink outline-none transition placeholder:text-zinc-400 focus:border-gold focus:ring-2 focus:ring-gold-soft";
-const label = "mb-1 block text-xs font-semibold text-ink-soft";
+  "h-10 w-full rounded-lg border border-zinc-300 bg-white px-2.5 text-sm text-ink outline-none transition placeholder:text-zinc-400 focus:border-gold focus:ring-2 focus:ring-gold-soft";
+const label = "mb-0.5 block text-[11px] font-semibold text-ink-soft";
 
 const todayIso = () => new Date().toISOString().slice(0, 10);
 
@@ -112,15 +112,19 @@ export default function EnquiryForm({
     );
   }
 
+  const hasCities = Boolean(selectedDestination && selectedDestination.cities.length > 0);
+
+  // Five short rows, sized so the whole form (and its button) fits beside the
+  // content on a laptop screen and inside one phone screen.
   return (
     <form onSubmit={handleSubmit} className={card} aria-label="Get free quotes">
-      <p className="font-display text-[22px] font-bold leading-tight text-ink">{titleCase(title)}</p>
-      <p className="mt-1 text-xs text-ink-soft">
+      <p className="font-display text-[20px] font-bold leading-tight text-ink">{titleCase(title)}</p>
+      <p className="mt-0.5 text-[11px] text-ink-soft">
         <span className="font-semibold text-brand">Free</span> · No booking fee · Up to 3 quotes
       </p>
 
-      <div className="mt-4 grid grid-cols-2 gap-2.5">
-        <div className={selectedDestination?.cities.length ? "" : "col-span-2"}>
+      <div className="mt-3 grid grid-cols-6 gap-x-2 gap-y-2">
+        <div className={hasCities ? "col-span-3" : "col-span-6"}>
           <label className={label} htmlFor={id("dest")}>
             Destination
           </label>
@@ -136,7 +140,7 @@ export default function EnquiryForm({
             className={field}
           >
             <option value="" disabled>
-              Choose a destination
+              Choose
             </option>
             {destinations.map((d) => (
               <option key={d.id} value={d.id}>
@@ -145,14 +149,14 @@ export default function EnquiryForm({
             ))}
           </select>
         </div>
-        {selectedDestination && selectedDestination.cities.length > 0 && (
-          <div>
+        {hasCities && (
+          <div className="col-span-3">
             <label className={label} htmlFor={id("city")}>
               Place
             </label>
             <select id={id("city")} name="cityId" value={cityId} onChange={(e) => setCityId(e.target.value)} className={field}>
               <option value="">Anywhere</option>
-              {selectedDestination.cities.map((c) => (
+              {selectedDestination!.cities.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.name}
                 </option>
@@ -161,13 +165,13 @@ export default function EnquiryForm({
           </div>
         )}
 
-        <div>
+        <div className="col-span-3">
           <label className={label} htmlFor={id("date")}>
             Travel date
           </label>
           <input id={id("date")} name="travelDate" type="date" required min={todayIso()} className={field} />
         </div>
-        <div>
+        <div className="col-span-3">
           <label className={label} htmlFor={id("days")}>
             Days
           </label>
@@ -180,7 +184,7 @@ export default function EnquiryForm({
           </select>
         </div>
 
-        <div>
+        <div className="col-span-2">
           <label className={label} htmlFor={id("adults")}>
             Adults
           </label>
@@ -192,9 +196,9 @@ export default function EnquiryForm({
             ))}
           </select>
         </div>
-        <div>
+        <div className="col-span-2">
           <label className={label} htmlFor={id("children")}>
-            Children
+            Kids
           </label>
           <select id={id("children")} name="children" defaultValue="0" className={field}>
             {Array.from({ length: 7 }, (_, i) => i).map((n) => (
@@ -204,56 +208,43 @@ export default function EnquiryForm({
             ))}
           </select>
         </div>
-
-        <fieldset className="col-span-2">
-          <legend className={label}>Hotel</legend>
-          <div className="grid grid-cols-3 gap-1.5">
-            {HOTEL_BANDS.map((b) => (
-              <button
-                key={b.value}
-                type="button"
-                aria-pressed={hotel === b.value}
-                onClick={() => setHotel(b.value)}
-                className={`rounded-lg border px-2 py-2 text-[13px] font-semibold transition ${
-                  hotel === b.value
-                    ? "border-royal bg-royal text-white"
-                    : "border-zinc-300 bg-white text-ink hover:border-gold"
-                }`}
-              >
-                {b.label}
-              </button>
-            ))}
-          </div>
-        </fieldset>
-
         <div className="col-span-2">
-          <label className={label} htmlFor={id("name")}>
-            Your name
+          <label className={label} htmlFor={id("hotel")}>
+            Hotel
           </label>
-          <input id={id("name")} name="name" required minLength={2} autoComplete="name" placeholder="Full name" className={field} />
+          <select id={id("hotel")} value={hotel} onChange={(e) => setHotel(e.target.value)} className={field}>
+            {HOTEL_BANDS.map((b) => (
+              <option key={b.value} value={b.value}>
+                {b.label}
+              </option>
+            ))}
+          </select>
         </div>
-        <div className="col-span-2">
+
+        <div className="col-span-3">
+          <label className={label} htmlFor={id("name")}>
+            Name
+          </label>
+          <input id={id("name")} name="name" required minLength={2} autoComplete="name" placeholder="Your name" className={field} />
+        </div>
+        <div className="col-span-3">
           <label className={label} htmlFor={id("phone")}>
             Mobile (WhatsApp)
           </label>
-          <div className="flex">
-            <span className="flex items-center rounded-l-lg border border-r-0 border-zinc-300 bg-ivory px-2.5 text-sm text-ink-soft">
-              +91
-            </span>
-            <input
-              id={id("phone")}
-              name="phone"
-              required
-              inputMode="tel"
-              autoComplete="tel-national"
-              pattern="[0-9+\-\s]{8,15}"
-              placeholder="10-digit mobile"
-              className={`${field} rounded-l-none`}
-            />
-          </div>
+          <input
+            id={id("phone")}
+            name="phone"
+            required
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            pattern="[0-9+\-\s]{8,15}"
+            placeholder="10-digit mobile"
+            className={field}
+          />
         </div>
 
-        <div className="col-span-2">
+        <div className="col-span-6">
           <label className={label} htmlFor={id("email")}>
             Email
           </label>
@@ -264,43 +255,43 @@ export default function EnquiryForm({
             required
             autoComplete="email"
             inputMode="email"
-            placeholder="For your itineraries and quotes"
+            placeholder="you@example.com"
             className={field}
           />
         </div>
 
         {more ? (
           <>
-            <input name="originCity" placeholder="Travelling from (city)" className={`${field} col-span-2`} />
+            <input name="originCity" placeholder="Travelling from (city)" className={`${field} col-span-6`} />
             <textarea
               name="message"
               rows={2}
-              placeholder="Anything else? e.g. honeymoon, senior citizens, specific hotels"
-              className={`${field} col-span-2`}
+              placeholder="Anything else? e.g. honeymoon, senior citizens"
+              className={`${field} col-span-6 h-auto py-2`}
             />
           </>
         ) : (
           <button
             type="button"
             onClick={() => setMore(true)}
-            className="col-span-2 justify-self-start text-xs font-semibold text-brand hover:underline"
+            className="col-span-6 justify-self-start text-[11px] font-semibold text-brand hover:underline"
           >
-            + Add departure city or a note
+            + Departure city or a note (optional)
           </button>
         )}
       </div>
 
-      {errorMessage && <p className="mt-3 text-sm text-red-700">{errorMessage}</p>}
+      {errorMessage && <p className="mt-2 text-sm text-red-700">{errorMessage}</p>}
 
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-4 w-full rounded-full bg-brand py-3 text-sm font-semibold tracking-wide text-white shadow-sm transition hover:bg-brand-dark disabled:opacity-60"
+        className="mt-3 w-full rounded-full bg-brand py-2.5 text-sm font-semibold tracking-wide text-white shadow-sm transition hover:bg-brand-dark disabled:opacity-60"
       >
         {status === "submitting" ? "Sending..." : "Get Free Quotes"}
       </button>
-      <p className="mt-2 text-center text-[11px] leading-snug text-ink-soft">
-        Your number is shared only with up to 3 verified agents for this trip.
+      <p className="mt-1.5 text-center text-[11px] leading-snug text-ink-soft">
+        Shared only with up to 3 verified agents for this trip.
       </p>
     </form>
   );
