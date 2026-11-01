@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
+import { WELCOME_CREDITS } from "@/lib/credits";
 import { prisma } from "@/lib/prisma";
 import { setAgentSessionCookie, clearAgentSessionCookie } from "@/lib/auth";
 import { setAdminSessionCookie, clearAdminSessionCookie } from "@/lib/adminAuth";
@@ -17,7 +18,7 @@ export const ADMIN_HOME = "/admin/agents";
 export const AGENT_HOME = "/agent/dashboard/profile";
 export const AGENT_ONBOARDING = "/agent/onboarding";
 
-const SIGNUP_BONUS_CREDITS = 500;
+const SIGNUP_BONUS_CREDITS = WELCOME_CREDITS;
 
 /** Comma-separated ADMIN_EMAILS, lower-cased. */
 export function adminEmailAllowlist(): string[] {

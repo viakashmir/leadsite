@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { WELCOME_CREDITS } from "@/lib/credits";
 import { prisma } from "@/lib/prisma";
 import { agentRegisterSchema } from "@/lib/validation";
 import { AGENT_HOME, findAdminByEmail, startSession } from "@/lib/signIn";
 import { clientIp, hit, tooManyRequests } from "@/lib/rateLimit";
 
-const SIGNUP_BONUS_CREDITS = 500;
+const SIGNUP_BONUS_CREDITS = WELCOME_CREDITS;
 
 export async function POST(req: NextRequest) {
   // Each signup carries bonus credits, so throttle mass account creation.

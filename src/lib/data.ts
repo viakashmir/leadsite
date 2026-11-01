@@ -15,6 +15,18 @@ export async function getDestinationsWithCitiesAndLeadCounts(filter: { tier?: nu
   });
 }
 
+/** Real marketplace numbers for the homepage; nothing here is estimated. */
+export async function getMarketplaceStats() {
+  const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  const [leads30d, activeAgents, destinationsWithLeads, avgPrice] = await Promise.all([
+    prisma.lead.count({ where: { createdAt: { gte: since } } }),
+    prisma.agent.count({ where: { status: "ACTIVE" } }),
+    prisma.destination.count({ where: { leads: { some: { createdAt: { gte: since } } } } }),
+    prisma.lead.aggregate({ _min: { unlockPrice: true } }),
+  ]);
+  return { leads30d, activeAgents, destinationsWithLeads, minLeadPrice: avgPrice._min.unlockPrice ?? 100 };
+}
+
 export async function getSiteStats() {
   const [leadCount, agentCount, packageCount, destinationCount] = await Promise.all([
     prisma.lead.count(),
