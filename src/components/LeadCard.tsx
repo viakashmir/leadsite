@@ -79,7 +79,7 @@ export default function LeadCard({ lead }: { lead: LeadCardData }) {
         </div>
         <Link
           href={`/agent/login?next=/agent/dashboard/leads&lead=${lead.id}`}
-          className="rounded-md bg-blue-700 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-800"
+          className="rounded-md bg-brand px-3 py-2 text-xs font-semibold text-white hover:bg-brand-dark"
         >
           Request a Call for Free Contact
         </Link>

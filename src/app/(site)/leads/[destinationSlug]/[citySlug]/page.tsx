@@ -100,7 +100,7 @@ export default async function CityLeadsPage({
       <div className="mt-4 flex flex-wrap gap-2 border-b border-zinc-200 pb-4">
         <Link
           href={`/leads/${destination.slug}`}
-          className="rounded-full border border-zinc-300 px-3 py-1 text-xs font-medium text-zinc-700 hover:border-blue-600 hover:text-blue-700"
+          className="rounded-full border border-zinc-300 px-3 py-1 text-xs font-medium text-zinc-700 hover:border-brand hover:text-brand"
         >
           All
         </Link>
@@ -110,8 +110,8 @@ export default async function CityLeadsPage({
             href={`/leads/${destination.slug}/${c.slug}`}
             className={
               c.slug === city.slug
-                ? "rounded-full bg-blue-700 px-3 py-1 text-xs font-semibold text-white"
-                : "rounded-full border border-zinc-300 px-3 py-1 text-xs font-medium text-zinc-700 hover:border-blue-600 hover:text-blue-700"
+                ? "rounded-full bg-brand px-3 py-1 text-xs font-semibold text-white"
+                : "rounded-full border border-zinc-300 px-3 py-1 text-xs font-medium text-zinc-700 hover:border-brand hover:text-brand"
             }
           >
             {c.name}

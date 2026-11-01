@@ -652,6 +652,8 @@ export const GUIDE_SECTIONS = [
   { slug: "best-time-to-visit", name: "Best Time to Visit" },
   { slug: "how-to-reach", name: "How to Reach" },
   { slug: "travel-guide-tips", name: "Travel Tips" },
+  { slug: "local-food", name: "Food to Try" },
+  { slug: "culture-and-heritage", name: "Culture & Heritage" },
 ] as const;
 
 export function slugify(value: string): string {

@@ -28,7 +28,7 @@ export default async function LeadsIndexPage() {
           <Link
             key={d.id}
             href={`/leads/${d.slug}`}
-            className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white p-4 shadow-sm hover:border-blue-400"
+            className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white p-4 shadow-sm hover:border-gold"
           >
             <span className="font-medium text-zinc-900">{d.name}</span>
             <span className="text-sm text-zinc-500">{d._count.leads} leads</span>

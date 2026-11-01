@@ -16,14 +16,14 @@ export default function EditorialPolicyPage() {
   return (
     <InfoPage path="/editorial-policy" title={title} description={description} type="WebPage">
       <section>
-        <h2>Who writes our guides</h2>
+        <h2>Who Writes Our Guides</h2>
         <p>
           Every destination, place and travel guide on {SITE_NAME} is written and reviewed by the {EDITORIAL_TEAM}.
           Each guide shows the date it was last updated at the top of the page.
         </p>
       </section>
       <section>
-        <h2>Sources we use</h2>
+        <h2>Sources We Use</h2>
         <ul>
           <li>Official state and national tourism department websites for attractions, timings and permits.</li>
           <li>Indian Railways, airport operators and state transport corporations for routes and connections.</li>
@@ -33,7 +33,7 @@ export default function EditorialPolicyPage() {
         </ul>
       </section>
       <section>
-        <h2>Accuracy and updates</h2>
+        <h2>Accuracy and Updates</h2>
         <ul>
           <li>We state distances, timings and fees only when an official or primary source supports them.</li>
           <li>Prices change by season and operator, so guides link to live agent quotes instead of quoting fixed package prices.</li>

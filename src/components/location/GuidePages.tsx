@@ -101,7 +101,10 @@ function names(r: GuideRoute) {
         : r.section === "travel-guide-tips"
           ? `${where} Travel Tips`
           : `${sectionName(r.section)} in ${where}`;
-    return { where, title: r.section === "best-time-to-visit" ? `Best Time to Visit ${where}` : t };
+    if (r.section === "best-time-to-visit") return { where, title: `Best Time to Visit ${where}` };
+    if (r.section === "local-food") return { where, title: `Famous Food of ${where}: Local Dishes to Try` };
+    if (r.section === "culture-and-heritage") return { where, title: `Culture and Heritage of ${where}` };
+    return { where, title: t };
   }
   if (r.kind === "route") return { where, title: `${routeTitle(r.route)} Distance and How to Reach` };
   return { where, title: `${r.place.name}, ${where}` };
@@ -124,6 +127,9 @@ async function indexable(r: GuideRoute) {
       );
     case "travel-guide-tips":
       return Boolean(c.thingsToKnow?.length || c.sections?.["travel-guide-tips"]?.intro);
+    case "local-food":
+    case "culture-and-heritage":
+      return Boolean(c.sections?.[r.section]?.intro);
     case "places-to-visit":
     case "things-to-do": {
       const kind = r.section === "places-to-visit" ? "PLACE" : "ACTIVITY";
@@ -147,6 +153,8 @@ const SECTION_DESCRIPTIONS: Record<SectionSlug, (where: string) => string> = {
   "things-to-do": (w) => `Things to do in ${w}: activities, experiences and day trips, with customised packages from verified local agents.`,
   "best-time-to-visit": (w) => `Best time to visit ${w}: season-by-season weather, festivals and what each part of the year is good for.`,
   "how-to-reach": (w) => `How to reach ${w} by air, train and road, with nearest airports, railheads, distances and local transport.`,
+  "local-food": (w) => `Famous food of ${w}: local dishes, street food, sweets and drinks to try, and where to eat them.`,
+  "culture-and-heritage": (w) => `Culture and heritage of ${w}: history, festivals, people, languages, crafts, monuments and customs to respect.`,
   "travel-guide-tips": (w) => `${w} travel tips: permits, local rules, connectivity and practical advice to know before you go.`,
 };
 
@@ -390,6 +398,12 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
           )}
         </>
       );
+    } else if (r.section === "local-food" || r.section === "culture-and-heritage") {
+      main = (
+        <Section title={title}>
+          {sec?.intro ? <Prose text={sec.intro} /> : <ContentPending topic={title.toLowerCase()} />}
+        </Section>
+      );
     } else {
       main = (
         <Section title={title}>
@@ -472,7 +486,7 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
         }
       >
         <div className="mt-5">
-          <ChipLinks links={sectionLinks} />
+          <ChipLinks links={sectionLinks} scroll />
         </div>
       </PageHero>
       <TwoColumn

@@ -41,55 +41,56 @@ export default async function Home() {
         })}
       />
 
-      <section className="bg-gradient-to-b from-blue-700 to-blue-500 py-14 text-white">
-        <div className="mx-auto max-w-6xl px-4">
-          <h1 className="max-w-2xl text-3xl font-bold sm:text-4xl">
-            Discover &amp; Book Your Perfect Holiday
-          </h1>
-          <p className="mt-3 max-w-xl text-blue-100">
-            Compare verified tour packages, get quotes from trusted travel agents, across India
-            and worldwide.
+      <section className="relative overflow-hidden bg-gradient-to-br from-royal via-royal to-royal-2 text-white">
+        <div className="mx-auto max-w-6xl px-4 pb-9 pt-8 sm:pb-14 sm:pt-14">
+          <p className="text-xs font-semibold text-gold-soft">
+            India &amp; worldwide holidays
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <h1 className="mt-3 max-w-2xl font-display text-[34px] font-bold leading-[1.08] sm:text-[52px]">
+            Tour Packages, Planned by Verified Local Experts
+          </h1>
+          <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/80 sm:text-base">
+            Share your trip once. Up to 3 verified agents who know the destination send customised
+            itineraries and quotes, and you choose the one you like.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-2.5">
             <Link
               href="/tour-packages"
-              className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-50"
+              className="rounded-full bg-gold px-5 py-2.5 text-sm font-semibold text-royal shadow-sm hover:bg-gold-soft"
             >
-              Browse Destinations
+              Explore Destinations
             </Link>
             <Link
               href="/agent/register"
-              className="rounded-full border border-white/60 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/10"
+              className="rounded-full border border-white/40 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/10"
             >
               I&apos;m a Travel Agent
             </Link>
           </div>
         </div>
+        <div className="h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
       </section>
 
-      <section className="border-b border-zinc-100 bg-white py-8">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 text-center sm:grid-cols-4">
-          <div>
-            <p className="text-2xl font-bold text-blue-700">{stats.leadCount}+</p>
-            <p className="text-xs text-zinc-500">Verified Travel Leads</p>
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-blue-700">{stats.agentCount}+</p>
-            <p className="text-xs text-zinc-500">Travel Agents Onboard</p>
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-blue-700">{stats.packageCount}+</p>
-            <p className="text-xs text-zinc-500">Tour Packages Listed</p>
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-blue-700">{stats.destinationCount}+</p>
-            <p className="text-xs text-zinc-500">Destinations Covered</p>
-          </div>
-        </div>
+      <section className="bg-ivory">
+        <dl className="mx-auto grid max-w-6xl grid-cols-2 gap-y-4 px-4 py-6 text-center sm:grid-cols-4">
+          {[
+            [stats.leadCount, "Travel enquiries"],
+            [stats.agentCount, "Verified agents"],
+            [stats.packageCount, "Tour packages"],
+            [stats.destinationCount, "Destinations"],
+          ]
+            .filter(([n]) => Number(n) > 0)
+            .map(([n, label]) => (
+              <div key={label} className="flex flex-col-reverse">
+                <dt className="text-xs font-semibold text-ink-soft">{label}</dt>
+                <dd className="font-display text-3xl font-bold text-ink">{n}+</dd>
+              </div>
+            ))}
+        </dl>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-10">
-        <h2 className="text-xl font-bold text-zinc-900">Explore the Best Tourist Destinations</h2>
+        <h2 className="font-display text-[28px] font-bold leading-tight text-ink sm:text-[32px]">Explore the Best Tourist Destinations</h2>
         <p className="mt-1 text-sm text-zinc-600">
           Experience the magic of India&apos;s rich heritage and top holiday destinations worldwide.
         </p>
@@ -107,11 +108,11 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-zinc-50 py-10">
+      <section className="bg-ivory py-10">
         <div className="mx-auto max-w-6xl px-4">
-          <h2 className="text-xl font-bold text-zinc-900">Popular Tour Packages</h2>
+          <h2 className="font-display text-[28px] font-bold leading-tight text-ink sm:text-[32px]">Popular Tour Packages</h2>
           <p className="mt-1 text-sm text-zinc-600">
-            Hand-picked packages with starting prices — get a custom quote from a verified agent.
+            Hand-picked packages with starting prices. Every one can be customised by a verified agent.
           </p>
           <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {packages.map((p) => (
@@ -134,7 +135,7 @@ export default async function Home() {
 
       <section className="mx-auto grid max-w-6xl gap-8 px-4 py-10 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <h2 className="text-xl font-bold text-zinc-900">
+          <h2 className="font-display text-[28px] font-bold leading-tight text-ink sm:text-[32px]">
             Latest Travel Leads &amp; Popular Destinations
           </h2>
           <p className="mt-1 text-sm text-zinc-600">
@@ -166,7 +167,7 @@ export default async function Home() {
           </div>
           <Link
             href="/leads"
-            className="mt-5 inline-block rounded-full border border-orange-500 px-5 py-2 text-sm font-semibold text-orange-600 hover:bg-orange-50"
+            className="mt-5 inline-block rounded-full border border-brand px-5 py-2 text-sm font-semibold text-brand hover:bg-brand-tint"
           >
             View More Leads →
           </Link>
@@ -177,18 +178,18 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-blue-900 py-12 text-center text-white">
+      <section className="bg-royal py-12 text-center text-white">
         <div className="mx-auto max-w-2xl px-4">
-          <h2 className="text-2xl font-bold">Grow Your Travel Business</h2>
-          <p className="mt-2 text-blue-100">
+          <h2 className="font-display text-[30px] font-bold sm:text-4xl">Grow Your Travel Business</h2>
+          <p className="mt-2 text-white/80">
             Join free, tell us the destinations you deal in, and start buying verified travel
             leads today.
           </p>
           <Link
             href="/agent/register"
-            className="mt-5 inline-block rounded-full bg-orange-500 px-6 py-3 text-sm font-semibold hover:bg-orange-600"
+            className="mt-5 inline-block rounded-full bg-gold px-6 py-3 text-sm font-semibold text-royal hover:bg-gold-soft"
           >
-            Join as a Travel Agent — Free
+            Join as a Travel Agent, Free
           </Link>
         </div>
       </section>

@@ -22,7 +22,7 @@ export default function DestinationCard({
       href={`/tour-packages/${slug}`}
       className="group overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm transition hover:shadow-md"
     >
-      <div className="relative flex h-32 items-end overflow-hidden bg-gradient-to-br from-blue-600 to-blue-400 p-4">
+      <div className="relative flex h-32 items-end overflow-hidden bg-gradient-to-br from-royal to-royal-2 p-4">
         {hasPhoto && (
           <Image
             src={heroImage!}
@@ -42,7 +42,7 @@ export default function DestinationCard({
       </div>
       <div className="p-4">
         <p className="line-clamp-2 text-sm text-zinc-600">{summary}</p>
-        <span className="mt-2 inline-block text-sm font-semibold text-blue-700 group-hover:underline">
+        <span className="mt-2 inline-block text-sm font-semibold text-brand group-hover:underline">
           Explore packages →
         </span>
       </div>

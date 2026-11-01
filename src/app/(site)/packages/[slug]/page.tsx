@@ -113,7 +113,7 @@ export default async function PackagePage({
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <h2 className="text-lg font-semibold text-zinc-900">Itinerary</h2>
-          <ol className="mt-4 space-y-3 border-l-2 border-blue-100 pl-4">
+          <ol className="mt-4 space-y-3 border-l-2 border-gold-soft pl-4">
             {itineraryDays.map((day, i) => (
               <li key={i} className="text-sm text-zinc-700">
                 {day}
@@ -128,7 +128,7 @@ export default async function PackagePage({
               .map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700"
+                  className="rounded-full bg-brand-tint px-3 py-1 text-xs font-medium text-brand"
                 >
                   {tag}
                 </span>

@@ -1,5 +1,5 @@
 import JsonLd from "@/components/JsonLd";
-import { Breadcrumbs } from "@/components/location/blocks";
+import { Breadcrumbs, QuoteBox } from "@/components/location/blocks";
 import { webPageSchema } from "@/lib/schema";
 
 // Shell for the trust pages (About, Contact, Editorial Policy): one H1,
@@ -18,14 +18,23 @@ export default function InfoPage({
   children: React.ReactNode;
 }) {
   return (
-    <article className="mx-auto max-w-3xl px-4 py-10">
-      <JsonLd data={webPageSchema({ path, name: title, description, type })} />
-      <Breadcrumbs items={[{ name: title, href: path }]} />
-      <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-ink">{title}</h1>
-      <p className="mt-2 text-ink-soft">{description}</p>
-      <div className="mt-8 space-y-8 text-[15px] leading-7 text-ink [&_h2]:text-xl [&_h2]:font-bold [&_li]:ml-5 [&_li]:list-disc [&_a]:text-brand [&_a]:underline">
-        {children}
-      </div>
-    </article>
+    <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 sm:py-10 lg:grid-cols-3">
+      <article className="min-w-0 lg:col-span-2">
+        <JsonLd
+          data={webPageSchema({ path, name: title, description, type })}
+        />
+        <Breadcrumbs items={[{ name: title, href: path }]} />
+        <h1 className="mt-3 font-display text-[32px] font-bold leading-[1.1] text-ink sm:text-[42px]">
+          {title}
+        </h1>
+        <p className="mt-2 text-ink-soft">{description}</p>
+        <div className="mt-8 space-y-8 text-[15px] leading-7 text-ink [&_h2]:font-display [&_h2]:text-[26px] [&_h2]:font-bold [&_li]:ml-5 [&_li]:list-disc [&_a]:text-brand [&_a]:underline">
+          {children}
+        </div>
+      </article>
+      <aside className="hidden lg:block">
+        <QuoteBox title="Plan a trip with a local expert" />
+      </aside>
+    </div>
   );
 }

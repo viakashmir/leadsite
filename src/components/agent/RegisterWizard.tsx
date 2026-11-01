@@ -117,13 +117,13 @@ export default function RegisterWizard({ destinations }: { destinations: Destina
           <div key={label} className="flex flex-1 items-center">
             <div
               className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ${
-                i <= step ? "bg-blue-700 text-white" : "bg-zinc-200 text-zinc-500"
+                i <= step ? "bg-brand text-white" : "bg-zinc-200 text-zinc-500"
               }`}
             >
               {i + 1}
             </div>
             {i < STEPS.length - 1 && (
-              <div className={`mx-2 h-0.5 flex-1 ${i < step ? "bg-blue-700" : "bg-zinc-200"}`} />
+              <div className={`mx-2 h-0.5 flex-1 ${i < step ? "bg-brand" : "bg-zinc-200"}`} />
             )}
           </div>
         ))}
@@ -202,7 +202,7 @@ export default function RegisterWizard({ destinations }: { destinations: Destina
                 onClick={() => toggleInArray("destinationIds", d.id)}
                 className={`rounded-full border px-3 py-1.5 text-sm ${
                   form.destinationIds.includes(d.id)
-                    ? "border-blue-700 bg-blue-700 text-white"
+                    ? "border-brand bg-brand text-white"
                     : "border-zinc-300 text-zinc-700"
                 }`}
               >
@@ -306,7 +306,7 @@ export default function RegisterWizard({ destinations }: { destinations: Destina
           <button
             type="button"
             onClick={handleNext}
-            className="rounded-md bg-blue-700 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-800"
+            className="rounded-md bg-brand px-5 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
           >
             Next →
           </button>

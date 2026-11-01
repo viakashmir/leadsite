@@ -48,11 +48,11 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
 
   return (
     <header
-      className="sticky top-0 z-40 border-b border-zinc-200 bg-white"
+      className="sticky top-0 z-40 border-b border-gold-soft bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85"
       onMouseLeave={() => setOpenMenu(null)}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
-        <Link href="/" aria-label={SITE_NAME} className="shrink-0 text-xl font-extrabold tracking-tight text-ink">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:py-3">
+        <Link href="/" aria-label={SITE_NAME} className="shrink-0 font-display text-[26px] font-bold leading-none tracking-tight text-ink">
           Tavel <span className="text-brand">Package</span>
         </Link>
 
@@ -90,7 +90,7 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
           {signedIn ? (
             <Link
               href="/agent/dashboard"
-              className="rounded-[10px] bg-ink px-4 py-2 text-white hover:bg-black"
+              className="rounded-full bg-royal px-4 py-2 text-white hover:bg-royal-2"
             >
               Agent Dashboard
             </Link>
@@ -101,7 +101,7 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
               </Link>
               <Link
                 href="/agent/register"
-                className="rounded-[10px] bg-brand px-4 py-2 text-white hover:bg-brand-dark"
+                className="rounded-full bg-brand px-4 py-2 text-white hover:bg-brand-dark"
               >
                 Travel Agent? Join Us
               </Link>
@@ -114,7 +114,7 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
           onClick={() => setMenuOpen((o) => !o)}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-zinc-200 text-ink lg:hidden"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold-soft text-ink lg:hidden"
         >
           {menuOpen ? (
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -134,7 +134,7 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
             <div className="grid grid-cols-4 gap-x-8 gap-y-6 xl:grid-cols-5">
               {menus[openMenu].columns.map((col) => (
                 <div key={col.title}>
-                  <p className="text-xs font-bold uppercase tracking-wide text-ink-soft">{col.title}</p>
+                  <p className="text-xs font-bold tracking-wide text-ink-soft">{col.title}</p>
                   <ul className="mt-2 space-y-1.5 text-sm">
                     {col.links.map((link) => (
                       <li key={link.href}>
@@ -175,7 +175,7 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
                   <div className="pb-3">
                     {menu.columns.map((col) => (
                       <div key={col.title} className="mt-2">
-                        <p className="text-xs font-bold uppercase tracking-wide text-ink-soft">{col.title}</p>
+                        <p className="text-xs font-bold tracking-wide text-ink-soft">{col.title}</p>
                         <div className="mt-1 flex flex-wrap gap-1.5">
                           {col.links.map((link) => (
                             <Link

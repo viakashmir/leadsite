@@ -25,7 +25,7 @@ export default async function AgentDashboardOverview() {
       <div className="grid gap-4 sm:grid-cols-3">
         <div className="rounded-lg border border-zinc-200 bg-white p-4">
           <p className="text-xs text-zinc-500">Credit Balance</p>
-          <p className="mt-1 text-2xl font-bold text-blue-700">{agent.credits}</p>
+          <p className="mt-1 text-2xl font-bold text-brand">{agent.credits}</p>
         </div>
         <div className="rounded-lg border border-zinc-200 bg-white p-4">
           <p className="text-xs text-zinc-500">Leads Unlocked</p>
@@ -37,13 +37,13 @@ export default async function AgentDashboardOverview() {
         </div>
       </div>
 
-      <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
-        <p className="text-sm font-medium text-blue-900">
+      <div className="rounded-lg border border-gold-soft bg-brand-tint p-4">
+        <p className="text-sm font-medium text-ink">
           {availableLeadCount} leads available across your destinations.
         </p>
         <Link
           href="/agent/dashboard/leads"
-          className="mt-2 inline-block rounded-md bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
+          className="mt-2 inline-block rounded-md bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
         >
           Browse & Unlock Leads
         </Link>

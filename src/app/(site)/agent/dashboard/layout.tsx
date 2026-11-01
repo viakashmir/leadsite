@@ -15,7 +15,7 @@ export default async function AgentDashboardLayout({ children }: { children: Rea
         <div className="flex items-center gap-4">
           <Link href="/agent/dashboard/wallet" className="text-right">
             <p className="text-xs text-zinc-500">Credit balance</p>
-            <p className="text-lg font-bold text-blue-700">{agent.credits}</p>
+            <p className="text-lg font-bold text-brand">{agent.credits}</p>
           </Link>
           <LogoutButton />
         </div>
@@ -23,16 +23,16 @@ export default async function AgentDashboardLayout({ children }: { children: Rea
 
       <div className="grid gap-6 md:grid-cols-[180px_1fr]">
         <nav className="flex gap-4 border-b border-zinc-200 pb-3 text-sm font-medium text-zinc-600 md:flex-col md:border-b-0 md:border-r md:pb-0 md:pr-4">
-          <Link href="/agent/dashboard" className="hover:text-blue-700">
+          <Link href="/agent/dashboard" className="hover:text-brand">
             Overview
           </Link>
-          <Link href="/agent/dashboard/leads" className="hover:text-blue-700">
+          <Link href="/agent/dashboard/leads" className="hover:text-brand">
             Browse Leads
           </Link>
-          <Link href="/agent/dashboard/packages" className="hover:text-blue-700">
+          <Link href="/agent/dashboard/packages" className="hover:text-brand">
             My Packages
           </Link>
-          <Link href="/agent/dashboard/wallet" className="hover:text-blue-700">
+          <Link href="/agent/dashboard/wallet" className="hover:text-brand">
             Wallet
           </Link>
         </nav>

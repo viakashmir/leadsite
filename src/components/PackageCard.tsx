@@ -52,7 +52,7 @@ export default function PackageCard({
           {tags.slice(0, 2).map((tag) => (
             <span
               key={tag}
-              className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700"
+              className="rounded-full bg-brand-tint px-2 py-0.5 text-xs font-medium text-brand"
             >
               {tag}
             </span>

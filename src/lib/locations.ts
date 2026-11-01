@@ -1,3 +1,4 @@
+import type { GUIDE_SECTIONS } from "@/data/locations";
 import { cache } from "react";
 import { prisma } from "@/lib/prisma";
 import { ZONES, type Zone } from "@/data/locations";
@@ -113,10 +114,12 @@ export const getCircuits = cache(async () =>
 export const getEnquiryOptions = cache(async () => {
   const rows = await prisma.destination.findMany({
     orderBy: [{ isInternational: "asc" }, { name: "asc" }],
+    where: { kind: { not: "CIRCUIT" } },
     select: {
       id: true,
+      slug: true,
       name: true,
-      cities: { orderBy: { name: "asc" }, select: { id: true, name: true } },
+      cities: { orderBy: { name: "asc" }, select: { id: true, slug: true, name: true } },
     },
   });
   return rows;
@@ -182,7 +185,7 @@ export type GuideContent = {
   monthsWhere?: string; // name used in month headings when searchers use another one, e.g. "Leh Ladakh"
   routes?: RouteGuide[]; // distances and routes (how-to-reach page, or place page)
   packages?: PackagesContent;
-  sections?: Partial<Record<"places-to-visit" | "things-to-do" | "best-time-to-visit" | "how-to-reach" | "travel-guide-tips", SectionContent>>;
+  sections?: Partial<Record<(typeof GUIDE_SECTIONS)[number]["slug"], SectionContent>>;
   packagesDescription?: string; // meta description for /tour-packages/{slug}
   guideDescription?: string; // meta description for /{slug}-tourism
 };

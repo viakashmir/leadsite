@@ -54,6 +54,9 @@ export const LADAKH_CITIES: Record<string, GuideContent> = {
       },
       "how-to-reach": {
         intro: "How to reach Leh: fly from Delhi in about 1.5 hours, or drive in two days from Srinagar or Manali between roughly June and October. Flying is easier for families; driving helps acclimatisation.",
+        faqs: [
+          { q: "What is the easiest way to get to Leh?", a: "Fly to Leh (IXL). Delhi has direct flights all year and the flight takes about 1.5 hours. Rest for 24 to 48 hours after landing before going higher." },
+        ],
       },
     },
   },
@@ -165,6 +168,9 @@ export const DESTINATION_EXTRAS: Record<string, Partial<GuideContent>> = {
         intro: "Ladakh in June is the start of the full road-trip season; Ladakh in June end has both highways open and long, warm days. Ladakh temperature in July peaks around 28°C in Leh by day. Ladakh in September has the clearest weather and cooler nights. Climate in Leh Ladakh is a high-altitude cold desert: low rain, strong sun and big day to night swings.",
       },
       "how-to-reach": {
+        faqs: [
+          { q: "How do I get to Leh Ladakh by road?", a: "From Srinagar via Zojila and Kargil (about 420 km), or from Manali via the Atal Tunnel, Baralacha La and Tanglang La (about 470 km). Both take two days and are usually open from about June to October." },
+        ],
         intro: "How to reach Ladakh: fly to Leh, or drive or ride via Manali or Srinagar between about June and October. A Delhi to Ladakh bike trip usually takes 8 to 12 days, going up via Manali and returning via Srinagar or the other way round.",
         blocks: [
           {

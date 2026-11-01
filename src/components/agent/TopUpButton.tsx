@@ -101,7 +101,7 @@ export default function TopUpButton({ pack, highlight }: { pack: Pack; highlight
         type="button"
         onClick={handleBuy}
         disabled={pending}
-        className="mt-2 w-full rounded-md bg-blue-700 py-2 text-sm font-semibold text-white hover:bg-blue-800 disabled:opacity-60"
+        className="mt-2 w-full rounded-md bg-brand py-2 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-60"
       >
         {pending ? "Processing..." : `Buy for ${formatINR(pack.amountINR)}`}
       </button>

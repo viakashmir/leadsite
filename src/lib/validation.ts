@@ -6,9 +6,9 @@ export const createLeadSchema = z.object({
     .string()
     .trim()
     .regex(/^[0-9+\-\s]{8,15}$/, "Enter a valid phone number"),
-  email: z.string().trim().email().optional().or(z.literal("")),
+  email: z.string().trim().email("Enter a valid email"),
   originCity: z.string().trim().max(100).optional().or(z.literal("")),
-  destinationId: z.string().min(1),
+  destinationId: z.string().min(1, "Choose a destination"),
   cityId: z.string().optional().or(z.literal("")),
   sourcePackageId: z.string().optional().or(z.literal("")),
   travelDate: z.string().optional().or(z.literal("")),

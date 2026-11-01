@@ -16,7 +16,7 @@ export default function AboutPage() {
   return (
     <InfoPage path="/about-us" title={title} description={description} type="AboutPage">
       <section>
-        <h2>What {SITE_NAME} does</h2>
+        <h2>What {SITE_NAME} Does</h2>
         <p>
           {SITE_NAME} is a holiday planning marketplace for trips across every Indian state and union territory and
           selected international destinations. You describe your trip once: where, when, how many people and your
@@ -25,7 +25,7 @@ export default function AboutPage() {
         </p>
       </section>
       <section>
-        <h2>How we check agents and enquiries</h2>
+        <h2>How We Check Agents and Enquiries</h2>
         <ul>
           <li>Every agent account starts as pending and is reviewed by our team before it can see or buy any enquiry.</li>
           <li>Agents tell us the destinations they operate, so enquiries go to people who run trips there.</li>
@@ -34,14 +34,14 @@ export default function AboutPage() {
         </ul>
       </section>
       <section>
-        <h2>What it costs</h2>
+        <h2>What It Costs</h2>
         <p>
           Getting quotes is free for travellers. Agents pay us to receive enquiries, and you pay the agent you book
           with. We do not add a booking fee to your trip.
         </p>
       </section>
       <section>
-        <h2>Our travel guides</h2>
+        <h2>Our Travel Guides</h2>
         <p>
           Destination guides on {SITE_NAME} are written and fact-checked by the {SITE_NAME} Editorial Team. Read our{" "}
           <Link href="/editorial-policy">editorial policy</Link> to see how we research, which sources we use and how
@@ -50,7 +50,7 @@ export default function AboutPage() {
       </section>
       {(ORG.legalName || ORG.foundingDate) && (
         <section>
-          <h2>Company details</h2>
+          <h2>Company Details</h2>
           <ul>
             {ORG.legalName && <li>Registered name: {ORG.legalName}</li>}
             {ORG.foundingDate && <li>Founded: {ORG.foundingDate}</li>}

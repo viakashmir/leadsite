@@ -4,6 +4,7 @@ import EnquiryForm from "@/components/EnquiryForm";
 import PackageCard from "@/components/PackageCard";
 import { EDITORIAL_TEAM, SITE_URL } from "@/lib/site";
 import { formatDate } from "@/lib/format";
+import { titleCase } from "@/lib/text";
 import { getEnquiryOptions, type ContentBlock, type GuideContent, type MonthGuide, type RouteGuide } from "@/lib/locations";
 import type { Prisma } from "@/generated/prisma/client";
 
@@ -60,11 +61,11 @@ export function PageHero({
   children?: React.ReactNode;
 }) {
   return (
-    <section className="border-b border-zinc-200 bg-brand-tint/60">
-      <div className="mx-auto max-w-7xl px-4 py-8">
+    <section className="border-b border-gold-soft bg-ivory">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:py-9">
         <Breadcrumbs items={crumbs} />
-        <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">{title}</h1>
-        {subtitle && <p className="mt-2 max-w-3xl text-ink-soft">{subtitle}</p>}
+        <h1 className="mt-3 font-display text-[32px] font-bold leading-[1.1] text-ink sm:text-[44px]">{titleCase(title)}</h1>
+        {subtitle && <p className="mt-2 max-w-3xl text-[15px] leading-relaxed text-ink-soft sm:text-base">{subtitle}</p>}
         {updated && <Byline updated={updated} />}
         {badges && badges.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">
@@ -112,26 +113,41 @@ export function Section({
   id?: string;
 }) {
   return (
-    <section id={id} className="scroll-mt-24 py-6">
-      <h2 className="text-xl font-extrabold text-ink sm:text-2xl">{title}</h2>
-      {subtitle && <p className="mt-1 text-sm text-ink-soft">{subtitle}</p>}
+    <section id={id} className="scroll-mt-20 py-5 sm:py-7">
+      <h2 className="font-display text-[26px] font-bold leading-tight text-ink sm:text-[30px]">{titleCase(title)}</h2>
+      <span aria-hidden className="mt-2 block h-0.5 w-10 rounded-full bg-gold" />
+      {subtitle && <p className="mt-2 text-sm text-ink-soft">{subtitle}</p>}
       <div className="mt-4">{children}</div>
     </section>
   );
 }
 
-export function ChipLinks({ links }: { links: { label: string; href: string; active?: boolean }[] }) {
+// scroll: one swipeable row on phones (section navigation), wrapping on larger screens.
+export function ChipLinks({
+  links,
+  scroll = false,
+}: {
+  links: { label: string; href: string; active?: boolean }[];
+  scroll?: boolean;
+}) {
   if (links.length === 0) return null;
   return (
-    <div className="flex flex-wrap gap-2">
+    <div
+      className={
+        scroll
+          ? "no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0"
+          : "flex flex-wrap gap-2"
+      }
+    >
       {links.map((l) => (
         <Link
           key={l.href}
           href={l.href}
-          className={`rounded-full border px-3 py-1.5 text-sm font-medium transition ${
+          aria-current={l.active ? "page" : undefined}
+          className={`shrink-0 whitespace-nowrap rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition ${
             l.active
-              ? "border-brand bg-brand text-white"
-              : "border-zinc-200 bg-white text-ink hover:border-brand hover:text-brand"
+              ? "border-royal bg-royal text-white"
+              : "border-gold-soft bg-white text-ink hover:border-gold hover:text-brand"
           }`}
         >
           {l.label}
@@ -152,11 +168,11 @@ export function CardLinks({
         <Link
           key={item.href}
           href={item.href}
-          className="group rounded-xl border border-zinc-200 bg-white p-4 transition hover:border-brand"
+          className="group rounded-2xl border border-zinc-200 bg-white p-4 transition hover:border-gold hover:shadow-sm"
         >
           <div className="flex items-baseline justify-between gap-2">
             <h3 className="font-bold text-ink group-hover:text-brand">
-              <span className="mr-1.5 text-ink-soft">{i + 1}.</span>
+              <span className="mr-1.5 font-display text-gold">{i + 1}.</span>
               {item.title}
             </h3>
             {item.meta && <span className="shrink-0 text-xs text-ink-soft">{item.meta}</span>}
@@ -215,7 +231,7 @@ export async function QuoteBox({
 }) {
   const options = await getEnquiryOptions();
   return (
-    <div className="lg:sticky lg:top-24">
+    <div id="get-quotes" className="scroll-mt-20 lg:sticky lg:top-20">
       <EnquiryForm
         destinations={options}
         defaultDestinationId={destinationId}
@@ -273,7 +289,7 @@ export function Seasons({ seasons }: { seasons?: GuideContent["seasons"] }) {
       {seasons.map((s) => (
         <div key={s.name} className="rounded-xl border border-zinc-200 bg-white p-4">
           <p className="font-bold text-ink">{s.name}</p>
-          <p className="text-xs font-semibold uppercase tracking-wide text-brand">{s.months}</p>
+          <p className="text-xs font-semibold tracking-wide text-brand">{s.months}</p>
           <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{s.note}</p>
         </div>
       ))}
@@ -310,7 +326,7 @@ export function QuickFacts({ facts }: { facts: { label: string; value?: string }
     <dl className="grid gap-3 rounded-xl bg-panel p-4 sm:grid-cols-3">
       {shown.map((f) => (
         <div key={f.label}>
-          <dt className="text-xs font-bold uppercase tracking-wide text-ink-soft">{f.label}</dt>
+          <dt className="text-xs font-bold tracking-wide text-ink-soft">{f.label}</dt>
           <dd className="mt-0.5 text-sm font-semibold text-ink">{f.value}</dd>
         </div>
       ))}
@@ -333,11 +349,14 @@ export function Faqs({ faqs }: { faqs?: { q: string; a: string }[] }) {
           })),
         }}
       />
-      <div className="divide-y divide-zinc-200 rounded-xl border border-zinc-200 bg-white">
+      <div className="divide-y divide-gold-soft overflow-hidden rounded-2xl border border-gold-soft bg-white">
         {faqs.map((f) => (
-          <details key={f.q} className="group p-4">
-            <summary className="cursor-pointer list-none font-semibold text-ink">
-              {f.q}
+          <details key={f.q} className="group px-4 py-3.5 open:bg-ivory">
+            <summary className="flex cursor-pointer list-none items-start justify-between gap-3 font-semibold text-ink [&::-webkit-details-marker]:hidden">
+              <span>{f.q}</span>
+              <span aria-hidden className="mt-0.5 shrink-0 text-lg leading-none text-gold transition group-open:rotate-45">
+                +
+              </span>
             </summary>
             <p className="mt-2 text-sm leading-relaxed text-ink-soft">{f.a}</p>
           </details>
@@ -390,7 +409,7 @@ export function Months({ where, months }: { where: string; months?: MonthGuide[]
       {months.map((m) => (
         <div key={m.month}>
           <h3 className="text-lg font-bold text-ink">
-            {where} in {m.month}: weather and temperature
+            {titleCase(`${where} in ${m.month}: weather and temperature`)}
           </h3>
           {m.tempC && (
             <p className="mt-1 text-sm font-semibold text-ink-soft">Temperature: {m.tempC}</p>
@@ -414,7 +433,7 @@ export function Routes({ routes }: { routes?: RouteGuide[] }) {
       {routes.map((r) => (
         <div key={`${r.from}-${r.to}`}>
           <h3 className="text-lg font-bold text-ink">
-            {r.from} to {r.to} distance
+            {titleCase(`${r.from} to ${r.to} distance`)}
           </h3>
           <p className="mt-1 text-sm font-semibold text-ink-soft">
             {r.distanceKm}

@@ -1,33 +1,58 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
+import { titleCase } from "@/lib/text";
 
-type DestinationOption = {
+export type DestinationOption = {
   id: string;
+  slug?: string;
   name: string;
-  cities: { id: string; name: string }[];
+  cities: { id: string; slug?: string; name: string }[];
 };
 
+// Hotel category doubles as the budget signal agents price from.
+const HOTEL_BANDS = [
+  { value: "Economy (0-2 Star)", label: "Budget" },
+  { value: "Standard (3-4 Star)", label: "3-4 Star" },
+  { value: "Luxury (3 Star & Above)", label: "Luxury" },
+];
+
+const field =
+  "w-full rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-sm text-ink outline-none transition placeholder:text-zinc-400 focus:border-gold focus:ring-2 focus:ring-gold-soft";
+const label = "mb-1 block text-xs font-semibold text-ink-soft";
+
+const todayIso = () => new Date().toISOString().slice(0, 10);
+
+// Compact, high-intent enquiry form: trip first (destination, date, length,
+// group, hotel), contact last, optional details folded away. Travel date is
+// required so every lead carries a real plan.
 export default function EnquiryForm({
   destinations,
   defaultDestinationId,
   defaultCityId,
   sourcePackageId,
   title = "Get Free Quotes from Verified Travel Agents",
+  bare = false,
 }: {
   destinations: DestinationOption[];
   defaultDestinationId?: string;
   defaultCityId?: string;
   sourcePackageId?: string;
   title?: string;
+  bare?: boolean; // no card chrome, for use inside a sheet
 }) {
-  const [destinationId, setDestinationId] = useState(
-    defaultDestinationId ?? destinations[0]?.id ?? "",
-  );
+  const uid = useId();
+  const id = (name: string) => `${uid}-${name}`;
+  // No default on general pages: the traveller must pick, so the lead names a real destination.
+  const [destinationId, setDestinationId] = useState(defaultDestinationId ?? "");
+  const [cityId, setCityId] = useState(defaultCityId ?? "");
+  const [hotel, setHotel] = useState(HOTEL_BANDS[1].value);
+  const [more, setMore] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const selectedDestination = destinations.find((d) => d.id === destinationId);
+  const placeName = selectedDestination?.cities.find((c) => c.id === cityId)?.name ?? selectedDestination?.name;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -36,20 +61,21 @@ export default function EnquiryForm({
 
     const formEl = e.currentTarget;
     const form = new FormData(formEl);
+    const phone = String(form.get("phone") ?? "").replace(/\s+/g, "");
     const payload = {
       name: form.get("name"),
-      phone: form.get("phone"),
-      email: form.get("email"),
-      originCity: form.get("originCity"),
+      phone: /^\d{10}$/.test(phone) ? `+91${phone}` : phone,
+      email: form.get("email") ?? "",
+      originCity: form.get("originCity") ?? "",
       destinationId: form.get("destinationId"),
-      cityId: form.get("cityId"),
+      cityId: form.get("cityId") ?? "",
       sourcePackageId: sourcePackageId ?? "",
       travelDate: form.get("travelDate"),
       durationDays: form.get("durationDays") || undefined,
       adults: form.get("adults") || 2,
       children: form.get("children") || 0,
-      budgetBand: form.get("budgetBand"),
-      message: form.get("message"),
+      budgetBand: hotel,
+      message: form.get("message") ?? "",
     };
 
     try {
@@ -72,132 +98,209 @@ export default function EnquiryForm({
     }
   }
 
+  const card = bare ? "" : "rounded-2xl border border-gold-soft bg-white p-4 shadow-sm sm:p-5";
+
   if (status === "success") {
     return (
-      <div className="rounded-lg border border-green-300 bg-green-50 p-6 text-center">
-        <p className="text-lg font-semibold text-green-800">Thanks! Your request is in.</p>
-        <p className="mt-1 text-sm text-green-700">
-          Our verified travel agents will contact you shortly with quotes.
+      <div className={`${card} text-center`}>
+        <p className="font-display text-2xl font-bold text-ink">Your request is in</p>
+        <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+          Up to 3 verified agents who operate {placeName ?? "this destination"} will call or
+          WhatsApp you with customised itineraries and quotes. Compare them and book only if you like one.
         </p>
       </div>
     );
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-4 rounded-lg border border-zinc-200 bg-white p-5 shadow-sm"
-    >
-      <h3 className="text-lg font-semibold text-zinc-900">{title}</h3>
+    <form onSubmit={handleSubmit} className={card} aria-label="Get free quotes">
+      <p className="font-display text-[22px] font-bold leading-tight text-ink">{titleCase(title)}</p>
+      <p className="mt-1 text-xs text-ink-soft">
+        <span className="font-semibold text-brand">Free</span> · No booking fee · Up to 3 quotes
+      </p>
 
-      <div className="grid grid-cols-2 gap-3">
-        <input
-          name="name"
-          required
-          placeholder="Full name"
-          className="col-span-2 rounded-md border border-zinc-300 px-3 py-2 text-sm sm:col-span-1"
-        />
-        <input
-          name="phone"
-          required
-          placeholder="Mobile number"
-          className="col-span-2 rounded-md border border-zinc-300 px-3 py-2 text-sm sm:col-span-1"
-        />
-        <input
-          name="email"
-          type="email"
-          placeholder="Email (optional)"
-          className="col-span-2 rounded-md border border-zinc-300 px-3 py-2 text-sm"
-        />
-        <input
-          name="originCity"
-          placeholder="Traveling from (city)"
-          className="col-span-2 rounded-md border border-zinc-300 px-3 py-2 text-sm sm:col-span-1"
-        />
-        <select
-          name="destinationId"
-          required
-          value={destinationId}
-          onChange={(e) => setDestinationId(e.target.value)}
-          className="col-span-2 rounded-md border border-zinc-300 px-3 py-2 text-sm sm:col-span-1"
-        >
-          {destinations.map((d) => (
-            <option key={d.id} value={d.id}>
-              {d.name}
-            </option>
-          ))}
-        </select>
-        {selectedDestination && selectedDestination.cities.length > 0 && (
+      <div className="mt-4 grid grid-cols-2 gap-2.5">
+        <div className={selectedDestination?.cities.length ? "" : "col-span-2"}>
+          <label className={label} htmlFor={id("dest")}>
+            Destination
+          </label>
           <select
-            name="cityId"
-            defaultValue={defaultCityId ?? ""}
-            className="col-span-2 rounded-md border border-zinc-300 px-3 py-2 text-sm sm:col-span-1"
+            id={id("dest")}
+            name="destinationId"
+            required
+            value={destinationId}
+            onChange={(e) => {
+              setDestinationId(e.target.value);
+              setCityId("");
+            }}
+            className={field}
           >
-            <option value="">Any city</option>
-            {selectedDestination.cities.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
+            <option value="" disabled>
+              Choose a destination
+            </option>
+            {destinations.map((d) => (
+              <option key={d.id} value={d.id}>
+                {d.name}
               </option>
             ))}
           </select>
+        </div>
+        {selectedDestination && selectedDestination.cities.length > 0 && (
+          <div>
+            <label className={label} htmlFor={id("city")}>
+              Place
+            </label>
+            <select id={id("city")} name="cityId" value={cityId} onChange={(e) => setCityId(e.target.value)} className={field}>
+              <option value="">Anywhere</option>
+              {selectedDestination.cities.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
         )}
-        <input
-          name="travelDate"
-          type="date"
-          className="col-span-2 rounded-md border border-zinc-300 px-3 py-2 text-sm sm:col-span-1"
-        />
-        <input
-          name="durationDays"
-          type="number"
-          min={1}
-          placeholder="No. of days"
-          className="col-span-2 rounded-md border border-zinc-300 px-3 py-2 text-sm"
-        />
-        <input
-          name="adults"
-          type="number"
-          min={1}
-          defaultValue={2}
-          placeholder="Adults"
-          className="col-span-1 rounded-md border border-zinc-300 px-3 py-2 text-sm"
-        />
-        <input
-          name="children"
-          type="number"
-          min={0}
-          defaultValue={0}
-          placeholder="Children"
-          className="col-span-1 rounded-md border border-zinc-300 px-3 py-2 text-sm"
-        />
-        <select
-          name="budgetBand"
-          defaultValue=""
-          className="col-span-2 rounded-md border border-zinc-300 px-3 py-2 text-sm"
-        >
-          <option value="">Budget (optional)</option>
-          <option value="Economy (0-2 Star)">Economy (0-2 Star)</option>
-          <option value="Standard (3-4 Star)">Standard (3-4 Star)</option>
-          <option value="Luxury (3 Star & Above)">Luxury (3 Star & Above)</option>
-        </select>
-        <textarea
-          name="message"
-          placeholder="Any specific requirements?"
-          rows={2}
-          className="col-span-2 rounded-md border border-zinc-300 px-3 py-2 text-sm"
-        />
+
+        <div>
+          <label className={label} htmlFor={id("date")}>
+            Travel date
+          </label>
+          <input id={id("date")} name="travelDate" type="date" required min={todayIso()} className={field} />
+        </div>
+        <div>
+          <label className={label} htmlFor={id("days")}>
+            Days
+          </label>
+          <select id={id("days")} name="durationDays" defaultValue="5" className={field}>
+            {[2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15].map((n) => (
+              <option key={n} value={n}>
+                {n} days
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className={label} htmlFor={id("adults")}>
+            Adults
+          </label>
+          <select id={id("adults")} name="adults" defaultValue="2" className={field}>
+            {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
+              <option key={n} value={n}>
+                {n}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className={label} htmlFor={id("children")}>
+            Children
+          </label>
+          <select id={id("children")} name="children" defaultValue="0" className={field}>
+            {Array.from({ length: 7 }, (_, i) => i).map((n) => (
+              <option key={n} value={n}>
+                {n}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <fieldset className="col-span-2">
+          <legend className={label}>Hotel</legend>
+          <div className="grid grid-cols-3 gap-1.5">
+            {HOTEL_BANDS.map((b) => (
+              <button
+                key={b.value}
+                type="button"
+                aria-pressed={hotel === b.value}
+                onClick={() => setHotel(b.value)}
+                className={`rounded-lg border px-2 py-2 text-[13px] font-semibold transition ${
+                  hotel === b.value
+                    ? "border-royal bg-royal text-white"
+                    : "border-zinc-300 bg-white text-ink hover:border-gold"
+                }`}
+              >
+                {b.label}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+
+        <div className="col-span-2">
+          <label className={label} htmlFor={id("name")}>
+            Your name
+          </label>
+          <input id={id("name")} name="name" required minLength={2} autoComplete="name" placeholder="Full name" className={field} />
+        </div>
+        <div className="col-span-2">
+          <label className={label} htmlFor={id("phone")}>
+            Mobile (WhatsApp)
+          </label>
+          <div className="flex">
+            <span className="flex items-center rounded-l-lg border border-r-0 border-zinc-300 bg-ivory px-2.5 text-sm text-ink-soft">
+              +91
+            </span>
+            <input
+              id={id("phone")}
+              name="phone"
+              required
+              inputMode="tel"
+              autoComplete="tel-national"
+              pattern="[0-9+\-\s]{8,15}"
+              placeholder="10-digit mobile"
+              className={`${field} rounded-l-none`}
+            />
+          </div>
+        </div>
+
+        <div className="col-span-2">
+          <label className={label} htmlFor={id("email")}>
+            Email
+          </label>
+          <input
+            id={id("email")}
+            name="email"
+            type="email"
+            required
+            autoComplete="email"
+            inputMode="email"
+            placeholder="For your itineraries and quotes"
+            className={field}
+          />
+        </div>
+
+        {more ? (
+          <>
+            <input name="originCity" placeholder="Travelling from (city)" className={`${field} col-span-2`} />
+            <textarea
+              name="message"
+              rows={2}
+              placeholder="Anything else? e.g. honeymoon, senior citizens, specific hotels"
+              className={`${field} col-span-2`}
+            />
+          </>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setMore(true)}
+            className="col-span-2 justify-self-start text-xs font-semibold text-brand hover:underline"
+          >
+            + Add departure city or a note
+          </button>
+        )}
       </div>
 
-      {errorMessage && <p className="text-sm text-red-600">{errorMessage}</p>}
+      {errorMessage && <p className="mt-3 text-sm text-red-700">{errorMessage}</p>}
 
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="w-full rounded-md bg-orange-500 py-2.5 text-sm font-semibold text-white hover:bg-orange-600 disabled:opacity-60"
+        className="mt-4 w-full rounded-full bg-brand py-3 text-sm font-semibold tracking-wide text-white shadow-sm transition hover:bg-brand-dark disabled:opacity-60"
       >
         {status === "submitting" ? "Sending..." : "Get Free Quotes"}
       </button>
-      <p className="text-center text-xs text-zinc-500">
-        Up to 3 verified travel agents will contact you with custom quotes. Compare and choose.
+      <p className="mt-2 text-center text-[11px] leading-snug text-ink-soft">
+        Your number is shared only with up to 3 verified agents for this trip.
       </p>
     </form>
   );

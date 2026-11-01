@@ -75,6 +75,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       (c.howToReach?.air || c.howToReach?.rail || c.howToReach?.road || c.routes?.length || intro("how-to-reach")) &&
         "how-to-reach",
       (c.thingsToKnow?.length || intro("travel-guide-tips")) && "travel-guide-tips",
+      intro("local-food") && "local-food",
+      intro("culture-and-heritage") && "culture-and-heritage",
     ].filter((x): x is string => typeof x === "string");
   };
 

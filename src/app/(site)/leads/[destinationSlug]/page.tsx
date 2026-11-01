@@ -85,14 +85,14 @@ export default async function DestinationLeadsPage({
       </p>
 
       <div className="mt-4 flex flex-wrap gap-2 border-b border-zinc-200 pb-4">
-        <span className="rounded-full bg-blue-700 px-3 py-1 text-xs font-semibold text-white">
+        <span className="rounded-full bg-brand px-3 py-1 text-xs font-semibold text-white">
           All
         </span>
         {destination.cities.map((c) => (
           <Link
             key={c.id}
             href={`/leads/${destination.slug}/${c.slug}`}
-            className="rounded-full border border-zinc-300 px-3 py-1 text-xs font-medium text-zinc-700 hover:border-blue-600 hover:text-blue-700"
+            className="rounded-full border border-zinc-300 px-3 py-1 text-xs font-medium text-zinc-700 hover:border-brand hover:text-brand"
           >
             {c.name}
           </Link>

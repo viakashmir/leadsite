@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import InfoPage from "@/components/InfoPage";
-import EnquiryForm from "@/components/EnquiryForm";
-import { getEnquiryOptions } from "@/lib/locations";
 import { ORG, SITE_NAME } from "@/lib/site";
 
 const title = `Contact ${SITE_NAME}`;
@@ -14,14 +12,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact-us" },
 };
 
-export default async function ContactPage() {
-  const options = await getEnquiryOptions();
+export default function ContactPage() {
   const a = ORG.address;
   return (
     <InfoPage path="/contact-us" title={title} description={description} type="ContactPage">
       {(ORG.email || ORG.phone || a) && (
         <section>
-          <h2>Reach us</h2>
+          <h2>Reach Us</h2>
           <address className="not-italic">
             <ul>
               {ORG.email && (
@@ -44,14 +41,11 @@ export default async function ContactPage() {
         </section>
       )}
       <section>
-        <h2>Planning a trip?</h2>
-        <p>Send your trip details and up to 3 verified local agents will reply with customised quotes.</p>
-        <div className="mt-4">
-          <EnquiryForm destinations={options} />
-        </div>
+        <h2>Planning a Trip?</h2>
+        <p>Send your trip details with the form on this page and up to 3 verified local agents will reply with customised quotes.</p>
       </section>
       <section>
-        <h2>Travel agents</h2>
+        <h2>Travel Agents</h2>
         <p>
           Run trips in India or abroad? <Link href="/agent/register">Join {SITE_NAME} free</Link> or{" "}
           <Link href="/agent/login">sign in</Link> to your agent account.

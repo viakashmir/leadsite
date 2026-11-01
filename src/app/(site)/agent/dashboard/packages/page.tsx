@@ -32,7 +32,7 @@ export default async function AgentPackagesPage() {
           <Link
             key={p.id}
             href={`/packages/${p.slug}`}
-            className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white p-4 hover:border-blue-400"
+            className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white p-4 hover:border-gold"
           >
             <div>
               <p className="font-medium text-zinc-900">{p.title}</p>

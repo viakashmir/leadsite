@@ -12,16 +12,23 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Brand tokens (public site). Layout patterns follow TripClap / TravelTriangle;
-   colours measured from tripclap.com. */
+/* Brand tokens (public site): royal palette. Deep navy ink, maroon for
+   actions, antique gold for accents only (rules, labels, stars), ivory for
+   quiet surfaces. Serif display face for headings, sans for reading. */
 @theme {
-  --color-brand: #f4511e;
-  --color-brand-dark: #d8400f;
-  --color-brand-tint: #fff1ea;
-  --color-ink: #131a24;
-  --color-ink-soft: #4b5563;
-  --color-surface: #f9fafb;
-  --color-panel: #eef2f5;
+  --color-brand: #7a1f2b;
+  --color-brand-dark: #5e1621;
+  --color-brand-tint: #f8f1ea;
+  --color-ink: #14213d;
+  --color-ink-soft: #55607a;
+  --color-gold: #a8834a;
+  --color-gold-soft: #e9dcc4;
+  --color-royal: #14213d;
+  --color-royal-2: #22385e;
+  --color-ivory: #fbf8f2;
+  --color-surface: #fbf8f2;
+  --color-panel: #f4eee4;
+  --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
 }
 
 /* Layered so Tailwind utilities on <body> (bg-white, bg-zinc-100) win. The
@@ -32,6 +39,14 @@
     color: var(--foreground);
     font-family: var(--font-sans);
   }
+}
+
+/* Swipeable rows (chip navigation) without a visible scrollbar. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 @media print {

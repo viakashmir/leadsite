@@ -15,15 +15,15 @@ export function GET() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#ffffff",
-          color: "#131A24",
+          background: "#FBF8F2",
+          color: "#14213D",
           fontSize: 92,
           fontWeight: 800,
           letterSpacing: -2,
         }}
       >
         <div style={{ display: "flex" }}>Tavel</div>
-        <div style={{ display: "flex", color: "#F4511E" }}>Package</div>
+        <div style={{ display: "flex", color: "#7A1F2B" }}>Package</div>
       </div>
     ),
     { width: 512, height: 512 },

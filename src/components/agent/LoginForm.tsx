@@ -59,13 +59,13 @@ export default function LoginForm({ next }: { next: string }) {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded-md bg-blue-700 py-2.5 text-sm font-semibold text-white hover:bg-blue-800 disabled:opacity-60"
+        className="w-full rounded-md bg-brand py-2.5 text-sm font-semibold text-white hover:bg-brand-dark disabled:opacity-60"
       >
         {submitting ? "Signing in..." : "Sign In"}
       </button>
       <p className="text-center text-xs text-zinc-500">
         New here?{" "}
-        <Link href="/agent/register" className="font-medium text-blue-700">
+        <Link href="/agent/register" className="font-medium text-brand">
           Join free
         </Link>
       </p>

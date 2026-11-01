@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Cormorant_Garamond, Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "../globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
+import MobileQuoteBar from "@/components/MobileQuoteBar";
+import { getEnquiryOptions } from "@/lib/locations";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import { LOGO_URL, siteGraph } from "@/lib/schema";
 
@@ -16,6 +18,13 @@ const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
   subsets: ["latin"],
   weight: ["400", "500", "700", "800"],
+});
+
+// Display serif for headings and the wordmark.
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["600", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -50,17 +59,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const enquiryOptions = await getEnquiryOptions();
   return (
     <html
       lang="en-IN"
-      className={`${jakarta.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${jakarta.variable} ${cormorant.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-white text-ink">
+      <body className="min-h-full flex flex-col bg-white pb-[72px] text-ink lg:pb-0">
         <JsonLd data={siteGraph()} />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <MobileQuoteBar options={enquiryOptions} />
       </body>
     </html>
   );

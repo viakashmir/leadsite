@@ -55,7 +55,7 @@ export default async function DestinationIndex({
                     >
                       {d.name}
                       {d.premium && (
-                        <span className="ml-2 rounded-full bg-brand-tint px-2 py-0.5 text-[10px] font-bold uppercase text-brand">
+                        <span className="ml-2 rounded-full bg-brand-tint px-2 py-0.5 text-[10px] font-bold text-brand">
                           Premium
                         </span>
                       )}

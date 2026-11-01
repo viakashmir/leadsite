@@ -210,7 +210,7 @@ export default async function TargetPackagesPage({
       >
         {!isCircuit && (
           <div className="mt-5">
-            <ChipLinks links={[{ label: "All", href: tourPackagesUrl(slug), active: !v.theme }, ...themeLinks]} />
+            <ChipLinks links={[{ label: "All", href: tourPackagesUrl(slug), active: !v.theme }, ...themeLinks]} scroll />
           </div>
         )}
       </PageHero>
@@ -329,7 +329,7 @@ export default async function TargetPackagesPage({
                   ["Customise and book", "Change hotels, days or activities with the agent you prefer and book directly with them. You are never obliged to book."],
                 ].map(([title, body], i) => (
                   <li key={title} className="rounded-xl border border-zinc-200 bg-white p-4">
-                    <p className="text-xs font-bold uppercase tracking-wide text-brand">Step {i + 1}</p>
+                    <p className="text-xs font-bold tracking-wide text-brand">Step {i + 1}</p>
                     <p className="mt-1 font-bold text-ink">{title}</p>
                     <p className="mt-1 text-sm leading-relaxed text-ink-soft">{body}</p>
                   </li>

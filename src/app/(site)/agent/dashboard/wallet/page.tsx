@@ -21,7 +21,7 @@ export default async function AgentWalletPage() {
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       <h1 className="text-lg font-semibold text-zinc-900">Wallet</h1>
       <p className="mt-1 text-sm text-zinc-500">
-        Current balance: <span className="font-semibold text-blue-700">{agent.credits} credits</span>.
+        Current balance: <span className="font-semibold text-brand">{agent.credits} credits</span>.
         Each lead unlock deducts credits from this balance — 1 credit = ₹1 of buying power.
       </p>
 
