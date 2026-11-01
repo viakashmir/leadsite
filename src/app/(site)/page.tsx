@@ -388,9 +388,9 @@ export default async function Home() {
                   "No booking fee, no obligation to book.",
                 ].map((t) => (
                   <li key={t} className="flex gap-2">
-                    <span className="text-brand" aria-hidden>
-                      ✓
-                    </span>
+                    <svg viewBox="0 0 24 24" className="mt-0.5 h-4 w-4 shrink-0 text-brand" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="m6 12.5 4 4 8-9" />
+                    </svg>
                     {t}
                   </li>
                 ))}
