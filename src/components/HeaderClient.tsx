@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SITE_NAME } from "@/lib/site";
@@ -31,8 +32,8 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
       onMouseLeave={() => setOpenMenu(null)}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:py-3">
-        <Link href="/" aria-label={SITE_NAME} className="shrink-0 font-display text-xl font-extrabold leading-none tracking-tight text-ink">
-          Tavel <span className="text-brand">Package</span>
+        <Link href="/" aria-label={SITE_NAME} className="shrink-0">
+          <Image src="/logo.svg" priority alt={SITE_NAME} width={1202} height={164} className="h-6 w-auto sm:h-7" />
         </Link>
 
         <nav className="hidden items-center gap-0.5 whitespace-nowrap text-sm font-semibold text-ink lg:flex">

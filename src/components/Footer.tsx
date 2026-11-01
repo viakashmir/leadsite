@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { SITE_NAME } from "@/lib/site";
 
@@ -7,9 +8,7 @@ export default function Footer() {
       <div className="h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-8 px-4 py-10 text-sm sm:grid-cols-3">
         <div className="col-span-2 sm:col-span-1">
-          <div className="font-display text-xl font-extrabold tracking-tight text-white">
-            Tavel <span className="text-gold-soft">Package</span>
-          </div>
+          <Image src="/logo-white.svg" alt={SITE_NAME} width={1202} height={164} className="h-7 w-auto" />
           <p className="mt-2 max-w-xs">
             Compare verified tour packages, get quotes from trusted travel agents, and plan your
             next holiday with confidence.
