@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
@@ -50,6 +51,10 @@ const gold = "text-[#d9b779]";
 // Hero only: no gold over the photo. White plus a soft frost blue that sits
 // with the snow and sky instead of fighting them.
 const frost = "text-[#d7e7f7]";
+
+
+// Canonical for the homepage; title and description come from the root layout.
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default async function Home() {
   const [destinations, packages, recentLeads, stats, market] = await Promise.all([

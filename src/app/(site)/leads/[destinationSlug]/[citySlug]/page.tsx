@@ -50,6 +50,8 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical: `/leads/${data.destination.slug}/${data.city.slug}` },
+    // No leads yet: a thin page, kept out of search until enquiries arrive.
+    ...(data.leads.length === 0 ? { robots: { index: false, follow: true } } : {}),
     openGraph: { title, description, url: `/leads/${data.destination.slug}/${data.city.slug}` },
   };
 }

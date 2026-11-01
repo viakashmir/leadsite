@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 export const revalidate = 600;
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/leads" },
   title: "Travel Leads — Browse Verified Traveler Enquiries",
   description:
     "Browse verified travel leads by destination. Real trip requirements from travelers, updated daily.",

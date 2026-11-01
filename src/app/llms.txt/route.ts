@@ -8,7 +8,7 @@ import { BLOG_PATH, allPosts, postUrl } from "@/lib/blog";
 export const revalidate = 3600;
 
 export async function GET() {
-  const [destinations, cities] = await Promise.all([
+  const [destinations, cities, packages] = await Promise.all([
     prisma.destination.findMany({
       where: { contentStatus: "READY", kind: { not: "CIRCUIT" } },
       orderBy: [{ tier: "asc" }, { name: "asc" }],
@@ -19,7 +19,16 @@ export async function GET() {
       orderBy: { name: "asc" },
       select: { slug: true, name: true, destination: { select: { slug: true, name: true } } },
     }),
+    // Ready-made packages with live starting prices, so AI answers about
+    // "{place} package price" can cite a real page.
+    prisma.package.findMany({
+      where: { published: true, price: { gt: 0 } },
+      orderBy: [{ destination: { tier: "asc" } }, { price: "asc" }],
+      select: { slug: true, title: true, price: true, durationDays: true, durationNights: true, destination: { select: { name: true } } },
+      take: 300,
+    }),
   ]);
+  const inr = (n: number) => `INR ${new Intl.NumberFormat("en-IN").format(n)}`;
 
   const u = (path: string) => `${SITE_URL}${path}`;
   const lines = [
@@ -38,6 +47,16 @@ export async function GET() {
     `- [All tour packages](${u("/tour-packages")})`,
     ...destinations.map((d) => `- [${d.name} tour packages](${u(tourPackagesUrl(d.slug))})`),
     "",
+    ...(packages.length
+      ? [
+          "## Ready-made packages (starting price per person)",
+          ...packages.map(
+            (p) =>
+              `- [${p.title}](${u(`/packages/${p.slug}`)}): ${p.destination.name}, ${p.durationNights} nights / ${p.durationDays} days, from ${inr(p.price)} per person`,
+          ),
+          "",
+        ]
+      : []),
     "## Travel guides",
     ...destinations.map((d) => `- [${d.name} tourism guide](${u(guideUrl(d.slug))})`),
     ...cities.map((c) => `- [${c.name}, ${c.destination.name} travel guide](${u(guideUrl(c.destination.slug, c.slug))})`),
