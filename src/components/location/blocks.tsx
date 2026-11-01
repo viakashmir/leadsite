@@ -206,9 +206,12 @@ type PackageWithDestination = Prisma.PackageGetPayload<{ include: { destination:
 export function PackageGrid({
   packages,
   emptyText,
+  compact = false,
 }: {
   packages: PackageWithDestination[];
   emptyText: string;
+  /** Phones: one swipeable row instead of a long stack, so the page's own copy stays near the top. */
+  compact?: boolean;
 }) {
   if (packages.length === 0) {
     return (
@@ -227,7 +230,13 @@ export function PackageGrid({
     );
   }
   return (
-    <div className="grid gap-x-4 gap-y-7 sm:grid-cols-2">
+    <div
+      className={
+        compact
+          ? "no-scrollbar -mx-4 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-x-4 sm:gap-y-7 sm:overflow-visible sm:px-0 [&>*]:w-[82%] [&>*]:shrink-0 [&>*]:snap-start sm:[&>*]:w-auto"
+          : "grid gap-x-4 gap-y-7 sm:grid-cols-2"
+      }
+    >
       {packages.map((p) => (
         <PackageCard
           key={p.id}
