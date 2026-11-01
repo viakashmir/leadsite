@@ -14,6 +14,7 @@ import { PLANNING_GUIDES } from "./planning-guides";
 import { HIMACHAL_DEEP } from "./himachal-deep";
 import { KASHMIR_UPGRADES } from "./kashmir-deep";
 import { KASHMIR_UPGRADES_2 } from "./kashmir-deep-2";
+import { LADAKH_DEEP } from "./ladakh-deep";
 import { FOCUS_BATCH_1 } from "./focus-batch-1";
 import { MONEY_FROM_CITIES } from "./money-from-cities";
 import { SHIMLA_GUIDES } from "./shimla-guides";
@@ -41,6 +42,7 @@ const ALL_POSTS: BlogPost[] = [
   ...MONEY_FROM_CITIES,
   ...SHIMLA_GUIDES,
   ...MANALI_GUIDES,
+  ...LADAKH_DEEP,
 ];
 
 // Full rewrites keep the published slug, title and description and replace
