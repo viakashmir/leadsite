@@ -33,6 +33,13 @@ npx prisma migrate status || true
 echo "== 3. Apply migrations"
 npx prisma migrate deploy
 
+echo "== 3b. Base data (admin user, credit packs; never sample leads)"
+if [ -n "${ADMIN_PASSWORD:-}" ]; then
+  SEED_SAMPLE_DATA=0 npx tsx prisma/seed.ts
+else
+  echo "   skipped: set ADMIN_PASSWORD to create the first admin"
+fi
+
 echo "== 4. Locations"
 npx tsx prisma/seed-locations.ts
 

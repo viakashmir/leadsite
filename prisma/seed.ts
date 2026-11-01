@@ -409,14 +409,22 @@ const LEADS: SeedLead[] = [
   },
 ];
 
+// SEED_SAMPLE_DATA=0 (production): only the admin user and credit packs. The
+// sample destinations, packages and leads are demo data and must never reach
+// a live database, and the admin password must come from ADMIN_PASSWORD.
+const PRODUCTION = process.env.SEED_SAMPLE_DATA === "0";
+
 async function main() {
   console.log("Seeding admin user...");
+  const adminEmail = process.env.ADMIN_EMAIL ?? "admin@wanderleads.com";
+  const adminPassword = process.env.ADMIN_PASSWORD ?? (PRODUCTION ? "" : "admin12345");
+  if (adminPassword.length < 12 && PRODUCTION) throw new Error("Set ADMIN_PASSWORD (12+ characters) for a production seed");
   await prisma.adminUser.upsert({
-    where: { email: "admin@wanderleads.com" },
+    where: { email: adminEmail },
     update: {},
     create: {
-      email: "admin@wanderleads.com",
-      passwordHash: await bcrypt.hash("admin12345", 10),
+      email: adminEmail,
+      passwordHash: await bcrypt.hash(adminPassword, 10),
       name: "Site Admin",
     },
   });
@@ -431,6 +439,11 @@ async function main() {
   for (const pack of creditPacks) {
     const existing = await prisma.creditPack.findFirst({ where: { name: pack.name } });
     if (!existing) await prisma.creditPack.create({ data: pack });
+  }
+
+  if (PRODUCTION) {
+    console.log("Production seed: skipping sample destinations, packages and leads.");
+    return;
   }
 
   console.log("Seeding destinations & cities...");
