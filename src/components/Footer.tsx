@@ -65,6 +65,10 @@ export default function Footer() {
         <Link href="/about-us" className="hover:text-white">About Us</Link>
         <Link href="/contact-us" className="hover:text-white">Contact Us</Link>
         <Link href="/editorial-policy" className="hover:text-white">Editorial Policy</Link>
+        <Link href="/terms-and-conditions" className="hover:text-white">Terms</Link>
+        <Link href="/privacy-policy" className="hover:text-white">Privacy</Link>
+        <Link href="/refund-and-cancellation-policy" className="hover:text-white">Refund &amp; Cancellation</Link>
+        <Link href="/shipping-and-delivery-policy" className="hover:text-white">Shipping &amp; Delivery</Link>
         <a href="/sitemap.xml" className="hover:text-white">Sitemap (XML)</a>
       </nav>
       <div className="border-t border-white/10 py-4 text-center text-xs text-white/50">

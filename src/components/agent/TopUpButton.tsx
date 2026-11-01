@@ -10,7 +10,10 @@ declare global {
   interface Window {
     // The Razorpay Checkout script attaches this constructor; no official
     // browser types are published for it.
-    Razorpay: new (options: Record<string, unknown>) => { open: () => void };
+    Razorpay: new (options: Record<string, unknown>) => {
+      open: () => void;
+      on: (event: "payment.failed", cb: (r: { error?: { description?: string } }) => void) => void;
+    };
   }
 }
 
@@ -68,8 +71,12 @@ export default function TopUpButton({ pack, highlight }: { pack: Pack; highlight
           body: JSON.stringify(response),
         });
         if (!res.ok) {
-          setError("Payment succeeded but crediting failed — contact support with your payment ID.");
+          // The webhook credits it independently, so this is usually a delay.
+          setError(
+            `Payment received (ID ${response.razorpay_payment_id}). Credits will appear within a few minutes; if not, contact us with this ID.`,
+          );
           setPending(false);
+          router.refresh();
           return;
         }
         router.refresh();
@@ -78,9 +85,13 @@ export default function TopUpButton({ pack, highlight }: { pack: Pack; highlight
       modal: {
         ondismiss: () => setPending(false),
       },
-      theme: { color: "#1d4ed8" },
+      theme: { color: "#7a1f2b" },
     });
 
+    razorpay.on("payment.failed", (r) => {
+      setError(`Payment failed: ${r.error?.description ?? "please try again or use another method"}. If money left your account, Razorpay returns it automatically.`);
+      setPending(false);
+    });
     razorpay.open();
   }
 

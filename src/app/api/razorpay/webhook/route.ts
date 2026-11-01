@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
+import { prisma } from "@/lib/prisma";
 import { fulfillPaymentOrder, signaturesMatch } from "@/lib/paymentFulfillment";
 
 // Configure this URL in the Razorpay Dashboard under Settings -> Webhooks,
-// subscribed to the "payment.captured" (and optionally "order.paid") events,
+// subscribed to "payment.captured", "order.paid" and "payment.failed",
 // with RAZORPAY_WEBHOOK_SECRET as the webhook secret.
 export async function POST(req: NextRequest) {
   const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
@@ -40,6 +41,14 @@ export async function POST(req: NextRequest) {
         // Logged for support; still 200 so Razorpay doesn't retry forever.
         console.error(`Razorpay webhook: ${result.reason} (order ${payment.order_id}, payment ${payment.id})`);
       }
+    }
+  }
+
+  // A failed attempt: mark the order so admins see it; Checkout lets the agent retry.
+  if (event.event === "payment.failed") {
+    const orderId = event.payload?.payment?.entity?.order_id;
+    if (orderId) {
+      await prisma.paymentOrder.updateMany({ where: { razorpayOrderId: orderId, status: "CREATED" }, data: { status: "FAILED" } });
     }
   }
 

@@ -69,6 +69,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: url("/about-us"), changeFrequency: "yearly", priority: 0.3 },
     { url: url("/contact-us"), changeFrequency: "yearly", priority: 0.3 },
     { url: url("/editorial-policy"), changeFrequency: "yearly", priority: 0.3 },
+    { url: url("/terms-and-conditions"), changeFrequency: "yearly", priority: 0.2 },
+    { url: url("/privacy-policy"), changeFrequency: "yearly", priority: 0.2 },
+    { url: url("/refund-and-cancellation-policy"), changeFrequency: "yearly", priority: 0.2 },
+    { url: url("/shipping-and-delivery-policy"), changeFrequency: "yearly", priority: 0.2 },
   ];
 
   // Guide sections are listed only when they have content (mirrors indexable()
