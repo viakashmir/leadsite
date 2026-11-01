@@ -125,7 +125,7 @@ export async function loginAsAgent(agentId: string) {
     data: { agentId, type: "LOGIN", actor: admin.name, detail: `Impersonated by admin ${admin.name}` },
   });
 
-  await setAgentSessionCookie({ agentId: agent.id, email: agent.email });
+  await setAgentSessionCookie(agent);
   redirect("/agent/dashboard");
 }
 

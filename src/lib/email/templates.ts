@@ -64,7 +64,14 @@ const dateTime = (d: Date) =>
 
 // Email images must be absolute; relative /media paths become site URLs.
 const img = (src: string | null) => (src ? absoluteUrl(src) : null);
-const firstName = (name: string) => name.trim().split(/\s+/)[0] || name;
+// The name is whatever the visitor typed, and the customer email goes to an
+// address nobody has verified. Only greet by name when it looks like a name,
+// so the form can't be used to put someone else's words ("call this number")
+// in front of a stranger under our brand.
+const firstName = (name: string) => {
+  const first = name.trim().split(/\s+/)[0] ?? "";
+  return /^\p{L}[\p{L}.'-]{0,29}$/u.test(first) ? first : "";
+};
 const tripPlace = (l: LeadEmailData) => (l.cityName ? `${l.cityName}, ${l.destinationName}` : l.destinationName);
 const travellers = (l: LeadEmailData) =>
   `${l.adults} adult${l.adults === 1 ? "" : "s"}${l.children ? `, ${l.children} child${l.children === 1 ? "" : "ren"}` : ""}`;
@@ -186,14 +193,14 @@ ${pic ? `<tr><td><a href="${esc(href)}" target="_blank"><img src="${esc(pic)}" w
   const body = `
 <!-- hero -->
 ${heroBlock}
-<p style="margin:0 0 10px;font-family:${FONT};font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:${C.goldSoft};">Enquiry received ✓</p>
-<h1 class="hero-title" style="margin:0 0 12px;font-family:${FONT};font-size:32px;line-height:40px;font-weight:800;color:#ffffff;">Thank you, ${esc(firstName(lead.name))}!<br>${esc(place)} is calling.</h1>
+<p style="margin:0 0 10px;font-family:${FONT};font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:${C.goldSoft};">Enquiry received</p>
+<h1 class="hero-title" style="margin:0 0 12px;font-family:${FONT};font-size:32px;line-height:40px;font-weight:800;color:#ffffff;">Thank you${firstName(lead.name) ? `, ${esc(firstName(lead.name))}` : ""}!<br>${esc(place)} is calling.</h1>
 <p style="margin:0;font-family:${FONT};font-size:15px;line-height:23px;color:#e8ebf2;">We've got your trip details. Trusted local travel experts will reach out shortly with handpicked, customised quotes.</p>
 </td></tr></table></td></tr>
 
 <!-- intro -->
 <tr><td class="px" style="padding:34px 36px 8px;">
-<p style="margin:0 0 14px;font-family:${FONT};font-size:16px;line-height:25px;color:${C.ink};">Hi ${esc(firstName(lead.name))},</p>
+<p style="margin:0 0 14px;font-family:${FONT};font-size:16px;line-height:25px;color:${C.ink};">Hi ${esc(firstName(lead.name) || "there")},</p>
 <p style="margin:0;font-family:${FONT};font-size:15px;line-height:24px;color:${C.inkSoft};">Thanks for contacting <strong style="color:${C.ink};">${esc(SITE_NAME)}</strong>. Your enquiry for <strong style="color:${C.brand};">${esc(place)}</strong> is with us, and you'll hear from up to 3 verified agents, usually within a few hours, on <strong style="color:${C.ink};">${esc(lead.phone)}</strong>. Compare their plans and prices, then book with whoever you like best.</p>
 </td></tr>
 
@@ -246,20 +253,20 @@ ${button(guide, `Read the ${esc(lead.destinationName)} guide &rarr;`, "#ffffff",
 <!-- trust -->
 <tr><td class="px" bgcolor="${C.ivory}" style="background:${C.ivory};padding:22px 36px;border-top:1px solid ${C.line};">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-<td class="stack" align="center" style="padding:6px;font-family:${FONT};font-size:13px;font-weight:700;color:${C.ink};">✔ Verified local agents</td>
-<td class="stack" align="center" style="padding:6px;font-family:${FONT};font-size:13px;font-weight:700;color:${C.ink};">✔ Up to 3 free quotes</td>
-<td class="stack" align="center" style="padding:6px;font-family:${FONT};font-size:13px;font-weight:700;color:${C.ink};">✔ No booking fee</td>
+<td class="stack" align="center" style="padding:6px;font-family:${FONT};font-size:13px;font-weight:700;color:${C.ink};">Verified local agents</td>
+<td class="stack" align="center" style="padding:6px;font-family:${FONT};font-size:13px;font-weight:700;color:${C.ink};">Up to 3 free quotes</td>
+<td class="stack" align="center" style="padding:6px;font-family:${FONT};font-size:13px;font-weight:700;color:${C.ink};">No booking fee</td>
 </tr></table>
 </td></tr>`;
 
   const html = layout({
-    preheader: `Thanks ${firstName(lead.name)}! Local experts for ${place} will contact you shortly with custom quotes.`,
+    preheader: `Thanks${firstName(lead.name) ? ` ${firstName(lead.name)}` : ""}! Local experts for ${place} will contact you shortly with custom quotes.`,
     body,
     footerNote: `You're receiving this email because you requested a trip quote for ${esc(place)} on ${esc(SITE_NAME)}.`,
   });
 
   const text = [
-    `Hi ${firstName(lead.name)},`,
+    `Hi ${firstName(lead.name) || "there"},`,
     ``,
     `Thanks for contacting ${SITE_NAME}! We've received your enquiry for ${place}.`,
     `Up to 3 verified local travel agents will contact you on ${lead.phone} with customised quotes, usually within a few hours.`,
@@ -272,7 +279,7 @@ ${button(guide, `Read the ${esc(lead.destinationName)} guide &rarr;`, "#ffffff",
     `Team ${SITE_NAME}`,
   ].join("\n");
 
-  return { subject: `Thanks ${firstName(lead.name)}! Your ${lead.destinationName} trip enquiry is received ✈️`, html, text };
+  return { subject: `Thanks${firstName(lead.name) ? ` ${firstName(lead.name)}` : ""}! Your ${lead.destinationName} trip enquiry is received`, html, text };
 }
 
 // ------------------------------------------------------------------- admin
@@ -286,7 +293,7 @@ export function adminNewLeadEmail(lead: LeadEmailData) {
   const body = `
 <!-- hero -->
 <tr><td class="px" bgcolor="${C.brand}" style="background:${C.brand};padding:34px 36px 30px;">
-<p style="margin:0 0 8px;font-family:${FONT};font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:${C.goldSoft};">🔔 New lead received</p>
+<p style="margin:0 0 8px;font-family:${FONT};font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:${C.goldSoft};">New lead received</p>
 <h1 class="hero-title" style="margin:0 0 8px;font-family:${FONT};font-size:28px;line-height:36px;font-weight:800;color:#ffffff;">${esc(lead.name)} wants to visit ${esc(place)}</h1>
 <p style="margin:0;font-family:${FONT};font-size:14px;color:#f3e3e5;">Received ${esc(dateTime(lead.createdAt))}${lead.packageTitle ? ` · from package “${esc(lead.packageTitle)}”` : ""}</p>
 </td></tr>
@@ -375,5 +382,5 @@ ${button(adminLink, "Open lead in admin &rarr;")}
     .filter(Boolean)
     .join("\n");
 
-  return { subject: `🔔 New lead: ${lead.name} → ${place}`, html, text };
+  return { subject: `New lead: ${lead.name} → ${place}`, html, text };
 }

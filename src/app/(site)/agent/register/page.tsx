@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import SignInPanel from "@/components/auth/SignInPanel";
-import { getAgentSession } from "@/lib/auth";
+import { getSignedInAgent } from "@/lib/auth";
 import { isGoogleConfigured } from "@/lib/googleOAuth";
 
 export const metadata: Metadata = {
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AgentRegisterPage() {
-  if (await getAgentSession()) redirect("/agent/dashboard/profile");
+  if (await getSignedInAgent()) redirect("/agent/dashboard/profile");
 
   return (
     <div className="px-4 py-14">

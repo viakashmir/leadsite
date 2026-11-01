@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import SignInPanel from "@/components/auth/SignInPanel";
-import { getAgentSession } from "@/lib/auth";
+import { getSignedInAgent } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { getAdminSession } from "@/lib/adminAuth";
 import { isGoogleConfigured } from "@/lib/googleOAuth";
 import { landingFor } from "@/lib/signIn";
@@ -21,10 +22,16 @@ export default async function LoginPage({
   const base = safeNextPath(next, "");
   const target = base && lead ? `${base}${base.includes("?") ? "&" : "?"}lead=${encodeURIComponent(lead)}` : base;
 
-  // Already signed in: go straight to that role's pages.
+  // Already signed in: go straight to that role's pages. Checked against the
+  // database, so a cookie for a deleted account shows the form instead of
+  // looping back here from the dashboard.
   if (!suspended) {
-    if (await getAdminSession()) redirect(landingFor("admin", target));
-    if (await getAgentSession()) redirect(landingFor("agent", target));
+    const adminSession = await getAdminSession();
+    if (adminSession && (await prisma.adminUser.findUnique({ where: { id: adminSession.adminId }, select: { id: true } }))) {
+      redirect(landingFor("admin", target));
+    }
+    const agent = await getSignedInAgent();
+    if (agent && agent.status !== "SUSPENDED") redirect(landingFor("agent", target));
   }
 
   return (

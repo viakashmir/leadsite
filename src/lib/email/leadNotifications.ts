@@ -52,7 +52,19 @@ export async function notifyNewLead(leadId: string): Promise<void> {
       }).then((result) => ({ who: "admin", result })),
     ];
 
-    if (lead.email) {
+    // At most one acknowledgement per address per day, so the public form
+    // can't be used to flood a stranger's inbox from our domain.
+    const recentlyEmailed = lead.email
+      ? await prisma.lead.count({
+          where: {
+            id: { not: lead.id },
+            email: lead.email,
+            createdAt: { gte: new Date(Date.now() - 24 * 60 * 60_000) },
+          },
+        })
+      : 0;
+
+    if (lead.email && !recentlyEmailed) {
       const suggestions = await prisma.package
         .findMany({
           where: {
@@ -92,9 +104,10 @@ export async function notifyNewLead(leadId: string): Promise<void> {
     }
 
     const results = await Promise.all(jobs);
-    const detail = results
-      .map(({ who, result }) => (result.ok ? `${who} email sent` : `${who} email failed (${result.error})`))
-      .join("; ");
+    const detail = [
+      ...results.map(({ who, result }) => (result.ok ? `${who} email sent` : `${who} email failed (${result.error})`)),
+      ...(recentlyEmailed ? ["customer email skipped (address already emailed in the last 24h)"] : []),
+    ].join("; ");
     for (const { who, result } of results) {
       if (!result.ok) console.error(`[lead-email] ${who} email for lead ${leadId} failed: ${result.error}`);
     }

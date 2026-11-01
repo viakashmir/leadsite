@@ -47,13 +47,13 @@ export function landingFor(role: Role, next: string | null | undefined, opts: { 
 }
 
 /** Signing in as one role ends any session of the other role in this browser. */
-export async function startSession(role: Role, user: { id: string; email: string }) {
+export async function startSession(role: Role, user: { id: string; email: string; passwordHash: string }) {
   if (role === "admin") {
     await clearAgentSessionCookie();
     await setAdminSessionCookie({ adminId: user.id, email: user.email });
   } else {
     await clearAdminSessionCookie();
-    await setAgentSessionCookie({ agentId: user.id, email: user.email });
+    await setAgentSessionCookie(user);
   }
 }
 
@@ -84,8 +84,31 @@ export async function resolveGoogleUser(profile: { email: string; name: string }
     return { role: "admin" as const, user: created, needsOnboarding: false, suspended: false };
   }
 
-  const existing = await findAgentByEmail(email);
+  let existing = await findAgentByEmail(email);
   if (existing) {
+    // Password sign-up never proves the email belongs to the person, so anyone
+    // could have registered this address first. Google has now proved who owns
+    // it: the first time it is used on this account, replace the password and
+    // end every older session, so a squatter loses access.
+    const linked = await prisma.agentActivity.findFirst({
+      where: { agentId: existing.id, type: "GOOGLE_LINKED" },
+      select: { id: true },
+    });
+    if (!linked) {
+      existing = await prisma.agent.update({
+        where: { id: existing.id },
+        data: {
+          passwordHash: await bcrypt.hash(crypto.randomBytes(32).toString("hex"), 10),
+          activities: {
+            create: {
+              type: "GOOGLE_LINKED",
+              actor: "System",
+              detail: "Signed in with Google. Password replaced and older sessions ended.",
+            },
+          },
+        },
+      });
+    }
     return {
       role: "agent" as const,
       user: existing,
@@ -105,7 +128,12 @@ export async function resolveGoogleUser(profile: { email: string; name: string }
       servicesWanted: "[]",
       credits: SIGNUP_BONUS_CREDITS,
       transactions: { create: { amount: SIGNUP_BONUS_CREDITS, type: "BONUS", note: "Welcome bonus credits" } },
-      activities: { create: { type: "REGISTRATION", actor: "System", detail: "Registered with Google sign-in." } },
+      activities: {
+        create: [
+          { type: "REGISTRATION", actor: "System", detail: "Registered with Google sign-in." },
+          { type: "GOOGLE_LINKED", actor: "System", detail: "Account created with Google." },
+        ],
+      },
     },
   });
   return { role: "agent" as const, user: agent, needsOnboarding: true, suspended: false };
