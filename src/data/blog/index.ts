@@ -12,6 +12,7 @@ import { INTERNATIONAL_WORLD } from "./international-world";
 import { WORLD_AND_ROUNDUPS } from "./world-and-roundups";
 import { PLANNING_GUIDES } from "./planning-guides";
 import { HIMACHAL_DEEP } from "./himachal-deep";
+import { KASHMIR_UPGRADES } from "./kashmir-deep";
 
 // Thin posts replaced by a full guide on the same topic; their URLs 301 to
 // the new post (next.config.ts redirects) so the two never compete in search.
@@ -35,4 +36,10 @@ const ALL_POSTS: BlogPost[] = [
   ...HIMACHAL_DEEP,
 ];
 
-export const BLOG_POSTS: BlogPost[] = ALL_POSTS.filter((p) => !(p.slug in SUPERSEDED_POSTS));
+// Full rewrites keep the published slug, title and description and replace
+// the body, so the URL keeps its history while the page stops being thin.
+const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs">> = { ...KASHMIR_UPGRADES };
+
+export const BLOG_POSTS: BlogPost[] = ALL_POSTS.filter((p) => !(p.slug in SUPERSEDED_POSTS)).map((p) =>
+  UPGRADES[p.slug] ? { ...p, ...UPGRADES[p.slug] } : p,
+);
