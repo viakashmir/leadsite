@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { SERVICE_OPTIONS } from "@/lib/validation";
 
@@ -53,9 +54,9 @@ export default async function AgentsDirectoryPage() {
         {agents.length === 0 && (
           <p className="text-sm text-zinc-500">
             No agents listed yet. Be the first to{" "}
-            <a href="/agent/register" className="text-blue-700 underline">
+            <Link href="/agent/register" className="text-blue-700 underline">
               join free
-            </a>
+            </Link>
             .
           </p>
         )}

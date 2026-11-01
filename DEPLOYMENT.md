@@ -1,4 +1,4 @@
-# Deploying WanderLeads
+# Deploying Tavel Package
 
 ## 1. Prerequisites (blocking)
 

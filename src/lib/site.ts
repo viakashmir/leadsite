@@ -1,4 +1,4 @@
-export const SITE_NAME = "TavelPackage";
+export const SITE_NAME = "Tavel Package";
 
 function normalizeSiteUrl(value: string | undefined): string {
   if (!value) return "http://localhost:3000";

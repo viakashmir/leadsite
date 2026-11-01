@@ -43,7 +43,7 @@ export const INDIA_WEST_SOUTH: Record<string, GuideContent> = {
       { q: "Can I see tigers in Ranthambore?", a: "Ranthambore is one of the best parks in India for tiger sightings, though sightings are never guaranteed. The core zones are open from October to June." },
       { q: "Is a desert camp in Jaisalmer worth it?", a: "Yes for most travellers. Camps near the Sam dunes include a camel or jeep ride at sunset, folk music and dinner, with options from basic tents to luxury camps." },
       { q: "How is Rajasthan connected to Delhi?", a: "By flights to Jaipur, Udaipur and Jodhpur, direct trains, and the Delhi to Jaipur highway, which takes about 5 hours by car." },
-      { q: "How do Rajasthan quotes on TavelPackage work?", a: "Share the cities you want, your dates and hotel style. Up to 3 verified agents send customised itineraries with car, driver and stays." },
+      { q: "How do Rajasthan quotes on Tavel Package work?", a: "Share the cities you want, your dates and hotel style. Up to 3 verified agents send customised itineraries with car, driver and stays." },
     ],
     packagesDescription:
       "Customised Rajasthan tour packages for Jaipur, Udaipur, Jodhpur, Jaisalmer and Ranthambore. Get up to 3 quotes from verified local agents.",
@@ -90,7 +90,7 @@ export const INDIA_WEST_SOUTH: Record<string, GuideContent> = {
       { q: "How many days are needed for Varanasi, Ayodhya and Prayagraj?", a: "Four to six days by road, with two nights in Varanasi, one or two in Ayodhya and one in Prayagraj." },
       { q: "What is the best time to visit Varanasi?", a: "October to March. Dev Deepawali in November, when the ghats are lit with lamps, is a special time but very crowded." },
       { q: "Where is the Ganga Aarti in Varanasi?", a: "The main evening aarti is at Dashashwamedh Ghat; there is also a morning programme at Assi Ghat." },
-      { q: "How do Uttar Pradesh quotes on TavelPackage work?", a: "Share whether you want Agra, a spiritual circuit or both, with your dates. Up to 3 verified agents send itineraries with transport, hotels and guides." },
+      { q: "How do Uttar Pradesh quotes on Tavel Package work?", a: "Share whether you want Agra, a spiritual circuit or both, with your dates. Up to 3 verified agents send itineraries with transport, hotels and guides." },
     ],
     packagesDescription:
       "Customised Uttar Pradesh tour packages for Agra, Varanasi, Ayodhya, Prayagraj and Mathura Vrindavan. Get up to 3 quotes from verified local agents.",
@@ -137,7 +137,7 @@ export const INDIA_WEST_SOUTH: Record<string, GuideContent> = {
       { q: "What is the best time to visit Goa?", a: "November to February for the classic beach holiday. Go in the monsoon if you prefer greenery, waterfalls and low hotel rates." },
       { q: "Which airport should I fly into?", a: "Mopa (GOX) if you are staying in North Goa, Dabolim (GOI) for South Goa. The two are about 1.5 hours apart." },
       { q: "Are water sports available all year?", a: "No. They run from about October to May and are suspended during the monsoon for safety." },
-      { q: "How do Goa quotes on TavelPackage work?", a: "Share your dates, group and whether you prefer North or South Goa. Up to 3 verified agents send packages with hotels, transfers and sightseeing." },
+      { q: "How do Goa quotes on Tavel Package work?", a: "Share your dates, group and whether you prefer North or South Goa. Up to 3 verified agents send packages with hotels, transfers and sightseeing." },
     ],
     packagesDescription:
       "Customised Goa tour packages for North and South Goa beaches, Old Goa and Dudhsagar. Get up to 3 quotes from verified local agents.",
@@ -184,7 +184,7 @@ export const INDIA_WEST_SOUTH: Record<string, GuideContent> = {
       { q: "What is the best time to visit Kerala?", a: "September to March for sightseeing and beaches; June to August if you want Ayurveda, monsoon landscapes and lower prices." },
       { q: "Is Kerala good for a honeymoon?", a: "Yes. Couples usually combine a Munnar hill resort, a private houseboat night and a beach stay in Kovalam or Varkala." },
       { q: "Which airport is best for a Kerala trip?", a: "Kochi for the Munnar, Thekkady and Alleppey circuit. Thiruvananthapuram if you start or end at Kovalam or Varkala." },
-      { q: "How do Kerala quotes on TavelPackage work?", a: "Share your dates, hotel category and whether you want a private houseboat. Up to 3 verified agents send customised itineraries with car and stays." },
+      { q: "How do Kerala quotes on Tavel Package work?", a: "Share your dates, hotel category and whether you want a private houseboat. Up to 3 verified agents send customised itineraries with car and stays." },
     ],
     packagesDescription:
       "Customised Kerala tour packages with Munnar, Thekkady, an Alleppey houseboat and beaches. Get up to 3 quotes from verified local agents.",
@@ -231,7 +231,7 @@ export const INDIA_WEST_SOUTH: Record<string, GuideContent> = {
       { q: "What is the best time to visit Tamil Nadu?", a: "December to March for temples and the coast, March to June for the hill stations. Avoid the coast in the heavy rain of October to December if you can." },
       { q: "How many days are needed for Madurai, Rameswaram and Kanyakumari?", a: "Five to six days by road, with a day each in Madurai and Rameswaram and an overnight stay in Kanyakumari for sunrise." },
       { q: "Can I combine Tamil Nadu with Kerala?", a: "Yes. Kanyakumari is close to Thiruvananthapuram, and Kodaikanal or Ooty can be paired with Munnar for a south India trip." },
-      { q: "How do Tamil Nadu quotes on TavelPackage work?", a: "Share whether you want hills, temples or both, with your dates. Up to 3 verified agents send itineraries with car, hotels and temple timings." },
+      { q: "How do Tamil Nadu quotes on Tavel Package work?", a: "Share whether you want hills, temples or both, with your dates. Up to 3 verified agents send itineraries with car, hotels and temple timings." },
     ],
     packagesDescription:
       "Customised Tamil Nadu tour packages for Ooty, Kodaikanal, Madurai, Rameswaram and Kanyakumari. Get up to 3 quotes from verified local agents.",

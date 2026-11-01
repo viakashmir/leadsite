@@ -41,7 +41,7 @@ export const INDIA_EAST_ISLANDS: Record<string, GuideContent> = {
       { q: "What is the best time to visit Coorg?", a: "October to March for clear, cool weather. The monsoon from June to September is very rainy but popular with travellers who want misty hills and waterfalls." },
       { q: "How do I reach Hampi?", a: "Take a train or bus to Hosapete, about 13 km away, or fly to Toranagallu or Hubballi and drive." },
       { q: "When is Mysore Dasara?", a: "Dasara falls in September or October, with ten days of celebrations and the palace lit up every night." },
-      { q: "How do Karnataka quotes on TavelPackage work?", a: "Share your dates and the places you want. Up to 3 verified agents send itineraries with car, homestays or hotels and sightseeing." },
+      { q: "How do Karnataka quotes on Tavel Package work?", a: "Share your dates and the places you want. Up to 3 verified agents send itineraries with car, homestays or hotels and sightseeing." },
     ],
     packagesDescription:
       "Customised Karnataka tour packages for Coorg, Mysore, Hampi, Chikmagalur and Gokarna. Get up to 3 quotes from verified local agents.",
@@ -88,7 +88,7 @@ export const INDIA_EAST_ISLANDS: Record<string, GuideContent> = {
       { q: "What is the best time to visit Andaman?", a: "October to May, with December to February the most pleasant. The monsoon brings rough seas from June to September." },
       { q: "Is Andaman good for a honeymoon?", a: "Yes. Couples usually stay on Havelock for its beaches and resorts and add a day on quieter Neil Island." },
       { q: "Can non-swimmers do scuba diving in Andaman?", a: "Yes. Introductory dives with a certified instructor are designed for non-swimmers, in shallow water after a briefing." },
-      { q: "How do Andaman quotes on TavelPackage work?", a: "Share your dates, hotel category and activities. Up to 3 verified agents send packages including ferries, transfers and stays." },
+      { q: "How do Andaman quotes on Tavel Package work?", a: "Share your dates, hotel category and activities. Up to 3 verified agents send packages including ferries, transfers and stays." },
     ],
     packagesDescription:
       "Customised Andaman tour packages for Port Blair, Havelock and Neil Island with ferries, beaches and scuba. Get up to 3 quotes from verified agents.",
@@ -133,7 +133,7 @@ export const INDIA_EAST_ISLANDS: Record<string, GuideContent> = {
       { q: "How do I reach Darjeeling?", a: "Fly to Bagdogra or take a train to New Jalpaiguri, then drive about 3 hours. The toy train is a scenic but slow alternative." },
       { q: "When is the best time to see Kanchenjunga?", a: "October to December usually gives the clearest views, followed by spring mornings from March to May." },
       { q: "Can I combine Darjeeling and Gangtok?", a: "Yes. Gangtok is about 4 hours from Darjeeling, and the two are commonly combined in a 6 to 7 day trip." },
-      { q: "How do West Bengal quotes on TavelPackage work?", a: "Share whether you want the hills, Kolkata or the Sundarbans, with your dates. Up to 3 verified agents send customised itineraries." },
+      { q: "How do West Bengal quotes on Tavel Package work?", a: "Share whether you want the hills, Kolkata or the Sundarbans, with your dates. Up to 3 verified agents send customised itineraries." },
     ],
     packagesDescription:
       "Customised Darjeeling, Kalimpong, Kolkata and Sundarbans tour packages. Get up to 3 quotes from verified local agents.",
@@ -181,7 +181,7 @@ export const INDIA_EAST_ISLANDS: Record<string, GuideContent> = {
       { q: "When can I see snow in Sikkim?", a: "From December to March at Tsomgo Lake, Nathu La and Zero Point, depending on snowfall and road access." },
       { q: "Is North Sikkim open?", a: "Access to Lachung and Lachen depends on road conditions, which have been affected by floods and landslides in recent years. Your agent will confirm the latest status." },
       { q: "Can I combine Sikkim and Darjeeling?", a: "Yes. Darjeeling is about 4 hours from Gangtok and they are often combined in a 6 to 8 day trip." },
-      { q: "How do Sikkim quotes on TavelPackage work?", a: "Share your dates and whether you want North Sikkim. Up to 3 verified agents send itineraries with permits, vehicles and stays." },
+      { q: "How do Sikkim quotes on Tavel Package work?", a: "Share your dates and whether you want North Sikkim. Up to 3 verified agents send itineraries with permits, vehicles and stays." },
     ],
     packagesDescription:
       "Customised Sikkim tour packages for Gangtok, Tsomgo Lake, Lachung, Yumthang and Pelling, with permits. Get up to 3 quotes from verified local agents.",
@@ -227,7 +227,7 @@ export const INDIA_EAST_ISLANDS: Record<string, GuideContent> = {
       { q: "How difficult is the double-decker root bridge trek?", a: "It is steep but manageable for most fit adults: a long descent and climb of about 3,000 steps. Start early and carry water." },
       { q: "How do I reach Shillong?", a: "Fly or take a train to Guwahati and drive about 3 hours. Shillong also has a small airport with limited flights." },
       { q: "Can I combine Meghalaya with Kaziranga?", a: "Yes. Kaziranga is about 5 hours from Guwahati, so a 7 to 8 day trip can cover both." },
-      { q: "How do Meghalaya quotes on TavelPackage work?", a: "Share your dates and interests. Up to 3 verified agents send itineraries with a car, stays and sightseeing." },
+      { q: "How do Meghalaya quotes on Tavel Package work?", a: "Share your dates and interests. Up to 3 verified agents send itineraries with a car, stays and sightseeing." },
     ],
     packagesDescription:
       "Customised Meghalaya tour packages for Shillong, Cherrapunji, Dawki, Mawlynnong and root bridges. Get up to 3 quotes from verified local agents.",

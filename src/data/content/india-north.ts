@@ -47,7 +47,7 @@ export const INDIA_NORTH: Record<string, GuideContent> = {
       { q: "Do I need to hire separate taxis in Pahalgam?", a: "Yes. Sightseeing to Betaab Valley, Aru Valley and Chandanwari is done in Pahalgam's local union taxis. Ask your agent whether these are included in the quote." },
       { q: "Will my mobile work in Kashmir?", a: "Postpaid connections from all major networks work. Prepaid connections from other states do not, so switch to postpaid or buy a local connection with ID." },
       { q: "Is Kashmir good for a honeymoon?", a: "Yes, it is one of India's most popular honeymoon destinations. Couples usually choose a houseboat night, a Gulmarg stay and a quieter hotel in Pahalgam." },
-      { q: "How do quotes on TavelPackage work for Kashmir?", a: "Share your dates, group size and hotel preference in the form. Up to 3 verified agents who operate Kashmir send customised itineraries and prices, and you book directly with the one you choose." },
+      { q: "How do quotes on Tavel Package work for Kashmir?", a: "Share your dates, group size and hotel preference in the form. Up to 3 verified agents who operate Kashmir send customised itineraries and prices, and you book directly with the one you choose." },
     ],
     packagesDescription:
       "Customised Kashmir tour packages covering Srinagar houseboats, Gulmarg, Pahalgam and Sonamarg. Share your dates and get up to 3 quotes from verified local agents.",
@@ -97,7 +97,7 @@ export const INDIA_NORTH: Record<string, GuideContent> = {
       { q: "Is it better to fly or drive to Ladakh?", a: "Flying is faster and easier, especially for families. Driving from Manali or Srinagar adds two days but acclimatises you gradually and shows some of the most dramatic mountain roads in India." },
       { q: "Can I visit Ladakh in winter?", a: "Yes, by flight. Winter trips focus on Leh, frozen landscapes, the Chadar trek and snow leopard tours, but temperatures fall well below freezing and some areas are closed." },
       { q: "Can I stay overnight at Pangong Lake?", a: "Yes. Camps and simple guesthouses operate along the lake in season, and an overnight stay lets you see the lake at sunrise and sunset." },
-      { q: "How do Ladakh quotes on TavelPackage work?", a: "Share your dates and whether you want to fly in or drive. Up to 3 verified agents who run Ladakh trips send itineraries with acclimatisation days, permits and stays included." },
+      { q: "How do Ladakh quotes on Tavel Package work?", a: "Share your dates and whether you want to fly in or drive. Up to 3 verified agents who run Ladakh trips send itineraries with acclimatisation days, permits and stays included." },
     ],
     packagesDescription:
       "Customised Leh Ladakh tour packages with Nubra Valley, Pangong Lake and acclimatisation days. Fly in or drive. Get up to 3 quotes from verified local agents.",
@@ -147,7 +147,7 @@ export const INDIA_NORTH: Record<string, GuideContent> = {
       { q: "What is the best way to reach Manali from Delhi?", a: "Overnight Volvo buses and private cabs take around 12 to 14 hours. You can also fly to Bhuntar near Kullu, though flights are limited and weather dependent." },
       { q: "Is Spiti Valley suitable for families?", a: "It suits families with older children who are comfortable with long drives and high altitude. Plan 8 to 10 days and go via Kinnaur to acclimatise gradually." },
       { q: "Which places in Himachal are best for a honeymoon?", a: "Manali, Shimla, Dalhousie with Khajjiar, and Kasauli are popular with couples, often combined into one road trip." },
-      { q: "How do Himachal quotes on TavelPackage work?", a: "Tell us your start city, dates and the places you want to cover. Up to 3 verified agents send customised Himachal itineraries with transport and hotels." },
+      { q: "How do Himachal quotes on Tavel Package work?", a: "Tell us your start city, dates and the places you want to cover. Up to 3 verified agents send customised Himachal itineraries with transport and hotels." },
     ],
     packagesDescription:
       "Customised Himachal tour packages for Shimla, Manali, Dharamshala, Dalhousie and Spiti. Get up to 3 quotes from verified local agents.",
@@ -197,7 +197,7 @@ export const INDIA_NORTH: Record<string, GuideContent> = {
       { q: "When is the best time for a Jim Corbett safari?", a: "Mid-November to June, when most zones including Dhikala are open. Summer months give better chances of tiger sightings as animals come to water." },
       { q: "Can I do river rafting in Rishikesh all year?", a: "No. Rafting runs roughly from September to June and is suspended during the monsoon for safety." },
       { q: "When does the Valley of Flowers open?", a: "Usually from June to October, with the best blooms in July and August. It is a trek from Ghangaria, near Hemkund Sahib." },
-      { q: "How do Uttarakhand quotes on TavelPackage work?", a: "Share your dates and whether it is a leisure, wildlife or yatra trip. Up to 3 verified agents send customised itineraries, including registrations and transport where needed." },
+      { q: "How do Uttarakhand quotes on Tavel Package work?", a: "Share your dates and whether it is a leisure, wildlife or yatra trip. Up to 3 verified agents send customised itineraries, including registrations and transport where needed." },
     ],
     packagesDescription:
       "Customised Uttarakhand tour packages for Nainital, Mussoorie, Rishikesh, Jim Corbett and the Char Dham Yatra. Get up to 3 quotes from verified local agents.",
@@ -242,7 +242,7 @@ export const INDIA_NORTH: Record<string, GuideContent> = {
       { q: "Which Delhi monuments are closed on Mondays?", a: "The Red Fort, Swaminarayan Akshardham and the Lotus Temple are closed on Mondays. Qutub Minar and Humayun's Tomb are open every day." },
       { q: "What is the best time to visit Delhi?", a: "October to March, when the weather is cool. Summers are very hot and monsoon months are humid." },
       { q: "How do I get from Delhi to Agra?", a: "By road on the Yamuna Expressway in about 3 to 4 hours, or by fast trains such as the Gatimaan Express and Vande Bharat services." },
-      { q: "How do Delhi quotes on TavelPackage work?", a: "Share your dates and whether you want Delhi only or the Golden Triangle. Up to 3 verified agents send itineraries with cars, guides and hotels." },
+      { q: "How do Delhi quotes on Tavel Package work?", a: "Share your dates and whether you want Delhi only or the Golden Triangle. Up to 3 verified agents send itineraries with cars, guides and hotels." },
     ],
     packagesDescription:
       "Delhi sightseeing and Golden Triangle tour packages with Agra and Jaipur. Share your dates and get up to 3 customised quotes from verified agents.",

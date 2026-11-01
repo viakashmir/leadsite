@@ -52,9 +52,8 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
       onMouseLeave={() => setOpenMenu(null)}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
-        <Link href="/" className="shrink-0 text-xl font-extrabold tracking-tight text-ink">
-          Tavel<span className="text-brand">Package</span>
-          <span className="sr-only">{SITE_NAME}</span>
+        <Link href="/" aria-label={SITE_NAME} className="shrink-0 text-xl font-extrabold tracking-tight text-ink">
+          Tavel <span className="text-brand">Package</span>
         </Link>
 
         <nav className="hidden items-center gap-0.5 whitespace-nowrap text-sm font-semibold text-ink lg:flex">

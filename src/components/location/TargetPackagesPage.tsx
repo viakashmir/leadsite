@@ -247,7 +247,7 @@ export default async function TargetPackagesPage({
               </Section>
             )}
 
-            <Section title="How booking works on TavelPackage">
+            <Section title="How booking works on Tavel Package">
               <ol className="grid gap-3 sm:grid-cols-3">
                 {[
                   ["Share your plan", `Tell us your ${name} dates, group size, hotel category and budget in the form. It takes about a minute.`],
