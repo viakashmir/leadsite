@@ -13,6 +13,7 @@ import { WORLD_AND_ROUNDUPS } from "./world-and-roundups";
 import { PLANNING_GUIDES } from "./planning-guides";
 import { HIMACHAL_DEEP } from "./himachal-deep";
 import { KASHMIR_UPGRADES } from "./kashmir-deep";
+import { FOCUS_BATCH_1 } from "./focus-batch-1";
 
 // Thin posts replaced by a full guide on the same topic; their URLs 301 to
 // the new post (next.config.ts redirects) so the two never compete in search.
@@ -34,6 +35,7 @@ const ALL_POSTS: BlogPost[] = [
   ...WORLD_AND_ROUNDUPS,
   ...PLANNING_GUIDES,
   ...HIMACHAL_DEEP,
+  ...FOCUS_BATCH_1,
 ];
 
 // Full rewrites keep the published slug, title and description and replace
