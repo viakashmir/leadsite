@@ -117,19 +117,22 @@ export default async function Home() {
       {/* 1. HERO: one job, start a trip request. */}
       <section className="relative isolate overflow-hidden bg-royal text-white">
         {heroPhoto && (
-          <Image src={heroPhoto} alt="" fill priority sizes="100vw" className="-z-10 object-cover opacity-45" />
+          <Image src={heroPhoto} alt="" fill priority sizes="100vw" className="-z-20 object-cover" />
         )}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-royal via-royal/85 to-royal/30" />
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 pb-10 pt-8 sm:pb-14 sm:pt-12 lg:grid-cols-[1fr_400px] lg:items-center">
+        {/* Shade only where the text sits, so the photo shows through on the
+            right and around the form; a soft floor keeps the stats readable. */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-royal/80 via-royal/60 to-royal/90 lg:bg-gradient-to-r lg:from-royal/90 lg:via-royal/55 lg:to-royal/5" />
+        <div className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-t from-royal/70 to-transparent" />
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 pb-8 pt-8 sm:pb-10 sm:pt-10 lg:grid-cols-[1fr_380px] lg:items-center lg:gap-12">
           <div className="min-w-0">
             <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${gold}`}>Customised tour packages · India &amp; abroad</p>
             <h1 className="mt-3 max-w-2xl font-display text-[32px] font-bold leading-[1.08] tracking-tight sm:text-5xl">
               Describe your trip once.
               <span className={`block ${gold}`}>Three local experts compete to plan it.</span>
             </h1>
-            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/80 sm:text-base">
-              Verified agents who live and work in your destination send custom itineraries and prices. You compare,
-              ask questions and book only the one you love.
+            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/90 [text-shadow:0_1px_8px_rgb(0_0_0/0.35)] sm:text-base">
+              Get customised tour package quotes from up to 3 verified local travel agents, free. They live and work in
+              your destination, send their own itinerary and price, and you book only the one you love.
             </p>
 
             <ul className="mt-5 grid max-w-xl gap-2 text-sm text-white/90 sm:grid-cols-3">
@@ -170,12 +173,12 @@ export default async function Home() {
           </div>
 
           <div id="get-quotes" className="hidden scroll-mt-20 text-ink lg:block">
-            <EnquiryForm destinations={destinations} />
+            <EnquiryForm destinations={destinations} compact title="Get 3 Free Quotes" />
           </div>
         </div>
 
         {proof.length > 0 && (
-          <div className="border-t border-white/10 bg-black/20">
+          <div className="border-t border-white/10 bg-royal/60 backdrop-blur-sm">
             <dl className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 py-4 sm:grid-cols-4">
               {proof.map((p) => (
                 <div key={p.label}>

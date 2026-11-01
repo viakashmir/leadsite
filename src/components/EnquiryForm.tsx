@@ -15,11 +15,11 @@ export type DestinationOption = {
 const HOTEL_BANDS = [
   { value: "Economy (0-2 Star)", label: "Budget" },
   { value: "Standard (3-4 Star)", label: "3-4 Star" },
-  { value: "Luxury (3 Star & Above)", label: "Luxury" },
+  { value: "Luxury (4-5 Star)", label: "Luxury" },
 ];
 
-const field =
-  "h-10 w-full rounded-lg border border-zinc-200 bg-white px-2.5 text-sm text-ink outline-none transition placeholder:text-zinc-400 focus:border-brand focus:ring-2 focus:ring-brand-tint";
+const fieldBase =
+  "w-full border border-zinc-200 bg-white text-ink outline-none transition placeholder:text-zinc-400 focus:border-brand focus:ring-2 focus:ring-brand-tint";
 const label = "mb-0.5 block text-[11px] font-semibold text-ink-soft";
 
 const todayIso = () => new Date().toISOString().slice(0, 10);
@@ -43,6 +43,7 @@ export default function EnquiryForm({
   sourcePackageId,
   title = "Get Free Quotes from Verified Travel Agents",
   bare = false,
+  compact = false,
 }: {
   destinations: DestinationOption[];
   defaultDestinationId?: string;
@@ -50,7 +51,11 @@ export default function EnquiryForm({
   sourcePackageId?: string;
   title?: string;
   bare?: boolean; // no card chrome, for use inside a sheet
+  compact?: boolean; // tighter 5-row layout for the homepage hero
 }) {
+  const field = `${fieldBase} ${compact ? "h-9 rounded-md px-2 text-[13px]" : "h-10 rounded-lg px-2.5 text-sm"}`;
+  // Grid spans: 6 columns normally, 12 in the compact layout.
+  const span = (normal: string, tight: string) => (compact ? tight : normal);
   const uid = useId();
   const id = (name: string) => `${uid}-${name}`;
   // No default on general pages: the traveller must pick, so the lead names a real destination.
@@ -125,7 +130,11 @@ export default function EnquiryForm({
     }
   }
 
-  const card = bare ? "" : "rounded-[14px] border border-zinc-200 bg-white p-4 shadow-sm sm:p-5";
+  const card = bare
+    ? ""
+    : compact
+      ? "rounded-2xl bg-white/95 p-4 shadow-2xl shadow-black/30 ring-1 ring-white/40 backdrop-blur"
+      : "rounded-[14px] border border-zinc-200 bg-white p-4 shadow-sm sm:p-5";
 
   if (status === "success") {
     return (
@@ -152,13 +161,15 @@ export default function EnquiryForm({
           <input type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
         </label>
       </div>
-      <p className="font-display text-lg font-extrabold leading-tight tracking-tight text-ink">{titleCase(title)}</p>
+      <p className={`font-display font-extrabold leading-tight tracking-tight text-ink ${compact ? "text-base" : "text-lg"}`}>
+        {titleCase(title)}
+      </p>
       <p className="mt-0.5 text-[11px] text-ink-soft">
         <span className="font-semibold text-brand">Free</span> · No booking fee · Up to 3 quotes
       </p>
 
-      <div className="mt-3 grid grid-cols-6 gap-x-2 gap-y-2">
-        <div className={hasCities ? "col-span-3" : "col-span-6"}>
+      <div className={`grid gap-x-2 ${compact ? "mt-2.5 grid-cols-12 gap-y-1.5" : "mt-3 grid-cols-6 gap-y-2"}`}>
+        <div className={hasCities ? span("col-span-3", "col-span-6") : span("col-span-6", "col-span-12")}>
           <label className={label} htmlFor={id("dest")}>
             Destination
           </label>
@@ -184,7 +195,7 @@ export default function EnquiryForm({
           </select>
         </div>
         {hasCities && (
-          <div className="col-span-3">
+          <div className={span("col-span-3", "col-span-6")}>
             <label className={label} htmlFor={id("city")}>
               Place
             </label>
@@ -199,13 +210,13 @@ export default function EnquiryForm({
           </div>
         )}
 
-        <div className="col-span-3">
+        <div className={span("col-span-3", "col-span-7")}>
           <label className={label} htmlFor={id("date")}>
             Travel date
           </label>
           <input id={id("date")} name="travelDate" type="date" required min={todayIso()} className={field} />
         </div>
-        <div className="col-span-3">
+        <div className={span("col-span-3", "col-span-5")}>
           <label className={label} htmlFor={id("days")}>
             Days
           </label>
@@ -218,7 +229,7 @@ export default function EnquiryForm({
           </select>
         </div>
 
-        <div className="col-span-2">
+        <div className={span("col-span-2", "col-span-3")}>
           <label className={label} htmlFor={id("adults")}>
             Adults
           </label>
@@ -230,7 +241,7 @@ export default function EnquiryForm({
             ))}
           </select>
         </div>
-        <div className="col-span-2">
+        <div className={span("col-span-2", "col-span-3")}>
           <label className={label} htmlFor={id("children")}>
             Kids
           </label>
@@ -242,26 +253,51 @@ export default function EnquiryForm({
             ))}
           </select>
         </div>
-        <div className="col-span-2">
-          <label className={label} htmlFor={id("hotel")}>
-            Hotel
-          </label>
-          <select id={id("hotel")} value={hotel} onChange={(e) => setHotel(e.target.value)} className={field}>
-            {HOTEL_BANDS.map((b) => (
-              <option key={b.value} value={b.value}>
-                {b.label}
-              </option>
-            ))}
-          </select>
-        </div>
+        {compact ? (
+          // One tap instead of a dropdown.
+          <div className="col-span-6" role="radiogroup" aria-labelledby={id("hotel")}>
+            <span id={id("hotel")} className={label}>
+              Hotel
+            </span>
+            <div className="grid h-9 grid-cols-3 gap-0.5 rounded-md bg-zinc-100 p-0.5">
+              {HOTEL_BANDS.map((b) => (
+                <button
+                  key={b.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={hotel === b.value}
+                  onClick={() => setHotel(b.value)}
+                  className={`whitespace-nowrap rounded px-0.5 text-[11px] font-semibold transition ${
+                    hotel === b.value ? "bg-white text-brand shadow-sm" : "text-ink-soft hover:text-ink"
+                  }`}
+                >
+                  {b.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="col-span-2">
+            <label className={label} htmlFor={id("hotel")}>
+              Hotel
+            </label>
+            <select id={id("hotel")} value={hotel} onChange={(e) => setHotel(e.target.value)} className={field}>
+              {HOTEL_BANDS.map((b) => (
+                <option key={b.value} value={b.value}>
+                  {b.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
-        <div className="col-span-3">
+        <div className={span("col-span-3", "col-span-5")}>
           <label className={label} htmlFor={id("name")}>
             Name
           </label>
           <input id={id("name")} name="name" required minLength={2} autoComplete="name" placeholder="Your name" className={field} />
         </div>
-        <div className="col-span-3">
+        <div className={span("col-span-3", "order-last col-span-12")}>
           <label className={label} htmlFor={id("email")}>
             Email
           </label>
@@ -277,7 +313,7 @@ export default function EnquiryForm({
           />
         </div>
 
-        <div className="col-span-6">
+        <div className={span("col-span-6", "col-span-7")}>
           <label className={label} htmlFor={id("phone")}>
             Mobile (WhatsApp)
           </label>
@@ -287,11 +323,11 @@ export default function EnquiryForm({
               aria-label="Country code"
               value={dialCode}
               onChange={(e) => setDialCode(e.target.value)}
-              className={`${field.replace("w-full ", "")} w-[92px] shrink-0 rounded-r-none border-r-0 bg-zinc-50 px-2`}
+              className={`${field.replace("w-full ", "")} ${compact ? "w-[66px]" : "w-[92px]"} shrink-0 rounded-r-none border-r-0 bg-zinc-50 px-2`}
             >
               {DIAL_CODES.map(([code, country]) => (
                 <option key={`${country}${code}`} value={code}>
-                  {country} {code}
+                  {compact ? code : `${country} ${code}`}
                 </option>
               ))}
             </select>
@@ -304,7 +340,7 @@ export default function EnquiryForm({
               autoComplete="tel-national"
               pattern={dialCode === "+91" ? "[0-9\\s\\-]{10,13}" : "[0-9\\s\\-]{6,16}"}
               title={dialCode === "+91" ? "10-digit mobile number" : "Mobile number without the country code"}
-              placeholder={dialCode === "+91" ? "10-digit mobile" : "Mobile number"}
+              placeholder={dialCode === "+91" ? (compact ? "Mobile" : "10-digit mobile") : "Mobile number"}
               className={`${field} min-w-0 flex-1 rounded-l-none`}
             />
           </div>
@@ -312,19 +348,19 @@ export default function EnquiryForm({
 
         {more ? (
           <>
-            <input name="originCity" placeholder="Travelling from (city)" className={`${field} col-span-6`} />
+            <input name="originCity" placeholder="Travelling from (city)" className={`${field} ${span("col-span-6", "order-last col-span-12")}`} />
             <textarea
               name="message"
               rows={2}
               placeholder="Anything else? e.g. honeymoon, senior citizens"
-              className={`${field} col-span-6 h-auto py-2`}
+              className={`${field} ${span("col-span-6", "order-last col-span-12")} h-auto py-2`}
             />
           </>
         ) : (
           <button
             type="button"
             onClick={() => setMore(true)}
-            className="col-span-6 justify-self-start text-[11px] font-semibold text-brand hover:underline"
+            className={`${span("col-span-6", "order-last col-span-12")} justify-self-start text-[11px] font-semibold text-brand hover:underline`}
           >
             + Departure city or a note (optional)
           </button>
@@ -336,7 +372,7 @@ export default function EnquiryForm({
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-3 w-full rounded-lg bg-brand py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-60"
+        className={`w-full rounded-lg bg-brand text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-60 ${compact ? "mt-2.5 py-2.5" : "mt-3 py-2.5"}`}
       >
         {status === "submitting" ? "Sending..." : "Get Free Quotes"}
       </button>
