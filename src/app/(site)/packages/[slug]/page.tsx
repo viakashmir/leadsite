@@ -11,6 +11,7 @@ import { formatDate, formatINR } from "@/lib/format";
 import { EDITORIAL_TEAM, SITE_URL } from "@/lib/site";
 import { ORG_ID, webPageSchema } from "@/lib/schema";
 import TrustTicks from "@/components/TrustTicks";
+import { Faqs } from "@/components/location/blocks";
 
 export const revalidate = 3600;
 
@@ -66,6 +67,27 @@ export default async function PackagePage({
       return m ? { label: m[1], text: m[2] } : { label: `Day ${i + 1}`, text: line };
     });
 
+  // Answer-style FAQ built only from this package's own data, so it is always
+  // accurate. Search and AI answer engines quote this format directly.
+  const place = pkg.city?.name ?? pkg.destination.name;
+  const faqs = [
+    {
+      q: `How much does the ${pkg.title} cost?`,
+      a: `It starts from ${formatINR(pkg.price)} per person for ${pkg.durationNights} nights and ${pkg.durationDays} days. The final price depends on your dates, hotel category and group size; up to 3 verified agents send you quotes to compare.`,
+    },
+    {
+      q: `How many days do I need for this ${pkg.destination.name} trip?`,
+      a: `This plan is ${pkg.durationDays} days and ${pkg.durationNights} nights, based around ${place}. Agents can add or remove days to suit your travel dates.`,
+    },
+    {
+      q: "What does the day-by-day plan cover?",
+      a: itineraryDays.map((d) => `${d.label}: ${d.text}`).join(" "),
+    },
+    ...(tags.length
+      ? [{ q: "Who is this package best for?", a: `It suits ${tags.join(", ").toLowerCase()} travellers. Tell the agents about your group and they adjust hotels and pace.` }]
+      : []),
+  ];
+
   return (
     <article>
       <JsonLd
@@ -98,6 +120,17 @@ export default async function PackagePage({
           description: pkg.summary,
           url: `${SITE_URL}/packages/${pkg.slug}`,
           touristType: pkg.theme.split(",").filter(Boolean),
+          image: photo ? (photo.startsWith("http") ? photo : `${SITE_URL}${photo}`) : undefined,
+          itinerary: {
+            "@type": "ItemList",
+            numberOfItems: itineraryDays.length,
+            itemListElement: itineraryDays.map((d, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: d.label,
+              description: d.text,
+            })),
+          },
           provider: pkg.agent
             ? { "@type": "TravelAgency", name: pkg.agent.companyName }
             : { "@id": ORG_ID },
@@ -106,6 +139,8 @@ export default async function PackagePage({
             priceCurrency: "INR",
             price: pkg.price,
             availability: "https://schema.org/InStock",
+            url: `${SITE_URL}/packages/${pkg.slug}`,
+            description: "Starting price per person",
           },
         }}
       />
@@ -166,6 +201,11 @@ export default async function PackagePage({
             </ol>
           </section>
 
+          <section className="mt-4">
+            <h2 className="mb-3 text-xl font-bold tracking-tight text-ink sm:text-2xl">Questions About This Package</h2>
+            <Faqs faqs={faqs} />
+          </section>
+
           {tags.length > 0 && (
             <div className="mt-5 flex flex-wrap gap-1.5">
               {tags.map((tag) => (
@@ -189,7 +229,7 @@ export default async function PackagePage({
             </p>
             <p className="mt-1.5 text-ink">
               <span className="text-2xl font-bold">{formatINR(pkg.price)}</span>{" "}
-              <span className="text-sm text-ink-soft">starting price</span>
+              <span className="text-sm text-ink-soft">per person, starting price</span>
             </p>
             <p className="mt-0.5 text-xs text-ink-soft">Agents tailor hotels, days and transport to your plan.</p>
           </div>
@@ -198,6 +238,7 @@ export default async function PackagePage({
             defaultDestinationId={pkg.destinationId}
             defaultCityId={pkg.cityId ?? undefined}
             sourcePackageId={pkg.id}
+            dense
             title="Get a Custom Quote for this Package"
           />
         </div>

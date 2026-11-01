@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { href: "/admin/agents", label: "Agents CRM" },
   { href: "/admin/leads", label: "Leads CRM" },
   { href: "/admin/proposals", label: "Proposals" },
+  { href: "/admin/pricing", label: "Lead Pricing" },
   { href: "/admin/credit-packs", label: "Credit Packs" },
   { href: "/admin/destinations", label: "Destinations" },
   { href: "/admin/packages", label: "Packages" },

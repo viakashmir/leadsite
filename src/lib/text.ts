@@ -19,3 +19,22 @@ export function titleCase(text: string): string {
     })
     .join(" ");
 }
+
+// Names and places as people type them ("rampur", "ARIBA nigar") shown as
+// "Rampur", "Ariba Nigar". Mixed-case words (McLeodganj) are left alone.
+export function properCase(text: string): string {
+  return text
+    .trim()
+    .replace(/\s+/g, " ")
+    .split(" ")
+    .map((w) => (w === w.toLowerCase() || w === w.toUpperCase() ? w.charAt(0).toUpperCase() + w.slice(1).toLowerCase() : w))
+    .join(" ");
+}
+
+// Free text with a capital first letter and a closing full stop.
+export function sentenceCase(text: string): string {
+  const t = text.trim().replace(/\s+/g, " ");
+  if (!t) return t;
+  const s = t.charAt(0).toUpperCase() + t.slice(1);
+  return /[.!?…)]$/.test(s) ? s : `${s}.`;
+}

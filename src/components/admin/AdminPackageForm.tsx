@@ -13,6 +13,8 @@ type PackageInitial = {
   durationDays: number;
   durationNights: number;
   price: number;
+  referencePrice?: number | null;
+  referenceSource?: string | null;
   theme: string;
   destinationId: string;
   cityId: string | null;
@@ -40,6 +42,13 @@ export default function AdminPackageForm({
     initial?.destinationId ?? defaultDestinationId ?? destinations[0]?.id ?? "",
   );
   const selected = destinations.find((d) => d.id === destinationId);
+
+  // Competitor reference: our price follows it, a set % below, while ticked.
+  const [refPrice, setRefPrice] = useState<number>(initial?.referencePrice ?? 0);
+  const [pct, setPct] = useState(2);
+  const [follow, setFollow] = useState(Boolean(initial?.referencePrice));
+  const [price, setPrice] = useState<number>(initial?.price ?? 0);
+  const shownPrice = follow && refPrice > 0 ? Math.round(refPrice * (1 - pct / 100)) : price;
 
   return (
     <form action={formAction} className="max-w-xl space-y-3 rounded-lg border border-zinc-200 bg-white p-5">
@@ -113,9 +122,11 @@ export default function AdminPackageForm({
           type="number"
           min={1}
           required
-          defaultValue={initial?.price}
+          value={shownPrice || ""}
+          readOnly={follow && refPrice > 0}
+          onChange={(e) => setPrice(Number(e.target.value))}
           placeholder="Starting price (INR)"
-          className="rounded-md border border-zinc-300 px-3 py-2 text-sm"
+          className="rounded-md border border-zinc-300 px-3 py-2 text-sm read-only:bg-zinc-50"
         />
         <input
           name="theme"
@@ -124,6 +135,57 @@ export default function AdminPackageForm({
           className="rounded-md border border-zinc-300 px-3 py-2 text-sm"
         />
       </div>
+      <fieldset className="space-y-2 rounded-md border border-zinc-200 bg-zinc-50 p-3">
+        <legend className="px-1 text-xs font-semibold text-zinc-700">Competitor price (optional)</legend>
+        <div className="flex flex-wrap items-center gap-2">
+          <select
+            name="referenceSource"
+            defaultValue={initial?.referenceSource ?? "MakeMyTrip"}
+            className="rounded-md border border-zinc-300 px-2 py-1.5 text-sm"
+          >
+            <option>MakeMyTrip</option>
+            <option>TravelTriangle</option>
+            <option>Thrillophilia</option>
+            <option>Other</option>
+          </select>
+          <input
+            name="referencePrice"
+            type="number"
+            min={1}
+            value={refPrice || ""}
+            onChange={(e) => setRefPrice(Number(e.target.value))}
+            placeholder="Their price (INR)"
+            className="w-36 rounded-md border border-zinc-300 px-2 py-1.5 text-sm"
+          />
+        </div>
+        <label className="flex flex-wrap items-center gap-2 text-sm text-zinc-700">
+          <input
+            type="checkbox"
+            name="priceBelowReference"
+            checked={follow}
+            onChange={(e) => setFollow(e.target.checked)}
+            className="h-4 w-4"
+          />
+          Set our price
+          <input
+            name="percentBelow"
+            type="number"
+            min={0}
+            max={50}
+            step={0.5}
+            value={pct}
+            onChange={(e) => setPct(Number(e.target.value))}
+            className="w-16 rounded-md border border-zinc-300 px-2 py-1 text-sm"
+          />
+          % below theirs
+          {follow && refPrice > 0 && (
+            <span className="text-xs text-green-700">
+              = ₹{new Intl.NumberFormat("en-IN").format(shownPrice)} (saves ₹
+              {new Intl.NumberFormat("en-IN").format(refPrice - shownPrice)})
+            </span>
+          )}
+        </label>
+      </fieldset>
       <input
         name="heroImage"
         defaultValue={initial?.heroImage ?? ""}

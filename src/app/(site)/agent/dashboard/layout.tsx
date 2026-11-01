@@ -1,6 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { requireAgent } from "@/lib/auth";
 import LogoutButton from "@/components/agent/LogoutButton";
+
+// Private area: keep it out of search results even if a URL leaks.
+export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 export default async function AgentDashboardLayout({ children }: { children: React.ReactNode }) {
   const agent = await requireAgent();
@@ -34,6 +38,9 @@ export default async function AgentDashboardLayout({ children }: { children: Rea
           </Link>
           <Link href="/agent/dashboard/wallet" className="hover:text-brand">
             Wallet
+          </Link>
+          <Link href="/agent/dashboard/profile" className="hover:text-brand">
+            Profile
           </Link>
         </nav>
         <div>{children}</div>

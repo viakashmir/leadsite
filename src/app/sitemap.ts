@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { SITE_URL, absoluteUrl } from "@/lib/site";
-import { isPhoto } from "@/lib/media";
+import { isPhoto, packagePhoto } from "@/lib/media";
 import { allRoutes } from "@/data/routes";
 import { THEMES } from "@/data/locations";
 import { fromToUrl, guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
@@ -13,7 +13,7 @@ export const revalidate = 3600;
 // Only pages whose content is READY are listed; DRAFT location pages render but
 // are noindex (see robotsFor in lib/locations.ts), so they stay out of here too.
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [destinations, cities, places, packages] = await Promise.all([
+  const [destinations, cities, places, packages, leadDestinations, leadCities] = await Promise.all([
     prisma.destination.findMany({
       where: { contentStatus: "READY" },
       select: {
@@ -42,7 +42,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
     prisma.package.findMany({
       where: { published: true },
-      select: { slug: true, updatedAt: true, heroImage: true },
+      select: {
+        slug: true,
+        updatedAt: true,
+        heroImage: true,
+        city: { select: { heroImage: true } },
+        destination: { select: { heroImage: true } },
+      },
+    }),
+    // Lead marketplace pages, only where there are leads (empty ones are noindex).
+    prisma.destination.findMany({
+      where: { leads: { some: {} } },
+      select: { slug: true, leads: { select: { createdAt: true }, orderBy: { createdAt: "desc" }, take: 1 } },
+    }),
+    prisma.city.findMany({
+      where: { leads: { some: {} } },
+      select: {
+        slug: true,
+        destination: { select: { slug: true } },
+        leads: { select: { createdAt: true }, orderBy: { createdAt: "desc" }, take: 1 },
+      },
     }),
   ]);
 
@@ -69,6 +88,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: url("/about-us"), changeFrequency: "yearly", priority: 0.3 },
     { url: url("/contact-us"), changeFrequency: "yearly", priority: 0.3 },
     { url: url("/editorial-policy"), changeFrequency: "yearly", priority: 0.3 },
+    { url: url("/terms-and-conditions"), changeFrequency: "yearly", priority: 0.2 },
+    { url: url("/privacy-policy"), changeFrequency: "yearly", priority: 0.2 },
+    { url: url("/refund-and-cancellation-policy"), changeFrequency: "yearly", priority: 0.2 },
+    { url: url("/shipping-and-delivery-policy"), changeFrequency: "yearly", priority: 0.2 },
   ];
 
   // Guide sections are listed only when they have content (mirrors indexable()
@@ -138,8 +161,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: p.updatedAt,
     changeFrequency: "weekly" as const,
     priority: 0.7,
-    ...images(p.heroImage),
+    // The page shows the city or destination photo when the package has none.
+    ...images(packagePhoto(p)),
   }));
+
+  const leadRoutes: MetadataRoute.Sitemap = [
+    ...leadDestinations.map((d) => ({
+      url: url(`/leads/${d.slug}`),
+      lastModified: d.leads[0]?.createdAt,
+      changeFrequency: "daily" as const,
+      priority: 0.5,
+    })),
+    ...leadCities.map((c) => ({
+      url: url(`/leads/${c.destination.slug}/${c.slug}`),
+      lastModified: c.leads[0]?.createdAt,
+      changeFrequency: "daily" as const,
+      priority: 0.4,
+    })),
+  ];
 
   // Origin-to-city route pages, for cities whose guide is READY.
   const readyCities = new Map(cities.map((c) => [c.slug, c.updatedAt]));
@@ -152,5 +191,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     }));
 
-  return [...staticRoutes, ...destinationRoutes, ...cityRoutes, ...placeRoutes, ...routeRoutes, ...packageRoutes];
+  return [...staticRoutes, ...destinationRoutes, ...cityRoutes, ...placeRoutes, ...routeRoutes, ...packageRoutes, ...leadRoutes];
 }

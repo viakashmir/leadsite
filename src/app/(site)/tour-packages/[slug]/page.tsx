@@ -38,7 +38,11 @@ async function resolve(slug: string) {
     // Origin pages exist for destinations and circuits, and for a city only
     // when that city has its own copy for the origin (no thin duplicates).
     if (!origin || !target) return null;
-    if (target.type === "city" && !readContent(target.city.content).packages?.fromOrigins?.[origin.slug]) return null;
+    // Cities, and the non-major departure cities everywhere, need their own
+    // copy for this pairing.
+    const own = readContent(target.type === "city" ? target.city.content : target.type === "destination" ? target.destination.content : null);
+    const hasCopy = Boolean(own.packages?.fromOrigins?.[origin.slug]);
+    if ((target.type === "city" || !origin.major) && !hasCopy) return null;
     return { target, variant: { origin } satisfies PackagesPageVariant };
   }
   const target = await resolveTarget(slug);

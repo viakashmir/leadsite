@@ -45,10 +45,10 @@ export async function getAdminSession(): Promise<AdminSessionPayload | null> {
 
 export async function requireAdmin() {
   const session = await getAdminSession();
-  if (!session) redirect("/admin/login");
+  if (!session) redirect("/login");
 
   const admin = await prisma.adminUser.findUnique({ where: { id: session.adminId } });
-  if (!admin) redirect("/admin/login");
+  if (!admin) redirect("/login");
 
   return admin;
 }

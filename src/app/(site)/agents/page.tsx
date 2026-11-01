@@ -9,6 +9,7 @@ import { SERVICE_OPTIONS } from "@/lib/validation";
 export const revalidate = 600;
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/agents" },
   title: "Find Top Travel Agents",
   description:
     "Browse verified travel agents and tour operators to plan your next holiday.",

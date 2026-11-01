@@ -1,11 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import bcrypt from "bcryptjs";
+import { WELCOME_CREDITS } from "@/lib/credits";
 import { prisma } from "@/lib/prisma";
 import { agentRegisterSchema } from "@/lib/validation";
-import { setAgentSessionCookie } from "@/lib/auth";
+import { AGENT_HOME, findAdminByEmail, startSession } from "@/lib/signIn";
 import { clientIp, hit, tooManyRequests } from "@/lib/rateLimit";
+import { notifyAgentRegistered } from "@/lib/email/agentNotifications";
 
-const SIGNUP_BONUS_CREDITS = 500;
+const SIGNUP_BONUS_CREDITS = WELCOME_CREDITS;
 
 export async function POST(req: NextRequest) {
   // Each signup carries bonus credits, so throttle mass account creation.
@@ -30,17 +32,13 @@ export async function POST(req: NextRequest) {
     where: { email: { equals: data.email, mode: "insensitive" } },
     select: { id: true },
   });
-  if (existing) {
+  if (existing || (await findAdminByEmail(data.email))) {
     return NextResponse.json({ error: "An account with this email already exists" }, { status: 409 });
   }
 
-  const destinations = await prisma.destination.findMany({
-    where: { id: { in: data.destinationIds } },
-    select: { id: true },
-  });
-  if (destinations.length === 0) {
-    return NextResponse.json({ error: "Select at least one valid destination" }, { status: 400 });
-  }
+  const destinations = data.destinationIds.length
+    ? await prisma.destination.findMany({ where: { id: { in: data.destinationIds } }, select: { id: true } })
+    : [];
 
   const passwordHash = await bcrypt.hash(data.password, 10);
 
@@ -77,13 +75,16 @@ export async function POST(req: NextRequest) {
         create: {
           type: "REGISTRATION",
           actor: "System",
-          detail: `Registered via free signup. Destinations: ${destinations.length}. Daily lead target: ${data.dailyLeadTarget}.`,
+          detail: `Registered with email. Destinations: ${destinations.length}.`,
         },
       },
     },
   });
 
-  await setAgentSessionCookie({ agentId: agent.id, email: agent.email });
+  await startSession("agent", agent);
 
-  return NextResponse.json({ ok: true, agentId: agent.id }, { status: 201 });
+  // Welcome email to the agent + signup alert to admins, after the response.
+  after(() => notifyAgentRegistered(agent.id, SIGNUP_BONUS_CREDITS));
+
+  return NextResponse.json({ ok: true, agentId: agent.id, redirect: AGENT_HOME }, { status: 201 });
 }

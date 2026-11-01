@@ -6,7 +6,7 @@
 #   ./scripts/deploy-db.sh                              uses $ENV_FILE
 #   DATABASE_URL="postgresql://..." ./scripts/deploy-db.sh   one-off, no file needed
 #
-# Steps: backup + migrate + seed locations + seed content.
+# Steps: backup + migrate + seed locations + seed content + curated packages.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -45,5 +45,8 @@ npx tsx prisma/seed-locations.ts
 
 echo "== 5. Content"
 npx tsx prisma/seed-content.ts
+
+echo "== 6. Curated packages"
+npx tsx prisma/seed-kashmir-packages.ts
 
 echo "Database ready. Now push the code."

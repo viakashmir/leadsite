@@ -615,18 +615,42 @@ export const CIRCUITS: CircuitDef[] = [
 
 // Departure cities for /tour-packages/from-{origin}-to-{destination}.
 export const ORIGIN_CITIES = [
-  { slug: "delhi", name: "Delhi" },
-  { slug: "mumbai", name: "Mumbai" },
-  { slug: "bangalore", name: "Bangalore" },
-  { slug: "chennai", name: "Chennai" },
-  { slug: "kolkata", name: "Kolkata" },
-  { slug: "hyderabad", name: "Hyderabad" },
-  { slug: "pune", name: "Pune" },
-  { slug: "ahmedabad", name: "Ahmedabad" },
-  { slug: "jaipur", name: "Jaipur" },
-  { slug: "lucknow", name: "Lucknow" },
-  { slug: "chandigarh", name: "Chandigarh" },
-  { slug: "kochi", name: "Kochi" },
+  // "major": the original departure cities, linked from every destination.
+  // The rest (one main city per state) get a page for a destination only when
+  // that destination has its own copy for them, so there are no thin pages.
+  { slug: "delhi", name: "Delhi", state: "Delhi", major: true },
+  { slug: "mumbai", name: "Mumbai", state: "Maharashtra", major: true },
+  { slug: "bangalore", name: "Bangalore", state: "Karnataka", major: true },
+  { slug: "chennai", name: "Chennai", state: "Tamil Nadu", major: true },
+  { slug: "kolkata", name: "Kolkata", state: "West Bengal", major: true },
+  { slug: "hyderabad", name: "Hyderabad", state: "Telangana", major: true },
+  { slug: "pune", name: "Pune", state: "Maharashtra", major: true },
+  { slug: "ahmedabad", name: "Ahmedabad", state: "Gujarat", major: true },
+  { slug: "jaipur", name: "Jaipur", state: "Rajasthan", major: true },
+  { slug: "lucknow", name: "Lucknow", state: "Uttar Pradesh", major: true },
+  { slug: "chandigarh", name: "Chandigarh", state: "Chandigarh", major: true },
+  { slug: "kochi", name: "Kochi", state: "Kerala", major: true },
+  { slug: "gurgaon", name: "Gurgaon", state: "Haryana", major: false },
+  { slug: "amritsar", name: "Amritsar", state: "Punjab", major: false },
+  { slug: "jammu", name: "Jammu", state: "Jammu and Kashmir", major: false },
+  { slug: "shimla", name: "Shimla", state: "Himachal Pradesh", major: false },
+  { slug: "dehradun", name: "Dehradun", state: "Uttarakhand", major: false },
+  { slug: "indore", name: "Indore", state: "Madhya Pradesh", major: false },
+  { slug: "raipur", name: "Raipur", state: "Chhattisgarh", major: false },
+  { slug: "patna", name: "Patna", state: "Bihar", major: false },
+  { slug: "ranchi", name: "Ranchi", state: "Jharkhand", major: false },
+  { slug: "bhubaneswar", name: "Bhubaneswar", state: "Odisha", major: false },
+  { slug: "goa", name: "Goa", state: "Goa", major: false },
+  { slug: "visakhapatnam", name: "Visakhapatnam", state: "Andhra Pradesh", major: false },
+  { slug: "puducherry", name: "Puducherry", state: "Puducherry", major: false },
+  { slug: "guwahati", name: "Guwahati", state: "Assam", major: false },
+  { slug: "shillong", name: "Shillong", state: "Meghalaya", major: false },
+  { slug: "gangtok", name: "Gangtok", state: "Sikkim", major: false },
+  { slug: "itanagar", name: "Itanagar", state: "Arunachal Pradesh", major: false },
+  { slug: "dimapur", name: "Dimapur", state: "Nagaland", major: false },
+  { slug: "imphal", name: "Imphal", state: "Manipur", major: false },
+  { slug: "aizawl", name: "Aizawl", state: "Mizoram", major: false },
+  { slug: "agartala", name: "Agartala", state: "Tripura", major: false },
 ] as const;
 
 // Theme pages: /{prefix}/{destination-or-city}. Prefixes follow TravelTriangle's
@@ -644,6 +668,7 @@ export const THEMES = [
   { prefix: "beach-tour-packages", name: "Beach", tag: "Beach" },
   { prefix: "trekking-tour-packages", name: "Trekking", tag: "Trekking" },
   { prefix: "solo-tour-packages", name: "Solo", tag: "Solo" },
+  { prefix: "winter-tour-packages", name: "Winter", tag: "Winter" },
 ] as const;
 
 // Sub-pages of a /{slug}-tourism guide (destination level and city level).

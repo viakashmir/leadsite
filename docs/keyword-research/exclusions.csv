@@ -2,9 +2,9 @@ keyword,reason
 dharamshala in somnath,"Different meaning: a pilgrim rest house (dharamshala) in Somnath, Gujarat, not Dharamshala town"
 somnath temple trust dharamshala,"Different meaning: Somnath temple trust's pilgrim rest house, not Dharamshala town"
 dharamshala in paharganj new delhi,"Different meaning: pilgrim rest houses in Paharganj, Delhi"
-list of dharamshala in shimla,"Different meaning: pilgrim rest houses in Shimla"
+list of dharamshala in shimla,Different meaning: pilgrim rest houses in Shimla
 malana cream,"Illegal drug query (cannabis resin, NDPS Act). The Malana page states the law; we do not target it"
-grand hyatt goa,"Hotel brand search (navigational); we do not list or sell hotels"
+grand hyatt goa,Hotel brand search (navigational); we do not list or sell hotels
 indiranagar bangalore,"Local neighbourhood search, not travel intent"
 marathahalli bangalore,"Local neighbourhood search, not travel intent"
 banashankari bangalore,"Local neighbourhood search, not travel intent"
@@ -12,125 +12,125 @@ bangalore banashankari,"Local neighbourhood search, not travel intent"
 jayanagar bangalore,"Local neighbourhood search, not travel intent"
 rajajinagar bangalore,"Local neighbourhood search, not travel intent"
 bangalore rajajinagar,"Local neighbourhood search, not travel intent"
-best restaurants in bangalore,"Restaurant search; we do not list restaurants"
-best restaurants bangalore,"Restaurant search; we do not list restaurants"
-restaurants bangalore,"Restaurant search; we do not list restaurants"
+best restaurants in bangalore,Restaurant search; we do not list restaurants
+best restaurants bangalore,Restaurant search; we do not list restaurants
+restaurants bangalore,Restaurant search; we do not list restaurants
 bangalore in hindi,"Translation query, not travel intent"
-bangalore india,"Generic city info query; covered by the Bangalore guide but not a target"
-shimoga karnataka,"District town search with no tourism page planned"
-shivamogga karnataka,"District town search with no tourism page planned"
-davangere karnataka,"District town search with no tourism page planned"
-chitradurga karnataka,"District town search with no tourism page planned"
-hubli karnataka,"District town search with no tourism page planned"
-sirsi karnataka,"District town search with no tourism page planned"
-skydiving mysore cost,"No verified operator or price source; we do not publish unverified prices"
-mysore skydiving price,"No verified operator or price source; we do not publish unverified prices"
-skydiving in mysore price,"No verified operator or price source; we do not publish unverified prices"
-palakkad kerala,"District town search with no tourism page planned"
-kannur kerala,"District town search with no tourism page planned"
-kerala kannur,"District town search with no tourism page planned"
+bangalore india,Generic city info query; covered by the Bangalore guide but not a target
+shimoga karnataka,District town search with no tourism page planned
+shivamogga karnataka,District town search with no tourism page planned
+davangere karnataka,District town search with no tourism page planned
+chitradurga karnataka,District town search with no tourism page planned
+hubli karnataka,District town search with no tourism page planned
+sirsi karnataka,District town search with no tourism page planned
+skydiving mysore cost,No verified operator or price source; we do not publish unverified prices
+mysore skydiving price,No verified operator or price source; we do not publish unverified prices
+skydiving in mysore price,No verified operator or price source; we do not publish unverified prices
+palakkad kerala,District town search with no tourism page planned
+kannur kerala,District town search with no tourism page planned
+kerala kannur,District town search with no tourism page planned
 angamaly kerala,"Local town search, not travel intent"
 perumbavoor kerala,"Local town search, not travel intent"
-kerala in india,"Generic geography query"
-kerala secret,"Ambiguous query with no travel intent"
-kerala tourist places in hindi,"Hindi-language query; Hindi pages not planned yet"
-munnar boat house price,"Price query for a product that does not exist in Munnar (houseboats are in Alleppey); we do not publish prices"
+kerala in india,Generic geography query
+kerala secret,Ambiguous query with no travel intent
+kerala tourist places in hindi,Hindi-language query; Hindi pages not planned yet
+munnar boat house price,Price query for a product that does not exist in Munnar (houseboats are in Alleppey); we do not publish prices
 rafting in kerala,"No verified rafting operators in Kerala to cite; Karnataka (Barapole, Dubare) pages cover rafting"
-mauritius tour package from bangalore,"International batch (Mauritius) not written yet"
+mauritius tour package from bangalore,International batch (Mauritius) not written yet
 delhi t3,"Airport terminal navigation, not travel planning"
 isbt delhi,"Bus terminal navigation, not travel planning"
-delhi s rohilla,"Railway station navigation"
-shahdara delhi,"Local neighbourhood search"
-ashok vihar delhi,"Local neighbourhood search"
-okhla delhi,"Local neighbourhood search"
-delhi paharganj,"Local neighbourhood search"
-karol bagh delhi,"Local neighbourhood/market search"
-delhi indira gandhi,"Airport navigation"
-ibis new delhi,"Hotel brand search; we do not sell hotels"
-air tickets from delhi to dubai,"Flight booking search; we do not sell flights"
-best discotheques in delhi ncr,"Nightclub listing search; not covered"
-new year events delhi,"Dated event listings we cannot verify each year"
-new year events in delhi ncr,"Dated event listings we cannot verify each year"
-new year events in delhi,"Dated event listings we cannot verify each year"
-best new year party in delhi ncr,"Dated event listings we cannot verify each year"
-nai delhi,"Hindi spelling of the city name; Hindi pages not planned yet"
-delhi me ghumne ka jagah,"Hindi-language query; Hindi pages not planned yet"
-jaipur mein ghumne ki jagah,"Hindi-language query; Hindi pages not planned yet"
+delhi s rohilla,Railway station navigation
+shahdara delhi,Local neighbourhood search
+ashok vihar delhi,Local neighbourhood search
+okhla delhi,Local neighbourhood search
+delhi paharganj,Local neighbourhood search
+karol bagh delhi,Local neighbourhood/market search
+delhi indira gandhi,Airport navigation
+ibis new delhi,Hotel brand search; we do not sell hotels
+air tickets from delhi to dubai,Flight booking search; we do not sell flights
+best discotheques in delhi ncr,Nightclub listing search; not covered
+new year events delhi,Dated event listings we cannot verify each year
+new year events in delhi ncr,Dated event listings we cannot verify each year
+new year events in delhi,Dated event listings we cannot verify each year
+best new year party in delhi ncr,Dated event listings we cannot verify each year
+nai delhi,Hindi spelling of the city name; Hindi pages not planned yet
+delhi me ghumne ka jagah,Hindi-language query; Hindi pages not planned yet
+jaipur mein ghumne ki jagah,Hindi-language query; Hindi pages not planned yet
 rajasthan mein,"Hindi fragment, no clear intent"
-jaipur in hindi,"Translation query"
-coffee shops in jaipur,"Cafe listing search; not covered"
+jaipur in hindi,Translation query
+coffee shops in jaipur,Cafe listing search; not covered
 bhiwadi rajasthan,"Industrial town, no tourism page planned"
 banswara rajasthan,"District town, no tourism page planned"
 rajasthan banswara,"District town, no tourism page planned"
 kishangarh rajasthan,"District town, no tourism page planned"
-delhi to goa package with flight,"Flight-inclusive package; covered by Goa packages and Delhi to Goa route page"
+delhi to goa package with flight,Flight-inclusive package; covered by Goa packages and Delhi to Goa route page
 kalyan maharashtra,"Suburban city search, not travel intent"
-nagpur maharashtra,"City info search; no tourism page planned yet"
-kolhapur maharashtra,"City info search; no tourism page planned yet"
-nanded maharashtra,"City info search; no tourism page planned yet"
-karjat maharashtra,"Local town search"
-solapur maharashtra,"City info search; no tourism page planned yet"
-alibag maharashtra,"Duplicate spelling; Alibaug guide covers it"
-hosur tamil nadu,"Industrial town search"
-coimbatore tamil nadu,"City info search; no tourism page planned yet"
-vellore tamil nadu,"City info search; no tourism page planned yet"
-tirupur tamil nadu,"Industrial town search"
-kanchipuram tamil nadu,"Covered later in a Tamil Nadu temples batch"
-tiruvannamalai tamil nadu,"Covered later in a Tamil Nadu temples batch"
-tambaram chennai,"Local neighbourhood search"
-chennai tambaram,"Local neighbourhood search"
-chennai central,"Railway station navigation"
-sholinganallur chennai,"Local neighbourhood search"
-chennai egmore,"Railway station navigation"
-egmore chennai,"Railway station navigation"
-velachery chennai,"Local neighbourhood search"
-vadapalani chennai,"Local neighbourhood search"
-pallavaram chennai,"Local neighbourhood search"
-adyar chennai,"Local neighbourhood search"
-chinchwad pune,"Local neighbourhood search"
-hadapsar pune,"Local neighbourhood search"
-wagholi pune,"Local neighbourhood search"
-pune wagholi,"Local neighbourhood search"
-pune baramati,"Local town search"
-mumbai ltt,"Railway station navigation"
-chembur mumbai,"Local neighbourhood search"
-mumbai bandra,"Local neighbourhood search"
-bandra mumbai,"Local neighbourhood search"
-mumbai in mumbai,"Malformed query"
-mumbai in hindi,"Translation query"
-new year parties in chennai,"Dated event listings we cannot verify each year"
-new year's eve mumbai,"Dated event listings we cannot verify each year"
-new year party events in mumbai,"Dated event listings we cannot verify each year"
-top 10 haunted places in chennai,"Unverifiable folklore listicle"
-lavasa pune,"Private township search; status uncertain"
-madurai city,"City info search; Madurai guide covers it but not a target"
-vadodara gujarat,"City info search; no tourism page planned yet"
-mehsana gujarat,"District town search"
-junagadh gujarat,"District town search"
-bharuch gujarat,"Industrial town search"
-jamnagar gujarat,"City info search"
-palanpur gujarat,"District town search"
-bardoli gujarat,"Local town search"
-veraval gujarat,"Port town search; Somnath guide covers the area"
-bhuj gujarat,"City info search; Kutch guide covers the area"
+nagpur maharashtra,City info search; no tourism page planned yet
+kolhapur maharashtra,City info search; no tourism page planned yet
+nanded maharashtra,City info search; no tourism page planned yet
+karjat maharashtra,Local town search
+solapur maharashtra,City info search; no tourism page planned yet
+alibag maharashtra,Duplicate spelling; Alibaug guide covers it
+hosur tamil nadu,Industrial town search
+coimbatore tamil nadu,City info search; no tourism page planned yet
+vellore tamil nadu,City info search; no tourism page planned yet
+tirupur tamil nadu,Industrial town search
+kanchipuram tamil nadu,Covered later in a Tamil Nadu temples batch
+tiruvannamalai tamil nadu,Covered later in a Tamil Nadu temples batch
+tambaram chennai,Local neighbourhood search
+chennai tambaram,Local neighbourhood search
+chennai central,Railway station navigation
+sholinganallur chennai,Local neighbourhood search
+chennai egmore,Railway station navigation
+egmore chennai,Railway station navigation
+velachery chennai,Local neighbourhood search
+vadapalani chennai,Local neighbourhood search
+pallavaram chennai,Local neighbourhood search
+adyar chennai,Local neighbourhood search
+chinchwad pune,Local neighbourhood search
+hadapsar pune,Local neighbourhood search
+wagholi pune,Local neighbourhood search
+pune wagholi,Local neighbourhood search
+pune baramati,Local town search
+mumbai ltt,Railway station navigation
+chembur mumbai,Local neighbourhood search
+mumbai bandra,Local neighbourhood search
+bandra mumbai,Local neighbourhood search
+mumbai in mumbai,Malformed query
+mumbai in hindi,Translation query
+new year parties in chennai,Dated event listings we cannot verify each year
+new year's eve mumbai,Dated event listings we cannot verify each year
+new year party events in mumbai,Dated event listings we cannot verify each year
+top 10 haunted places in chennai,Unverifiable folklore listicle
+lavasa pune,Private township search; status uncertain
+madurai city,City info search; Madurai guide covers it but not a target
+vadodara gujarat,City info search; no tourism page planned yet
+mehsana gujarat,District town search
+junagadh gujarat,District town search
+bharuch gujarat,Industrial town search
+jamnagar gujarat,City info search
+palanpur gujarat,District town search
+bardoli gujarat,Local town search
+veraval gujarat,Port town search; Somnath guide covers the area
+bhuj gujarat,City info search; Kutch guide covers the area
 dwarka mor,"Delhi metro station (Dwarka Mor), not Dwarka in Gujarat"
-cafe in ahmedabad,"Cafe listing search; not covered"
-bareilly uttar pradesh,"City info search"
-azamgarh uttar pradesh,"District town search"
-etawah uttar pradesh,"District town search"
-rudrapur uttarakhand,"Industrial town search"
-roorkee uttarakhand,"City info search"
-isbt dehradun,"Bus terminal navigation"
-agra sadar,"Local market/area search"
-alambagh lucknow,"Local neighbourhood search"
-omaxe hazratganj,"Property/mall search"
-lucknow in hindi,"Translation query"
-uttarakhand in hindi,"Translation query"
-best restaurants in agra,"Restaurant listing search; not covered"
-ahmedabad to singapore tour packages,"International batch (Singapore) not written yet"
-sonmarg to zero point taxi fare,"Kashmir (Sonamarg) query mis-mapped to Sikkim; taxi fares change and are set by local unions"
-kharagpur west bengal,"City info search"
-kolkata howrah,"Station/city navigation search"
-bbsr odisha,"Abbreviation; Bhubaneswar guide covers it"
-parasailing,"Generic activity search with no destination; covered as an FAQ on Mauritius"
-dubai united arab emirates,"Covered by the Dubai guide; generic geography query"
+cafe in ahmedabad,Cafe listing search; not covered
+bareilly uttar pradesh,City info search
+azamgarh uttar pradesh,District town search
+etawah uttar pradesh,District town search
+rudrapur uttarakhand,Industrial town search
+roorkee uttarakhand,City info search
+isbt dehradun,Bus terminal navigation
+agra sadar,Local market/area search
+alambagh lucknow,Local neighbourhood search
+omaxe hazratganj,Property/mall search
+lucknow in hindi,Translation query
+uttarakhand in hindi,Translation query
+best restaurants in agra,Restaurant listing search; not covered
+ahmedabad to singapore tour packages,International batch (Singapore) not written yet
+sonmarg to zero point taxi fare,Kashmir (Sonamarg) query mis-mapped to Sikkim; taxi fares change and are set by local unions
+kharagpur west bengal,City info search
+kolkata howrah,Station/city navigation search
+bbsr odisha,Abbreviation; Bhubaneswar guide covers it
+parasailing,Generic activity search with no destination; covered as an FAQ on Mauritius
+dubai united arab emirates,Covered by the Dubai guide; generic geography query

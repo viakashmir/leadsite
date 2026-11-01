@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import MobileQuoteBar from "@/components/MobileQuoteBar";
 import Analytics from "@/components/Analytics";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import GoogleTag from "@/components/GoogleTag";
 import NavigationProgress from "@/components/NavigationProgress";
 import { getEnquiryOptions } from "@/lib/locations";
@@ -64,6 +65,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <main className="flex-1">{children}</main>
         <Footer />
         <MobileQuoteBar options={enquiryOptions} />
+        <WhatsAppButton />
         <Analytics />
       </body>
     </html>

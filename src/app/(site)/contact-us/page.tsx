@@ -48,7 +48,7 @@ export default function ContactPage() {
         <h2>Travel Agents</h2>
         <p>
           Run trips in India or abroad? <Link href="/agent/register">Join {SITE_NAME} free</Link> or{" "}
-          <Link href="/agent/login">sign in</Link> to your agent account.
+          <Link href="/login">sign in</Link> to your agent account.
         </p>
       </section>
     </InfoPage>

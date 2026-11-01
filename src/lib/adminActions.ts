@@ -1,6 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
+import { notifyAgentApproved } from "@/lib/email/agentNotifications";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/adminAuth";
 import { setAgentSessionCookie } from "@/lib/auth";
@@ -83,12 +85,18 @@ export async function updateAgentStatus(agentId: string, formData: FormData): Pr
   const status = String(formData.get("status") ?? "");
   if (!["PENDING", "ACTIVE", "SUSPENDED"].includes(status)) return;
 
+  const before = await prisma.agent.findUnique({ where: { id: agentId }, select: { status: true } });
+  if (!before) return;
+
   await prisma.$transaction([
     prisma.agent.update({ where: { id: agentId }, data: { status: status as never } }),
     prisma.agentActivity.create({
       data: { agentId, type: "STATUS_CHANGE", actor: admin.name, detail: `Status changed to ${status}` },
     }),
   ]);
+
+  // Tell the agent when they're approved (or reactivated), once per change.
+  if (status === "ACTIVE" && before.status !== "ACTIVE") after(() => notifyAgentApproved(agentId));
 
   revalidatePath(`/admin/agents/${agentId}`);
   revalidatePath("/admin/agents");
@@ -125,7 +133,7 @@ export async function loginAsAgent(agentId: string) {
     data: { agentId, type: "LOGIN", actor: admin.name, detail: `Impersonated by admin ${admin.name}` },
   });
 
-  await setAgentSessionCookie({ agentId: agent.id, email: agent.email });
+  await setAgentSessionCookie(agent);
   redirect("/agent/dashboard");
 }
 
@@ -162,6 +170,79 @@ export async function updateLeadStatus(leadId: string, formData: FormData): Prom
 
   revalidatePath(`/admin/leads/${leadId}`);
   revalidatePath("/admin/leads");
+}
+
+/**
+ * Permanently deletes a lead with its notes, timeline and unlock records.
+ * Agents' credit history keeps the "Unlocked lead ..." entries, so the money
+ * trail survives; credits are not refunded automatically.
+ */
+export async function deleteLead(leadId: string, redirectTo?: string): Promise<void> {
+  await requireAdmin();
+  if (typeof leadId !== "string" || !leadId || leadId.length > 64) return;
+
+  await prisma.$transaction([
+    prisma.leadUnlock.deleteMany({ where: { leadId } }),
+    prisma.leadNote.deleteMany({ where: { leadId } }),
+    prisma.leadActivity.deleteMany({ where: { leadId } }),
+    prisma.lead.deleteMany({ where: { id: leadId } }),
+  ]);
+
+  revalidatePath("/admin/leads");
+  revalidatePath("/admin");
+  revalidatePath("/agent/dashboard/leads");
+  revalidatePath("/leads", "layout");
+  if (redirectTo === "list") redirect("/admin/leads");
+}
+
+/** Deletes the leads ticked in Admin -> Leads (same cleanup as deleteLead). */
+export async function deleteLeads(formData: FormData): Promise<{ deleted: number }> {
+  await requireAdmin();
+  const ids = [...new Set(formData.getAll("ids").map(String))].filter((id) => id && id.length <= 64).slice(0, 500);
+  if (ids.length === 0) return { deleted: 0 };
+
+  const [, , , removed] = await prisma.$transaction([
+    prisma.leadUnlock.deleteMany({ where: { leadId: { in: ids } } }),
+    prisma.leadNote.deleteMany({ where: { leadId: { in: ids } } }),
+    prisma.leadActivity.deleteMany({ where: { leadId: { in: ids } } }),
+    prisma.lead.deleteMany({ where: { id: { in: ids } } }),
+  ]);
+
+  revalidatePath("/admin/leads");
+  revalidatePath("/admin");
+  revalidatePath("/agent/dashboard/leads");
+  revalidatePath("/leads", "layout");
+  return { deleted: removed.count };
+}
+
+export async function updateLeadPricing(_prev: { error?: string; ok?: boolean }, formData: FormData): Promise<{ error?: string; ok?: boolean }> {
+  const admin = await requireAdmin();
+  const num = (k: string) => Number(formData.get(k));
+  const standardPrice = num("standardPrice");
+  const hotPrice = num("hotPrice");
+  const hotMinTravellers = num("hotMinTravellers");
+
+  if (![standardPrice, hotPrice].every((n) => Number.isInteger(n) && n >= 1 && n <= 100000)) {
+    return { error: "Prices must be whole numbers between 1 and 100000 credits." };
+  }
+  if (!Number.isInteger(hotMinTravellers) || hotMinTravellers < 2 || hotMinTravellers > 50) {
+    return { error: "Hot lead group size must be a whole number between 2 and 50." };
+  }
+
+  try {
+    await prisma.leadPricing.upsert({
+      where: { id: "default" },
+      create: { id: "default", standardPrice, hotPrice, hotMinTravellers, updatedBy: admin.name },
+      update: { standardPrice, hotPrice, hotMinTravellers, updatedBy: admin.name },
+    });
+  } catch {
+    return { error: "Couldn't save. The LeadPricing table is missing: apply the latest database migration first." };
+  }
+
+  revalidatePath("/admin/pricing");
+  revalidatePath("/admin/leads");
+  revalidatePath("/agent/dashboard/leads");
+  return { ok: true };
 }
 
 function validateCreditPackNumbers(v: { amountINR: number; baseCredits: number; bonusCredits: number; sortOrder: number }) {
@@ -377,6 +458,21 @@ export async function deleteCity(cityId: string): Promise<void> {
   revalidatePath(`/admin/destinations/${city.destinationId}`);
 }
 
+// Package price, optionally derived from a competitor's price: with
+// "priceBelowReference" ticked, ours is set that many percent below it.
+function readPackagePricing(formData: FormData) {
+  const ref = Number(formData.get("referencePrice"));
+  const referencePrice = Number.isInteger(ref) && ref > 0 ? ref : null;
+  const referenceSource = referencePrice ? String(formData.get("referenceSource") ?? "").trim().slice(0, 60) || "MakeMyTrip" : null;
+  const pct = Number(formData.get("percentBelow"));
+  const percentBelow = Number.isFinite(pct) && pct >= 0 && pct < 90 ? pct : 2;
+  const price =
+    referencePrice && formData.get("priceBelowReference") === "on"
+      ? Math.round(referencePrice * (1 - percentBelow / 100))
+      : Number(formData.get("price"));
+  return { price, referencePrice, referenceSource };
+}
+
 export async function createAdminPackage(formData: FormData): Promise<{ error?: string }> {
   await requireAdmin();
 
@@ -387,7 +483,7 @@ export async function createAdminPackage(formData: FormData): Promise<{ error?: 
   const itinerary = String(formData.get("itinerary") ?? "").trim();
   const durationDays = Number(formData.get("durationDays"));
   const durationNights = Number(formData.get("durationNights"));
-  const price = Number(formData.get("price"));
+  const { price, referencePrice, referenceSource } = readPackagePricing(formData);
   const theme = String(formData.get("theme") ?? "").trim();
   const heroImage = String(formData.get("heroImage") ?? "").trim() || "/images/packages/placeholder.jpg";
   const published = formData.get("published") === "on";
@@ -411,6 +507,8 @@ export async function createAdminPackage(formData: FormData): Promise<{ error?: 
       durationDays,
       durationNights,
       price,
+      referencePrice,
+      referenceSource,
       theme: theme || "General",
       destinationId,
       cityId,
@@ -433,7 +531,7 @@ export async function updateAdminPackage(packageId: string, formData: FormData):
   const itinerary = String(formData.get("itinerary") ?? "").trim();
   const durationDays = Number(formData.get("durationDays"));
   const durationNights = Number(formData.get("durationNights"));
-  const price = Number(formData.get("price"));
+  const { price, referencePrice, referenceSource } = readPackagePricing(formData);
   const theme = String(formData.get("theme") ?? "").trim();
   const heroImage = String(formData.get("heroImage") ?? "").trim() || undefined;
   const published = formData.get("published") === "on";
@@ -455,6 +553,8 @@ export async function updateAdminPackage(packageId: string, formData: FormData):
       durationDays,
       durationNights,
       price,
+      referencePrice,
+      referenceSource,
       theme: theme || "General",
       destinationId,
       cityId,

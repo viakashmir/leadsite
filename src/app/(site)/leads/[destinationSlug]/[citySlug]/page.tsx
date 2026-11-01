@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import LeadCard from "@/components/LeadCard";
+import { getLeadPricing, leadPrice } from "@/lib/leadPricing";
 import { maskContactsInText, maskEmail, maskName, maskPhone } from "@/lib/mask";
 import JsonLd from "@/components/JsonLd";
 import { SITE_URL } from "@/lib/site";
@@ -21,7 +22,7 @@ async function getData(destinationSlug: string, citySlug: string) {
 
   const leads = await prisma.lead.findMany({
     where: { cityId: city.id },
-    include: { destination: true, city: true },
+    include: { destination: true, city: true, _count: { select: { unlocks: true } } },
     orderBy: { createdAt: "desc" },
     take: 50,
   });
@@ -49,6 +50,8 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical: `/leads/${data.destination.slug}/${data.city.slug}` },
+    // No leads yet: a thin page, kept out of search until enquiries arrive.
+    ...(data.leads.length === 0 ? { robots: { index: false, follow: true } } : {}),
     openGraph: { title, description, url: `/leads/${data.destination.slug}/${data.city.slug}` },
   };
 }
@@ -58,6 +61,7 @@ export default async function CityLeadsPage({
 }: {
   params: Promise<{ destinationSlug: string; citySlug: string }>;
 }) {
+  const pricing = await getLeadPricing();
   const { destinationSlug, citySlug } = await params;
   const data = await getData(destinationSlug, citySlug);
   if (!data) notFound();
@@ -141,6 +145,9 @@ export default async function CityLeadsPage({
               verified: lead.verified,
               status: lead.status,
               createdAt: lead.createdAt,
+              unlockPrice: leadPrice(lead, pricing),
+              unlockCount: lead._count.unlocks,
+              maxUnlocks: lead.maxUnlocks,
             }}
           />
         ))}

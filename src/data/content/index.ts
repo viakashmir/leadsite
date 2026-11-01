@@ -21,6 +21,9 @@ import { INTL_CITIES, INTL_DESTINATIONS } from "./international";
 import { EAST_CITIES, EAST_DESTINATIONS, EAST_PLACES } from "./east-ne";
 import { GUP_CITIES, GUP_CITY_FAQS, GUP_DESTINATION_FAQS, GUP_DESTINATIONS, GUP_PLACES } from "./gj-uk-up";
 import { KASHMIR_CITIES, KASHMIR_PLACES } from "./kashmir";
+import { KASHMIR_ORIGIN_DESTINATION } from "./kashmir-origins";
+import { KASHMIR_WINTER_DESTINATION } from "./kashmir-winter";
+import { STATES_BATCH_1 } from "./states-batch-1";
 
 // Supplements add FAQs, blocks and section copy on top of base content:
 // lists are appended, sections and packages are merged one level deep.
@@ -37,7 +40,16 @@ function mergeContent(base: GuideContent, extra?: Partial<GuideContent>): GuideC
     faqs: [...(base.faqs ?? []), ...(extra.faqs ?? [])],
     blocks: [...(base.blocks ?? []), ...(extra.blocks ?? [])],
     sections,
-    packages: base.packages || extra.packages ? { ...base.packages, ...extra.packages } : undefined,
+    packages:
+      base.packages || extra.packages
+        ? {
+            ...base.packages,
+            ...extra.packages,
+            // Per-origin and per-theme copy from different files add up rather than replace.
+            fromOrigins: { ...base.packages?.fromOrigins, ...extra.packages?.fromOrigins },
+            themes: { ...base.packages?.themes, ...extra.packages?.themes },
+          }
+        : undefined,
   };
 }
 
@@ -49,12 +61,13 @@ const BASE: Record<string, GuideContent> = {
   ...INDIA_NORTH,
   ...INDIA_WEST_SOUTH,
   ...INDIA_EAST_ISLANDS,
+  ...STATES_BATCH_1,
 };
 
 export const DESTINATION_CONTENT: Record<string, GuideContent> = Object.fromEntries(
   Object.entries({ ...Object.fromEntries([...Object.keys(RJ_DESTINATIONS), ...Object.keys(TN_MH_DESTINATIONS), ...Object.keys(GUP_DESTINATIONS), ...Object.keys(EAST_DESTINATIONS), ...Object.keys(INTL_DESTINATIONS)].map((k) => [k, {}])), ...BASE, ...CIRCUIT_CONTENT } as Record<string, GuideContent>).map(([slug, c]) => [
     slug,
-    [DESTINATION_EXTRAS, DESTINATION_SUPPLEMENTS, { ...CULTURE_DESTINATIONS, goa: GOA_DESTINATION }, SOUTH_DESTINATIONS, RJ_DESTINATIONS, TN_MH_DESTINATIONS, GUP_DESTINATIONS, GUP_DESTINATION_FAQS, EAST_DESTINATIONS, INTL_DESTINATIONS].reduce(
+    [DESTINATION_EXTRAS, DESTINATION_SUPPLEMENTS, { ...CULTURE_DESTINATIONS, goa: GOA_DESTINATION }, SOUTH_DESTINATIONS, RJ_DESTINATIONS, TN_MH_DESTINATIONS, KASHMIR_ORIGIN_DESTINATION, KASHMIR_WINTER_DESTINATION, GUP_DESTINATIONS, GUP_DESTINATION_FAQS, EAST_DESTINATIONS, INTL_DESTINATIONS].reduce(
       (acc: GuideContent, extra: Record<string, Partial<GuideContent>>) => mergeContent(acc, extra[slug]),
       c,
     ),

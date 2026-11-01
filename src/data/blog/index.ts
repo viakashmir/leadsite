@@ -13,13 +13,20 @@ import { WORLD_AND_ROUNDUPS } from "./world-and-roundups";
 import { PLANNING_GUIDES } from "./planning-guides";
 import { HIMACHAL_DEEP } from "./himachal-deep";
 import { KASHMIR_UPGRADES } from "./kashmir-deep";
+import { KASHMIR_UPGRADES_2 } from "./kashmir-deep-2";
+import { KASHMIR_UPGRADES_3 } from "./kashmir-deep-3";
+import { KASHMIR_UPGRADES_4 } from "./kashmir-deep-4";
+import { LADAKH_DEEP } from "./ladakh-deep";
+import { LADAKH_DEEP_2, LADAKH_UPGRADES } from "./ladakh-deep-2";
+import { FOCUS_BATCH_1 } from "./focus-batch-1";
+import { MONEY_FROM_CITIES } from "./money-from-cities";
+import { SHIMLA_GUIDES } from "./shimla-guides";
+import { MANALI_GUIDES } from "./manali-guides";
+import { KASOL_GUIDES } from "./kasol-guides";
 import { HIMACHAL_UPGRADES } from "./himachal-upgrades";
 
-// Thin posts replaced by a full guide on the same topic; their URLs 301 to
-// the new post (next.config.ts redirects) so the two never compete in search.
-export const SUPERSEDED_POSTS: Record<string, string> = {
-  "manali-to-leh-road-trip-plan": "manali-to-leh-road-trip-guide",
-};
+import { SUPERSEDED_POSTS } from "./superseded";
+export { SUPERSEDED_POSTS };
 
 const ALL_POSTS: BlogPost[] = [
   ...KASHMIR_CORE,
@@ -35,11 +42,18 @@ const ALL_POSTS: BlogPost[] = [
   ...WORLD_AND_ROUNDUPS,
   ...PLANNING_GUIDES,
   ...HIMACHAL_DEEP,
+  ...FOCUS_BATCH_1,
+  ...MONEY_FROM_CITIES,
+  ...SHIMLA_GUIDES,
+  ...MANALI_GUIDES,
+  ...LADAKH_DEEP,
+  ...LADAKH_DEEP_2,
+  ...KASOL_GUIDES,
 ];
 
 // Full rewrites keep the published slug, title and description and replace
 // the body, so the URL keeps its history while the page stops being thin.
-const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs">> = { ...KASHMIR_UPGRADES, ...HIMACHAL_UPGRADES };
+const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs">> = { ...KASHMIR_UPGRADES, ...KASHMIR_UPGRADES_2, ...KASHMIR_UPGRADES_3, ...KASHMIR_UPGRADES_4, ...HIMACHAL_UPGRADES, ...LADAKH_UPGRADES };
 
 export const BLOG_POSTS: BlogPost[] = ALL_POSTS.filter((p) => !(p.slug in SUPERSEDED_POSTS)).map((p) =>
   UPGRADES[p.slug] ? { ...p, ...UPGRADES[p.slug] } : p,

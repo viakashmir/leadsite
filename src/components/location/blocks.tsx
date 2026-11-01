@@ -206,9 +206,12 @@ type PackageWithDestination = Prisma.PackageGetPayload<{ include: { destination:
 export function PackageGrid({
   packages,
   emptyText,
+  compact = false,
 }: {
   packages: PackageWithDestination[];
   emptyText: string;
+  /** Phones: one swipeable row instead of a long stack, so the page's own copy stays near the top. */
+  compact?: boolean;
 }) {
   if (packages.length === 0) {
     return (
@@ -227,7 +230,13 @@ export function PackageGrid({
     );
   }
   return (
-    <div className="grid gap-x-4 gap-y-7 sm:grid-cols-2">
+    <div
+      className={
+        compact
+          ? "no-scrollbar -mx-4 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-x-4 sm:gap-y-7 sm:overflow-visible sm:px-0 [&>*]:w-[82%] [&>*]:shrink-0 [&>*]:snap-start sm:[&>*]:w-auto"
+          : "grid gap-x-4 gap-y-7 sm:grid-cols-2"
+      }
+    >
       {packages.map((p) => (
         <PackageCard
           key={p.id}
@@ -237,6 +246,7 @@ export function PackageGrid({
           durationDays={p.durationDays}
           durationNights={p.durationNights}
           price={p.price}
+          referencePrice={p.referencePrice}
           destinationName={p.destination.name}
           theme={p.theme}
           heroImage={packagePhoto(p)}
@@ -323,6 +333,7 @@ export async function QuoteBox({
         defaultDestinationId={destinationId}
         defaultCityId={cityId}
         title={title}
+        dense
       />
     </div>
   );
@@ -530,4 +541,103 @@ export function Routes({ routes }: { routes?: RouteGuide[] }) {
       ))}
     </div>
   );
+}
+
+// Answer-first price guide built from live package prices (see getPriceGuide).
+// One short paragraph a search engine or AI assistant can quote, then tables.
+export function PriceGuideBlock({ name, guide }: { name: string; guide: import("@/lib/locations").PriceGuide }) {
+  const inr = (n: number) => new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n);
+  const popular = [...guide.byNights].sort((a, b) => b.count - a.count)[0];
+  return (
+    <div className="space-y-4">
+      <p className="rounded-lg border-l-4 border-gold bg-[#fdf8f3] px-4 py-3 text-sm leading-relaxed text-ink">
+        <strong>{name} tour packages start from {inr(guide.from)} per person</strong> on Tavel Package, across {guide.count} ready
+        packages. The middle price is {inr(guide.median)} per person.
+        {popular ? ` The most common length is ${popular.nights} nights, from ${inr(popular.from)} per person.` : ""} Prices are
+        starting prices per person; your final quote depends on dates, hotels and group size.
+      </p>
+      <div className="grid gap-4 md:grid-cols-2">
+        <table className="w-full overflow-hidden rounded-lg border border-zinc-200 bg-white text-sm">
+          <caption className="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-ink-soft">By trip length</caption>
+          <thead className="bg-zinc-50 text-xs text-ink-soft">
+            <tr>
+              <th className="px-3 py-2 text-left font-medium">Duration</th>
+              <th className="px-3 py-2 text-right font-medium">From</th>
+              <th className="px-3 py-2 text-right font-medium">Typical</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-zinc-100">
+            {guide.byNights.map((r) => (
+              <tr key={r.nights}>
+                <td className="px-3 py-2 text-ink">
+                  {r.nights}N / {r.nights + 1}D <span className="text-xs text-ink-soft">({r.count})</span>
+                </td>
+                <td className="px-3 py-2 text-right font-semibold text-ink">{inr(r.from)}</td>
+                <td className="px-3 py-2 text-right text-ink-soft">{inr(r.median)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {guide.byTier.length > 0 && (
+          <table className="h-fit w-full overflow-hidden rounded-lg border border-zinc-200 bg-white text-sm">
+            <caption className="px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-ink-soft">By hotel category</caption>
+            <thead className="bg-zinc-50 text-xs text-ink-soft">
+              <tr>
+                <th className="px-3 py-2 text-left font-medium">Stay</th>
+                <th className="px-3 py-2 text-right font-medium">From</th>
+                <th className="px-3 py-2 text-right font-medium">Typical</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-zinc-100">
+              {guide.byTier.map((r) => (
+                <tr key={r.tier}>
+                  <td className="px-3 py-2 text-ink">
+                    {r.tier === "Luxury" ? "5 star" : r.tier === "Premium" ? "4 star" : r.tier === "Mid-Range" ? "3 star" : "Budget"}{" "}
+                    <span className="text-xs text-ink-soft">({r.count})</span>
+                  </td>
+                  <td className="px-3 py-2 text-right font-semibold text-ink">{inr(r.from)}</td>
+                  <td className="px-3 py-2 text-right text-ink-soft">{inr(r.median)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+      <p className="text-xs text-ink-soft">
+        &quot;From&quot; is the lowest listed price and &quot;Typical&quot; the median, per person, from packages live on this page&apos;s
+        destination. Flights are not included unless a package says so.
+      </p>
+    </div>
+  );
+}
+
+// Price questions answered from the same live numbers, for the FAQ block.
+export function priceFaqs(name: string, guide: import("@/lib/locations").PriceGuide): { q: string; a: string }[] {
+  const inr = (n: number) => `₹${new Intl.NumberFormat("en-IN").format(n)}`;
+  const popular = [...guide.byNights].sort((a, b) => b.count - a.count)[0];
+  const budget = guide.byTier.find((t) => t.tier === "Budget");
+  // Highest category actually on sale, named for what it is.
+  const lux = guide.byTier.find((t) => t.tier === "Luxury") ?? guide.byTier.find((t) => t.tier === "Premium");
+  const luxLabel = lux?.tier === "Luxury" ? "5 star" : "4 star";
+  const faqs = [
+    {
+      q: `How much does a ${name} tour package cost?`,
+      a: `${name} packages on Tavel Package start from ${inr(guide.from)} per person, and the typical (median) price is ${inr(guide.median)} per person across ${guide.count} packages. Hotel category, trip length, season and group size decide the final quote.`,
+    },
+  ];
+  if (popular)
+    faqs.push({
+      q: `What is the price of a ${popular.nights} nights ${popular.nights + 1} days ${name} package?`,
+      a: `${popular.nights}-night ${name} packages start from ${inr(popular.from)} per person, with a typical price of ${inr(popular.median)} per person.`,
+    });
+  if (budget && lux)
+    faqs.push({
+      q: `What is the difference between a budget and a ${luxLabel} ${name} package?`,
+      a: `Budget packages use simple, clean hotels or guesthouses and start from ${inr(budget.from)} per person. Packages with ${luxLabel} hotels start from ${inr(lux.from)} per person, typically ${inr(lux.median)}. The route and sightseeing are often the same; the hotels, houseboat category and vehicle make the difference. Prices are per person with two sharing a room; peak dates cost more.`,
+    });
+  faqs.push({
+    q: `Are flights included in ${name} package prices?`,
+    a: "Usually not. Listed prices cover the land part of the trip (hotels, transfers and sightseeing as described in each package). Ask for flights in your quote request and agents will add them.",
+  });
+  return faqs;
 }

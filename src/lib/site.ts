@@ -32,6 +32,12 @@ export const ORG = {
   sameAs: [] as string[], // official social profiles
 };
 
+// WhatsApp number for the floating chat button (and anything else that links
+// to WhatsApp). Change it here only — every use reads this one value.
+// International format; spaces and "+" are fine, they're stripped for wa.me.
+export const WHATSAPP_NUMBER = "+91 9186051499";
+export const WHATSAPP_DIGITS = WHATSAPP_NUMBER.replace(/\D/g, "");
+
 export const EDITORIAL_TEAM = `${SITE_NAME} Editorial Team`;
 
 // IndexNow key (public by design): Bing, Copilot, DuckDuckGo (Bing index),

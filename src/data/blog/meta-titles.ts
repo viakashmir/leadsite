@@ -1,6 +1,20 @@
 // Search titles (<title> and og:title) for blog posts: buying keyword first,
 // at most 60 characters once {year} is filled in. The on-page H1 stays the
 // post's own title. {year} is replaced with the current year at render time.
+// "{destination} trip from {city}" posts: one short, keyword-led pattern.
+const TRIP_FROM_ORIGINS: Record<string, string> = {
+  delhi: "Delhi", mumbai: "Mumbai", bangalore: "Bangalore", chennai: "Chennai", kolkata: "Kolkata", hyderabad: "Hyderabad",
+  pune: "Pune", ahmedabad: "Ahmedabad", jaipur: "Jaipur", lucknow: "Lucknow", chandigarh: "Chandigarh", kochi: "Kochi",
+};
+const TRIP_FROM_TITLES: Record<string, string> = Object.fromEntries(
+  (["shimla", "kasol", "goa"] as const).flatMap((d) =>
+    Object.entries(TRIP_FROM_ORIGINS).map(([slug, name]) => [
+      `${d}-trip-from-${slug}`,
+      `${d[0].toUpperCase()}${d.slice(1)} Trip from ${name} {year}: Route, Plan & Best Time`,
+    ]),
+  ),
+);
+
 export const META_TITLES: Record<string, string> = {
   // Kashmir
   "kashmir-honeymoon-itinerary-6-days": "Kashmir Honeymoon Package {year}: 6-Day Itinerary & Stays",
@@ -117,4 +131,16 @@ export const META_TITLES: Record<string, string> = {
   "senior-citizen-tour-packages-guide": "Senior Citizen Tour Packages in India: Best Destinations",
   "how-to-compare-tour-package-quotes": "How to Compare Tour Package Quotes: 10-Point Checklist",
   "short-international-trips-from-india": "Short International Trips from India {year}: 10 Countries",
+  // Himachal and Uttarakhand guides whose H1 runs long
+  "rohtang-pass-permit-guide": "Rohtang Pass Permit {year}: Online Booking, Fees & Rules",
+  "jibhi-tirthan-valley-itinerary": "Jibhi and Tirthan Valley Itinerary: 3 to 4 Day Plan",
+  "manali-to-leh-road-trip-guide": "Manali to Leh Road Trip {year}: Route, Stops & Passes",
+  "triund-trek-guide": "Triund Trek Guide: Distance, Difficulty & Best Season",
+  "kinnaur-road-trip-sangla-chitkul-kalpa": "Kinnaur Road Trip: Sangla, Chitkul & Kalpa in 5 Days",
+  "nainital-itinerary-3-days": "Nainital Itinerary 3 Days: Lakes, Bhimtal & Mukteshwar",
+  "best-time-to-visit-manali": "Best Time to Visit Manali {year}: Month by Month Guide",
+  "manali-adventure-activities": "Manali Adventure Activities: Paragliding, Rafting, Skiing",
+  "parvati-valley-itinerary-5-days": "Parvati Valley Itinerary 5 Days: Kasol, Tosh & Kheerganga",
+  "things-to-do-in-leh": "Things to Do in Leh: Monasteries, Viewpoints & Day Trips",
+  ...TRIP_FROM_TITLES,
 };

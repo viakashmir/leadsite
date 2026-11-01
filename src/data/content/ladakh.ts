@@ -21,6 +21,55 @@ const LEH_MONTHS: NonNullable<GuideContent["months"]> = [
 ];
 
 export const LADAKH_CITIES: Record<string, GuideContent> = {
+  kargil: {
+    intro:
+      "Kargil is Ladakh's second town, on the Suru river roughly halfway between Srinagar and Leh on NH1 (about 205 km from Srinagar and 220 km from Leh). Most travellers stop here for a night on the Srinagar to Leh road trip, after crossing Zojila and visiting the Kargil War Memorial at Drass.\n\nKargil is also the gateway to the Suru valley and to Zanskar, whose road branches south from the town towards Padum.",
+    highlights: [
+      "The Kargil War Memorial at Drass, about 60 km before Kargil",
+      "Drass, often called one of the coldest inhabited places in India",
+      "The rock-cut Maitreya Buddha at Mulbekh on the road to Leh",
+      "The Suru valley with views of the Nun and Kun peaks",
+      "The Hundarman village museum near the Line of Control",
+    ],
+    idealDuration: "1 night on the way, or 2 to 3 days for the Suru valley",
+    bestMonths: "May to October, when Zojila is open",
+    gateway: "Srinagar or Leh airports; no railway",
+    routes: [
+      { from: "Srinagar", to: "Kargil", distanceKm: "About 205 km", time: "7 to 8 hours", how: "Via Sonamarg, Zojila and Drass. Zojila usually opens around April or May and closes with heavy snow." },
+      { from: "Kargil", to: "Leh", distanceKm: "About 220 km", time: "6 to 7 hours", how: "Via Mulbekh, Namika La, Fotu La and Lamayuru." },
+      { from: "Kargil", to: "Padum (Zanskar)", distanceKm: "About 230 km", time: "9 to 10 hours", how: "Through the Suru valley and over Pensi La." },
+    ],
+    faqs: [
+      { q: "Is a night in Kargil needed on the Srinagar to Leh road?", a: "Yes, for most travellers. Breaking the drive in Kargil helps you acclimatise gradually, since Kargil sits at about 2,700 m and Leh at about 3,500 m." },
+      { q: "Do Indian tourists need a permit for Kargil?", a: "Not for Kargil town or the NH1 corridor. Some areas near the Line of Control need a permit; check current rules with the local administration before you go." },
+      { q: "When is the Kargil War Memorial worth visiting?", a: "Any time the road is open. Vijay Diwas on 26 July is marked with ceremonies at Drass." },
+    ],
+  },
+
+  zanskar: {
+    intro:
+      "Zanskar is a remote high valley in Ladakh's Kargil district, cut off by snow for much of the year. Its centre is Padum, about 230 km south of Kargil over Pensi La, and its best-known sight is Phugtal Monastery, built into a cliff cave above the Tsarap river and reached only on foot.\n\nThe Kargil to Padum road is usually open from about June to October. In winter, the frozen Zanskar river becomes the route of the Chadar trek.",
+    highlights: [
+      "Phugtal Monastery, a cliffside gompa reached by a day's walk",
+      "Pensi La and the Drang Drung glacier",
+      "Karsha and Stongde monasteries above the Padum plain",
+      "River rafting on the Zanskar in summer",
+      "The Chadar trek on the frozen river in January and February",
+    ],
+    idealDuration: "4 to 6 days from Kargil or Leh",
+    bestMonths: "June to September by road; January to February for the Chadar trek",
+    gateway: "Kargil by road; Leh airport for the Chadar trek",
+    routes: [
+      { from: "Kargil", to: "Padum", distanceKm: "About 230 km", time: "9 to 10 hours", how: "Through the Suru valley, Rangdum and over Pensi La (about 4,400 m)." },
+      { from: "Leh", to: "Padum", distanceKm: "About 450 km via Kargil", time: "Two days", how: "Via Kargil with a night there. A direct road from Nimmu through the Zanskar gorge is being built; check current status." },
+    ],
+    faqs: [
+      { q: "How hard is it to visit Zanskar?", a: "It takes time more than fitness: long, rough road days, basic homestays and limited mobile coverage. Plan at least four days beyond Kargil." },
+      { q: "Can I visit Phugtal Monastery by car?", a: "Roads now reach closer to Phugtal, but the last stretch is still a walk of several hours each way along the Tsarap river." },
+      { q: "When is the Chadar trek?", a: "Usually in January and February, when the Zanskar river freezes. It needs registration in Leh, a medical check and an experienced operator." },
+    ],
+  },
+
   leh: {
     intro:
       "Leh is the main town of Ladakh at about 3,500 m, in the Indus valley. It has the airport, most hotels and the taxi union, and is the base for day trips to Shanti Stupa, Leh Palace, Thiksey and Hemis monasteries and Magnetic Hill, and for overnight trips to Nubra Valley, Pangong Tso and Tso Moriri.\n\nEveryone arriving by air should rest for 24 to 48 hours in Leh before going higher.",

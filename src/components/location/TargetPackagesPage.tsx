@@ -20,12 +20,15 @@ import {
   Blocks,
   ItineraryCards,
   Prose,
+  PriceGuideBlock,
+  priceFaqs,
 } from "@/components/location/blocks";
 import TrustTicks from "@/components/TrustTicks";
 import { formatINR } from "@/lib/format";
 import { GUIDE_SECTIONS, ORIGIN_CITIES, THEMES } from "@/data/locations";
 import {
   getPackagesFor,
+  getPriceGuide,
   readContent,
   robotsFor,
   targetName,
@@ -85,8 +88,9 @@ export async function packagesPageMetadata(t: Target, v: PackagesPageVariant): P
   const sliceReady =
     !isSlice ||
     Boolean(sliceCopy?.intro) ||
-    (await getPackagesFor(t, { themeTag: v.theme?.tag, take: MIN_PACKAGES_FOR_SLICE })).length >=
-      MIN_PACKAGES_FOR_SLICE;
+    // Minor departure cities are indexable only with their own copy.
+    (!(v.origin && !v.origin.major) && (await getPackagesFor(t, { themeTag: v.theme?.tag, take: MIN_PACKAGES_FOR_SLICE })).length >=
+      MIN_PACKAGES_FOR_SLICE);
   const fallbackDescription = `Plan your ${targetName(t)} trip${
     v.origin ? ` from ${v.origin.name}` : ""
   } with verified local travel agents. Share your dates and budget, get up to 3 customised${
@@ -114,11 +118,16 @@ export default async function TargetPackagesPage({
   const slug = targetSlug(t);
   const dest = t.destination;
   const content = readContent(t.type === "city" ? t.city.content : dest.content);
-  const packages = await getPackagesFor(t, { themeTag: v.theme?.tag });
+  const [packages, priceGuide] = await Promise.all([
+    getPackagesFor(t, { themeTag: v.theme?.tag }),
+    getPriceGuide(t, { themeTag: v.theme?.tag }),
+  ]);
   const heading = packagesPageTitle(t, v);
   const copy = sliceContent(content, v);
   const itineraries = (copy as { itineraries?: Itinerary[] } | undefined)?.itineraries;
-  const faqs = copy?.faqs ?? (!v.theme && !v.origin ? content.faqs : undefined);
+  const baseFaqs = copy?.faqs ?? (!v.theme && !v.origin ? content.faqs : undefined);
+  // Live price answers first: the questions people (and AI assistants) ask most.
+  const faqs = priceGuide && !v.origin ? [...priceFaqs(v.theme ? `${name} ${v.theme.name}` : name, priceGuide), ...(baseFaqs ?? [])] : baseFaqs;
   const isCircuit = t.type === "circuit";
   const fromPrice = packages.length > 0 ? Math.min(...packages.map((p) => p.price)) : null;
   // Last change to this page's copy or to any package listed on it.
@@ -233,12 +242,18 @@ export default async function TargetPackagesPage({
               subtitle="Every package can be customised: hotels, days, transport and activities."
             >
               <PackageGrid
+                compact={Boolean(v.origin)}
                 packages={packages}
                 emptyText={`No ready-made ${name}${heading.slice(name.length).toLowerCase()} are listed yet. Share your dates, group and budget, and up to 3 verified local agents build one for you${
                   itineraries?.length ? ", or start from a sample plan below" : ""
                 }.`}
               />
             </Section>
+            {priceGuide && (
+              <Section title={`${heading} price guide`} subtitle="Live starting prices per person from the packages listed here.">
+                <PriceGuideBlock name={v.theme ? `${name} ${v.theme.name}` : name} guide={priceGuide} />
+              </Section>
+            )}
 
             {itineraries && itineraries.length > 0 && (
               <Section tint="warm" title={`${name} itinerary`} subtitle="Sample plans agents start from. Ask for quotes on any of them.">
@@ -264,9 +279,11 @@ export default async function TargetPackagesPage({
             {copy?.intro && (
               <Section
                 title={
-                  v.theme || v.origin
-                    ? `Planning your ${heading.replace(/ Packages?$/, "").replace(/ Tour$/, "")} trip`
-                    : `${name} holiday packages, tours and trip plans`
+                  v.origin
+                    ? `About ${name} tour packages from ${v.origin.name}`
+                    : v.theme
+                      ? `Planning your ${heading.replace(/ Packages?$/, "").replace(/ Tour$/, "")} trip`
+                      : `${name} holiday packages, tours and trip plans`
                 }
               >
                 <Prose text={copy.intro} />
@@ -287,7 +304,9 @@ export default async function TargetPackagesPage({
             {!v.origin && !isCircuit && t.type === "destination" && (
               <Section title={`${name} tour packages from top cities`}>
                 <ChipLinks
-                  links={ORIGIN_CITIES.filter((o) => o.slug !== slug).map((o) => ({
+                  links={ORIGIN_CITIES.filter(
+                    (o) => o.slug !== slug && (o.major || Boolean(content.packages?.fromOrigins?.[o.slug])),
+                  ).map((o) => ({
                     label: `From ${o.name}`,
                     href: fromToUrl(o.slug, slug),
                   }))}

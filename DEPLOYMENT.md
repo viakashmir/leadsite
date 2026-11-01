@@ -30,12 +30,18 @@ access — this only affects how the *first* migration gets applied.
 |---|---|
 | `DATABASE_URL` | Supabase -> Settings -> Database -> Connection string (use the **Transaction pooler** URI for serverless) |
 | `JWT_SECRET` | **Required in production** (min 32 chars; the app refuses to sign or accept sessions without it). Generate with `openssl rand -base64 32` |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Optional; turns on "Continue with Google" at `/login`. Google Cloud Console → APIs & Services → Credentials → Create OAuth client ID (Web application). Authorised redirect URI: `{SITE_URL}/api/auth/google/callback`. `SITE_URL` must be set to the live domain |
+| `ADMIN_EMAILS` | Optional, comma-separated. These Google accounts become admins on first Google sign-in. Existing admin accounts (Admin → Team) are recognised by email without being listed here |
 | `RAZORPAY_KEY_ID` | Razorpay Dashboard -> Settings -> API Keys |
 | `RAZORPAY_KEY_SECRET` | Same page |
 | `RAZORPAY_WEBHOOK_SECRET` | Set when creating the webhook in step 5 below |
 | `NEXT_PUBLIC_RAZORPAY_KEY_ID` | Same value as `RAZORPAY_KEY_ID` |
 | `PIXABAY_API_KEY` | [pixabay.com/service/about/api](https://pixabay.com/service/about/api/) — optional, powers the admin panel's "Fetch photo from Pixabay" buttons |
 | `SITE_URL` | Your production URL, e.g. `https://leadsite.vercel.app` or a custom domain |
+| `RESEND_API_KEY` | [resend.com/api-keys](https://resend.com/api-keys). Sends the new-lead alert to the admin and the thank-you email to the customer |
+| `EMAIL_FROM` | Sender on a domain verified in Resend, e.g. `Tavel Package <hello@tavelpackage.in>`. Until a domain is verified, Resend only delivers to the Resend account owner's own address, so customers will not get their email |
+| `ADMIN_NOTIFY_EMAIL` | Optional. Who gets new-lead alerts, comma-separated (default `arfatshah.qa@gmail.com,aribanigar034@gmail.com`) |
+| `CUSTOMER_REPLY_TO` | Optional. Where customers' replies to their thank-you email go (default `aribanigar034@gmail.com`) |
 
 ## 4. Vercel import screen (the one you have open)
 
@@ -77,6 +83,14 @@ access), this also works:
 DATABASE_URL="<production DATABASE_URL>" npx prisma migrate deploy
 DATABASE_URL="<production DATABASE_URL>" npm run db:seed
 ```
+
+### Later schema changes
+
+New migrations land in `prisma/migrations/`. Apply them to production before
+(or right after) deploying the code, either with `./scripts/deploy-db.sh` or by
+pasting the new `migration.sql` into Supabase's SQL Editor. For example
+`20261102000000_lead_pricing` creates the table behind Admin -> Lead Pricing;
+until it exists, unlocks use the default prices (100 standard / 200 hot).
 
 ## 6. Register the Razorpay webhook
 

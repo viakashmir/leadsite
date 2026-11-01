@@ -2,6 +2,7 @@ import type { GUIDE_SECTIONS } from "@/data/locations";
 import { cache } from "react";
 import { prisma } from "@/lib/prisma";
 import { ZONES, type Zone } from "@/data/locations";
+import { routesTo } from "@/data/routes";
 import type { Prisma } from "@/generated/prisma/client";
 
 const destinationInclude = {
@@ -86,6 +87,58 @@ export async function getPackagesFor(t: Target, opts: { themeTag?: string; take?
   });
 }
 
+// Live price guide for a packages page, from every published package in
+// scope (not just the cards shown). Prices are per person, as listed.
+export type PriceGuide = {
+  count: number;
+  from: number;
+  median: number;
+  byNights: { nights: number; count: number; from: number; median: number }[];
+  byTier: { tier: "Budget" | "Mid-Range" | "Premium" | "Luxury"; count: number; from: number; median: number }[];
+};
+
+const median = (xs: number[]) => {
+  const s = [...xs].sort((a, b) => a - b);
+  const m = Math.floor(s.length / 2);
+  return s.length % 2 ? s[m] : Math.round((s[m - 1] + s[m]) / 2);
+};
+const stats = (xs: number[]) => ({ count: xs.length, from: Math.min(...xs), median: median(xs) });
+
+export async function getPriceGuide(t: Target, opts: { themeTag?: string } = {}): Promise<PriceGuide | null> {
+  const rows = await prisma.package.findMany({
+    where: {
+      published: true,
+      price: { gt: 0 },
+      ...packageScope(t),
+      ...(opts.themeTag ? { theme: { contains: opts.themeTag, mode: "insensitive" } } : {}),
+    },
+    select: { price: true, durationNights: true, theme: true },
+  });
+  if (rows.length < 3) return null; // too few to say anything useful
+  const nights = [...new Set(rows.map((r) => r.durationNights))].sort((a, b) => a - b);
+  const tierOf = (theme: string) => {
+    const tags = theme.split(",").map((x) => x.trim().toLowerCase());
+    // "Luxury" means 5-star and "Premium" 4-star; kept apart so a 4-star
+    // price is never shown as a 5-star one.
+    if (tags.includes("luxury")) return "Luxury" as const;
+    if (tags.includes("premium")) return "Premium" as const;
+    if (tags.includes("budget")) return "Budget" as const;
+    if (tags.includes("mid-range")) return "Mid-Range" as const;
+    return null;
+  };
+  const tiers = (["Budget", "Mid-Range", "Premium", "Luxury"] as const)
+    .map((tier) => ({ tier, prices: rows.filter((r) => tierOf(r.theme) === tier).map((r) => r.price) }))
+    .filter((x) => x.prices.length > 0)
+    .map((x) => ({ tier: x.tier, ...stats(x.prices) }));
+  return {
+    ...stats(rows.map((r) => r.price)),
+    byNights: nights
+      .map((n) => ({ nights: n, ...stats(rows.filter((r) => r.durationNights === n).map((r) => r.price)) }))
+      .filter((x) => x.count > 0),
+    byTier: tiers,
+  };
+}
+
 // Zone -> destinations, for menus and index pages. Circuits excluded.
 export const getDestinationsByZone = cache(async () => {
   const all = await prisma.destination.findMany({
@@ -119,7 +172,9 @@ export const getEnquiryOptions = cache(async () => {
       id: true,
       slug: true,
       name: true,
-      cities: { orderBy: { name: "asc" }, select: { id: true, slug: true, name: true } },
+      // Most-visited places first (tier, then editorial order), so the quote
+      // form's place chips lead with Srinagar, Gulmarg, Pahalgam...
+      cities: { orderBy: [{ tier: "asc" }, { sortOrder: "asc" }, { name: "asc" }], select: { id: true, slug: true, name: true } },
     },
   });
   return rows;
@@ -207,15 +262,21 @@ export async function availableSections(
   const c = readContent(content);
   const intro = (s: keyof NonNullable<GuideContent["sections"]>) => Boolean(c.sections?.[s]?.intro);
   const where = cityId ? { cityId } : { destinationId };
-  const [places, activities] = await Promise.all([
+  const [places, activities, city] = await Promise.all([
     prisma.place.count({ where: { ...where, kind: "PLACE" } }),
     prisma.place.count({ where: { ...where, kind: "ACTIVITY" } }),
+    cityId ? prisma.city.findUnique({ where: { id: cityId }, select: { slug: true } }) : null,
   ]);
+  // A city with "Delhi to X" route pages always gets the How to Reach page
+  // that lists them (their breadcrumbs link to it).
+  const hasRoutePages = Boolean(city && routesTo(city.slug).length > 0);
   const has = {
     "places-to-visit": places > 0 || intro("places-to-visit"),
     "things-to-do": activities > 0 || intro("things-to-do"),
     "best-time-to-visit": Boolean(c.bestTimeToVisit || c.months?.length || intro("best-time-to-visit")),
-    "how-to-reach": Boolean(c.howToReach?.air || c.howToReach?.rail || c.howToReach?.road || c.routes?.length || intro("how-to-reach")),
+    "how-to-reach": Boolean(
+      c.howToReach?.air || c.howToReach?.rail || c.howToReach?.road || c.routes?.length || intro("how-to-reach") || hasRoutePages,
+    ),
     "travel-guide-tips": Boolean(c.thingsToKnow?.length || intro("travel-guide-tips")),
     "local-food": intro("local-food"),
     "culture-and-heritage": intro("culture-and-heritage"),

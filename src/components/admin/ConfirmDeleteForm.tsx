@@ -4,10 +4,12 @@ export default function ConfirmDeleteForm({
   action,
   confirmText,
   label = "Delete",
+  compact = false,
 }: {
   action: () => Promise<void>;
   confirmText: string;
   label?: string;
+  compact?: boolean;
 }) {
   return (
     <form
@@ -18,7 +20,11 @@ export default function ConfirmDeleteForm({
     >
       <button
         type="submit"
-        className="rounded-md border border-red-300 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50"
+        className={
+          compact
+            ? "rounded px-2 py-1 text-xs font-medium text-red-600 hover:bg-red-50"
+            : "rounded-md border border-red-300 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50"
+        }
       >
         {label}
       </button>
