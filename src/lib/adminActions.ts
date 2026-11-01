@@ -458,6 +458,21 @@ export async function deleteCity(cityId: string): Promise<void> {
   revalidatePath(`/admin/destinations/${city.destinationId}`);
 }
 
+// Package price, optionally derived from a competitor's price: with
+// "priceBelowReference" ticked, ours is set that many percent below it.
+function readPackagePricing(formData: FormData) {
+  const ref = Number(formData.get("referencePrice"));
+  const referencePrice = Number.isInteger(ref) && ref > 0 ? ref : null;
+  const referenceSource = referencePrice ? String(formData.get("referenceSource") ?? "").trim().slice(0, 60) || "MakeMyTrip" : null;
+  const pct = Number(formData.get("percentBelow"));
+  const percentBelow = Number.isFinite(pct) && pct >= 0 && pct < 90 ? pct : 2;
+  const price =
+    referencePrice && formData.get("priceBelowReference") === "on"
+      ? Math.round(referencePrice * (1 - percentBelow / 100))
+      : Number(formData.get("price"));
+  return { price, referencePrice, referenceSource };
+}
+
 export async function createAdminPackage(formData: FormData): Promise<{ error?: string }> {
   await requireAdmin();
 
@@ -468,7 +483,7 @@ export async function createAdminPackage(formData: FormData): Promise<{ error?: 
   const itinerary = String(formData.get("itinerary") ?? "").trim();
   const durationDays = Number(formData.get("durationDays"));
   const durationNights = Number(formData.get("durationNights"));
-  const price = Number(formData.get("price"));
+  const { price, referencePrice, referenceSource } = readPackagePricing(formData);
   const theme = String(formData.get("theme") ?? "").trim();
   const heroImage = String(formData.get("heroImage") ?? "").trim() || "/images/packages/placeholder.jpg";
   const published = formData.get("published") === "on";
@@ -492,6 +507,8 @@ export async function createAdminPackage(formData: FormData): Promise<{ error?: 
       durationDays,
       durationNights,
       price,
+      referencePrice,
+      referenceSource,
       theme: theme || "General",
       destinationId,
       cityId,
@@ -514,7 +531,7 @@ export async function updateAdminPackage(packageId: string, formData: FormData):
   const itinerary = String(formData.get("itinerary") ?? "").trim();
   const durationDays = Number(formData.get("durationDays"));
   const durationNights = Number(formData.get("durationNights"));
-  const price = Number(formData.get("price"));
+  const { price, referencePrice, referenceSource } = readPackagePricing(formData);
   const theme = String(formData.get("theme") ?? "").trim();
   const heroImage = String(formData.get("heroImage") ?? "").trim() || undefined;
   const published = formData.get("published") === "on";
@@ -536,6 +553,8 @@ export async function updateAdminPackage(packageId: string, formData: FormData):
       durationDays,
       durationNights,
       price,
+      referencePrice,
+      referenceSource,
       theme: theme || "General",
       destinationId,
       cityId,

@@ -70,7 +70,17 @@ export default async function AdminPackagesPage({
                   <Link href={`/admin/packages/${p.id}`}>{p.title}</Link>
                 </td>
                 <td className="hidden px-4 py-3 text-xs text-zinc-500 md:table-cell">{p.destination.name}</td>
-                <td className="px-4 py-3">{formatINR(p.price)}</td>
+                <td className="px-4 py-3">
+                  {formatINR(p.price)}
+                  {p.referencePrice ? (
+                    <div className="text-xs text-zinc-500">
+                      {p.referenceSource ?? "Ref"}: {formatINR(p.referencePrice)}
+                      {p.referencePrice > p.price && (
+                        <span className="text-green-700"> ({Math.round((1 - p.price / p.referencePrice) * 1000) / 10}% less)</span>
+                      )}
+                    </div>
+                  ) : null}
+                </td>
                 <td className="hidden px-4 py-3 text-xs text-zinc-500 lg:table-cell">
                   {p.agent ? p.agent.companyName : "Curated"}
                 </td>

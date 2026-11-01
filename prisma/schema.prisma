@@ -146,6 +146,8 @@ model Package {
   durationDays  Int
   durationNights Int
   price         Int      // starting price in INR
+  referencePrice  Int?   // competitor's price for a comparable package (INR), e.g. MakeMyTrip
+  referenceSource String? // where referencePrice came from, e.g. "MakeMyTrip"
   theme         String   // comma-separated tags e.g. "Honeymoon,Family"
   published     Boolean  @default(true)
 
