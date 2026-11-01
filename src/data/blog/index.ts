@@ -22,6 +22,7 @@ import { FOCUS_BATCH_1 } from "./focus-batch-1";
 import { MONEY_FROM_CITIES } from "./money-from-cities";
 import { SHIMLA_GUIDES } from "./shimla-guides";
 import { MANALI_GUIDES } from "./manali-guides";
+import { KASOL_GUIDES } from "./kasol-guides";
 import { HIMACHAL_UPGRADES } from "./himachal-upgrades";
 
 import { SUPERSEDED_POSTS } from "./superseded";
@@ -47,6 +48,7 @@ const ALL_POSTS: BlogPost[] = [
   ...MANALI_GUIDES,
   ...LADAKH_DEEP,
   ...LADAKH_DEEP_2,
+  ...KASOL_GUIDES,
 ];
 
 // Full rewrites keep the published slug, title and description and replace

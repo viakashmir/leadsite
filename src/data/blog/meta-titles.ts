@@ -140,5 +140,7 @@ export const META_TITLES: Record<string, string> = {
   "nainital-itinerary-3-days": "Nainital Itinerary 3 Days: Lakes, Bhimtal & Mukteshwar",
   "best-time-to-visit-manali": "Best Time to Visit Manali {year}: Month by Month Guide",
   "manali-adventure-activities": "Manali Adventure Activities: Paragliding, Rafting, Skiing",
+  "parvati-valley-itinerary-5-days": "Parvati Valley Itinerary 5 Days: Kasol, Tosh & Kheerganga",
+  "things-to-do-in-leh": "Things to Do in Leh: Monasteries, Viewpoints & Day Trips",
   ...TRIP_FROM_TITLES,
 };
