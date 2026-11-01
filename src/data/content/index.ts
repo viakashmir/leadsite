@@ -17,6 +17,7 @@ import { GOA_CITIES, GOA_DESTINATION, GOA_PLACES } from "./goa";
 import { SOUTH_CITIES, SOUTH_DESTINATIONS, SOUTH_PLACES } from "./south-ka-kl";
 import { RJ_CITIES, RJ_DESTINATIONS, RJ_ORIGIN_COPY, RJ_PLACES } from "./rajasthan-delhi";
 import { TN_MH_CITIES, TN_MH_DESTINATIONS, TN_MH_PLACES } from "./tn-mh";
+import { GUP_CITIES, GUP_CITY_FAQS, GUP_DESTINATION_FAQS, GUP_DESTINATIONS, GUP_PLACES } from "./gj-uk-up";
 import { KASHMIR_CITIES, KASHMIR_PLACES } from "./kashmir";
 import { KASHMIR_ORIGIN_DESTINATION } from "./kashmir-origins";
 import { KASHMIR_WINTER_DESTINATION } from "./kashmir-winter";
@@ -62,9 +63,9 @@ const BASE: Record<string, GuideContent> = {
 };
 
 export const DESTINATION_CONTENT: Record<string, GuideContent> = Object.fromEntries(
-  Object.entries({ ...Object.fromEntries([...Object.keys(RJ_DESTINATIONS), ...Object.keys(TN_MH_DESTINATIONS)].map((k) => [k, {}])), ...BASE, ...CIRCUIT_CONTENT } as Record<string, GuideContent>).map(([slug, c]) => [
+  Object.entries({ ...Object.fromEntries([...Object.keys(RJ_DESTINATIONS), ...Object.keys(TN_MH_DESTINATIONS), ...Object.keys(GUP_DESTINATIONS)].map((k) => [k, {}])), ...BASE, ...CIRCUIT_CONTENT } as Record<string, GuideContent>).map(([slug, c]) => [
     slug,
-    [DESTINATION_EXTRAS, DESTINATION_SUPPLEMENTS, { ...CULTURE_DESTINATIONS, goa: GOA_DESTINATION }, SOUTH_DESTINATIONS, RJ_DESTINATIONS, TN_MH_DESTINATIONS, KASHMIR_ORIGIN_DESTINATION, KASHMIR_WINTER_DESTINATION].reduce(
+    [DESTINATION_EXTRAS, DESTINATION_SUPPLEMENTS, { ...CULTURE_DESTINATIONS, goa: GOA_DESTINATION }, SOUTH_DESTINATIONS, RJ_DESTINATIONS, TN_MH_DESTINATIONS, KASHMIR_ORIGIN_DESTINATION, KASHMIR_WINTER_DESTINATION, GUP_DESTINATIONS, GUP_DESTINATION_FAQS].reduce(
       (acc: GuideContent, extra: Record<string, Partial<GuideContent>>) => mergeContent(acc, extra[slug]),
       c,
     ),
@@ -74,14 +75,14 @@ export const DESTINATION_CONTENT: Record<string, GuideContent> = Object.fromEntr
 // City slug -> guide content for /{dest}-tourism/{city} and its sections.
 export const CITY_CONTENT: Record<string, GuideContent> = mergeAll(
   mergeAll(
-    mergeAll({ ...MANALI_CITIES, ...HIMACHAL_CITIES, ...LADAKH_CITIES, ...GOA_CITIES, ...SOUTH_CITIES, ...RJ_CITIES, ...TN_MH_CITIES, ...KASHMIR_CITIES }, { ...CITY_SUPPLEMENTS, ...LADAKH_CITY_SUPPLEMENTS }),
+    mergeAll({ ...MANALI_CITIES, ...HIMACHAL_CITIES, ...LADAKH_CITIES, ...GOA_CITIES, ...SOUTH_CITIES, ...RJ_CITIES, ...TN_MH_CITIES, ...KASHMIR_CITIES, ...GUP_CITIES }, { ...CITY_SUPPLEMENTS, ...LADAKH_CITY_SUPPLEMENTS }),
     CULTURE_CITIES,
   ),
-  RJ_ORIGIN_COPY,
+  { ...RJ_ORIGIN_COPY, ...GUP_CITY_FAQS },
 );
 
 // Place path (e.g. "manali/places-to-visit/rohtang-pass") -> place page content.
 export const PLACE_CONTENT: Record<string, GuideContent> = mergeAll(
-  { ...MANALI_PLACES, ...HIMACHAL_PLACES, ...LADAKH_PLACES, ...GOA_PLACES, ...SOUTH_PLACES, ...RJ_PLACES, ...TN_MH_PLACES, ...KASHMIR_PLACES },
+  { ...MANALI_PLACES, ...HIMACHAL_PLACES, ...LADAKH_PLACES, ...GOA_PLACES, ...SOUTH_PLACES, ...RJ_PLACES, ...TN_MH_PLACES, ...KASHMIR_PLACES, ...GUP_PLACES },
   PLACE_SUPPLEMENTS,
 );
