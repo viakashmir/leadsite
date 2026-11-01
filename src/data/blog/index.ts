@@ -17,6 +17,7 @@ import { FOCUS_BATCH_1 } from "./focus-batch-1";
 import { MONEY_FROM_CITIES } from "./money-from-cities";
 import { SHIMLA_GUIDES } from "./shimla-guides";
 import { MANALI_GUIDES } from "./manali-guides";
+import { HIMACHAL_UPGRADES } from "./himachal-upgrades";
 
 import { SUPERSEDED_POSTS } from "./superseded";
 export { SUPERSEDED_POSTS };
@@ -43,7 +44,7 @@ const ALL_POSTS: BlogPost[] = [
 
 // Full rewrites keep the published slug, title and description and replace
 // the body, so the URL keeps its history while the page stops being thin.
-const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs">> = { ...KASHMIR_UPGRADES };
+const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs">> = { ...KASHMIR_UPGRADES, ...HIMACHAL_UPGRADES };
 
 export const BLOG_POSTS: BlogPost[] = ALL_POSTS.filter((p) => !(p.slug in SUPERSEDED_POSTS)).map((p) =>
   UPGRADES[p.slug] ? { ...p, ...UPGRADES[p.slug] } : p,
