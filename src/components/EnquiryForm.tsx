@@ -74,7 +74,10 @@ export default function EnquiryForm({
   const [destinationId, setDestinationId] = useState(defaultDestinationId ?? "");
   const [cityId, setCityId] = useState(defaultCityId ?? "");
   const [hotel, setHotel] = useState(HOTEL_BANDS[1].value);
-  const [budget, setBudget] = useState(BUDGET_BANDS[0].value);
+  // Free text, so travellers can write their own budget ("₹50,000 for two");
+  // the bands are offered as suggestions.
+  const [budget, setBudget] = useState("");
+  const budgetPlaceholder = tight ? "Type, e.g. ₹30,000 pp" : "e.g. ₹30,000 per person";
   const [dialCode, setDialCode] = useState("+91");
   const [more, setMore] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -113,7 +116,7 @@ export default function EnquiryForm({
       adults: form.get("adults") || 2,
       children: form.get("children") || 0,
       // e.g. "₹15,000 to ₹25,000 per person · Standard (3-4 Star)"
-      budgetBand: budget ? `${budget} · ${hotel}` : hotel,
+      budgetBand: budget.trim() ? `${budget.trim()} · ${hotel}` : hotel,
       message: form.get("message") ?? "",
       website: form.get("website") ?? "",
     };
@@ -295,15 +298,18 @@ export default function EnquiryForm({
           </div>
           <div className="col-span-12">
             <label className={label} htmlFor={id("budget")}>
-              Budget
+              Your budget
             </label>
-            <select id={id("budget")} value={budget} onChange={(e) => setBudget(e.target.value)} className={field}>
-              {BUDGET_BANDS.map((b) => (
-                <option key={b.label} value={b.value}>
-                  {b.label}
-                </option>
-              ))}
-            </select>
+            <input
+              id={id("budget")}
+              list={id("budget-options")}
+              value={budget}
+              onChange={(e) => setBudget(e.target.value)}
+              maxLength={60}
+              autoComplete="off"
+              placeholder={budgetPlaceholder}
+              className={field}
+            />
           </div>
           </>
         ) : dense ? (
@@ -322,15 +328,18 @@ export default function EnquiryForm({
           </div>
           <div className="col-span-3">
             <label className={label} htmlFor={id("budget")}>
-              Budget
+              Your budget
             </label>
-            <select id={id("budget")} value={budget} onChange={(e) => setBudget(e.target.value)} className={field}>
-              {BUDGET_BANDS.map((b) => (
-                <option key={b.label} value={b.value}>
-                  {b.label}
-                </option>
-              ))}
-            </select>
+            <input
+              id={id("budget")}
+              list={id("budget-options")}
+              value={budget}
+              onChange={(e) => setBudget(e.target.value)}
+              maxLength={60}
+              autoComplete="off"
+              placeholder={budgetPlaceholder}
+              className={field}
+            />
           </div>
           </>
         ) : (
@@ -349,15 +358,18 @@ export default function EnquiryForm({
           </div>
           <div className="col-span-2">
             <label className={label} htmlFor={id("budget")}>
-              Budget
+              Your budget
             </label>
-            <select id={id("budget")} value={budget} onChange={(e) => setBudget(e.target.value)} className={field}>
-              {BUDGET_BANDS.map((b) => (
-                <option key={b.label} value={b.value}>
-                  {b.label}
-                </option>
-              ))}
-            </select>
+            <input
+              id={id("budget")}
+              list={id("budget-options")}
+              value={budget}
+              onChange={(e) => setBudget(e.target.value)}
+              maxLength={60}
+              autoComplete="off"
+              placeholder={budgetPlaceholder}
+              className={field}
+            />
           </div>
           </>
         )}
@@ -437,6 +449,12 @@ export default function EnquiryForm({
           </button>
         )}
       </div>
+
+      <datalist id={id("budget-options")}>
+        {BUDGET_BANDS.filter((b) => b.value).map((b) => (
+          <option key={b.value} value={b.value} />
+        ))}
+      </datalist>
 
       {errorMessage && <p className="mt-2 text-sm text-red-700">{errorMessage}</p>}
 
