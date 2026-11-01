@@ -15,6 +15,7 @@ import { HIMACHAL_DEEP } from "./himachal-deep";
 import { KASHMIR_UPGRADES } from "./kashmir-deep";
 import { FOCUS_BATCH_1 } from "./focus-batch-1";
 import { MONEY_FROM_CITIES } from "./money-from-cities";
+import { SHIMLA_GUIDES } from "./shimla-guides";
 
 import { SUPERSEDED_POSTS } from "./superseded";
 export { SUPERSEDED_POSTS };
@@ -35,6 +36,7 @@ const ALL_POSTS: BlogPost[] = [
   ...HIMACHAL_DEEP,
   ...FOCUS_BATCH_1,
   ...MONEY_FROM_CITIES,
+  ...SHIMLA_GUIDES,
 ];
 
 // Full rewrites keep the published slug, title and description and replace
