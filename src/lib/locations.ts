@@ -2,6 +2,7 @@ import type { GUIDE_SECTIONS } from "@/data/locations";
 import { cache } from "react";
 import { prisma } from "@/lib/prisma";
 import { ZONES, type Zone } from "@/data/locations";
+import { routesTo } from "@/data/routes";
 import type { Prisma } from "@/generated/prisma/client";
 
 const destinationInclude = {
@@ -259,15 +260,21 @@ export async function availableSections(
   const c = readContent(content);
   const intro = (s: keyof NonNullable<GuideContent["sections"]>) => Boolean(c.sections?.[s]?.intro);
   const where = cityId ? { cityId } : { destinationId };
-  const [places, activities] = await Promise.all([
+  const [places, activities, city] = await Promise.all([
     prisma.place.count({ where: { ...where, kind: "PLACE" } }),
     prisma.place.count({ where: { ...where, kind: "ACTIVITY" } }),
+    cityId ? prisma.city.findUnique({ where: { id: cityId }, select: { slug: true } }) : null,
   ]);
+  // A city with "Delhi to X" route pages always gets the How to Reach page
+  // that lists them (their breadcrumbs link to it).
+  const hasRoutePages = Boolean(city && routesTo(city.slug).length > 0);
   const has = {
     "places-to-visit": places > 0 || intro("places-to-visit"),
     "things-to-do": activities > 0 || intro("things-to-do"),
     "best-time-to-visit": Boolean(c.bestTimeToVisit || c.months?.length || intro("best-time-to-visit")),
-    "how-to-reach": Boolean(c.howToReach?.air || c.howToReach?.rail || c.howToReach?.road || c.routes?.length || intro("how-to-reach")),
+    "how-to-reach": Boolean(
+      c.howToReach?.air || c.howToReach?.rail || c.howToReach?.road || c.routes?.length || intro("how-to-reach") || hasRoutePages,
+    ),
     "travel-guide-tips": Boolean(c.thingsToKnow?.length || intro("travel-guide-tips")),
     "local-food": intro("local-food"),
     "culture-and-heritage": intro("culture-and-heritage"),
