@@ -98,6 +98,7 @@ export default function MobileQuoteBar({ options }: { options: DestinationOption
             </div>
             <EnquiryForm
               bare
+              dense
               destinations={options}
               defaultDestinationId={target?.destinationId}
               defaultCityId={target?.cityId}

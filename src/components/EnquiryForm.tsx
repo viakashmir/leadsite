@@ -21,6 +21,9 @@ const BUDGET_BANDS = [
   { value: "Above ₹60,000 per person", label: "60k+" },
 ];
 
+// Destination pre-selected on forms that don't already know the place.
+const DEFAULT_DESTINATION_SLUG = "kashmir";
+
 const HOTEL_BANDS = [
   { value: "Economy (0-2 Star)", label: "Budget" },
   { value: "Standard (3-4 Star)", label: "3-4 Star" },
@@ -70,8 +73,11 @@ export default function EnquiryForm({
   const span = (normal: string, tightSpan: string) => (tight ? tightSpan : normal);
   const uid = useId();
   const id = (name: string) => `${uid}-${name}`;
-  // No default on general pages: the traveller must pick, so the lead names a real destination.
-  const [destinationId, setDestinationId] = useState(defaultDestinationId ?? "");
+  // Pages about a place pre-select it; everywhere else Kashmir is the default
+  // for now (owner's call). Change DEFAULT_DESTINATION_SLUG to switch.
+  const [destinationId, setDestinationId] = useState(
+    defaultDestinationId ?? destinations.find((d) => d.slug === DEFAULT_DESTINATION_SLUG)?.id ?? "",
+  );
   const [cityId, setCityId] = useState(defaultCityId ?? "");
   const [hotel, setHotel] = useState(HOTEL_BANDS[1].value);
   // Free text, so travellers can write their own budget ("₹50,000 for two");
@@ -187,7 +193,7 @@ export default function EnquiryForm({
         <span className="font-semibold text-brand">Free</span> · No booking fee · Up to 3 quotes
       </p>
 
-      <div className={`grid gap-x-2 ${compact ? "mt-2.5 grid-cols-12 gap-y-1.5" : "mt-3 grid-cols-6 gap-y-2"}`}>
+      <div className={`grid gap-x-2 ${tight ? "mt-2.5 grid-cols-12 gap-y-2" : "mt-3 grid-cols-6 gap-y-2"}`}>
         <div className={hasCities ? span("col-span-3", "col-span-6") : span("col-span-6", "col-span-12")}>
           <label className={label} htmlFor={id("dest")}>
             Destination
@@ -248,7 +254,7 @@ export default function EnquiryForm({
           </select>
         </div>
 
-        <div className={span("col-span-1", "col-span-3")}>
+        <div className={span("col-span-2", "col-span-3")}>
           <label className={label} htmlFor={id("adults")}>
             Adults
           </label>
@@ -260,7 +266,7 @@ export default function EnquiryForm({
             ))}
           </select>
         </div>
-        <div className={span("col-span-1", "col-span-3")}>
+        <div className={span("col-span-2", "col-span-3")}>
           <label className={label} htmlFor={id("children")}>
             Kids
           </label>
@@ -314,7 +320,7 @@ export default function EnquiryForm({
           </>
         ) : dense ? (
           <>
-          <div className="col-span-3">
+          <div className="col-span-6">
             <label className={label} htmlFor={id("hotel")}>
               Hotel
             </label>
@@ -326,7 +332,7 @@ export default function EnquiryForm({
               ))}
             </select>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-12">
             <label className={label} htmlFor={id("budget")}>
               Your budget
             </label>
@@ -356,7 +362,7 @@ export default function EnquiryForm({
               ))}
             </select>
           </div>
-          <div className="col-span-2">
+          <div className="col-span-6">
             <label className={label} htmlFor={id("budget")}>
               Your budget
             </label>
@@ -406,11 +412,11 @@ export default function EnquiryForm({
               aria-label="Country code"
               value={dialCode}
               onChange={(e) => setDialCode(e.target.value)}
-              className={`${field.replace("w-full ", "")} ${compact ? "w-[66px]" : "w-[92px]"} shrink-0 rounded-r-none border-r-0 bg-zinc-50 px-2`}
+              className={`${field.replace("w-full ", "")} ${tight ? "w-[66px]" : "w-[92px]"} shrink-0 rounded-r-none border-r-0 bg-zinc-50 px-2`}
             >
               {DIAL_CODES.map(([code, country]) => (
                 <option key={`${country}${code}`} value={code}>
-                  {compact ? code : `${country} ${code}`}
+                  {tight ? code : `${country} ${code}`}
                 </option>
               ))}
             </select>
@@ -423,7 +429,7 @@ export default function EnquiryForm({
               autoComplete="tel-national"
               pattern={dialCode === "+91" ? "[0-9\\s\\-]{10,13}" : "[0-9\\s\\-]{6,16}"}
               title={dialCode === "+91" ? "10-digit mobile number" : "Mobile number without the country code"}
-              placeholder={dialCode === "+91" ? (compact ? "Mobile" : "10-digit mobile") : "Mobile number"}
+              placeholder={dialCode === "+91" ? (tight ? "Mobile" : "10-digit mobile") : "Mobile number"}
               className={`${field} min-w-0 flex-1 rounded-l-none`}
             />
           </div>
