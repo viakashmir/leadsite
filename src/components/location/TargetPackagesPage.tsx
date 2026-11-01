@@ -20,12 +20,15 @@ import {
   Blocks,
   ItineraryCards,
   Prose,
+  PriceGuideBlock,
+  priceFaqs,
 } from "@/components/location/blocks";
 import TrustTicks from "@/components/TrustTicks";
 import { formatINR } from "@/lib/format";
 import { GUIDE_SECTIONS, ORIGIN_CITIES, THEMES } from "@/data/locations";
 import {
   getPackagesFor,
+  getPriceGuide,
   readContent,
   robotsFor,
   targetName,
@@ -115,11 +118,16 @@ export default async function TargetPackagesPage({
   const slug = targetSlug(t);
   const dest = t.destination;
   const content = readContent(t.type === "city" ? t.city.content : dest.content);
-  const packages = await getPackagesFor(t, { themeTag: v.theme?.tag });
+  const [packages, priceGuide] = await Promise.all([
+    getPackagesFor(t, { themeTag: v.theme?.tag }),
+    getPriceGuide(t, { themeTag: v.theme?.tag }),
+  ]);
   const heading = packagesPageTitle(t, v);
   const copy = sliceContent(content, v);
   const itineraries = (copy as { itineraries?: Itinerary[] } | undefined)?.itineraries;
-  const faqs = copy?.faqs ?? (!v.theme && !v.origin ? content.faqs : undefined);
+  const baseFaqs = copy?.faqs ?? (!v.theme && !v.origin ? content.faqs : undefined);
+  // Live price answers first: the questions people (and AI assistants) ask most.
+  const faqs = priceGuide && !v.origin ? [...priceFaqs(v.theme ? `${name} ${v.theme.name}` : name, priceGuide), ...(baseFaqs ?? [])] : baseFaqs;
   const isCircuit = t.type === "circuit";
   const fromPrice = packages.length > 0 ? Math.min(...packages.map((p) => p.price)) : null;
   // Last change to this page's copy or to any package listed on it.
@@ -241,6 +249,11 @@ export default async function TargetPackagesPage({
                 }.`}
               />
             </Section>
+            {priceGuide && (
+              <Section title={`${heading} price guide`} subtitle="Live starting prices per person from the packages listed here.">
+                <PriceGuideBlock name={v.theme ? `${name} ${v.theme.name}` : name} guide={priceGuide} />
+              </Section>
+            )}
 
             {itineraries && itineraries.length > 0 && (
               <Section tint="warm" title={`${name} itinerary`} subtitle="Sample plans agents start from. Ask for quotes on any of them.">

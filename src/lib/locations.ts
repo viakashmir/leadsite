@@ -86,6 +86,55 @@ export async function getPackagesFor(t: Target, opts: { themeTag?: string; take?
   });
 }
 
+// Live price guide for a packages page, from every published package in
+// scope (not just the cards shown). Prices are per person, as listed.
+export type PriceGuide = {
+  count: number;
+  from: number;
+  median: number;
+  byNights: { nights: number; count: number; from: number; median: number }[];
+  byTier: { tier: "Budget" | "Mid-Range" | "Luxury"; count: number; from: number; median: number }[];
+};
+
+const median = (xs: number[]) => {
+  const s = [...xs].sort((a, b) => a - b);
+  const m = Math.floor(s.length / 2);
+  return s.length % 2 ? s[m] : Math.round((s[m - 1] + s[m]) / 2);
+};
+const stats = (xs: number[]) => ({ count: xs.length, from: Math.min(...xs), median: median(xs) });
+
+export async function getPriceGuide(t: Target, opts: { themeTag?: string } = {}): Promise<PriceGuide | null> {
+  const rows = await prisma.package.findMany({
+    where: {
+      published: true,
+      price: { gt: 0 },
+      ...packageScope(t),
+      ...(opts.themeTag ? { theme: { contains: opts.themeTag, mode: "insensitive" } } : {}),
+    },
+    select: { price: true, durationNights: true, theme: true },
+  });
+  if (rows.length < 3) return null; // too few to say anything useful
+  const nights = [...new Set(rows.map((r) => r.durationNights))].sort((a, b) => a - b);
+  const tierOf = (theme: string) => {
+    const tags = theme.split(",").map((x) => x.trim().toLowerCase());
+    if (tags.includes("luxury") || tags.includes("premium")) return "Luxury" as const;
+    if (tags.includes("budget")) return "Budget" as const;
+    if (tags.includes("mid-range")) return "Mid-Range" as const;
+    return null;
+  };
+  const tiers = (["Budget", "Mid-Range", "Luxury"] as const)
+    .map((tier) => ({ tier, prices: rows.filter((r) => tierOf(r.theme) === tier).map((r) => r.price) }))
+    .filter((x) => x.prices.length > 0)
+    .map((x) => ({ tier: x.tier, ...stats(x.prices) }));
+  return {
+    ...stats(rows.map((r) => r.price)),
+    byNights: nights
+      .map((n) => ({ nights: n, ...stats(rows.filter((r) => r.durationNights === n).map((r) => r.price)) }))
+      .filter((x) => x.count > 0),
+    byTier: tiers,
+  };
+}
+
 // Zone -> destinations, for menus and index pages. Circuits excluded.
 export const getDestinationsByZone = cache(async () => {
   const all = await prisma.destination.findMany({
