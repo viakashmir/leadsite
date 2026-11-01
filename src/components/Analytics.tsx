@@ -1,9 +1,10 @@
 "use client";
 
-import Script from "next/script";
 import { useEffect } from "react";
 
-export const GA_MEASUREMENT_ID = "G-TGHQBFWSSV";
+import { GA_MEASUREMENT_ID } from "@/lib/analytics";
+
+export { GA_MEASUREMENT_ID };
 
 declare global {
   interface Window {
@@ -30,7 +31,8 @@ function labelOf(el: HTMLElement): string {
   return text.replace(/\s+/g, " ").trim().slice(0, 100);
 }
 
-// Google tag (gtag.js) plus one document-level click listener, so every link
+// One document-level click listener (the Google tag itself is loaded in
+// <head> by GoogleTag), so every link
 // and button click on every page is measured without touching each component.
 // Events sent:
 //   whatsapp_click  – any wa.me / api.whatsapp.com / whatsapp: link
@@ -41,6 +43,19 @@ function labelOf(el: HTMLElement): string {
 // are also covered by GA4 enhanced measurement, which is on by default.
 export default function Analytics() {
   useEffect(() => {
+    // Pages rendered in the browser (e.g. the 404 page) never run the inline
+    // <head> snippet, so set gtag up here; skipped when the snippet already ran.
+    if (typeof window.gtag !== "function") {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function gtag() {
+        // gtag.js expects the arguments object itself, not an array.
+        // eslint-disable-next-line prefer-rest-params
+        window.dataLayer.push(arguments);
+      };
+      window.gtag("js", new Date());
+      window.gtag("config", GA_MEASUREMENT_ID);
+    }
+
     function onClick(e: MouseEvent) {
       const target = e.target as Element | null;
       const el = target?.closest<HTMLElement>("a, button, [role='button'], input[type='submit'], input[type='button'], summary");
@@ -71,15 +86,5 @@ export default function Analytics() {
     return () => document.removeEventListener("click", onClick, true);
   }, []);
 
-  return (
-    <>
-      <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} strategy="afterInteractive" />
-      <Script id="google-tag" strategy="afterInteractive">
-        {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${GA_MEASUREMENT_ID}');`}
-      </Script>
-    </>
-  );
+  return null;
 }

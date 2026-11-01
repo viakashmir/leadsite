@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import MobileQuoteBar from "@/components/MobileQuoteBar";
 import Analytics from "@/components/Analytics";
+import GoogleTag from "@/components/GoogleTag";
 import { getEnquiryOptions } from "@/lib/locations";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import { LOGO_URL, siteGraph } from "@/lib/schema";
@@ -60,6 +61,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       lang="en-IN"
       className={`${jakarta.variable} ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <GoogleTag />
+      </head>
       <body className="min-h-full flex flex-col bg-white pb-[72px] text-ink lg:pb-0">
         <JsonLd data={siteGraph()} />
         <Header />
