@@ -1,11 +1,14 @@
 import type { BlogPost, BlogSection } from "./types";
 import distances from "@/data/route-distances.json";
 
-// "Trip from {city}" money posts for Kashmir, Shimla, Kasol and Goa: one per
+// "Trip from {city}" money posts for Shimla, Kasol and Goa: one per
 // origin city, each a full plan (how to reach, days needed, itinerary, best
 // time for that city's holidays, cost drivers, local tips, FAQs). Road
 // distances are OSRM figures from route-distances.json; flight and train
 // notes stay general because schedules change. No fares, no em dashes.
+// Kashmir is left out on purpose: /tour-packages/from-{city}-to-kashmir
+// already carries full per-city copy for 33 cities (content/kashmir-origins),
+// and blog posts on the same queries would compete with those pages.
 
 type Origin = {
   slug: string;
@@ -35,7 +38,7 @@ const ORIGINS: Origin[] = [
 ];
 
 type Dest = {
-  key: "kashmir" | "shimla" | "kasol" | "goa";
+  key: "shimla" | "kasol" | "goa";
   name: string;
   destination: string;
   city: string;
@@ -58,91 +61,6 @@ const near = (km?: number) => km !== undefined && km <= 700;
 const kmText = (km?: number, h?: number) => (km ? `about ${km.toLocaleString("en-IN")} km by road (roughly ${Math.round(h ?? 0)} hours of driving)` : "");
 
 const DESTS: Dest[] = [
-  // ------------------------------------------------------------ KASHMIR
-  {
-    key: "kashmir",
-    name: "Kashmir",
-    destination: "kashmir",
-    city: "srinagar",
-    hub: "Srinagar (SXR)",
-    skip: ["delhi"],
-    nights: "5 to 7 nights",
-    intro: (o, how) =>
-      `A Kashmir trip from ${o.name} works best as a 6 to 8 day holiday: ${how}, then Srinagar's lakes, a day or night in Gulmarg, two nights in Pahalgam and a day trip to Sonamarg. This guide covers the best way to travel from ${o.name} and ${o.region}, how many days to plan, a day-by-day itinerary, when to go around ${o.region}'s holidays, and what decides the cost of the trip.`,
-    reach: (o) => ({
-      h: `How to reach Kashmir from ${o.name}`,
-      p: [
-        `By air: fly from ${o.airport} to Srinagar (SXR). Depending on the season, there are nonstop flights on some routes and one-stop connections via Delhi or another hub on others, so compare both when you book. Flying in saves two days compared with the train and is how most travellers from ${o.name} reach Kashmir.`,
-        `By train: long-distance trains run from ${o.stations} towards Jammu Tawi and Shri Mata Vaishno Devi Katra, either directly on some days or with a change in Delhi. From Katra, Vande Bharat trains now run through the mountains to Srinagar, which makes an all-rail journey possible. It suits travellers who want to combine Vaishno Devi darshan with Kashmir.`,
-        `By road: the Kashmir valley is reached on NH44 through Jammu, Udhampur and the Banihal tunnel; Jammu to Srinagar is about 250 km, 6 to 8 hours. ${o.zone === "north" ? `From ${o.name}, a road trip via Jammu is practical with an overnight halt.` : `From ${o.name}, driving all the way takes too long for most holidays; fly or take the train instead.`}`,
-      ],
-    }),
-    plan: (o) => ({
-      h: `A 7-day Kashmir itinerary from ${o.name}`,
-      days: [
-        `Fly from ${o.name} to Srinagar. Check in to a hotel or houseboat, and take an evening shikara ride on Dal Lake.`,
-        "Srinagar sightseeing: Nishat Bagh, Shalimar Bagh, Chashme Shahi, Pari Mahal and the Hazratbal Shrine.",
-        "Day trip to Gulmarg (about 50 km). Ride the Gulmarg Gondola and return to Srinagar.",
-        "Drive to Pahalgam (about 95 km) via the saffron fields of Pampore.",
-        "Pahalgam: Aru Valley, Betaab Valley and Chandanwari by local union taxi.",
-        "Return to Srinagar, with a day trip to Sonamarg if the road is clear, or a free day for shopping.",
-        `Fly back to ${o.name}.`,
-      ],
-      p: [
-        o.zone === "north"
-          ? `Coming by train from ${o.name}? Start with Vaishno Devi at Katra, take the Vande Bharat to Srinagar, and follow the plan from day 1.`
-          : `With a long flight from ${o.name}, an early departure on day 1 gives you the evening on Dal Lake; on day 7 choose an afternoon flight so you are not rushing from Srinagar.`,
-      ],
-    }),
-    bestTime: (o) => ({
-      h: `Best time to visit Kashmir from ${o.name}`,
-      p: [
-        `Most families from ${o.region} travel during ${o.holidays}. Each fits a different Kashmir: spring (March to May) brings the tulip garden and blossoms, summer (June to August) is green and pleasant, autumn (September to November) brings golden chinars and clear skies, and winter (December to February) means snow in Gulmarg and Srinagar.`,
-        `${o.climate}. If your dates fall in the peak weeks, especially May, June and the Christmas to New Year week, book flights and hotels well ahead.`,
-      ],
-    }),
-    cost: (o) => ({
-      h: `What decides the cost of a Kashmir trip from ${o.name}`,
-      list: [
-        `Flights from ${o.airport}: book early for May, June, Diwali and the year-end, when fares rise sharply`,
-        "Hotel category in Srinagar, Gulmarg and Pahalgam, and whether you add a deluxe houseboat night",
-        "The cab: a private sedan or Innova for the whole trip versus transfers only",
-        "Local union taxis in Pahalgam and Sonamarg and pony rides, usually paid on the spot",
-        "Gulmarg Gondola tickets, booked online in your name",
-        "Meal plan: breakfast only, or breakfast and dinner",
-      ],
-      p: ["Compare quotes line by line on these points rather than on the headline price alone."],
-    }),
-    tips: (o) => ({
-      h: `Tips for travellers from ${o.name}`,
-      list: [
-        `${o.food}.`,
-        "Prepaid SIM cards from outside Jammu and Kashmir do not work there; postpaid connections do.",
-        "Carry original photo ID for every adult; hotels and houseboats ask for it.",
-        o.zone === "south" || o.zone === "west" ? "Pack a proper jacket, gloves and a cap even in summer for the gondola and Chandanwari." : "Even in summer, keep a warm layer for Gulmarg and Pahalgam evenings.",
-      ],
-    }),
-    stay: {
-      h: "Where to stay in Kashmir",
-      p: [
-        "In Srinagar, hotels near Dal Lake and the Boulevard keep you close to the shikara ghats, the Mughal gardens and the evening walk; Rajbagh and Sonwar are calmer and close to Lal Chowk's shops. Spend one night on a houseboat on Dal or Nigeen Lake, which is the experience most visitors remember, and check its category, since houseboats are graded from deluxe down.",
-        "In Pahalgam, stay by the Lidder river rather than on the main road. In Gulmarg, a night lets you ride the gondola early before the queues, but many travellers prefer a day trip from Srinagar to keep packing to a minimum.",
-      ],
-    },
-    beyond: {
-      h: "Beyond the classic circuit",
-      p: [
-        "If you have an extra day or two, Doodhpathri's open meadows (about 42 km from Srinagar) and Yusmarg's pine forest are quieter than Gulmarg and Pahalgam. In summer, Gurez Valley on the Kishanganga river is a remote two-night add-on, and Srinagar's old city, with Jamia Masjid and the Khanqah of Shah Hamadan, rewards a slow morning on foot.",
-      ],
-    },
-    faqs: (o) => [
-      { q: `How many days are enough for Kashmir from ${o.name}?`, a: `Six to eight days including travel. That covers Srinagar, Gulmarg, Pahalgam and Sonamarg without rushing.` },
-      { q: `Are there direct flights from ${o.name} to Srinagar?`, a: `It depends on the season and airline. Many travellers from ${o.name} fly via Delhi; check current schedules for nonstop options when you book.` },
-      { q: `Can I go to Kashmir from ${o.name} by train?`, a: `Yes. Take a train to Jammu Tawi or Katra (direct on some days, or via Delhi), then the Vande Bharat train from Katra to Srinagar.` },
-      { q: `When should families from ${o.region} visit Kashmir?`, a: `During your holidays: May and June for pleasant weather, October for autumn colours, and late December to February for snow.` },
-    ],
-  },
-
   // ------------------------------------------------------------ SHIMLA
   {
     key: "shimla",
@@ -389,7 +307,6 @@ const DESTS: Dest[] = [
 const DIST = (origin: string, target: string) => (distances as Record<string, { km: number; hours: number }>)[`${origin}-to-${target}`]?.km;
 
 function howPhrase(d: Dest, o: Origin, km?: number): string {
-  if (d.key === "kashmir") return o.zone === "north" ? "a flight or a train via Jammu and Katra" : `a flight from ${o.airport} to Srinagar`;
   if (d.key === "kasol") return o.slug === "delhi" || o.slug === "chandigarh" ? "an overnight Volvo bus" : "a flight to Delhi or Chandigarh and an overnight bus";
   if (d.key === "shimla") return near(km) ? "a drive or overnight bus" : "a flight to Chandigarh and a 3 to 4 hour drive";
   return near(km) ? "a drive, bus or overnight train" : `a flight from ${o.airport}`;
