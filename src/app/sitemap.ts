@@ -23,11 +23,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
     prisma.city.findMany({
       where: { contentStatus: "READY" },
-      select: { slug: true, destination: { select: { slug: true } } },
+      select: { slug: true, updatedAt: true, destination: { select: { slug: true } } },
     }),
     prisma.place.findMany({
       where: { contentStatus: "READY" },
-      select: { path: true, destination: { select: { slug: true } } },
+      select: { path: true, updatedAt: true, destination: { select: { slug: true } } },
     }),
     prisma.package.findMany({
       where: { published: true },
@@ -46,6 +46,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: url("/leads"), changeFrequency: "hourly", priority: 0.6 },
     { url: url("/agents"), changeFrequency: "daily", priority: 0.5 },
     { url: url("/agent/register"), changeFrequency: "monthly", priority: 0.5 },
+    { url: url("/about-us"), changeFrequency: "yearly", priority: 0.3 },
+    { url: url("/contact-us"), changeFrequency: "yearly", priority: 0.3 },
+    { url: url("/editorial-policy"), changeFrequency: "yearly", priority: 0.3 },
   ];
 
   // Guide sections are listed only when they have content (mirrors guideMetadata).
@@ -75,12 +78,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
 
   const cityRoutes: MetadataRoute.Sitemap = cities.flatMap((c) => [
-    { url: url(tourPackagesUrl(c.slug)), changeFrequency: "weekly" as const, priority: 0.8 },
-    { url: url(guideUrl(c.destination.slug, c.slug)), changeFrequency: "monthly" as const, priority: 0.6 },
+    { url: url(tourPackagesUrl(c.slug)), lastModified: c.updatedAt, changeFrequency: "weekly" as const, priority: 0.8 },
+    { url: url(guideUrl(c.destination.slug, c.slug)), lastModified: c.updatedAt, changeFrequency: "monthly" as const, priority: 0.6 },
   ]);
 
   const placeRoutes: MetadataRoute.Sitemap = places.map((p) => ({
     url: url(guideUrl(p.destination.slug, p.path)),
+    lastModified: p.updatedAt,
     changeFrequency: "monthly" as const,
     priority: 0.5,
   }));

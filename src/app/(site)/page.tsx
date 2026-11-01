@@ -7,7 +7,8 @@ import EnquiryForm from "@/components/EnquiryForm";
 import JsonLd from "@/components/JsonLd";
 import { maskName, maskPhone } from "@/lib/mask";
 import { formatDate } from "@/lib/format";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
+import { ORG_ID, webPageSchema } from "@/lib/schema";
 
 export const revalidate = 300;
 
@@ -31,18 +32,13 @@ export default async function Home() {
   return (
     <div>
       <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          name: SITE_NAME,
-          url: SITE_URL,
+        data={webPageSchema({
+          path: "/",
+          name: `${SITE_NAME}: Customised Holiday Packages from Verified Local Agents`,
           description: SITE_DESCRIPTION,
-          potentialAction: {
-            "@type": "SearchAction",
-            target: `${SITE_URL}/tour-packages?q={search_term_string}`,
-            "query-input": "required name=search_term_string",
-          },
-        }}
+          breadcrumb: false,
+          about: { "@id": ORG_ID },
+        })}
       />
 
       <section className="bg-gradient-to-b from-blue-700 to-blue-500 py-14 text-white">

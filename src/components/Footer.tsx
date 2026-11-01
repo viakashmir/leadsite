@@ -53,6 +53,11 @@ export default function Footer() {
           </ul>
         </div>
       </div>
+      <nav aria-label="Company" className="mx-auto flex max-w-6xl flex-wrap gap-x-5 gap-y-1 px-4 pb-6 text-xs text-zinc-600">
+        <Link href="/about-us" className="hover:text-blue-700">About Us</Link>
+        <Link href="/contact-us" className="hover:text-blue-700">Contact Us</Link>
+        <Link href="/editorial-policy" className="hover:text-blue-700">Editorial Policy</Link>
+      </nav>
       <div className="border-t border-zinc-200 py-4 text-center text-xs text-zinc-500">
         © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
       </div>

@@ -2,7 +2,8 @@ import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import EnquiryForm from "@/components/EnquiryForm";
 import PackageCard from "@/components/PackageCard";
-import { SITE_URL } from "@/lib/site";
+import { EDITORIAL_TEAM, SITE_URL } from "@/lib/site";
+import { formatDate } from "@/lib/format";
 import { getEnquiryOptions, type GuideContent } from "@/lib/locations";
 import type { Prisma } from "@/generated/prisma/client";
 
@@ -16,6 +17,7 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
         data={{
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
+          "@id": `${SITE_URL}${all[all.length - 1].href === "/" ? "" : all[all.length - 1].href}#breadcrumb`,
           itemListElement: all.map((c, i) => ({
             "@type": "ListItem",
             position: i + 1,
@@ -47,12 +49,14 @@ export function PageHero({
   title,
   subtitle,
   badges,
+  updated,
   children,
 }: {
   crumbs: Crumb[];
   title: string;
   subtitle?: string;
   badges?: string[];
+  updated?: Date;
   children?: React.ReactNode;
 }) {
   return (
@@ -61,6 +65,7 @@ export function PageHero({
         <Breadcrumbs items={crumbs} />
         <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">{title}</h1>
         {subtitle && <p className="mt-2 max-w-3xl text-ink-soft">{subtitle}</p>}
+        {updated && <Byline updated={updated} />}
         {badges && badges.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">
             {badges.map((b) => (
@@ -73,6 +78,25 @@ export function PageHero({
         {children}
       </div>
     </section>
+  );
+}
+
+// Who wrote the page and when it was last checked: shown to readers and
+// mirrored in the page's Article schema (author + dateModified).
+export function Byline({ updated }: { updated: Date }) {
+  return (
+    <p className="mt-3 text-xs text-ink-soft">
+      By{" "}
+      <Link href="/editorial-policy" rel="author" className="font-semibold text-ink hover:text-brand">
+        {EDITORIAL_TEAM}
+      </Link>
+      <span className="mx-1.5 text-zinc-300">·</span>
+      Updated <time dateTime={updated.toISOString()}>{formatDate(updated)}</time>
+      <span className="mx-1.5 text-zinc-300">·</span>
+      <Link href="/editorial-policy" className="hover:text-brand">
+        How we research
+      </Link>
+    </p>
   );
 }
 

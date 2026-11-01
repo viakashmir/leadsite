@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
+import { webPageSchema } from "@/lib/schema";
 import {
   CardLinks,
   ChipLinks,
@@ -99,6 +100,13 @@ export default async function TargetPackagesPage({
   const packages = await getPackagesFor(t, { themeTag: v.theme?.tag });
   const heading = packagesPageTitle(t, v);
   const isCircuit = t.type === "circuit";
+  // Last change to this page's copy or to any package listed on it.
+  const updated = new Date(
+    Math.max(
+      (t.type === "city" ? t.city.updatedAt : dest.updatedAt).getTime(),
+      ...packages.map((p) => p.updatedAt.getTime()),
+    ),
+  );
 
   const crumbs: Crumb[] = [{ name: "Tour Packages", href: tourPackagesUrl() }];
   if (t.type === "city") crumbs.push({ name: dest.name, href: tourPackagesUrl(dest.slug) });
@@ -145,19 +153,38 @@ export default async function TargetPackagesPage({
   return (
     <div>
       <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "TouristDestination",
-          name,
-          url: `${SITE_URL}${packagesPagePath(t, v)}`,
-          ...(t.type === "city"
-            ? { containedInPlace: { "@type": "Place", name: dest.officialName ?? dest.name } }
-            : {}),
-        }}
+        data={webPageSchema({
+          path: packagesPagePath(t, v),
+          name: heading,
+          type: "CollectionPage",
+          dateModified: updated,
+          about: {
+            "@type": "TouristDestination",
+            name,
+            ...(t.type === "city" && { containedInPlace: { "@type": "Place", name: dest.officialName ?? dest.name } }),
+          },
+        })}
       />
+      {packages.length > 0 && (
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: heading,
+            numberOfItems: packages.length,
+            itemListElement: packages.map((p, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              url: `${SITE_URL}/packages/${p.slug}`,
+              name: p.title,
+            })),
+          }}
+        />
+      )}
       <PageHero
         crumbs={crumbs}
         title={heading}
+        updated={updated}
         subtitle={`Share your dates, group and budget once. Up to 3 verified local agents send customised ${name} quotes, you compare and book the one you like.`}
         badges={[
           dest.isInternational ? "International" : "India",

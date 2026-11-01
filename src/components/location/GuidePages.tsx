@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
+import { webPageSchema } from "@/lib/schema";
 import {
   CardLinks,
   ChipLinks,
@@ -25,7 +26,6 @@ import {
   type CityWithPlaces,
   type DestinationWithTree,
 } from "@/lib/locations";
-import { SITE_URL } from "@/lib/site";
 import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 
 type SectionSlug = (typeof GUIDE_SECTIONS)[number]["slug"];
@@ -177,6 +177,21 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
   const { title, where } = names(r);
   const content = readContent(r.kind === "place" ? r.place.content : r.city ? r.city.content : d.content);
   const packagesSlug = r.city ? r.city.slug : d.slug;
+  const updated = r.kind === "place" ? r.place.updatedAt : r.city ? r.city.updatedAt : d.updatedAt;
+  const published = r.kind === "place" ? r.place.createdAt : r.city ? r.city.createdAt : d.createdAt;
+  const subject =
+    r.kind === "place"
+      ? {
+          "@type": "TouristAttraction",
+          name: r.place.name,
+          containedInPlace: { "@type": "Place", name: where },
+          ...(r.place.heroImage && { image: r.place.heroImage }),
+        }
+      : {
+          "@type": "TouristDestination",
+          name: where,
+          ...(r.city && { containedInPlace: { "@type": "Place", name: d.officialName ?? d.name } }),
+        };
   const sectionBase = [d.slug, r.city?.slug] as const;
 
   const sectionLinks = [
@@ -308,15 +323,6 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
     );
     main = (
       <>
-        <JsonLd
-          data={{
-            "@context": "https://schema.org",
-            "@type": "TouristAttraction",
-            name: r.place.name,
-            url: `${SITE_URL}${pathOf(r)}`,
-            containedInPlace: { "@type": "Place", name: where },
-          }}
-        />
         <Section title={`About ${r.place.name}`}>
           <GuideBody content={content} topic={r.place.name} />
         </Section>
@@ -330,10 +336,22 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
   }
 
   return (
-    <div>
+    <article>
+      <JsonLd
+        data={webPageSchema({
+          path: pathOf(r),
+          name: title,
+          type: "Article",
+          description: (await guideMetadata(r)).description ?? undefined,
+          datePublished: published,
+          dateModified: updated,
+          about: subject,
+        })}
+      />
       <PageHero
         crumbs={crumbsFor(r)}
         title={title}
+        updated={updated}
         subtitle={
           r.kind === "place"
             ? `Part of a ${where} trip? Get customised packages that include ${r.place.name}.`
@@ -372,6 +390,6 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
           />
         }
       />
-    </div>
+    </article>
   );
 }
