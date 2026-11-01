@@ -47,6 +47,9 @@ function timeAgo(d: Date) {
 }
 
 const gold = "text-[#d9b779]";
+// Hero only: no gold over the photo. White plus a soft frost blue that sits
+// with the snow and sky instead of fighting them.
+const frost = "text-[#d7e7f7]";
 
 export default async function Home() {
   const [destinations, packages, recentLeads, stats, market] = await Promise.all([
@@ -149,12 +152,12 @@ export default async function Home() {
                 <span aria-hidden="true">→</span>
               </Link>
             )}
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#f3e2bd] [text-shadow:0_1px_8px_rgb(0_0_0/0.75),0_0_2px_rgb(0_0_0/0.5)]">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/90 [text-shadow:0_1px_8px_rgb(0_0_0/0.75),0_0_2px_rgb(0_0_0/0.5)]">
               Customised tour packages · India &amp; abroad
             </p>
             <h1 className="mt-3 max-w-2xl font-display text-[32px] font-bold leading-[1.08] tracking-tight [text-shadow:0_2px_18px_rgb(0_0_0/0.55),0_1px_3px_rgb(0_0_0/0.35)] sm:text-5xl">
               Describe your trip once.
-              <span className={`block ${gold}`}>Three local experts compete to plan it.</span>
+              <span className={`block font-semibold ${frost}`}>Three local experts compete to plan it.</span>
             </h1>
             <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white [text-shadow:0_1px_10px_rgb(0_0_0/0.6),0_1px_2px_rgb(0_0_0/0.4)] sm:text-base">
               Get customised tour package quotes from up to 3 verified local travel agents, free. They live and work in
@@ -164,9 +167,10 @@ export default async function Home() {
             <ul className="mt-4 flex max-w-xl flex-wrap gap-x-4 gap-y-1.5 text-[13px] font-medium text-white [text-shadow:0_1px_8px_rgb(0_0_0/0.6)] sm:mt-5 sm:grid sm:grid-cols-3 sm:gap-2 sm:text-sm">
               {["Free, no booking fee", "Max 3 agents see your number", "Only agents for your destination"].map((t) => (
                 <li key={t} className="flex items-center gap-1.5 sm:gap-2">
-                  <span className={`text-sm sm:text-base ${gold}`} aria-hidden>
-                    ✦
-                  </span>
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" strokeWidth="1.75" opacity="0.7" />
+                    <path d="m8.5 12.5 2.5 2.5 4.5-5" />
+                  </svg>
                   {t}
                 </li>
               ))}
@@ -230,7 +234,7 @@ export default async function Home() {
             <dl className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 py-4 sm:grid-cols-4">
               {proof.map((p) => (
                 <div key={p.label}>
-                  <dd className={`font-display text-2xl font-bold sm:text-3xl ${gold}`}>{p.n.toLocaleString("en-IN")}</dd>
+                  <dd className="font-display text-2xl font-bold text-white sm:text-3xl">{p.n.toLocaleString("en-IN")}</dd>
                   <dt className="text-xs text-white/70">{p.label}</dt>
                 </div>
               ))}
