@@ -19,6 +19,7 @@ import { RJ_CITIES, RJ_DESTINATIONS, RJ_ORIGIN_COPY, RJ_PLACES } from "./rajasth
 import { TN_MH_CITIES, TN_MH_DESTINATIONS, TN_MH_PLACES } from "./tn-mh";
 import { KASHMIR_CITIES, KASHMIR_PLACES } from "./kashmir";
 import { KASHMIR_ORIGIN_DESTINATION } from "./kashmir-origins";
+import { STATES_BATCH_1 } from "./states-batch-1";
 
 // Supplements add FAQs, blocks and section copy on top of base content:
 // lists are appended, sections and packages are merged one level deep.
@@ -56,6 +57,7 @@ const BASE: Record<string, GuideContent> = {
   ...INDIA_NORTH,
   ...INDIA_WEST_SOUTH,
   ...INDIA_EAST_ISLANDS,
+  ...STATES_BATCH_1,
 };
 
 export const DESTINATION_CONTENT: Record<string, GuideContent> = Object.fromEntries(
