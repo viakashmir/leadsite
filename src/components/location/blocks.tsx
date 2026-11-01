@@ -2,10 +2,18 @@ import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import EnquiryForm from "@/components/EnquiryForm";
 import PackageCard from "@/components/PackageCard";
+import TrustTicks from "@/components/TrustTicks";
 import { EDITORIAL_TEAM, SITE_URL } from "@/lib/site";
 import { formatDate } from "@/lib/format";
 import { titleCase } from "@/lib/text";
-import { getEnquiryOptions, type ContentBlock, type GuideContent, type MonthGuide, type RouteGuide } from "@/lib/locations";
+import {
+  getEnquiryOptions,
+  type ContentBlock,
+  type GuideContent,
+  type Itinerary,
+  type MonthGuide,
+  type RouteGuide,
+} from "@/lib/locations";
 import type { Prisma } from "@/generated/prisma/client";
 
 export type Crumb = { name: string; href: string };
@@ -64,7 +72,7 @@ export function PageHero({
     <section className="border-b border-gold-soft bg-ivory">
       <div className="mx-auto max-w-7xl px-4 py-6 sm:py-9">
         <Breadcrumbs items={crumbs} />
-        <h1 className="mt-3 font-display text-[32px] font-bold leading-[1.1] text-ink sm:text-[44px]">{titleCase(title)}</h1>
+        <h1 className="mt-3 font-display text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">{titleCase(title)}</h1>
         {subtitle && <p className="mt-2 max-w-3xl text-[15px] leading-relaxed text-ink-soft sm:text-base">{subtitle}</p>}
         {updated && <Byline updated={updated} />}
         {badges && badges.length > 0 && (
@@ -114,7 +122,7 @@ export function Section({
 }) {
   return (
     <section id={id} className="scroll-mt-20 py-5 sm:py-7">
-      <h2 className="font-display text-[26px] font-bold leading-tight text-ink sm:text-[30px]">{titleCase(title)}</h2>
+      <h2 className="font-display text-xl font-extrabold leading-tight tracking-tight text-ink sm:text-2xl">{titleCase(title)}</h2>
       <span aria-hidden className="mt-2 block h-0.5 w-10 rounded-full bg-gold" />
       {subtitle && <p className="mt-2 text-sm text-ink-soft">{subtitle}</p>}
       <div className="mt-4">{children}</div>
@@ -195,13 +203,23 @@ export function PackageGrid({
 }) {
   if (packages.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-zinc-300 bg-surface p-6 text-sm text-ink-soft">
-        {emptyText}
+      <div className="flex flex-col gap-4 rounded-xl bg-gradient-to-br from-royal to-royal-2 p-5 text-white sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="font-display text-lg font-extrabold leading-tight tracking-tight sm:text-xl">Get a package built around your trip</p>
+          <p className="mt-1 max-w-xl text-sm leading-relaxed text-white/80">{emptyText}</p>
+          <TrustTicks dark className="mt-3" />
+        </div>
+        <a
+          href="#get-quotes"
+          className="shrink-0 rounded-full bg-gold px-5 py-2.5 text-center text-sm font-semibold text-royal hover:bg-gold-soft"
+        >
+          Get Free Quotes
+        </a>
       </div>
     );
   }
   return (
-    <div className="grid gap-4 sm:grid-cols-2">
+    <div className="grid gap-3 sm:grid-cols-2">
       {packages.map((p) => (
         <PackageCard
           key={p.id}
@@ -216,6 +234,65 @@ export function PackageGrid({
           heroImage={p.heroImage}
         />
       ))}
+    </div>
+  );
+}
+
+const durationLabel = (days: number) => (days > 1 ? `${days - 1}N / ${days}D` : `${days}D`);
+
+function DayList({ days, start = 0 }: { days: string[]; start?: number }) {
+  return (
+    <ol className="space-y-1.5 text-sm leading-relaxed text-ink">
+      {days.map((day, i) => (
+        <li key={i} className="flex gap-2">
+          <span className="w-11 shrink-0 pt-px text-xs font-bold text-gold">Day {start + i + 1}</span>
+          <span>{day}</span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+// Sample itineraries as compact plan cards: first 3 days visible, the rest
+// one tap away (still in the HTML for crawlers), and a quote action per plan.
+export function ItineraryCards({ itineraries }: { itineraries: Itinerary[] }) {
+  return (
+    <div className="grid gap-3 sm:grid-cols-2">
+      {itineraries.map((it) => {
+        const rest = it.days.slice(3);
+        return (
+          <article key={it.title} className="flex flex-col rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-[17px] font-bold leading-snug text-ink">{it.title}</h3>
+              <span className="shrink-0 rounded-md bg-royal px-2 py-0.5 text-[11px] font-bold text-white">
+                {durationLabel(it.days.length)}
+              </span>
+            </div>
+            <div className="mt-3">
+              <DayList days={it.days.slice(0, 3)} />
+            </div>
+            {rest.length > 0 && (
+              <details className="group/d mt-1.5">
+                <summary className="cursor-pointer list-none text-[13px] font-semibold text-brand group-open/d:hidden">
+                  + {rest.length} more {rest.length === 1 ? "day" : "days"}
+                </summary>
+                <DayList days={rest} start={3} />
+              </details>
+            )}
+            <div className="mt-auto pt-3">
+              <div className="flex items-center justify-between gap-2 border-t border-zinc-100 pt-3">
+                <span className="text-xs text-ink-soft">Agents tailor hotels, days and stops</span>
+                <a
+                  href="#get-quotes"
+                  className="shrink-0 rounded-full bg-brand px-3.5 py-2 text-xs font-semibold text-white hover:bg-brand-dark"
+                >
+                  Get Quotes
+                </a>
+              </div>
+            </div>
+          </article>
+        );
+      })}
     </div>
   );
 }

@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-8 px-4 py-10 text-sm sm:grid-cols-3">
         <div className="col-span-2 sm:col-span-1">
-          <div className="font-display text-2xl font-bold text-white">
+          <div className="font-display text-xl font-extrabold tracking-tight text-white">
             Tavel <span className="text-gold-soft">Package</span>
           </div>
           <p className="mt-2 max-w-xs">

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getDestinationsWithCitiesAndLeadCounts, getSiteStats } from "@/lib/data";
 import DestinationCard from "@/components/DestinationCard";
 import PackageCard from "@/components/PackageCard";
+import TrustTicks from "@/components/TrustTicks";
 import EnquiryForm from "@/components/EnquiryForm";
 import JsonLd from "@/components/JsonLd";
 import { maskName, maskPhone } from "@/lib/mask";
@@ -46,24 +47,28 @@ export default async function Home() {
           <p className="text-xs font-semibold text-gold-soft">
             India &amp; worldwide holidays
           </p>
-          <h1 className="mt-3 max-w-2xl font-display text-[34px] font-bold leading-[1.08] sm:text-[52px]">
+          <h1 className="mt-3 max-w-2xl font-display text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
             Tour Packages, Planned by Verified Local Experts
           </h1>
           <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/80 sm:text-base">
             Share your trip once. Up to 3 verified agents who know the destination send customised
             itineraries and quotes, and you choose the one you like.
           </p>
-          <div className="mt-6 flex flex-wrap gap-2.5">
+          <TrustTicks dark className="mt-4" />
+          <div className="mt-6 flex flex-wrap items-center gap-2.5">
+            <a
+              href="#get-quotes"
+              className="rounded-full bg-gold px-5 py-2.5 text-sm font-semibold text-royal shadow-sm hover:bg-gold-soft"
+            >
+              Get Free Quotes
+            </a>
             <Link
               href="/tour-packages"
-              className="rounded-full bg-gold px-5 py-2.5 text-sm font-semibold text-royal shadow-sm hover:bg-gold-soft"
+              className="rounded-full border border-white/40 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/10"
             >
               Explore Destinations
             </Link>
-            <Link
-              href="/agent/register"
-              className="rounded-full border border-white/40 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/10"
-            >
+            <Link href="/agent/register" className="ml-1 text-sm font-semibold text-white/75 underline-offset-4 hover:text-white hover:underline">
               I&apos;m a Travel Agent
             </Link>
           </div>
@@ -83,18 +88,18 @@ export default async function Home() {
             .map(([n, label]) => (
               <div key={label} className="flex flex-col-reverse">
                 <dt className="text-xs font-semibold text-ink-soft">{label}</dt>
-                <dd className="font-display text-3xl font-bold text-ink">{n}+</dd>
+                <dd className="font-display text-2xl font-extrabold text-ink">{n}+</dd>
               </div>
             ))}
         </dl>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-10">
-        <h2 className="font-display text-[28px] font-bold leading-tight text-ink sm:text-[32px]">Explore the Best Tourist Destinations</h2>
+        <h2 className="font-display text-xl font-extrabold leading-tight tracking-tight text-ink sm:text-2xl">Explore the Best Tourist Destinations</h2>
         <p className="mt-1 text-sm text-zinc-600">
           Experience the magic of India&apos;s rich heritage and top holiday destinations worldwide.
         </p>
-        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-5 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {destinations.map((d) => (
             <DestinationCard
               key={d.id}
@@ -108,13 +113,14 @@ export default async function Home() {
         </div>
       </section>
 
+      {packages.length > 0 && (
       <section className="bg-ivory py-10">
         <div className="mx-auto max-w-6xl px-4">
-          <h2 className="font-display text-[28px] font-bold leading-tight text-ink sm:text-[32px]">Popular Tour Packages</h2>
+          <h2 className="font-display text-xl font-extrabold leading-tight tracking-tight text-ink sm:text-2xl">Popular Tour Packages</h2>
           <p className="mt-1 text-sm text-zinc-600">
             Hand-picked packages with starting prices. Every one can be customised by a verified agent.
           </p>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
             {packages.map((p) => (
               <PackageCard
                 key={p.id}
@@ -132,10 +138,11 @@ export default async function Home() {
           </div>
         </div>
       </section>
+      )}
 
       <section className="mx-auto grid max-w-6xl gap-8 px-4 py-10 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <h2 className="font-display text-[28px] font-bold leading-tight text-ink sm:text-[32px]">
+          <h2 className="font-display text-xl font-extrabold leading-tight tracking-tight text-ink sm:text-2xl">
             Latest Travel Leads &amp; Popular Destinations
           </h2>
           <p className="mt-1 text-sm text-zinc-600">
@@ -173,14 +180,14 @@ export default async function Home() {
           </Link>
         </div>
 
-        <div>
+        <div id="get-quotes" className="scroll-mt-20 lg:sticky lg:top-20 lg:self-start">
           <EnquiryForm destinations={destinations} />
         </div>
       </section>
 
       <section className="bg-royal py-12 text-center text-white">
         <div className="mx-auto max-w-2xl px-4">
-          <h2 className="font-display text-[30px] font-bold sm:text-4xl">Grow Your Travel Business</h2>
+          <h2 className="font-display text-2xl font-extrabold tracking-tight sm:text-3xl">Grow Your Travel Business</h2>
           <p className="mt-2 text-white/80">
             Join free, tell us the destinations you deal in, and start buying verified travel
             leads today.

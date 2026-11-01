@@ -24,11 +24,11 @@ export default function InfoPage({
           data={webPageSchema({ path, name: title, description, type })}
         />
         <Breadcrumbs items={[{ name: title, href: path }]} />
-        <h1 className="mt-3 font-display text-[32px] font-bold leading-[1.1] text-ink sm:text-[42px]">
+        <h1 className="mt-3 font-display text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
           {title}
         </h1>
         <p className="mt-2 text-ink-soft">{description}</p>
-        <div className="mt-8 space-y-8 text-[15px] leading-7 text-ink [&_h2]:font-display [&_h2]:text-[26px] [&_h2]:font-bold [&_li]:ml-5 [&_li]:list-disc [&_a]:text-brand [&_a]:underline">
+        <div className="mt-8 space-y-8 text-[15px] leading-7 text-ink [&_h2]:font-display [&_h2]:text-xl [&_h2]:font-extrabold [&_h2]:tracking-tight [&_li]:ml-5 [&_li]:list-disc [&_a]:text-brand [&_a]:underline">
           {children}
         </div>
       </article>

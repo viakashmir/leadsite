@@ -18,8 +18,11 @@ import {
   TwoColumn,
   type Crumb,
   Blocks,
+  ItineraryCards,
   Prose,
 } from "@/components/location/blocks";
+import TrustTicks from "@/components/TrustTicks";
+import { formatINR } from "@/lib/format";
 import { GUIDE_SECTIONS, ORIGIN_CITIES, THEMES } from "@/data/locations";
 import {
   getPackagesFor,
@@ -116,6 +119,7 @@ export default async function TargetPackagesPage({
   const itineraries = (copy as { itineraries?: Itinerary[] } | undefined)?.itineraries;
   const faqs = copy?.faqs ?? (!v.theme && !v.origin ? content.faqs : undefined);
   const isCircuit = t.type === "circuit";
+  const fromPrice = packages.length > 0 ? Math.min(...packages.map((p) => p.price)) : null;
   // Last change to this page's copy or to any package listed on it.
   const updated = new Date(
     Math.max(
@@ -205,9 +209,11 @@ export default async function TargetPackagesPage({
         badges={[
           dest.isInternational ? "International" : "India",
           ...(dest.premium ? ["Premium destination"] : []),
-          `${packages.length} ready packages`,
+          ...(packages.length > 0 ? [`${packages.length} ready packages`] : []),
+          ...(fromPrice ? [`From ${formatINR(fromPrice)}`] : []),
         ]}
       >
+        <TrustTicks className="mt-3" />
         {!isCircuit && (
           <div className="mt-5">
             <ChipLinks links={[{ label: "All", href: tourPackagesUrl(slug), active: !v.theme }, ...themeLinks]} scroll />
@@ -224,9 +230,17 @@ export default async function TargetPackagesPage({
             >
               <PackageGrid
                 packages={packages}
-                emptyText={`No ready-made ${heading.toLowerCase()} are listed yet. Tell us your plan in the form and agents will build one for you.`}
+                emptyText={`No ready-made ${name}${heading.slice(name.length).toLowerCase()} are listed yet. Share your dates, group and budget, and up to 3 verified local agents build one for you${
+                  itineraries?.length ? ", or start from a sample plan below" : ""
+                }.`}
               />
             </Section>
+
+            {itineraries && itineraries.length > 0 && (
+              <Section title={`${name} itinerary`} subtitle="Sample plans agents start from. Ask for quotes on any of them.">
+                <ItineraryCards itineraries={itineraries} />
+              </Section>
+            )}
 
             {!v.theme && !v.origin && (content.intro || content.highlights) && (
               <Section title={`About ${name} tour packages`}>
@@ -252,24 +266,6 @@ export default async function TargetPackagesPage({
                 }
               >
                 <Prose text={copy.intro} />
-              </Section>
-            )}
-            {itineraries && itineraries.length > 0 && (
-              <Section title={`${name} itinerary`}>
-                <div className="space-y-5">
-                  {itineraries.map((it) => (
-                    <div key={it.title}>
-                      <h3 className="text-lg font-bold text-ink">{it.title}</h3>
-                      <ol className="mt-2 space-y-1.5">
-                        {it.days.map((day, i) => (
-                          <li key={i} className="leading-relaxed text-ink">
-                            <span className="font-semibold">Day {i + 1}:</span> {day}
-                          </li>
-                        ))}
-                      </ol>
-                    </div>
-                  ))}
-                </div>
               </Section>
             )}
             <Blocks blocks={copy?.blocks} />

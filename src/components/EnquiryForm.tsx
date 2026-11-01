@@ -103,7 +103,7 @@ export default function EnquiryForm({
   if (status === "success") {
     return (
       <div className={`${card} text-center`}>
-        <p className="font-display text-2xl font-bold text-ink">Your request is in</p>
+        <p className="font-display text-xl font-extrabold tracking-tight text-ink">Your request is in</p>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">
           Up to 3 verified agents who operate {placeName ?? "this destination"} will call or
           WhatsApp you with customised itineraries and quotes. Compare them and book only if you like one.
@@ -118,7 +118,7 @@ export default function EnquiryForm({
   // content on a laptop screen and inside one phone screen.
   return (
     <form onSubmit={handleSubmit} className={card} aria-label="Get free quotes">
-      <p className="font-display text-[20px] font-bold leading-tight text-ink">{titleCase(title)}</p>
+      <p className="font-display text-lg font-extrabold leading-tight tracking-tight text-ink">{titleCase(title)}</p>
       <p className="mt-0.5 text-[11px] text-ink-soft">
         <span className="font-semibold text-brand">Free</span> · No booking fee · Up to 3 quotes
       </p>

@@ -23,7 +23,7 @@ export default async function AgentsDirectoryPage() {
   return (
     <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 sm:py-10 lg:grid-cols-3">
       <div className="min-w-0 lg:col-span-2">
-        <h1 className="font-display text-[32px] font-bold leading-[1.1] text-ink sm:text-[42px]">
+        <h1 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
           Find Top Travel Agents
         </h1>
         <p className="mt-1 text-sm text-zinc-600">

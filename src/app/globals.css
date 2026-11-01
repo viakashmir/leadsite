@@ -14,7 +14,7 @@
 
 /* Brand tokens (public site): royal palette. Deep navy ink, maroon for
    actions, antique gold for accents only (rules, labels, stars), ivory for
-   quiet surfaces. Serif display face for headings, sans for reading. */
+   quiet surfaces. Plus Jakarta Sans for headings and reading. */
 @theme {
   --color-brand: #7a1f2b;
   --color-brand-dark: #5e1621;
@@ -28,7 +28,7 @@
   --color-ivory: #fbf8f2;
   --color-surface: #fbf8f2;
   --color-panel: #f4eee4;
-  --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
+  --font-display: var(--font-jakarta), var(--font-geist-sans), system-ui, sans-serif;
 }
 
 /* Layered so Tailwind utilities on <body> (bg-white, bg-zinc-100) win. The

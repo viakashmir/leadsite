@@ -52,7 +52,7 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
       onMouseLeave={() => setOpenMenu(null)}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:py-3">
-        <Link href="/" aria-label={SITE_NAME} className="shrink-0 font-display text-[26px] font-bold leading-none tracking-tight text-ink">
+        <Link href="/" aria-label={SITE_NAME} className="shrink-0 font-display text-xl font-extrabold leading-none tracking-tight text-ink">
           Tavel <span className="text-brand">Package</span>
         </Link>
 

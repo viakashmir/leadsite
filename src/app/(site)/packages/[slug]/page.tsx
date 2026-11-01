@@ -9,6 +9,7 @@ import EnquiryForm from "@/components/EnquiryForm";
 import JsonLd from "@/components/JsonLd";
 import { formatINR } from "@/lib/format";
 import { SITE_URL } from "@/lib/site";
+import TrustTicks from "@/components/TrustTicks";
 
 export const revalidate = 3600;
 
@@ -51,7 +52,14 @@ export default async function PackagePage({
   if (!pkg) notFound();
 
   const allDestinations = await getDestinationsWithCities();
-  const itineraryDays = pkg.itinerary.split("\n").filter(Boolean);
+  // Lines are usually "Day 1: ..."; split the label off so it can be styled.
+  const itineraryDays = pkg.itinerary
+    .split("\n")
+    .filter(Boolean)
+    .map((line, i) => {
+      const m = /^\s*(Day\s*\d+)\s*[:.-]\s*(.*)$/i.exec(line);
+      return m ? { label: m[1], text: m[2] } : { label: `Day ${i + 1}`, text: line };
+    });
 
   return (
     <div>
@@ -97,26 +105,28 @@ export default async function PackagePage({
           <p className="mt-2 max-w-2xl text-sm text-zinc-200">{pkg.summary}</p>
           <div className="mt-4 flex flex-wrap gap-4 text-sm">
             <span className="rounded-full bg-white px-3 py-1 font-medium text-zinc-700 shadow-sm">
-              {pkg.durationDays}D / {pkg.durationNights}N
+              {pkg.durationNights}N / {pkg.durationDays}D
             </span>
             <span className="rounded-full bg-white px-3 py-1 font-medium text-zinc-700 shadow-sm">
               {pkg.destination.name}
               {pkg.city ? ` · ${pkg.city.name}` : ""}
             </span>
-            <span className="rounded-full bg-orange-50 px-3 py-1 font-semibold text-orange-700 shadow-sm">
-              {formatINR(pkg.price)} onwards
+            <span className="rounded-full bg-gold px-3 py-1 font-semibold text-royal shadow-sm">
+              Starting from {formatINR(pkg.price)}
             </span>
           </div>
+          <TrustTicks dark className="mt-4" />
         </div>
       </section>
 
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 lg:grid-cols-3">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <h2 className="text-lg font-semibold text-zinc-900">Itinerary</h2>
-          <ol className="mt-4 space-y-3 border-l-2 border-gold-soft pl-4">
+          <ol className="mt-4 space-y-2">
             {itineraryDays.map((day, i) => (
-              <li key={i} className="text-sm text-zinc-700">
-                {day}
+              <li key={i} className="flex gap-3 rounded-xl border border-zinc-200 bg-white p-3 text-sm text-ink">
+                <span className="w-12 shrink-0 font-bold text-gold">{day.label}</span>
+                <span className="leading-relaxed">{day.text}</span>
               </li>
             ))}
           </ol>
@@ -142,7 +152,18 @@ export default async function PackagePage({
           )}
         </div>
 
-        <div>
+        <div id="get-quotes" className="scroll-mt-20 lg:sticky lg:top-20 lg:self-start">
+          <div className="mb-3 flex items-center justify-between rounded-2xl border border-gold-soft bg-ivory px-4 py-3">
+            <div className="leading-tight">
+              <p className="text-[11px] text-ink-soft">Starting from</p>
+              <p className="text-2xl font-bold text-ink">{formatINR(pkg.price)}</p>
+            </div>
+            <p className="text-right text-xs leading-snug text-ink-soft">
+              {pkg.durationNights}N / {pkg.durationDays}D
+              <br />
+              Customise hotels &amp; days
+            </p>
+          </div>
           <EnquiryForm
             destinations={allDestinations}
             defaultDestinationId={pkg.destinationId}
