@@ -7,10 +7,14 @@
 // own. `verify: true` marks prices that were hard to read in the screenshot;
 // those packages stay unpublished until the price is confirmed.
 //
-// 30 packages match one benchmark each (same route, nights and tier); 20 more
-// are honeymoon / family / friends versions of a benchmark's route and tier,
-// priced against that same benchmark. Price = benchmark x 0.99, rounded.
-// No em dashes.
+// Each benchmark gets a classic version plus honeymoon / family / friends
+// versions of the same route, priced against that same benchmark.
+// Price = benchmark x 0.99, rounded. No em dashes.
+//
+// Hotel category is NOT taken from the listing's own label ("Luxury",
+// "Premium"): sellers use those words loosely. It is worked out from what the
+// price can actually pay for (see stayTier below), so a ₹28,000 trip never
+// promises 5-star hotels.
 
 import { D, type DayKey, type PackageSeed } from "./kashmir";
 
@@ -18,7 +22,34 @@ export const PERCENT_BELOW_BENCHMARK = 1;
 export const BENCHMARK_SOURCE = "Holidify";
 
 type Place = "srinagar" | "gulmarg" | "pahalgam" | "sonamarg" | "houseboat" | "katra";
+// The seller's own label on the listing. Only used to pick which trip styles
+// (honeymoon, family, friends) a benchmark gets, which keeps slugs stable.
 type Tier = "Budget" | "Mid-Range" | "Premium" | "Luxury";
+
+// What we promise: derived from the price, never from the seller's label.
+export type StayTier = "Budget" | "3-Star" | "4-Star" | "5-Star";
+
+// Cost model, per person with two sharing a room, off-season, 2026 rates:
+//  - private sedan for every day of the trip: about ₹2,800 a day in Kashmir,
+//    so ₹1,400 each;
+//  - room with breakfast and dinner, per room per night: budget hotel or
+//    guesthouse from ₹2,000, 3-star from ₹4,000, 4-star from ₹8,000, 5-star
+//    (Taj Dal View, The Lalit, The Khyber) ₹25,000 and up.
+// Whatever is left after the cab, spread over the nights, decides the tier.
+// Below the budget floor the price is not realistic and the package is
+// not published.
+export const CAB_PER_PERSON_PER_DAY = 1400;
+const ROOM_SHARE_FROM: [StayTier, number][] = [
+  ["5-Star", 12500],
+  ["4-Star", 4000],
+  ["3-Star", 2000],
+  ["Budget", 1000],
+];
+
+export function stayTier(price: number, nights: number): StayTier | null {
+  const perNight = (price - CAB_PER_PERSON_PER_DAY * (nights + 1)) / nights;
+  return ROOM_SHARE_FROM.find(([, min]) => perNight >= min)?.[0] ?? null;
+}
 
 type Benchmark = {
   id: number;
@@ -164,12 +195,16 @@ function buildDays(b: Benchmark, winterDays: boolean): DayKey[] {
 
 type Style = "classic" | "honeymoon" | "family" | "friends";
 
-const TIER_LINE: Record<Tier, string> = {
-  Budget: "Clean, well-rated budget hotels close to the sights",
-  "Mid-Range": "Comfortable 3-star hotels",
-  Premium: "4-star hotels and the best-rated stays on the route",
-  Luxury: "5-star hotels and deluxe stays",
+const TIER_LINE: Record<StayTier, string> = {
+  Budget: "Simple, clean budget hotels or guesthouses",
+  "3-Star": "Standard 3-star hotels",
+  "4-Star": "4-star hotels",
+  "5-Star": "5-star hotels",
 };
+
+// Theme tag the rest of the site reads (card chip, price guide table).
+const TIER_TAG: Record<StayTier, string> = { Budget: "Budget", "3-Star": "Mid-Range", "4-Star": "Premium", "5-Star": "Luxury" };
+const TIER_TITLE: Record<StayTier, string> = { Budget: "Budget", "3-Star": "3-Star Hotels", "4-Star": "4-Star Hotels", "5-Star": "5-Star Hotels" };
 
 // Original one-liners. Gentle humour, no promises we can't keep.
 const QUIPS: Record<Style, string[]> = {
@@ -226,8 +261,12 @@ const placesInTitle = (b: Benchmark) => {
   return names.length === 1 ? names[0] : `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
 };
 
-function make(b: Benchmark, style: Style, n: number): PackageSeed & { referencePrice: number; referenceSource: string; price: number; verify: boolean } {
+function make(b: Benchmark, style: Style, n: number): PackageSeed & { referencePrice: number; referenceSource: string; price: number; verify: boolean; realistic: boolean } {
   const nights = b.stops.reduce((t, [, x]) => t + x, 0);
+  const price = Math.round(b.price * (1 - PERCENT_BELOW_BENCHMARK / 100));
+  const tier = stayTier(price, nights);
+  // Unrealistic prices still get honest copy (budget) but are never published.
+  const shown: StayTier = tier ?? "Budget";
   const winter = b.season === "winter";
   const keys = buildDays(b, winter);
   const lines = keys.map((k, i) => `Day ${i + 1}: ${D[k]}${i === 1 ? STYLE_TOUCH[style] : ""}`);
@@ -235,17 +274,17 @@ function make(b: Benchmark, style: Style, n: number): PackageSeed & { referenceP
   const hook = hooks[n % hooks.length];
   const season = b.season === "winter" ? " Winter" : b.season === "autumn" ? " Autumn" : "";
   const quip = QUIPS[style][n % QUIPS[style].length];
-  const stay = `${TIER_LINE[b.tier]}${b.houseboat ? ", with a houseboat night on the lake" : ""}`;
-  const summary = `${nights} nights across ${routeText(b)}. ${stay}, a private cab and a day plan that leaves time to actually enjoy it. ${quip}`;
+  const stay = `${TIER_LINE[shown]}${b.houseboat ? ", with a houseboat night on the lake" : ""}`;
+  const summary = `${nights} nights across ${routeText(b)}. ${stay}, a private cab and a day plan that leaves time to actually enjoy it. ${quip} Price is per person with two sharing a room; peak dates (April to June, Christmas and New Year) cost more.`;
   const tags = [
     style === "classic" ? "Classic" : style === "honeymoon" ? "Honeymoon,Couple" : style === "family" ? "Family" : "Friends,Adventure",
-    b.tier === "Premium" || b.tier === "Luxury" ? "Luxury" : b.tier,
+    TIER_TAG[shown],
     ...(b.houseboat ? ["Houseboat"] : []),
     ...(winter ? ["Winter", "Snow"] : b.season === "autumn" ? ["Autumn"] : []),
   ].join(",");
   return {
     slug: `kashmir-value-${style}-${nights}n-b${b.id}`,
-    title: `${hook}${season}: ${placesInTitle(b)} ${nights}N/${nights + 1}D (${b.tier})`,
+    title: `${hook}${season}: ${placesInTitle(b)} ${nights}N/${nights + 1}D (${TIER_TITLE[shown]})`,
     summary,
     itinerary: lines.join("\n"),
     durationDays: nights + 1,
@@ -255,8 +294,9 @@ function make(b: Benchmark, style: Style, n: number): PackageSeed & { referenceP
     city: base(b.stops.find(([p]) => base(p) !== "srinagar")?.[0] ?? "srinagar"),
     referencePrice: b.price,
     referenceSource: BENCHMARK_SOURCE,
-    price: Math.round(b.price * (1 - PERCENT_BELOW_BENCHMARK / 100)),
+    price,
     verify: Boolean(b.verify),
+    realistic: tier !== null,
   };
 }
 

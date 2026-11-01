@@ -8,7 +8,10 @@ import { formatINR } from "@/lib/format";
 // quotes). Everything shown comes from the package itself; nothing is
 // invented on the card.
 
-const TIERS = ["Budget", "Mid-Range", "Luxury", "Premium"];
+// Theme tag -> hotel category shown. "Premium" is 4-star, only "Luxury" is
+// 5-star; a package must be priced to pay for the category it is tagged with.
+const TIER_LABEL: Record<string, string> = { Budget: "Budget stay", "Mid-Range": "3 star", Premium: "4 star", Luxury: "5 star" };
+const TIERS = Object.keys(TIER_LABEL);
 const STYLE_TAGS = ["Honeymoon", "Family", "Friends", "Adventure", "Winter", "Pilgrimage", "Offbeat", "Weekend", "Classic"];
 
 // "5 nights across Srinagar 3N, Pahalgam 1N, Srinagar 1N." -> stops
@@ -116,7 +119,7 @@ export default function PackageCard({
           {tier && (
             <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2 py-0.5 font-medium text-ink">
               <Icon d={BED} />
-              {tier === "Luxury" ? "4-5 star" : tier}
+              {TIER_LABEL[tier]}
             </span>
           )}
           {houseboat && (

@@ -591,7 +591,7 @@ export function PriceGuideBlock({ name, guide }: { name: string; guide: import("
               {guide.byTier.map((r) => (
                 <tr key={r.tier}>
                   <td className="px-3 py-2 text-ink">
-                    {r.tier === "Luxury" ? "4 and 5 star" : r.tier === "Mid-Range" ? "3 star" : "Budget"}{" "}
+                    {r.tier === "Luxury" ? "5 star" : r.tier === "Premium" ? "4 star" : r.tier === "Mid-Range" ? "3 star" : "Budget"}{" "}
                     <span className="text-xs text-ink-soft">({r.count})</span>
                   </td>
                   <td className="px-3 py-2 text-right font-semibold text-ink">{inr(r.from)}</td>
@@ -615,7 +615,9 @@ export function priceFaqs(name: string, guide: import("@/lib/locations").PriceGu
   const inr = (n: number) => `₹${new Intl.NumberFormat("en-IN").format(n)}`;
   const popular = [...guide.byNights].sort((a, b) => b.count - a.count)[0];
   const budget = guide.byTier.find((t) => t.tier === "Budget");
-  const lux = guide.byTier.find((t) => t.tier === "Luxury");
+  // Highest category actually on sale, named for what it is.
+  const lux = guide.byTier.find((t) => t.tier === "Luxury") ?? guide.byTier.find((t) => t.tier === "Premium");
+  const luxLabel = lux?.tier === "Luxury" ? "5 star" : "4 star";
   const faqs = [
     {
       q: `How much does a ${name} tour package cost?`,
@@ -629,8 +631,8 @@ export function priceFaqs(name: string, guide: import("@/lib/locations").PriceGu
     });
   if (budget && lux)
     faqs.push({
-      q: `What is the difference between a budget and a luxury ${name} package?`,
-      a: `Budget packages use clean, basic hotels and start from ${inr(budget.from)} per person. Packages with 4 and 5 star hotels start from ${inr(lux.from)} per person, typically ${inr(lux.median)}. The route and sightseeing are often the same; the hotels, houseboat category and vehicle make the difference.`,
+      q: `What is the difference between a budget and a ${luxLabel} ${name} package?`,
+      a: `Budget packages use simple, clean hotels or guesthouses and start from ${inr(budget.from)} per person. Packages with ${luxLabel} hotels start from ${inr(lux.from)} per person, typically ${inr(lux.median)}. The route and sightseeing are often the same; the hotels, houseboat category and vehicle make the difference. Prices are per person with two sharing a room; peak dates cost more.`,
     });
   faqs.push({
     q: `Are flights included in ${name} package prices?`,

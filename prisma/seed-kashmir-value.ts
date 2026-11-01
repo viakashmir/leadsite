@@ -25,7 +25,8 @@ async function main() {
 
   let created = 0, updated = 0, live = 0;
   for (const p of KASHMIR_VALUE_PACKAGES) {
-    const published = !p.verify || publishUnverified;
+    // A price that can't cover a cab and the cheapest hotel is never published.
+    const published = p.realistic && (!p.verify || publishUnverified);
     const pricing = { price: p.price, referencePrice: p.referencePrice, referenceSource: p.referenceSource };
     const text = { title: p.title, summary: p.summary, itinerary: p.itinerary, theme: p.theme, durationDays: p.durationDays, durationNights: p.durationNights };
     const existing = await prisma.package.findUnique({ where: { slug: p.slug }, select: { id: true } });
@@ -35,13 +36,20 @@ async function main() {
       });
       created += 1;
     } else {
-      await prisma.package.update({ where: { slug: p.slug }, data: { ...(force ? text : {}), ...pricing, ...(published ? { published } : {}) } });
+      // Title, summary and theme carry the hotel category, so they are always
+      // refreshed: a stale "5-star" claim must not survive a re-run.
+      const claims = { title: p.title, summary: p.summary, theme: p.theme };
+      await prisma.package.update({
+        where: { slug: p.slug },
+        data: { ...(force ? text : claims), ...pricing, ...(published ? { published } : p.realistic ? {} : { published: false }) },
+      });
       updated += 1;
     }
     if (published) live += 1;
   }
   const waiting = KASHMIR_VALUE_PACKAGES.length - live;
-  console.log(`Kashmir value packages: ${created} created, ${updated} updated, ${live} published.${waiting ? ` ${waiting} wait for a price check (see verify: true in kashmir-value.ts).` : ""}`);
+  const unrealistic = KASHMIR_VALUE_PACKAGES.filter((p) => !p.realistic).length;
+  console.log(`Kashmir value packages: ${created} created, ${updated} updated, ${live} published, ${unrealistic} hidden as unrealistic.${waiting - unrealistic > 0 ? ` Others wait for a price check (verify: true in kashmir-value.ts).` : ""}`);
 }
 
 main()

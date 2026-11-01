@@ -93,7 +93,7 @@ export type PriceGuide = {
   from: number;
   median: number;
   byNights: { nights: number; count: number; from: number; median: number }[];
-  byTier: { tier: "Budget" | "Mid-Range" | "Luxury"; count: number; from: number; median: number }[];
+  byTier: { tier: "Budget" | "Mid-Range" | "Premium" | "Luxury"; count: number; from: number; median: number }[];
 };
 
 const median = (xs: number[]) => {
@@ -117,12 +117,15 @@ export async function getPriceGuide(t: Target, opts: { themeTag?: string } = {})
   const nights = [...new Set(rows.map((r) => r.durationNights))].sort((a, b) => a - b);
   const tierOf = (theme: string) => {
     const tags = theme.split(",").map((x) => x.trim().toLowerCase());
-    if (tags.includes("luxury") || tags.includes("premium")) return "Luxury" as const;
+    // "Luxury" means 5-star and "Premium" 4-star; kept apart so a 4-star
+    // price is never shown as a 5-star one.
+    if (tags.includes("luxury")) return "Luxury" as const;
+    if (tags.includes("premium")) return "Premium" as const;
     if (tags.includes("budget")) return "Budget" as const;
     if (tags.includes("mid-range")) return "Mid-Range" as const;
     return null;
   };
-  const tiers = (["Budget", "Mid-Range", "Luxury"] as const)
+  const tiers = (["Budget", "Mid-Range", "Premium", "Luxury"] as const)
     .map((tier) => ({ tier, prices: rows.filter((r) => tierOf(r.theme) === tier).map((r) => r.price) }))
     .filter((x) => x.prices.length > 0)
     .map((x) => ({ tier: x.tier, ...stats(x.prices) }));
