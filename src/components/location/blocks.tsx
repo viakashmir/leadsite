@@ -246,6 +246,7 @@ export function PackageGrid({
           durationDays={p.durationDays}
           durationNights={p.durationNights}
           price={p.price}
+          referencePrice={p.referencePrice}
           destinationName={p.destination.name}
           theme={p.theme}
           heroImage={packagePhoto(p)}

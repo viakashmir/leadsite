@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 import { INDEXNOW_KEY } from "./src/lib/site";
-import { SUPERSEDED_POSTS } from "./src/data/blog";
+import { SUPERSEDED_POSTS } from "./src/data/blog/superseded";
 
 // Baseline hardening for every response. A full script CSP is left out on
 // purpose: Razorpay Checkout injects its own scripts and frames.

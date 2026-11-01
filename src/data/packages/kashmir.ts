@@ -20,7 +20,7 @@ export type PackageSeed = {
 
 // ---------------------------------------------------------------- day plans
 
-const D = {
+export const D = {
   arriveSrinagar:
     "Arrive in Srinagar. Our driver meets you at the airport and takes you to your hotel or houseboat. In the evening, take a shikara ride on Dal Lake past the floating gardens and lake-side markets.",
   arriveHouseboat:
@@ -75,13 +75,35 @@ const D = {
     "Drive from Katra to Srinagar on NH44 (7 to 8 hours) through the Chenani-Nashri tunnel and the Banihal tunnel, or take the Vande Bharat train from Katra. Evening shikara ride on Dal Lake.",
   tulipGarden:
     "Spring in Srinagar: visit the Indira Gandhi Memorial Tulip Garden below the Zabarwan hills, open for a few weeks from about late March to April, then Botanical Garden and Nishat Bagh nearby.",
+  arrivePahalgam:
+    "Land in Srinagar and drive straight to Pahalgam (about 95 km, 2.5 to 3 hours) past the saffron fields of Pampore. Check in by the Lidder River and let the mountain air do the unpacking.",
+  gulmargToPahalgam:
+    "Drive from Gulmarg to Pahalgam (about 140 km, 4 to 5 hours) via Srinagar's bypass and the Pampore saffron belt. Evening by the Lidder River.",
+  pahalgamToGulmarg:
+    "Drive from Pahalgam to Gulmarg (about 140 km, 4 to 5 hours) via Srinagar. Check in and catch the evening light on the meadow.",
+  gulmargToSrinagar:
+    "Morning gondola ride if you missed it, then drive back down to Srinagar (about 1.5 to 2 hours). Evening free on the Boulevard by Dal Lake.",
+  srinagarToSonamarg:
+    "Drive to Sonamarg (about 80 km, 2.5 to 3 hours) along the Sindh river and check in. Walk or ride a pony to Thajiwas Glacier in the afternoon.",
+  sonamargToPahalgam:
+    "Drive from Sonamarg to Pahalgam via Srinagar (about 175 km, 5 to 6 hours), with a lunch stop in Srinagar. Evening by the Lidder River.",
+  sonamargToSrinagar:
+    "Drive back from Sonamarg to Srinagar along the Sindh river (2.5 to 3 hours). Evening free for shopping at Lal Chowk or Polo View.",
+  departPahalgam:
+    "Check out and drive from Pahalgam to Srinagar airport (about 3 hours) for your flight home. Leave early: the saffron shops in Pampore are very persuasive.",
+  departGulmarg:
+    "Check out and drive from Gulmarg to Srinagar airport (about 2 hours) for your onward flight.",
+  departSonamarg:
+    "Check out and drive from Sonamarg to Srinagar airport (about 3 hours) for your onward flight.",
+  katraToPahalgam:
+    "Drive from Katra to Pahalgam (about 260 km, 7 to 8 hours) on NH44 through the Chenani-Nashri and Banihal tunnels, turning off at Anantnag for the Lidder valley. A long day, with chai stops built in.",
   departSrinagar:
     "Check out and transfer to Srinagar airport for your onward flight, with time for a last stop at a dry-fruit or saffron shop on the way.",
   departJammu:
     "Drive from Srinagar to Jammu (about 250 km) or take the Vande Bharat train to Katra, for your onward train or flight.",
 } as const;
 
-type DayKey = keyof typeof D;
+export type DayKey = keyof typeof D;
 
 // ---------------------------------------------------------------- routes
 

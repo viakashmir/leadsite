@@ -16,11 +16,8 @@ import { KASHMIR_UPGRADES } from "./kashmir-deep";
 import { FOCUS_BATCH_1 } from "./focus-batch-1";
 import { MONEY_FROM_CITIES } from "./money-from-cities";
 
-// Thin posts replaced by a full guide on the same topic; their URLs 301 to
-// the new post (next.config.ts redirects) so the two never compete in search.
-export const SUPERSEDED_POSTS: Record<string, string> = {
-  "manali-to-leh-road-trip-plan": "manali-to-leh-road-trip-guide",
-};
+import { SUPERSEDED_POSTS } from "./superseded";
+export { SUPERSEDED_POSTS };
 
 const ALL_POSTS: BlogPost[] = [
   ...KASHMIR_CORE,

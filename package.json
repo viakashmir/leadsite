@@ -16,7 +16,8 @@
     "check:locations": "tsx scripts/check-locations.ts",
     "db:seed:content": "tsx --env-file=.env prisma/seed-content.ts",
     "db:seed:packages": "tsx --env-file=.env prisma/seed-kashmir-packages.ts",
-    "db:seed:kashmir-catalog": "tsx --env-file=.env prisma/seed-kashmir-catalog.ts"
+    "db:seed:kashmir-catalog": "tsx --env-file=.env prisma/seed-kashmir-catalog.ts",
+    "db:seed:kashmir-value": "tsx --env-file=.env prisma/seed-kashmir-value.ts"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.10.0",
