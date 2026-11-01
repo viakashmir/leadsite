@@ -40,7 +40,7 @@ export const KASHMIR_PACKAGES: Pkg[] = [
     summary: `The three places most first-timers want, paced so you are not in a car all day: three nights in Srinagar by Dal Lake, a full day in the meadows of Gulmarg and a day out in Pahalgam's Lidder valley. Includes hotel stays with breakfast and dinner, a private cab for all sightseeing and airport transfers. ${FROM}`,
     itinerary: [
       "Day 1: Arrive in Srinagar. Check in, then an evening shikara ride on Dal Lake past the floating vegetable gardens and Char Chinar.",
-      "Day 2: Srinagar to Gulmarg day trip (about 50 km, 1.5–2 hours). Ride the Gulmarg Gondola to Kongdori (around 2,650 m), with Phase 2 to Apharwat if open. Back to Srinagar.",
+      "Day 2: Srinagar to Gulmarg day trip (about 50 km, 1.5–2 hours). Ride the Gulmarg Gondola to Kongdori (about 3,050 m), with Phase 2 to Apharwat (about 3,980 m) if open. Back to Srinagar.",
       "Day 3: Srinagar to Pahalgam (about 90 km). Stop at the Pampore saffron fields and the 9th-century Awantipora ruins. Overnight in Pahalgam by the Lidder river.",
       "Day 4: Morning in Betaab Valley and Aru Valley by local cab, then drive back to Srinagar. Evening walk on the Boulevard.",
       "Day 5: Mughal gardens (Nishat Bagh and Shalimar Bagh) if your flight allows, then airport drop.",
@@ -158,7 +158,7 @@ export const KASHMIR_PACKAGES: Pkg[] = [
     days: 6,
     nights: 5,
     price: 11759,
-    theme: "Group,Adventure,Friends",
+    theme: "Group,Adventure,Friends,Winter",
     summary: `For December to March, when Kashmir is under snow: Gulmarg's slopes, Sonamarg's frozen landscape and Srinagar in winter. Shared transport for the group, heated rooms with breakfast and dinner, and snow-chain cars where roads need them. ${FROM}`,
     itinerary: [
       "Day 1: Arrive in Srinagar. Warm up with kahwa and an evening by Dal Lake.",
@@ -176,7 +176,7 @@ export const KASHMIR_PACKAGES: Pkg[] = [
     days: 5,
     nights: 4,
     price: 21559,
-    theme: "Adventure,Honeymoon,Mid-Range",
+    theme: "Adventure,Honeymoon,Mid-Range,Winter",
     summary: `Two nights inside Gulmarg itself, so you get the slopes at first light and the quiet after day-trippers leave. Good for first-time skiers and couples who want snow. Standard 3-star hotels in Gulmarg and Srinagar with breakfast and dinner, private cab. ${FROM}`,
     itinerary: [
       "Day 1: Arrive in Srinagar. Dal Lake shikara.",
@@ -188,12 +188,12 @@ export const KASHMIR_PACKAGES: Pkg[] = [
   },
   {
     slug: "kashmir-in-winter-frozen-lakes-snowfields-6-days",
-    title: "Kashmir in Winter: 6 Days of Frozen Lakes, Snowfields & Kahwa",
+    title: "Kashmir in Winter: 6 Days of Snowfields, Shikaras & Kahwa",
     city: "srinagar",
     days: 6,
     nights: 5,
     price: 16659,
-    theme: "Adventure,Family",
+    theme: "Adventure,Family,Winter",
     summary: `A full winter itinerary for families and couples: Dal Lake in the cold, Gulmarg and Sonamarg in snow, Pahalgam's white forests and an evening of Kashmiri food. Heated rooms, breakfast and dinner, private cab with snow chains. ${FROM}`,
     itinerary: [
       "Day 1: Arrive in Srinagar. Evening shikara with blankets and kangri warmers.",

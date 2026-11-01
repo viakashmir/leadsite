@@ -668,6 +668,7 @@ export const THEMES = [
   { prefix: "beach-tour-packages", name: "Beach", tag: "Beach" },
   { prefix: "trekking-tour-packages", name: "Trekking", tag: "Trekking" },
   { prefix: "solo-tour-packages", name: "Solo", tag: "Solo" },
+  { prefix: "winter-tour-packages", name: "Winter", tag: "Winter" },
 ] as const;
 
 // Sub-pages of a /{slug}-tourism guide (destination level and city level).

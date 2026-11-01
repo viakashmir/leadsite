@@ -14,12 +14,20 @@ import { buyersLeft, HiddenContact, SoldOutBadge } from "@/components/LeadContac
 import { maskEmail, maskName, maskPhone } from "@/lib/mask";
 import { formatINR } from "@/lib/format";
 import { isPhoto, packagePhoto } from "@/lib/media";
-import { tourPackagesUrl } from "@/lib/urls";
+import { themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { WELCOME_CREDITS } from "@/lib/credits";
 import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 import { ORG_ID, webPageSchema } from "@/lib/schema";
 
 export const revalidate = 300;
+
+// Kashmir's snow season (November to March, India time): the hero shows a
+// real Gulmarg winter photo (Pexels, free licence) and links to winter trips.
+const WINTER_HERO = "/media/kashmir-winter-gulmarg-snow-meadow.webp";
+function isKashmirSnowSeason(now = new Date()) {
+  const month = Number(new Intl.DateTimeFormat("en-IN", { month: "numeric", timeZone: "Asia/Kolkata" }).format(now));
+  return month >= 11 || month <= 3;
+}
 
 // Homepage strategy (two-sided marketplace):
 //   1. Travellers are the supply: one obvious action above the fold, and the
@@ -65,7 +73,8 @@ export default async function Home() {
   );
 
   const photoDestinations = destinations.filter((d) => isPhoto(d.heroImage));
-  const heroPhoto = photoDestinations[0]?.heroImage;
+  const snowSeason = isKashmirSnowSeason();
+  const heroPhoto = snowSeason ? WINTER_HERO : photoDestinations[0]?.heroImage;
   // Ordered by real demand so "most-requested" stays true.
   const mosaic = [...photoDestinations].sort((a, b) => b._count.leads - a._count.leads).slice(0, 5);
   const quickPicks = destinations.slice(0, 6);
@@ -117,16 +126,30 @@ export default async function Home() {
       {/* 1. HERO: one job, start a trip request. */}
       <section className="relative isolate overflow-hidden bg-royal text-white">
         {heroPhoto && (
-          <Image src={heroPhoto} alt="" fill priority sizes="100vw" className="-z-20 object-cover" />
+          <Image src={heroPhoto} alt="" fill priority sizes="100vw" className="-z-20 object-cover object-[center_40%]" />
         )}
         {/* Shade only where the text sits, so the photo shows through on the
             right and around the form; a soft floor keeps the stats readable. */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-royal/80 via-royal/60 to-royal/90 lg:bg-gradient-to-r lg:from-royal/90 lg:via-royal/55 lg:to-royal/5" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-royal/85 via-royal/70 to-royal/90 lg:bg-gradient-to-r lg:from-royal/95 lg:via-royal/60 lg:to-transparent" />
         <div className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-t from-royal/70 to-transparent" />
         <div className="mx-auto grid max-w-7xl gap-8 px-4 pb-8 pt-8 sm:pb-10 sm:pt-10 lg:grid-cols-[1fr_380px] lg:items-center lg:gap-12">
           <div className="min-w-0">
-            <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${gold}`}>Customised tour packages · India &amp; abroad</p>
-            <h1 className="mt-3 max-w-2xl font-display text-[32px] font-bold leading-[1.08] tracking-tight sm:text-5xl">
+            {snowSeason && (
+              <Link
+                href={themeUrl("winter-tour-packages", "kashmir")}
+                className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm transition hover:bg-white/25"
+              >
+                <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                  <path d="M12 2v20M4.9 6l14.2 12M19.1 6 4.9 18M9 4l3 2 3-2M9 20l3-2 3 2" />
+                </svg>
+                Snow season in Kashmir: winter packages
+                <span aria-hidden="true">→</span>
+              </Link>
+            )}
+            <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${gold} [text-shadow:0_1px_6px_rgb(0_0_0/0.4)]`}>
+              Customised tour packages · India &amp; abroad
+            </p>
+            <h1 className="mt-3 max-w-2xl font-display text-[32px] font-bold leading-[1.08] tracking-tight [text-shadow:0_2px_14px_rgb(0_0_0/0.35)] sm:text-5xl">
               Describe your trip once.
               <span className={`block ${gold}`}>Three local experts compete to plan it.</span>
             </h1>

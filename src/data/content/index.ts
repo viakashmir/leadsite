@@ -19,6 +19,7 @@ import { RJ_CITIES, RJ_DESTINATIONS, RJ_ORIGIN_COPY, RJ_PLACES } from "./rajasth
 import { TN_MH_CITIES, TN_MH_DESTINATIONS, TN_MH_PLACES } from "./tn-mh";
 import { KASHMIR_CITIES, KASHMIR_PLACES } from "./kashmir";
 import { KASHMIR_ORIGIN_DESTINATION } from "./kashmir-origins";
+import { KASHMIR_WINTER_DESTINATION } from "./kashmir-winter";
 import { STATES_BATCH_1 } from "./states-batch-1";
 
 // Supplements add FAQs, blocks and section copy on top of base content:
@@ -63,7 +64,7 @@ const BASE: Record<string, GuideContent> = {
 export const DESTINATION_CONTENT: Record<string, GuideContent> = Object.fromEntries(
   Object.entries({ ...Object.fromEntries([...Object.keys(RJ_DESTINATIONS), ...Object.keys(TN_MH_DESTINATIONS)].map((k) => [k, {}])), ...BASE, ...CIRCUIT_CONTENT } as Record<string, GuideContent>).map(([slug, c]) => [
     slug,
-    [DESTINATION_EXTRAS, DESTINATION_SUPPLEMENTS, { ...CULTURE_DESTINATIONS, goa: GOA_DESTINATION }, SOUTH_DESTINATIONS, RJ_DESTINATIONS, TN_MH_DESTINATIONS, KASHMIR_ORIGIN_DESTINATION].reduce(
+    [DESTINATION_EXTRAS, DESTINATION_SUPPLEMENTS, { ...CULTURE_DESTINATIONS, goa: GOA_DESTINATION }, SOUTH_DESTINATIONS, RJ_DESTINATIONS, TN_MH_DESTINATIONS, KASHMIR_ORIGIN_DESTINATION, KASHMIR_WINTER_DESTINATION].reduce(
       (acc: GuideContent, extra: Record<string, Partial<GuideContent>>) => mergeContent(acc, extra[slug]),
       c,
     ),
