@@ -215,7 +215,7 @@ export default async function Home() {
                   {lead.children ? ` & ${lead.children} children` : ""}.
                 </p>
                 <div className="mt-2 flex items-center justify-between text-xs text-zinc-400">
-                  <span>{maskPhone(lead.phone)}</span>
+                  <span className="select-none line-through decoration-zinc-400 blur-[2px]" aria-label="Phone hidden until purchased">{maskPhone(lead.phone)}</span>
                   <span>Posted {formatDate(lead.createdAt)}</span>
                 </div>
               </div>

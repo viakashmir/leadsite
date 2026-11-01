@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { refreshPublicLeadPages } from "@/lib/leadPages";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireAgent } from "@/lib/auth";
@@ -77,6 +78,8 @@ export async function unlockLead(leadId: string): Promise<{ error?: string }> {
 
   revalidatePath("/agent/dashboard/leads");
   revalidatePath("/agent/dashboard");
+  // "x of 3 left" / Sold out on the public lead pages.
+  await refreshPublicLeadPages(leadId);
   return {};
 }
 

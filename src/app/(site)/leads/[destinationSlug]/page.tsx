@@ -18,7 +18,7 @@ async function getData(destinationSlug: string) {
 
   const leads = await prisma.lead.findMany({
     where: { destinationId: destination.id },
-    include: { destination: true, city: true },
+    include: { destination: true, city: true, _count: { select: { unlocks: true } } },
     orderBy: { createdAt: "desc" },
     take: 50,
   });
@@ -121,6 +121,9 @@ export default async function DestinationLeadsPage({
               verified: lead.verified,
               status: lead.status,
               createdAt: lead.createdAt,
+              unlockPrice: lead.unlockPrice,
+              unlockCount: lead._count.unlocks,
+              maxUnlocks: lead.maxUnlocks,
             }}
           />
         ))}
