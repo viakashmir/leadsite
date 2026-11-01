@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createLeadSchema } from "@/lib/validation";
 import { clientIp, hit, tooManyRequests } from "@/lib/rateLimit";
+import { notifyNewLead } from "@/lib/email/leadNotifications";
 
 export async function POST(req: NextRequest) {
   // Agents pay to unlock leads, so junk leads cost them real money.
@@ -85,6 +86,10 @@ export async function POST(req: NextRequest) {
       },
     },
   });
+
+  // Admin alert + customer acknowledgement go out after the response, so a
+  // slow or failing mail provider never delays or breaks the enquiry form.
+  after(() => notifyNewLead(lead.id));
 
   return NextResponse.json({ ok: true, leadId: lead.id }, { status: 201 });
 }
