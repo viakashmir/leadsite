@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import EnquiryForm, { type DestinationOption } from "@/components/EnquiryForm";
+import { OPEN_QUOTE_EVENT } from "@/components/QuoteButton";
 
 // Paths where travellers are not the audience.
 const HIDDEN = /^\/(agent|admin|leads)(\/|$)/;
@@ -34,6 +35,12 @@ function inferTarget(pathname: string, options: DestinationOption[]) {
 export default function MobileQuoteBar({ options }: { options: DestinationOption[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  // QuoteButton asks for the sheet on phones instead of jumping down the page.
+  useEffect(() => {
+    const show = () => setOpen(true);
+    window.addEventListener(OPEN_QUOTE_EVENT, show);
+    return () => window.removeEventListener(OPEN_QUOTE_EVENT, show);
+  }, []);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -46,17 +53,17 @@ export default function MobileQuoteBar({ options }: { options: DestinationOption
 
   return (
     <>
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-gold-soft bg-white/95 px-4 py-2.5 backdrop-blur lg:hidden">
+      <div className="fixed inset-x-3 bottom-3 z-40 lg:hidden">
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex w-full items-center justify-between rounded-full bg-brand py-3 pl-5 pr-2 text-left text-white shadow-sm"
+          className="flex w-full items-center justify-between gap-3 rounded-2xl border border-zinc-200 bg-white py-2.5 pl-4 pr-2.5 text-left shadow-lg"
         >
-          <span className="text-sm font-semibold">
-            {target ? `Plan Your ${target.name} Trip` : "Plan Your Trip"}
-            <span className="block text-[11px] font-normal text-white/75">Free quotes from up to 3 verified agents</span>
+          <span className="min-w-0 text-sm font-semibold text-ink">
+            {target ? `Planning a ${target.name} trip?` : "Need help planning?"}
+            <span className="block truncate text-xs font-normal text-ink-soft">Free quotes from up to 3 verified agents</span>
           </span>
-          <span className="rounded-full bg-white/15 px-3 py-1.5 text-xs font-semibold">Get Quotes</span>
+          <span className="shrink-0 rounded-lg bg-brand px-3.5 py-2 text-xs font-semibold text-white">Get Quotes</span>
         </button>
       </div>
       {open && (

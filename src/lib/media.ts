@@ -16,6 +16,17 @@ export const mediaUrl = (slug: string) => `/media/${slug}.webp`;
 // absolute URL still stored from before the migration.
 export const isPhoto = (src?: string | null): src is string => Boolean(src && /^(https?:\/\/|\/media\/)/.test(src));
 
+// A package's own photo, else a real photo of the place it visits: its city,
+// then its destination (state or country). Never a generic stock image.
+export function packagePhoto(p: {
+  heroImage?: string | null;
+  city?: { heroImage?: string | null } | null;
+  destination?: { heroImage?: string | null } | null;
+}): string | null {
+  for (const src of [p.heroImage, p.city?.heroImage, p.destination?.heroImage]) if (isPhoto(src)) return src;
+  return null;
+}
+
 export async function storeImageAsWebp(opts: {
   sourceUrl: string;
   slugHint: string;

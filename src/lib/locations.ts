@@ -80,7 +80,7 @@ export async function getPackagesFor(t: Target, opts: { themeTag?: string; take?
       ...packageScope(t),
       ...(opts.themeTag ? { theme: { contains: opts.themeTag, mode: "insensitive" } } : {}),
     },
-    include: { destination: true },
+    include: { destination: true, city: true },
     orderBy: { createdAt: "desc" },
     take: opts.take ?? 24,
   });

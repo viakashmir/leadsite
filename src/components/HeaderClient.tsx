@@ -48,7 +48,7 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
 
   return (
     <header
-      className="sticky top-0 z-40 border-b border-gold-soft bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85"
+      className="sticky top-0 z-40 border-b border-zinc-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85"
       onMouseLeave={() => setOpenMenu(null)}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:py-3">
@@ -101,7 +101,7 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
               </Link>
               <Link
                 href="/agent/register"
-                className="rounded-full bg-brand px-4 py-2 text-white hover:bg-brand-dark"
+                className="rounded-lg bg-brand px-4 py-2 text-white hover:bg-brand-dark"
               >
                 Travel Agent? Join Us
               </Link>
@@ -114,7 +114,7 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
           onClick={() => setMenuOpen((o) => !o)}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold-soft text-ink lg:hidden"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200 text-ink lg:hidden"
         >
           {menuOpen ? (
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>

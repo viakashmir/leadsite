@@ -237,7 +237,7 @@ export default async function TargetPackagesPage({
             </Section>
 
             {itineraries && itineraries.length > 0 && (
-              <Section title={`${name} itinerary`} subtitle="Sample plans agents start from. Ask for quotes on any of them.">
+              <Section tint="warm" title={`${name} itinerary`} subtitle="Sample plans agents start from. Ask for quotes on any of them.">
                 <ItineraryCards itineraries={itineraries} />
               </Section>
             )}
@@ -317,15 +317,15 @@ export default async function TargetPackagesPage({
               </Section>
             )}
 
-            <Section title="How booking works on Tavel Package">
+            <Section tint="green" title="How booking works on Tavel Package">
               <ol className="grid gap-3 sm:grid-cols-3">
                 {[
                   ["Share your plan", `Tell us your ${name} dates, group size, hotel category and budget in the form. It takes about a minute.`],
                   ["Compare up to 3 quotes", "Up to 3 verified travel agents who operate this destination call you and send customised itineraries with prices."],
                   ["Customise and book", "Change hotels, days or activities with the agent you prefer and book directly with them. You are never obliged to book."],
                 ].map(([title, body], i) => (
-                  <li key={title} className="rounded-xl border border-zinc-200 bg-white p-4">
-                    <p className="text-xs font-bold tracking-wide text-brand">Step {i + 1}</p>
+                  <li key={title} className="rounded-xl bg-white p-4">
+                    <p className="inline-block rounded-full bg-brand px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">Step {i + 1}</p>
                     <p className="mt-1 font-bold text-ink">{title}</p>
                     <p className="mt-1 text-sm leading-relaxed text-ink-soft">{body}</p>
                   </li>

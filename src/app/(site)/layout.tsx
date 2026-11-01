@@ -64,7 +64,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         <GoogleTag />
       </head>
-      <body className="min-h-full flex flex-col bg-white pb-[72px] text-ink lg:pb-0">
+      <body className="min-h-full flex flex-col bg-white pb-20 text-ink lg:pb-0">
         <JsonLd data={siteGraph()} />
         <Header />
         <main className="flex-1">{children}</main>

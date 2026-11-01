@@ -19,7 +19,7 @@ const HOTEL_BANDS = [
 ];
 
 const field =
-  "h-10 w-full rounded-lg border border-zinc-300 bg-white px-2.5 text-sm text-ink outline-none transition placeholder:text-zinc-400 focus:border-gold focus:ring-2 focus:ring-gold-soft";
+  "h-10 w-full rounded-lg border border-zinc-200 bg-white px-2.5 text-sm text-ink outline-none transition placeholder:text-zinc-400 focus:border-brand focus:ring-2 focus:ring-brand-tint";
 const label = "mb-0.5 block text-[11px] font-semibold text-ink-soft";
 
 const todayIso = () => new Date().toISOString().slice(0, 10);
@@ -106,7 +106,7 @@ export default function EnquiryForm({
     }
   }
 
-  const card = bare ? "" : "rounded-2xl border border-gold-soft bg-white p-4 shadow-sm sm:p-5";
+  const card = bare ? "" : "rounded-[14px] border border-zinc-200 bg-white p-4 shadow-sm sm:p-5";
 
   if (status === "success") {
     return (
@@ -301,7 +301,7 @@ export default function EnquiryForm({
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-3 w-full rounded-full bg-brand py-2.5 text-sm font-semibold tracking-wide text-white shadow-sm transition hover:bg-brand-dark disabled:opacity-60"
+        className="mt-3 w-full rounded-lg bg-brand py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-60"
       >
         {status === "submitting" ? "Sending..." : "Get Free Quotes"}
       </button>

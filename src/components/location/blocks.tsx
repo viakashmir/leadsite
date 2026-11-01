@@ -3,8 +3,10 @@ import JsonLd from "@/components/JsonLd";
 import EnquiryForm from "@/components/EnquiryForm";
 import PackageCard from "@/components/PackageCard";
 import TrustTicks from "@/components/TrustTicks";
+import QuoteButton from "@/components/QuoteButton";
 import { EDITORIAL_TEAM, SITE_URL } from "@/lib/site";
 import { formatDate } from "@/lib/format";
+import { packagePhoto } from "@/lib/media";
 import { titleCase } from "@/lib/text";
 import {
   getEnquiryOptions,
@@ -69,16 +71,16 @@ export function PageHero({
   children?: React.ReactNode;
 }) {
   return (
-    <section className="border-b border-gold-soft bg-ivory">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:py-9">
+    <section className="bg-white">
+      <div className="mx-auto max-w-7xl px-4 pb-1 pt-4 sm:pt-6">
         <Breadcrumbs items={crumbs} />
-        <h1 className="mt-3 font-display text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">{titleCase(title)}</h1>
-        {subtitle && <p className="mt-2 max-w-3xl text-[15px] leading-relaxed text-ink-soft sm:text-base">{subtitle}</p>}
+        <h1 className="mt-2 font-display text-2xl font-bold leading-tight tracking-tight text-ink sm:text-[28px]">{titleCase(title)}</h1>
+        {subtitle && <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-ink-soft sm:text-[15px]">{subtitle}</p>}
         {updated && <Byline updated={updated} />}
         {badges && badges.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-2">
+          <div className="mt-3 flex flex-wrap gap-1.5">
             {badges.map((b) => (
-              <span key={b} className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-ink shadow-sm">
+              <span key={b} className="rounded-md bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-ink">
                 {b}
               </span>
             ))}
@@ -94,7 +96,7 @@ export function PageHero({
 // mirrored in the page's Article schema (author + dateModified).
 export function Byline({ updated }: { updated: Date }) {
   return (
-    <p className="mt-3 text-xs text-ink-soft">
+    <p className="mt-2 text-xs text-ink-soft">
       By{" "}
       <Link href="/editorial-policy" rel="author" className="font-semibold text-ink hover:text-brand">
         {EDITORIAL_TEAM}
@@ -109,23 +111,30 @@ export function Byline({ updated }: { updated: Date }) {
   );
 }
 
+// Soft panel colours for sections that should stand out (itinerary, inclusions).
+const TINTS = {
+  warm: "rounded-[14px] bg-[#fdf8f3] p-4 sm:p-6",
+  green: "rounded-[14px] bg-emerald-50/70 p-4 sm:p-6",
+} as const;
+
 export function Section({
   title,
   subtitle,
   children,
   id,
+  tint,
 }: {
   title: string;
   subtitle?: string;
   children: React.ReactNode;
   id?: string;
+  tint?: keyof typeof TINTS;
 }) {
   return (
-    <section id={id} className="scroll-mt-20 py-5 sm:py-7">
-      <h2 className="font-display text-xl font-extrabold leading-tight tracking-tight text-ink sm:text-2xl">{titleCase(title)}</h2>
-      <span aria-hidden className="mt-2 block h-0.5 w-10 rounded-full bg-gold" />
-      {subtitle && <p className="mt-2 text-sm text-ink-soft">{subtitle}</p>}
-      <div className="mt-4">{children}</div>
+    <section id={id} className={`scroll-mt-20 ${tint ? `my-4 ${TINTS[tint]}` : "py-4 sm:py-5"}`}>
+      <h2 className="font-display text-xl font-bold leading-tight tracking-tight text-ink sm:text-2xl">{titleCase(title)}</h2>
+      {subtitle && <p className="mt-1 text-sm text-ink-soft">{subtitle}</p>}
+      <div className="mt-3">{children}</div>
     </section>
   );
 }
@@ -152,10 +161,10 @@ export function ChipLinks({
           key={l.href}
           href={l.href}
           aria-current={l.active ? "page" : undefined}
-          className={`shrink-0 whitespace-nowrap rounded-full border px-3.5 py-1.5 text-[13px] font-medium transition ${
+          className={`shrink-0 whitespace-nowrap rounded-lg border px-3 py-1.5 text-[13px] font-medium transition ${
             l.active
-              ? "border-royal bg-royal text-white"
-              : "border-gold-soft bg-white text-ink hover:border-gold hover:text-brand"
+              ? "border-brand bg-brand text-white"
+              : "border-zinc-200 bg-white text-ink hover:border-zinc-300 hover:text-brand"
           }`}
         >
           {l.label}
@@ -176,11 +185,11 @@ export function CardLinks({
         <Link
           key={item.href}
           href={item.href}
-          className="group rounded-2xl border border-zinc-200 bg-white p-4 transition hover:border-gold hover:shadow-sm"
+          className="group rounded-xl border border-zinc-200 bg-white px-3.5 py-3 transition hover:border-zinc-300 hover:shadow-sm"
         >
           <div className="flex items-baseline justify-between gap-2">
             <h3 className="font-bold text-ink group-hover:text-brand">
-              <span className="mr-1.5 font-display text-gold">{i + 1}.</span>
+              <span className="mr-1.5 text-zinc-400">{i + 1}.</span>
               {item.title}
             </h3>
             {item.meta && <span className="shrink-0 text-xs text-ink-soft">{item.meta}</span>}
@@ -192,7 +201,7 @@ export function CardLinks({
   );
 }
 
-type PackageWithDestination = Prisma.PackageGetPayload<{ include: { destination: true } }>;
+type PackageWithDestination = Prisma.PackageGetPayload<{ include: { destination: true; city: true } }>;
 
 export function PackageGrid({
   packages,
@@ -203,23 +212,22 @@ export function PackageGrid({
 }) {
   if (packages.length === 0) {
     return (
-      <div className="flex flex-col gap-4 rounded-xl bg-gradient-to-br from-royal to-royal-2 p-5 text-white sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 rounded-[14px] bg-brand p-5 text-white sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="font-display text-lg font-extrabold leading-tight tracking-tight sm:text-xl">Get a package built around your trip</p>
           <p className="mt-1 max-w-xl text-sm leading-relaxed text-white/80">{emptyText}</p>
           <TrustTicks dark className="mt-3" />
         </div>
-        <a
-          href="#get-quotes"
-          className="shrink-0 rounded-full bg-gold px-5 py-2.5 text-center text-sm font-semibold text-royal hover:bg-gold-soft"
+        <QuoteButton
+          className="shrink-0 rounded-lg bg-white px-5 py-2.5 text-center text-sm font-semibold text-brand hover:bg-zinc-100"
         >
           Get Free Quotes
-        </a>
+        </QuoteButton>
       </div>
     );
   }
   return (
-    <div className="grid gap-3 sm:grid-cols-2">
+    <div className="grid gap-x-4 gap-y-7 sm:grid-cols-2">
       {packages.map((p) => (
         <PackageCard
           key={p.id}
@@ -231,7 +239,7 @@ export function PackageGrid({
           price={p.price}
           destinationName={p.destination.name}
           theme={p.theme}
-          heroImage={p.heroImage}
+          heroImage={packagePhoto(p)}
         />
       ))}
     </div>
@@ -244,8 +252,10 @@ function DayList({ days, start = 0 }: { days: string[]; start?: number }) {
   return (
     <ol className="space-y-1.5 text-sm leading-relaxed text-ink">
       {days.map((day, i) => (
-        <li key={i} className="flex gap-2">
-          <span className="w-11 shrink-0 pt-px text-xs font-bold text-gold">Day {start + i + 1}</span>
+        <li key={i} className="flex items-start gap-2.5">
+          <span className="mt-0.5 shrink-0 rounded-full bg-brand px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+            Day {start + i + 1}
+          </span>
           <span>{day}</span>
         </li>
       ))}
@@ -261,10 +271,10 @@ export function ItineraryCards({ itineraries }: { itineraries: Itinerary[] }) {
       {itineraries.map((it) => {
         const rest = it.days.slice(3);
         return (
-          <article key={it.title} className="flex flex-col rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
+          <article key={it.title} className="flex flex-col rounded-xl border border-zinc-200 bg-white p-4">
             <div className="flex items-start justify-between gap-3">
               <h3 className="text-[17px] font-bold leading-snug text-ink">{it.title}</h3>
-              <span className="shrink-0 rounded-md bg-royal px-2 py-0.5 text-[11px] font-bold text-white">
+              <span className="shrink-0 rounded-md bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-ink">
                 {durationLabel(it.days.length)}
               </span>
             </div>
@@ -282,12 +292,11 @@ export function ItineraryCards({ itineraries }: { itineraries: Itinerary[] }) {
             <div className="mt-auto pt-3">
               <div className="flex items-center justify-between gap-2 border-t border-zinc-100 pt-3">
                 <span className="text-xs text-ink-soft">Agents tailor hotels, days and stops</span>
-                <a
-                  href="#get-quotes"
-                  className="shrink-0 rounded-full bg-brand px-3.5 py-2 text-xs font-semibold text-white hover:bg-brand-dark"
+                <QuoteButton
+                  className="shrink-0 rounded-lg bg-brand px-3.5 py-2 text-xs font-semibold text-white hover:bg-brand-dark"
                 >
                   Get Quotes
-                </a>
+                </QuoteButton>
               </div>
             </div>
           </article>
@@ -400,7 +409,7 @@ export function QuickFacts({ facts }: { facts: { label: string; value?: string }
   const shown = facts.filter((f) => f.value);
   if (shown.length === 0) return null;
   return (
-    <dl className="grid gap-3 rounded-xl bg-panel p-4 sm:grid-cols-3">
+    <dl className="grid gap-3 rounded-[14px] bg-[#fdf8f3] p-4 sm:grid-cols-3">
       {shown.map((f) => (
         <div key={f.label}>
           <dt className="text-xs font-bold tracking-wide text-ink-soft">{f.label}</dt>
@@ -426,12 +435,12 @@ export function Faqs({ faqs }: { faqs?: { q: string; a: string }[] }) {
           })),
         }}
       />
-      <div className="divide-y divide-gold-soft overflow-hidden rounded-2xl border border-gold-soft bg-white">
+      <div className="divide-y divide-zinc-200 overflow-hidden rounded-xl border border-zinc-200 bg-white">
         {faqs.map((f) => (
-          <details key={f.q} className="group px-4 py-3.5 open:bg-ivory">
+          <details key={f.q} className="group px-4 py-3 open:bg-[#fdf8f3]">
             <summary className="flex cursor-pointer list-none items-start justify-between gap-3 font-semibold text-ink [&::-webkit-details-marker]:hidden">
               <span>{f.q}</span>
-              <span aria-hidden className="mt-0.5 shrink-0 text-lg leading-none text-gold transition group-open:rotate-45">
+              <span aria-hidden className="mt-0.5 shrink-0 text-lg leading-none text-brand transition group-open:rotate-45">
                 +
               </span>
             </summary>
