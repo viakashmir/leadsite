@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import RevealField from "@/components/admin/RevealField";
+import ContactLink from "@/components/admin/ContactLink";
 import NoteForm from "@/components/admin/NoteForm";
 import Timeline from "@/components/admin/Timeline";
 import ConfirmDeleteForm from "@/components/admin/ConfirmDeleteForm";
@@ -105,12 +105,12 @@ export default async function AdminLeadDetailPage({
               <div className="flex justify-between gap-3 border-b border-zinc-100 pb-1.5">
                 <dt className="text-zinc-500">Mobile</dt>
                 <dd>
-                  <RevealField value={lead.phone} />
+                  <ContactLink value={lead.phone} />
                 </dd>
               </div>
               <div className="flex justify-between gap-3 border-b border-zinc-100 pb-1.5">
                 <dt className="text-zinc-500">Email</dt>
-                <dd className="truncate">{lead.email ? <RevealField value={lead.email} /> : "—"}</dd>
+                <dd className="truncate">{lead.email ? <ContactLink value={lead.email} /> : "—"}</dd>
               </div>
               {lead.sourcePackage && (
                 <div className="flex justify-between gap-3 border-b border-zinc-100 pb-1.5 sm:col-span-2">

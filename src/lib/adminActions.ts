@@ -195,6 +195,26 @@ export async function deleteLead(leadId: string, redirectTo?: string): Promise<v
   if (redirectTo === "list") redirect("/admin/leads");
 }
 
+/** Deletes the leads ticked in Admin -> Leads (same cleanup as deleteLead). */
+export async function deleteLeads(formData: FormData): Promise<{ deleted: number }> {
+  await requireAdmin();
+  const ids = [...new Set(formData.getAll("ids").map(String))].filter((id) => id && id.length <= 64).slice(0, 500);
+  if (ids.length === 0) return { deleted: 0 };
+
+  const [, , , removed] = await prisma.$transaction([
+    prisma.leadUnlock.deleteMany({ where: { leadId: { in: ids } } }),
+    prisma.leadNote.deleteMany({ where: { leadId: { in: ids } } }),
+    prisma.leadActivity.deleteMany({ where: { leadId: { in: ids } } }),
+    prisma.lead.deleteMany({ where: { id: { in: ids } } }),
+  ]);
+
+  revalidatePath("/admin/leads");
+  revalidatePath("/admin");
+  revalidatePath("/agent/dashboard/leads");
+  revalidatePath("/leads", "layout");
+  return { deleted: removed.count };
+}
+
 function validateCreditPackNumbers(v: { amountINR: number; baseCredits: number; bonusCredits: number; sortOrder: number }) {
   if (!Number.isInteger(v.amountINR) || v.amountINR < 1 || v.amountINR > 10_000_000) return "Price must be a whole rupee amount";
   if (!Number.isInteger(v.baseCredits) || v.baseCredits < 1) return "Credits must be a positive whole number";

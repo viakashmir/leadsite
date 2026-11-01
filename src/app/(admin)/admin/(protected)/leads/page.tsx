@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import RevealField from "@/components/admin/RevealField";
+import ContactLink from "@/components/admin/ContactLink";
 import ConfirmDeleteForm from "@/components/admin/ConfirmDeleteForm";
 import LeadStatusBadge from "@/components/admin/LeadStatusBadge";
 import { formatDate } from "@/lib/format";
 import { properCase } from "@/lib/text";
-import { deleteLead } from "@/lib/adminActions";
+import { deleteLead, deleteLeads } from "@/lib/adminActions";
+import { BulkDeleteBar, SelectAllCheckbox } from "@/components/admin/BulkLeadSelect";
+
+const BULK_FORM = "bulk-delete-leads";
 
 const STATUSES = [
   ["", "All"],
@@ -103,10 +106,17 @@ export default async function AdminLeadsPage({
         </button>
       </form>
 
-      <div className="mt-3 overflow-x-auto rounded-lg border border-zinc-200 bg-white">
+      <div className="mt-3">
+        <BulkDeleteBar formId={BULK_FORM} action={deleteLeads} />
+      </div>
+
+      <div className="mt-2 overflow-x-auto rounded-lg border border-zinc-200 bg-white">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-zinc-200 bg-zinc-50 text-[11px] uppercase tracking-wide text-zinc-500">
             <tr>
+              <th className="w-8 py-2 pl-3">
+                <SelectAllCheckbox formId={BULK_FORM} />
+              </th>
               <th className="px-3 py-2">Traveller</th>
               <th className="px-3 py-2">Trip</th>
               <th className="hidden px-3 py-2 md:table-cell">Travel</th>
@@ -120,14 +130,29 @@ export default async function AdminLeadsPage({
           </thead>
           <tbody className="divide-y divide-zinc-100">
             {leads.map((lead) => (
-              <tr key={lead.id} className="align-top hover:bg-zinc-50">
+              <tr key={lead.id} className="align-top hover:bg-zinc-50 has-[:checked]:bg-red-50/40">
+                <td className="py-2.5 pl-3">
+                  <input
+                    type="checkbox"
+                    name="ids"
+                    value={lead.id}
+                    form={BULK_FORM}
+                    aria-label={`Select lead from ${properCase(lead.name)}`}
+                    className="h-4 w-4 rounded border-zinc-300 accent-zinc-900"
+                  />
+                </td>
                 <td className="px-3 py-2">
                   <Link href={`/admin/leads/${lead.id}`} className="font-medium text-zinc-900 hover:text-blue-700">
                     {properCase(lead.name)}
                   </Link>
-                  <div className="text-xs text-zinc-500">
-                    <RevealField value={lead.phone} />
+                  <div className="text-xs">
+                    <ContactLink value={lead.phone} />
                   </div>
+                  {lead.email && (
+                    <div className="max-w-[14rem] truncate text-xs">
+                      <ContactLink value={lead.email} className="text-zinc-500" />
+                    </div>
+                  )}
                 </td>
                 <td className="px-3 py-2 text-xs text-zinc-600">
                   <span className="font-medium text-zinc-800">{lead.city ? `${lead.city.name}, ` : ""}{lead.destination.name}</span>
