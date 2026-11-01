@@ -10,12 +10,12 @@ import { formatINR } from "@/lib/format";
 
 // Theme tag -> hotel category shown. "Premium" is 4-star, only "Luxury" is
 // 5-star; a package must be priced to pay for the category it is tagged with.
-const TIER_LABEL: Record<string, string> = { Budget: "Budget stay", "Mid-Range": "3 star", Premium: "4 star", Luxury: "5 star" };
-const TIERS = Object.keys(TIER_LABEL);
-const STYLE_TAGS = ["Honeymoon", "Family", "Friends", "Adventure", "Winter", "Pilgrimage", "Offbeat", "Weekend", "Classic"];
+export const TIER_LABEL: Record<string, string> = { Budget: "Budget stay", "Mid-Range": "3 star", Premium: "4 star", Luxury: "5 star" };
+export const TIERS = Object.keys(TIER_LABEL);
+export const STYLE_TAGS = ["Honeymoon", "Family", "Friends", "Adventure", "Winter", "Pilgrimage", "Offbeat", "Weekend", "Classic"];
 
 // "5 nights across Srinagar 3N, Pahalgam 1N, Srinagar 1N." -> stops
-function routeFromSummary(summary: string): { place: string; nights: number }[] {
+export function routeFromSummary(summary: string): { place: string; nights: number }[] {
   const m = /nights across ([^.]+)\./.exec(summary);
   if (!m) return [];
   return m[1]
