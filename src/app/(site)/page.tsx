@@ -130,8 +130,11 @@ export default async function Home() {
         )}
         {/* Shade only where the text sits, so the photo shows through on the
             right and around the form; a soft floor keeps the stats readable. */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-royal/85 via-royal/70 to-royal/90 lg:bg-gradient-to-r lg:from-royal/95 lg:via-royal/60 lg:to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-t from-royal/70 to-transparent" />
+        {/* Neutral shade, not a navy tint, so the photo keeps its real colours:
+            dark only behind the text (left on desktop, top on phones) and a
+            soft floor under the stats; text shadows do the rest. */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/45 via-black/25 to-black/55 lg:bg-gradient-to-r lg:from-black/60 lg:via-black/25 lg:to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 -z-10 h-20 bg-gradient-to-t from-black/40 to-transparent" />
         <div className="mx-auto grid max-w-7xl gap-8 px-4 pb-7 pt-6 sm:pb-10 sm:pt-10 lg:grid-cols-[1fr_380px] lg:items-center lg:gap-12">
           <div className="min-w-0">
             {snowSeason && (
@@ -146,19 +149,19 @@ export default async function Home() {
                 <span aria-hidden="true">→</span>
               </Link>
             )}
-            <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${gold} [text-shadow:0_1px_6px_rgb(0_0_0/0.4)]`}>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#f3e2bd] [text-shadow:0_1px_8px_rgb(0_0_0/0.75),0_0_2px_rgb(0_0_0/0.5)]">
               Customised tour packages · India &amp; abroad
             </p>
-            <h1 className="mt-3 max-w-2xl font-display text-[32px] font-bold leading-[1.08] tracking-tight [text-shadow:0_2px_14px_rgb(0_0_0/0.35)] sm:text-5xl">
+            <h1 className="mt-3 max-w-2xl font-display text-[32px] font-bold leading-[1.08] tracking-tight [text-shadow:0_2px_18px_rgb(0_0_0/0.55),0_1px_3px_rgb(0_0_0/0.35)] sm:text-5xl">
               Describe your trip once.
               <span className={`block ${gold}`}>Three local experts compete to plan it.</span>
             </h1>
-            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/90 [text-shadow:0_1px_8px_rgb(0_0_0/0.35)] sm:text-base">
+            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white [text-shadow:0_1px_10px_rgb(0_0_0/0.6),0_1px_2px_rgb(0_0_0/0.4)] sm:text-base">
               Get customised tour package quotes from up to 3 verified local travel agents, free. They live and work in
               your destination, send their own itinerary and price, and you book only the one you love.
             </p>
 
-            <ul className="mt-4 flex max-w-xl flex-wrap gap-x-4 gap-y-1.5 text-[13px] text-white/90 sm:mt-5 sm:grid sm:grid-cols-3 sm:gap-2 sm:text-sm">
+            <ul className="mt-4 flex max-w-xl flex-wrap gap-x-4 gap-y-1.5 text-[13px] font-medium text-white [text-shadow:0_1px_8px_rgb(0_0_0/0.6)] sm:mt-5 sm:grid sm:grid-cols-3 sm:gap-2 sm:text-sm">
               {["Free, no booking fee", "Max 3 agents see your number", "Only agents for your destination"].map((t) => (
                 <li key={t} className="flex items-center gap-1.5 sm:gap-2">
                   <span className={`text-sm sm:text-base ${gold}`} aria-hidden>
@@ -223,7 +226,7 @@ export default async function Home() {
         </div>
 
         {proof.length > 0 && (
-          <div className="border-t border-white/10 bg-royal/60 backdrop-blur-sm">
+          <div className="border-t border-white/15 bg-black/25 backdrop-blur-sm">
             <dl className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 py-4 sm:grid-cols-4">
               {proof.map((p) => (
                 <div key={p.label}>
