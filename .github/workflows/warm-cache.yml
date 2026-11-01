@@ -9,11 +9,22 @@ jobs:
   warm:
     if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: Request every sitemap page
         run: |
-          sleep 20
+          # Let fresh server instances start before sending traffic.
+          sleep 45
           curl -sf https://www.tavelpackage.in/sitemap.xml | grep -o '<loc>[^<]*</loc>' | sed -e 's/<loc>//' -e 's/<\/loc>//' > urls.txt
           echo "Pages to warm: $(wc -l < urls.txt)"
-          xargs -P 6 -n 1 curl -s -o /dev/null -w '%{http_code}\n' < urls.txt | sort | uniq -c
+          # Gentle: 3 at a time, so a cold deploy is not flooded with renders.
+          xargs -P 3 -n 1 curl -s -o /dev/null -w '%{http_code} %{url_effective}\n' < urls.txt > pass1.txt
+          awk '{print $1}' pass1.txt | sort | uniq -c
+          awk '$1 != 200 && $1 != 404 {print $2}' pass1.txt > retry.txt
+          if [ -s retry.txt ]; then
+            echo "Retrying $(wc -l < retry.txt) pages"
+            sleep 15
+            xargs -P 2 -n 1 curl -s -o /dev/null -w '%{http_code} %{url_effective}\n' < retry.txt > pass2.txt
+            awk '{print $1}' pass2.txt | sort | uniq -c
+            awk '$1 != 200 {print}' pass2.txt | head -20
+          fi

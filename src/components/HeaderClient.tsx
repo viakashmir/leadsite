@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SITE_NAME } from "@/lib/site";
@@ -11,32 +11,11 @@ export type NavMenu = {
   columns: { title: string; links: { label: string; href: string }[] }[];
 };
 
-const PLAIN_LINKS = [
-  { href: "/leads", label: "Travel Leads" },
-  { href: "/agents", label: "Find Agents" },
-];
-
 export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
   const pathname = usePathname();
-  const [signedIn, setSignedIn] = useState<boolean | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<number | null>(null);
   const [mobileSection, setMobileSection] = useState<number | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/api/agents/me")
-      .then((res) => res.json())
-      .then((data) => {
-        if (!cancelled) setSignedIn(Boolean(data.agent));
-      })
-      .catch(() => {
-        if (!cancelled) setSignedIn(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   // Close any open menu after navigating (state adjusted during render, not in an effect).
   const [lastPathname, setLastPathname] = useState(pathname);
@@ -74,40 +53,7 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
               </button>
             </div>
           ))}
-          {PLAIN_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onMouseEnter={() => setOpenMenu(null)}
-              className="rounded-md px-3 py-2 hover:text-brand"
-            >
-              {link.label}
-            </Link>
-          ))}
         </nav>
-
-        <div className="hidden items-center gap-3 whitespace-nowrap text-sm font-semibold lg:flex">
-          {signedIn ? (
-            <Link
-              href="/agent/dashboard"
-              className="rounded-full bg-royal px-4 py-2 text-white hover:bg-royal-2"
-            >
-              Agent Dashboard
-            </Link>
-          ) : (
-            <>
-              <Link href="/agent/login" className="text-ink hover:text-brand">
-                Agent Sign In
-              </Link>
-              <Link
-                href="/agent/register"
-                className="rounded-lg bg-brand px-4 py-2 text-white hover:bg-brand-dark"
-              >
-                Travel Agent? Join Us
-              </Link>
-            </>
-          )}
-        </div>
 
         <button
           type="button"
@@ -193,31 +139,7 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
                 )}
               </div>
             ))}
-            {PLAIN_LINKS.map((link) => (
-              <Link key={link.href} href={link.href} className="border-b border-zinc-100 py-3">
-                {link.label}
-              </Link>
-            ))}
           </nav>
-          <div className="mt-3 flex flex-col gap-2 text-sm font-semibold">
-            {signedIn ? (
-              <Link href="/agent/dashboard" className="rounded-[10px] bg-ink px-4 py-2.5 text-center text-white">
-                Agent Dashboard
-              </Link>
-            ) : (
-              <>
-                <Link
-                  href="/agent/login"
-                  className="rounded-[10px] border border-zinc-200 px-4 py-2.5 text-center text-ink"
-                >
-                  Agent Sign In
-                </Link>
-                <Link href="/agent/register" className="rounded-[10px] bg-brand px-4 py-2.5 text-center text-white">
-                  Travel Agent? Join Us
-                </Link>
-              </>
-            )}
-          </div>
         </div>
       )}
     </header>

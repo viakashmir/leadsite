@@ -45,12 +45,12 @@ export default function Footer() {
           <ul className="mt-2 space-y-1">
             <li>
               <Link href="/agent/register" className="hover:text-white">
-                Join Free
+                Travel Agent? Join Free
               </Link>
             </li>
             <li>
               <Link href="/leads" className="hover:text-white">
-                Buy Verified Leads
+                Travel Leads
               </Link>
             </li>
             <li>
