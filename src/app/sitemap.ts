@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { SITE_URL, absoluteUrl } from "@/lib/site";
 import { isPhoto, packagePhoto } from "@/lib/media";
 import { allRoutes } from "@/data/routes";
+import { durationsFor } from "@/lib/durations";
 import { THEMES } from "@/data/locations";
 import { fromToUrl, guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { readContent } from "@/lib/locations";
@@ -117,6 +118,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return [
       ...Object.keys(p?.fromOrigins ?? {}).map((o) => fromToUrl(o, slug)),
       ...Object.keys(p?.themes ?? {}).map((t) => themeUrl(t, slug)),
+      ...durationsFor(readContent(content)).map((d) => `${tourPackagesUrl(slug)}/${d.slug}`),
     ].map((path) => ({ url: url(path), lastModified, changeFrequency: "weekly" as const, priority: 0.7 }));
   };
 

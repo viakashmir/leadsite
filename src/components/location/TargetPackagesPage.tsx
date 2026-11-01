@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import { webPageSchema } from "@/lib/schema";
+import { durationsFor } from "@/lib/durations";
 import type { GuideContent, Itinerary } from "@/lib/locations";
 import {
   CardLinks,
@@ -230,6 +231,14 @@ export default async function TargetPackagesPage({
         {!isCircuit && (
           <div className="mt-5">
             <ChipLinks links={[{ label: "All", href: tourPackagesUrl(slug), active: !v.theme }, ...themeLinks]} scroll />
+            {!v.theme && !v.origin && durationsFor(content).length > 0 && (
+              <div className="mt-2">
+                <ChipLinks
+                  scroll
+                  links={durationsFor(content).map((d) => ({ label: `${d.nights} Nights ${d.days} Days`, href: `${tourPackagesUrl(slug)}/${d.slug}` }))}
+                />
+              </div>
+            )}
           </div>
         )}
       </PageHero>
