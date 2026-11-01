@@ -172,6 +172,29 @@ export async function updateLeadStatus(leadId: string, formData: FormData): Prom
   revalidatePath("/admin/leads");
 }
 
+/**
+ * Permanently deletes a lead with its notes, timeline and unlock records.
+ * Agents' credit history keeps the "Unlocked lead ..." entries, so the money
+ * trail survives; credits are not refunded automatically.
+ */
+export async function deleteLead(leadId: string, redirectTo?: string): Promise<void> {
+  await requireAdmin();
+  if (typeof leadId !== "string" || !leadId || leadId.length > 64) return;
+
+  await prisma.$transaction([
+    prisma.leadUnlock.deleteMany({ where: { leadId } }),
+    prisma.leadNote.deleteMany({ where: { leadId } }),
+    prisma.leadActivity.deleteMany({ where: { leadId } }),
+    prisma.lead.deleteMany({ where: { id: leadId } }),
+  ]);
+
+  revalidatePath("/admin/leads");
+  revalidatePath("/admin");
+  revalidatePath("/agent/dashboard/leads");
+  revalidatePath("/leads", "layout");
+  if (redirectTo === "list") redirect("/admin/leads");
+}
+
 function validateCreditPackNumbers(v: { amountINR: number; baseCredits: number; bonusCredits: number; sortOrder: number }) {
   if (!Number.isInteger(v.amountINR) || v.amountINR < 1 || v.amountINR > 10_000_000) return "Price must be a whole rupee amount";
   if (!Number.isInteger(v.baseCredits) || v.baseCredits < 1) return "Credits must be a positive whole number";

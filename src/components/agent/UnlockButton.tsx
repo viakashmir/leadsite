@@ -15,7 +15,7 @@ export default function UnlockButton({ leadId, price }: { leadId: string; price:
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-brand px-4 py-2 text-xs font-semibold text-white hover:bg-brand-dark disabled:opacity-60"
+        className="rounded-full bg-brand px-4 py-2 text-xs font-semibold text-white transition hover:bg-brand-dark disabled:opacity-60"
       >
         {pending ? "Buying…" : `Buy Now · ${price} credits`}
       </button>

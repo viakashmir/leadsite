@@ -2,9 +2,9 @@ import Link from "next/link";
 import { requireAgent } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { maskContactsInText, maskEmail, maskName, maskPhone } from "@/lib/mask";
-import { formatDate } from "@/lib/format";
 import UnlockButton from "@/components/agent/UnlockButton";
 import { buyersLeft, HiddenContact, SoldOutBadge } from "@/components/LeadContact";
+import { LeadCardShell, LeadPerson } from "@/components/LeadCard";
 
 export default async function AgentLeadsPage({ searchParams }: { searchParams: Promise<{ lead?: string }> }) {
   const agent = await requireAgent();
@@ -76,69 +76,61 @@ export default async function AgentLeadsPage({ searchParams }: { searchParams: P
           const soldOut = left === 0 && !purchased;
           const focused = lead.id === focusId;
 
-          return (
-            <div
-              key={lead.id}
-              id={`lead-${lead.id}`}
-              className={`scroll-mt-24 rounded-lg border bg-white p-4 ${focused ? "border-brand ring-2 ring-brand/30" : "border-zinc-200"}`}
-            >
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-sm font-medium text-zinc-900">
-                  {lead.durationDays ?? "Multi"}-day {lead.destination.name}
-                  {lead.city ? ` (${lead.city.name})` : ""} for {lead.adults} adult
-                  {lead.adults > 1 ? "s" : ""}
-                  {lead.children ? ` + ${lead.children} children` : ""}
-                </p>
-                {lead.verified && (
-                  <span className="rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700">Verified</span>
-                )}
-              </div>
-              {lead.message && (
-                <p className="mt-1 text-xs text-zinc-500">{purchased ? lead.message : maskContactsInText(lead.message)}</p>
-              )}
-              <p className="mt-1 text-xs text-zinc-400">
-                Posted {formatDate(lead.createdAt)}
-                {lead.travelDate ? ` · Travel ${formatDate(lead.travelDate)}` : ""}
-                {lead.budgetBand ? ` · Budget: ${lead.budgetBand}` : ""}
-                {lead.originCity ? ` · From ${lead.originCity}` : ""}
-              </p>
+          const trip = {
+            destinationName: lead.destination.name,
+            cityName: lead.city?.name ?? null,
+            originCity: lead.originCity,
+            travelDate: lead.travelDate,
+            durationDays: lead.durationDays,
+            adults: lead.adults,
+            children: lead.children,
+            budgetBand: lead.budgetBand,
+            message: lead.message ? (purchased ? lead.message : maskContactsInText(lead.message)) : null,
+            status: lead.status,
+            createdAt: lead.createdAt,
+          };
+          const tel = lead.phone.replace(/[^\d+]/g, "");
 
-              <div className="mt-3 flex items-center justify-between gap-3 border-t border-zinc-100 pt-3">
-                {purchased ? (
-                  <div className="text-sm">
-                    <p className="font-medium text-zinc-900">{lead.name}</p>
-                    <a href={`tel:${lead.phone}`} className="block text-brand hover:underline">
-                      📞 {lead.phone}
+          return (
+            <LeadCardShell key={lead.id} id={`lead-${lead.id}`} focused={focused} lead={trip}>
+              {purchased ? (
+                <>
+                  <LeadPerson name={lead.name} lines={[lead.phone, lead.email]} verified={lead.verified} highlight />
+                  <div className="flex shrink-0 items-center gap-1.5">
+                    <a href={`tel:${tel}`} className="rounded-full bg-green-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-green-700">
+                      Call
                     </a>
-                    {lead.email && (
-                      <a href={`mailto:${lead.email}`} className="block text-brand hover:underline">
-                        ✉️ {lead.email}
-                      </a>
-                    )}
+                    <a
+                      href={`https://wa.me/${tel.replace(/^\+/, "")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full px-3 py-1.5 text-xs font-semibold text-green-700 ring-1 ring-inset ring-green-200 hover:bg-green-50"
+                    >
+                      WhatsApp
+                    </a>
                   </div>
-                ) : (
-                  // Only masked values are rendered; the real ones never leave the server.
+                </>
+              ) : (
+                <>
+                  {/* Only masked values are rendered; the real ones never leave the server. */}
                   <HiddenContact
                     name={maskName(lead.name)}
                     phone={maskPhone(lead.phone)}
                     email={lead.email ? maskEmail(lead.email) : null}
                   />
-                )}
-
-                {purchased ? (
-                  <span className="rounded-md bg-green-50 px-3 py-2 text-xs font-semibold text-green-700">Purchased</span>
-                ) : soldOut ? (
-                  <SoldOutBadge />
-                ) : (
-                  <div className="flex flex-col items-end gap-1">
-                    <UnlockButton leadId={lead.id} price={lead.unlockPrice} />
-                    <span className="text-[10px] text-zinc-400">
-                      {left} of {lead.maxUnlocks} left
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
+                  {soldOut ? (
+                    <SoldOutBadge />
+                  ) : (
+                    <div className="flex flex-col items-end gap-1">
+                      <UnlockButton leadId={lead.id} price={lead.unlockPrice} />
+                      <span className="text-[10px] text-zinc-400">
+                        {left} of {lead.maxUnlocks} left
+                      </span>
+                    </div>
+                  )}
+                </>
+              )}
+            </LeadCardShell>
           );
         })}
       </div>

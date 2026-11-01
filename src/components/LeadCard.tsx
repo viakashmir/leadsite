@@ -129,3 +129,106 @@ export default function LeadCard({ lead }: { lead: LeadCardData }) {
     </article>
   );
 }
+
+// Shared shell for lead cards: title, trip chips and the traveller's note on
+// top, and whatever the page needs (contact + action) in the footer row.
+export type LeadTrip = {
+  destinationName: string;
+  cityName: string | null;
+  originCity: string | null;
+  travelDate: Date | null;
+  durationDays: number | null;
+  adults: number;
+  children: number;
+  budgetBand: string | null;
+  message: string | null;
+  status: string;
+  createdAt: Date;
+};
+
+export function LeadCardShell({
+  lead,
+  id,
+  focused = false,
+  children,
+}: {
+  lead: LeadTrip;
+  id?: string;
+  focused?: boolean;
+  children: React.ReactNode;
+}) {
+  const place = lead.cityName ?? lead.destinationName;
+  const title = `${lead.durationDays ? `${lead.durationDays}-Day ` : ""}${place} Tour${
+    lead.originCity ? ` from ${properCase(lead.originCity)}` : ""
+  }`;
+  const travellers =
+    plural(lead.adults, "Adult", "Adults") + (lead.children ? ` · ${plural(lead.children, "Child", "Children")}` : "");
+
+  return (
+    <article
+      id={id}
+      className={`scroll-mt-24 rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md ${
+        focused ? "border-brand ring-2 ring-brand/30" : "border-zinc-200 hover:border-brand/30"
+      }`}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="text-[15px] font-semibold leading-snug text-ink">{title}</h3>
+        <div className="flex shrink-0 items-center gap-2">
+          {lead.status === "BOOKED" && (
+            <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-medium text-zinc-500">Booked</span>
+          )}
+          <span className="text-[11px] text-ink-soft">{formatDate(lead.createdAt)}</span>
+        </div>
+      </div>
+
+      <div className="mt-2 flex flex-wrap gap-1.5">
+        <Chip icon="calendar">{lead.travelDate ? formatDate(lead.travelDate) : "Flexible Dates"}</Chip>
+        {lead.durationDays ? <Chip icon="clock">{plural(lead.durationDays, "Day", "Days")}</Chip> : null}
+        <Chip icon="users">{travellers}</Chip>
+        {lead.budgetBand && <Chip icon="wallet">{lead.budgetBand}</Chip>}
+      </div>
+
+      {lead.message && (
+        <p className="mt-2 line-clamp-2 border-l-2 border-gold pl-2 text-xs italic text-ink-soft">
+          {sentenceCase(lead.message)}
+        </p>
+      )}
+
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-100 pt-3">{children}</div>
+    </article>
+  );
+}
+
+export function LeadPerson({
+  name,
+  lines,
+  verified,
+  highlight = false,
+}: {
+  name: string;
+  lines: (string | null | undefined)[];
+  verified?: boolean;
+  highlight?: boolean;
+}) {
+  const shown = properCase(name);
+  return (
+    <div className="flex min-w-0 items-center gap-2.5">
+      <span
+        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white ${
+          highlight ? "bg-green-600" : "bg-brand"
+        }`}
+      >
+        {shown.charAt(0)}
+      </span>
+      <div className="min-w-0 text-xs">
+        <p className="flex items-center gap-1.5 font-semibold text-ink">
+          {shown}
+          {verified && (
+            <span className="rounded-full bg-green-50 px-1.5 py-0.5 text-[10px] font-medium text-green-700">✓ Verified</span>
+          )}
+        </p>
+        <p className={`truncate ${highlight ? "font-medium text-ink" : "text-ink-soft"}`}>{lines.filter(Boolean).join(" · ")}</p>
+      </div>
+    </div>
+  );
+}
