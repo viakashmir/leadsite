@@ -132,7 +132,7 @@ export default async function Home() {
             right and around the form; a soft floor keeps the stats readable. */}
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-royal/85 via-royal/70 to-royal/90 lg:bg-gradient-to-r lg:from-royal/95 lg:via-royal/60 lg:to-transparent" />
         <div className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-t from-royal/70 to-transparent" />
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 pb-8 pt-8 sm:pb-10 sm:pt-10 lg:grid-cols-[1fr_380px] lg:items-center lg:gap-12">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 pb-7 pt-6 sm:pb-10 sm:pt-10 lg:grid-cols-[1fr_380px] lg:items-center lg:gap-12">
           <div className="min-w-0">
             {snowSeason && (
               <Link
@@ -158,10 +158,10 @@ export default async function Home() {
               your destination, send their own itinerary and price, and you book only the one you love.
             </p>
 
-            <ul className="mt-5 grid max-w-xl gap-2 text-sm text-white/90 sm:grid-cols-3">
+            <ul className="mt-4 flex max-w-xl flex-wrap gap-x-4 gap-y-1.5 text-[13px] text-white/90 sm:mt-5 sm:grid sm:grid-cols-3 sm:gap-2 sm:text-sm">
               {["Free, no booking fee", "Max 3 agents see your number", "Only agents for your destination"].map((t) => (
-                <li key={t} className="flex items-center gap-2">
-                  <span className={`text-base ${gold}`} aria-hidden>
+                <li key={t} className="flex items-center gap-1.5 sm:gap-2">
+                  <span className={`text-sm sm:text-base ${gold}`} aria-hidden>
                     ✦
                   </span>
                   {t}
@@ -169,7 +169,21 @@ export default async function Home() {
               ))}
             </ul>
 
-            <div className="mt-6 flex flex-wrap items-center gap-3">
+            {/* Phones: an app-style "where to?" bar that opens the quote sheet. */}
+            <div className="mt-5 lg:hidden">
+              <QuoteButton className="flex w-full items-center gap-3 rounded-2xl bg-white p-2 pl-4 text-left shadow-xl shadow-black/25">
+                <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 text-brand" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                  <path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Zm0-9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                </svg>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-semibold text-ink">Where do you want to go?</span>
+                  <span className="block truncate text-[11px] text-ink-soft">Free quotes from 3 local experts</span>
+                </span>
+                <span className="shrink-0 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white">Plan Trip</span>
+              </QuoteButton>
+            </div>
+
+            <div className="mt-6 hidden flex-wrap items-center gap-3 lg:flex">
               <QuoteButton className="rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 hover:bg-brand-dark">
                 Plan My Trip, Free
               </QuoteButton>
@@ -179,19 +193,27 @@ export default async function Home() {
             </div>
 
             {/* Phones: one tap from a destination to its pre-filled form. */}
-            <div className="mt-6 lg:hidden">
-              <p className="text-xs text-white/60">Or start with a destination</p>
-              <div className="no-scrollbar -mx-4 mt-2 flex gap-2 overflow-x-auto px-4">
+            <div className="mt-5 lg:hidden">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-white/70">Popular right now</p>
+              <div className="no-scrollbar -mx-4 mt-2 flex gap-2 overflow-x-auto px-4 pb-1">
                 {quickPicks.map((d) => (
                   <Link
                     key={d.id}
                     href={`${tourPackagesUrl(d.slug)}#get-quotes`}
-                    className="shrink-0 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 text-xs font-medium text-white backdrop-blur hover:bg-white/20"
+                    className="flex shrink-0 items-center gap-2 rounded-full border border-white/25 bg-white/15 py-1 pl-1 pr-3.5 text-xs font-semibold text-white backdrop-blur hover:bg-white/25"
                   >
+                    {isPhoto(d.heroImage) ? (
+                      <Image src={d.heroImage} alt="" width={28} height={28} className="h-7 w-7 rounded-full object-cover" />
+                    ) : (
+                      <span className="h-7 w-7 rounded-full bg-white/20" aria-hidden />
+                    )}
                     {d.name}
                   </Link>
                 ))}
               </div>
+              <Link href="#live-leads" className="mt-4 inline-block text-xs font-semibold text-white/85 underline-offset-4 hover:underline">
+                Travel agent? See live trip requests →
+              </Link>
             </div>
           </div>
 
@@ -216,31 +238,38 @@ export default async function Home() {
 
       <div className="mx-auto max-w-7xl px-4">
         {/* 2. HOW IT WORKS + PRIVACY PROMISE: removes the doubt before sharing a number. */}
-        <section className="grid gap-6 py-10 sm:py-14 lg:grid-cols-[1fr_380px] lg:gap-10">
+        <section className="grid gap-5 py-8 sm:gap-6 sm:py-14 lg:grid-cols-[1fr_380px] lg:gap-10">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">How it works</p>
             <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
               Better than one agency&apos;s fixed package
             </h2>
-            <ol className="mt-6 grid gap-4 sm:grid-cols-3">
+            <ol className="mt-4 grid gap-2.5 sm:mt-6 sm:grid-cols-3 sm:gap-4">
               {[
                 ["Share your plan", "Destination, dates, group and hotel budget. Takes under a minute."],
                 ["Get up to 3 quotes", "Local agents who run trips there send custom itineraries and prices."],
                 ["Compare and choose", "Ask questions, negotiate, and book only the one that fits you."],
               ].map(([t, d], i) => (
-                <li key={t} className="rounded-[14px] border border-zinc-200 bg-white p-5">
-                  <span className="font-display text-3xl font-bold text-gold">0{i + 1}</span>
-                  <p className="mt-2 font-semibold text-ink">{t}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-ink-soft">{d}</p>
+                <li key={t} className="flex items-start gap-3 rounded-[14px] border border-zinc-200 bg-white p-3.5 sm:block sm:p-5">
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-tint font-display text-sm font-bold text-brand sm:block sm:h-auto sm:w-auto sm:bg-transparent sm:text-3xl sm:text-gold">
+                    0{i + 1}
+                  </span>
+                  <div>
+                    <p className="font-semibold text-ink sm:mt-2">{t}</p>
+                    <p className="mt-0.5 text-[13px] leading-relaxed text-ink-soft sm:mt-1 sm:text-sm">{d}</p>
+                  </div>
                 </li>
               ))}
             </ol>
           </div>
-          <aside className="rounded-[14px] bg-[#fdf8f3] p-6">
-            <p className="text-2xl" aria-hidden>
-              🔒
-            </p>
-            <h3 className="mt-2 font-display text-xl font-bold text-ink">Our privacy promise</h3>
+          <aside className="rounded-[14px] bg-[#fdf8f3] p-5 sm:p-6">
+            <h3 className="flex items-center gap-2 font-display text-lg font-bold text-ink sm:text-xl">
+              <svg viewBox="0 0 24 24" className="h-5 w-5 text-gold" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="4" y="10" width="16" height="11" rx="2" />
+                <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+              </svg>
+              Our privacy promise
+            </h3>
             <ul className="mt-3 space-y-2 text-sm text-ink-soft">
               <li>Your number is never shown on a public page.</li>
               <li>At most 3 verified agents can see it, never more.</li>
@@ -255,7 +284,7 @@ export default async function Home() {
 
         {/* 3. DESTINATION MOSAIC: inspiration + internal links into the money pages. */}
         {mosaic.length >= 3 && (
-          <section className="pb-10 sm:pb-14">
+          <section className="pb-8 sm:pb-14">
             <div className="flex items-end justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">Where travellers are heading</p>
@@ -265,26 +294,24 @@ export default async function Home() {
                 All destinations →
               </Link>
             </div>
-            <div className="mt-5 grid auto-rows-[150px] grid-cols-2 gap-3 sm:auto-rows-[190px] sm:grid-cols-4">
+            <div className="no-scrollbar -mx-4 mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:mt-5 sm:grid sm:auto-rows-[190px] sm:grid-cols-4 sm:overflow-visible sm:px-0">
               {mosaic.map((d, i) => (
                 <Link
                   key={d.id}
                   href={tourPackagesUrl(d.slug)}
-                  className={`group relative overflow-hidden rounded-[14px] bg-zinc-200 ${i === 0 ? "col-span-2 row-span-2" : ""}`}
+                  className={`group relative aspect-[3/4] w-[42%] shrink-0 snap-start overflow-hidden rounded-[14px] bg-zinc-200 sm:aspect-auto sm:w-auto ${i === 0 ? "sm:col-span-2 sm:row-span-2" : ""}`}
                 >
                   <Image
                     src={d.heroImage}
                     alt={`${d.name} tour packages`}
                     fill
-                    sizes={i === 0 ? "(min-width: 640px) 50vw, 100vw" : "(min-width: 640px) 25vw, 50vw"}
+                    sizes={i === 0 ? "(min-width: 640px) 50vw, 45vw" : "(min-width: 640px) 25vw, 45vw"}
                     className="object-cover transition duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-3 text-white sm:p-4">
-                    <p className={`font-display font-bold ${i === 0 ? "text-2xl sm:text-3xl" : "text-lg"}`}>{d.name}</p>
-                    {d._count.leads > 0 && (
-                      <p className="text-xs text-white/80">{d._count.leads.toLocaleString("en-IN")} trip requests</p>
-                    )}
+                    <p className={`font-display font-bold ${i === 0 ? "text-lg sm:text-3xl" : "text-lg"}`}>{d.name}</p>
+                    <p className="text-xs text-white/80">View packages →</p>
                   </div>
                 </Link>
               ))}
