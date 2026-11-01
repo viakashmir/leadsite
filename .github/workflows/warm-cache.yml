@@ -1,0 +1,19 @@
+# After each production deploy, request every sitemap page once so Vercel
+# builds and caches it before a visitor arrives (otherwise the first visit
+# to each page after a deploy waits for it to be rendered).
+name: Warm cache after deploy
+
+on: deployment_status
+
+jobs:
+  warm:
+    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Request every sitemap page
+        run: |
+          sleep 20
+          curl -sf https://www.tavelpackage.in/sitemap.xml | grep -o '<loc>[^<]*</loc>' | sed -e 's/<loc>//' -e 's/<\/loc>//' > urls.txt
+          echo "Pages to warm: $(wc -l < urls.txt)"
+          xargs -P 6 -n 1 curl -s -o /dev/null -w '%{http_code}\n' < urls.txt | sort | uniq -c

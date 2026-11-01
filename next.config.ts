@@ -32,6 +32,13 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "pixabay.com" },
       { protocol: "https", hostname: "cdn.pixabay.com" },
     ],
+    // Fewer widths = each one is reused (and cached) more often. Our photos
+    // are stored at up to 1600px, so larger widths only waste bytes.
+    deviceSizes: [640, 828, 1080, 1280, 1600],
+    imageSizes: [64, 128, 256, 384],
+    // /media URLs change whenever a photo changes (new slug), so optimised
+    // copies can safely stay cached for a year.
+    minimumCacheTTL: 31536000,
   },
   // IndexNow expects the key at /{key}.txt on the site root.
   async rewrites() {

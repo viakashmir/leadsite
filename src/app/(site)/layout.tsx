@@ -7,6 +7,7 @@ import JsonLd from "@/components/JsonLd";
 import MobileQuoteBar from "@/components/MobileQuoteBar";
 import Analytics from "@/components/Analytics";
 import GoogleTag from "@/components/GoogleTag";
+import NavigationProgress from "@/components/NavigationProgress";
 import { getEnquiryOptions } from "@/lib/locations";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import { LOGO_URL, siteGraph } from "@/lib/schema";
@@ -65,6 +66,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <GoogleTag />
       </head>
       <body className="min-h-full flex flex-col bg-white pb-20 text-ink lg:pb-0">
+        <NavigationProgress />
         <JsonLd data={siteGraph()} />
         <Header />
         <main className="flex-1">{children}</main>
