@@ -42,10 +42,8 @@ export default async function Home() {
     .filter((d) => d.photoCities.length >= 3)
     .slice(0, 4);
   const strip = destinations.filter((d) => isPhoto(d.heroImage));
+  // Only the destination count is shown; live enquiry and agent counts are hidden for now.
   const statLine = [
-    [stats.leadCount, "travel enquiries"],
-    [stats.agentCount, "verified agents"],
-    [stats.packageCount, "tour packages"],
     [stats.destinationCount, "destinations"],
   ].filter(([n]) => Number(n) > 0);
 
