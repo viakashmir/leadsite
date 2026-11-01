@@ -21,6 +21,9 @@ const BUDGET_BANDS = [
   { value: "Above ₹60,000 per person", label: "60k+" },
 ];
 
+// Place chips shown before "+N more".
+const PLACES_SHOWN = 6;
+
 // Destination pre-selected on forms that don't already know the place.
 const DEFAULT_DESTINATION_SLUG = "kashmir";
 
@@ -78,7 +81,11 @@ export default function EnquiryForm({
   const [destinationId, setDestinationId] = useState(
     defaultDestinationId ?? destinations.find((d) => d.slug === DEFAULT_DESTINATION_SLUG)?.id ?? "",
   );
-  const [cityId, setCityId] = useState(defaultCityId ?? "");
+  // Places within the destination: travellers can pick several (or none =
+  // anywhere). The first is the lead's main place; agents get the full list.
+  const [cityIds, setCityIds] = useState<string[]>(defaultCityId ? [defaultCityId] : []);
+  const [allPlaces, setAllPlaces] = useState(false);
+  const toggleCity = (cid: string) => setCityIds((cur) => (cur.includes(cid) ? cur.filter((x) => x !== cid) : [...cur, cid]));
   const [hotel, setHotel] = useState(HOTEL_BANDS[1].value);
   // Free text, so travellers can write their own budget ("₹50,000 for two");
   // the bands are offered as suggestions.
@@ -90,7 +97,10 @@ export default function EnquiryForm({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const selectedDestination = destinations.find((d) => d.id === destinationId);
-  const placeName = selectedDestination?.cities.find((c) => c.id === cityId)?.name ?? selectedDestination?.name;
+  const pickedNames = cityIds
+    .map((cid) => selectedDestination?.cities.find((c) => c.id === cid)?.name)
+    .filter((n): n is string => Boolean(n));
+  const placeName = pickedNames.length ? pickedNames.join(", ") : selectedDestination?.name;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -115,7 +125,7 @@ export default function EnquiryForm({
       email: form.get("email") ?? "",
       originCity: form.get("originCity") ?? "",
       destinationId: form.get("destinationId"),
-      cityId: form.get("cityId") ?? "",
+      cityId: cityIds[0] ?? "",
       sourcePackageId: sourcePackageId ?? "",
       travelDate: form.get("travelDate"),
       durationDays: form.get("durationDays") || undefined,
@@ -123,7 +133,9 @@ export default function EnquiryForm({
       children: form.get("children") || 0,
       // e.g. "₹15,000 to ₹25,000 per person · Standard (3-4 Star)"
       budgetBand: budget.trim() ? `${budget.trim()} · ${hotel}` : hotel,
-      message: form.get("message") ?? "",
+      message: [pickedNames.length > 1 ? `Places: ${pickedNames.join(", ")}.` : "", String(form.get("message") ?? "").trim()]
+        .filter(Boolean)
+        .join(" "),
       website: form.get("website") ?? "",
     };
 
@@ -174,6 +186,11 @@ export default function EnquiryForm({
   }
 
   const hasCities = Boolean(selectedDestination && selectedDestination.cities.length > 0);
+  // First few places, plus any already picked (e.g. the page's own place).
+  const visiblePlaces = (selectedDestination?.cities ?? []).filter(
+    (c, i) => allPlaces || i < PLACES_SHOWN || cityIds.includes(c.id),
+  );
+  const hiddenPlaces = (selectedDestination?.cities.length ?? 0) - visiblePlaces.length;
 
   // Five short rows, sized so the whole form (and its button) fits beside the
   // content on a laptop screen and inside one phone screen.
@@ -194,7 +211,7 @@ export default function EnquiryForm({
       </p>
 
       <div className={`grid gap-x-2 ${tight ? "mt-2.5 grid-cols-12 gap-y-2" : "mt-3 grid-cols-6 gap-y-2"}`}>
-        <div className={hasCities ? span("col-span-3", "col-span-6") : span("col-span-6", "col-span-12")}>
+        <div className={span("col-span-6", "col-span-12")}>
           <label className={label} htmlFor={id("dest")}>
             Destination
           </label>
@@ -205,7 +222,8 @@ export default function EnquiryForm({
             value={destinationId}
             onChange={(e) => {
               setDestinationId(e.target.value);
-              setCityId("");
+              setCityIds([]);
+              setAllPlaces(false);
             }}
             className={field}
           >
@@ -220,18 +238,38 @@ export default function EnquiryForm({
           </select>
         </div>
         {hasCities && (
-          <div className={span("col-span-3", "col-span-6")}>
-            <label className={label} htmlFor={id("city")}>
-              Place
-            </label>
-            <select id={id("city")} name="cityId" value={cityId} onChange={(e) => setCityId(e.target.value)} className={field}>
-              <option value="">Anywhere</option>
-              {selectedDestination!.cities.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
+          <div className={span("col-span-6", "col-span-12")} role="group" aria-labelledby={id("places")}>
+            <p id={id("places")} className={label}>
+              Places <span className="font-normal">(pick any, or leave for anywhere)</span>
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {visiblePlaces.map((c) => {
+                const on = cityIds.includes(c.id);
+                return (
+                  <button
+                    key={c.id}
+                    type="button"
+                    aria-pressed={on}
+                    onClick={() => toggleCity(c.id)}
+                    className={`rounded-full border px-2.5 py-1 text-xs font-medium transition ${
+                      on ? "border-brand bg-brand text-white" : "border-zinc-200 bg-white text-ink hover:border-brand/40"
+                    }`}
+                  >
+                    {on ? "✓ " : ""}
+                    {c.name}
+                  </button>
+                );
+              })}
+              {hiddenPlaces > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setAllPlaces(true)}
+                  className="rounded-full px-2 py-1 text-xs font-semibold text-brand hover:underline"
+                >
+                  +{hiddenPlaces} more
+                </button>
+              )}
+            </div>
           </div>
         )}
 

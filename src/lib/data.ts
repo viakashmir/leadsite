@@ -4,7 +4,7 @@ import { getLeadPricing } from "@/lib/leadPricing";
 export async function getDestinationsWithCities() {
   return prisma.destination.findMany({
     orderBy: { name: "asc" },
-    include: { cities: { orderBy: { name: "asc" } } },
+    include: { cities: { orderBy: [{ tier: "asc" }, { sortOrder: "asc" }, { name: "asc" }] } },
   });
 }
 
@@ -12,7 +12,7 @@ export async function getDestinationsWithCitiesAndLeadCounts(filter: { tier?: nu
   return prisma.destination.findMany({
     where: { kind: { not: "CIRCUIT" }, ...(filter.tier ? { tier: filter.tier } : {}) },
     orderBy: [{ isInternational: "asc" }, { sortOrder: "asc" }],
-    include: { cities: { orderBy: { name: "asc" } }, _count: { select: { leads: true } } },
+    include: { cities: { orderBy: [{ tier: "asc" }, { sortOrder: "asc" }, { name: "asc" }] }, _count: { select: { leads: true } } },
   });
 }
 

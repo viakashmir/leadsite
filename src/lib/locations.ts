@@ -172,7 +172,9 @@ export const getEnquiryOptions = cache(async () => {
       id: true,
       slug: true,
       name: true,
-      cities: { orderBy: { name: "asc" }, select: { id: true, slug: true, name: true } },
+      // Most-visited places first (tier, then editorial order), so the quote
+      // form's place chips lead with Srinagar, Gulmarg, Pahalgam...
+      cities: { orderBy: [{ tier: "asc" }, { sortOrder: "asc" }, { name: "asc" }], select: { id: true, slug: true, name: true } },
     },
   });
   return rows;
