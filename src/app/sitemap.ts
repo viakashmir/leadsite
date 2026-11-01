@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { SITE_URL, absoluteUrl } from "@/lib/site";
 import { isPhoto } from "@/lib/media";
+import { allRoutes } from "@/data/routes";
 import { THEMES } from "@/data/locations";
 import { fromToUrl, guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { readContent } from "@/lib/locations";
@@ -130,5 +131,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...images(p.heroImage),
   }));
 
-  return [...staticRoutes, ...destinationRoutes, ...cityRoutes, ...placeRoutes, ...packageRoutes];
+  // Origin-to-city route pages, for cities whose guide is READY.
+  const readyCities = new Map(cities.map((c) => [c.slug, c.updatedAt]));
+  const routeRoutes: MetadataRoute.Sitemap = allRoutes()
+    .filter((r) => readyCities.has(r.target.city))
+    .map((r) => ({
+      url: url(guideUrl(r.target.destination, r.target.city, "how-to-reach", r.slug)),
+      lastModified: readyCities.get(r.target.city),
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    }));
+
+  return [...staticRoutes, ...destinationRoutes, ...cityRoutes, ...placeRoutes, ...routeRoutes, ...packageRoutes];
 }

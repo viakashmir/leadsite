@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import { webPageSchema } from "@/lib/schema";
+import RoutePage, { routeDescription, routeTitle } from "@/components/location/RoutePage";
+import { getRoute, routeSlug, routesTo } from "@/data/routes";
 import { isPhoto } from "@/lib/media";
 import { absoluteUrl } from "@/lib/site";
 import {
@@ -40,6 +42,12 @@ export type GuideRoute =
   | { kind: "overview"; destination: DestinationWithTree; city: CityWithPlaces | null }
   | { kind: "section"; destination: DestinationWithTree; city: CityWithPlaces | null; section: SectionSlug }
   | {
+      kind: "route";
+      destination: DestinationWithTree;
+      city: CityWithPlaces;
+      route: NonNullable<ReturnType<typeof getRoute>>;
+    }
+  | {
       kind: "place";
       destination: DestinationWithTree;
       city: CityWithPlaces | null;
@@ -67,6 +75,10 @@ export async function resolveGuide(destSlug: string, path: string[]): Promise<Gu
   if (rest.length === 0) return { kind: "overview", destination, city };
   if (!isSection(rest[0])) return null;
   if (rest.length === 1) return { kind: "section", destination, city, section: rest[0] };
+  if (rest.length === 2 && rest[0] === "how-to-reach" && city) {
+    const route = getRoute(city.slug, rest[1]);
+    return route ? { kind: "route", destination, city, route } : null;
+  }
   if (rest.length === 2 && (rest[0] === "places-to-visit" || rest[0] === "things-to-do")) {
     const placePath = [city?.slug, rest[0], rest[1]].filter(Boolean).join("/");
     const place = await getPlace(placePath);
@@ -91,6 +103,7 @@ function names(r: GuideRoute) {
           : `${sectionName(r.section)} in ${where}`;
     return { where, title: r.section === "best-time-to-visit" ? `Best Time to Visit ${where}` : t };
   }
+  if (r.kind === "route") return { where, title: `${routeTitle(r.route)} Distance and How to Reach` };
   return { where, title: `${r.place.name}, ${where}` };
 }
 
@@ -98,6 +111,7 @@ function names(r: GuideRoute) {
 // when that section actually has something to show.
 async function indexable(r: GuideRoute) {
   const status = r.kind === "place" ? r.place.contentStatus : r.city ? r.city.contentStatus : r.destination.contentStatus;
+  if (r.kind === "route") return status === "READY";
   if (status !== "READY") return false;
   if (r.kind !== "section") return true;
   const c = readContent(r.city ? r.city.content : r.destination.content);
@@ -123,6 +137,7 @@ async function indexable(r: GuideRoute) {
 function pathOf(r: GuideRoute) {
   const d = r.destination.slug;
   if (r.kind === "place") return guideUrl(d, r.place.path);
+  if (r.kind === "route") return guideUrl(d, r.city.slug, "how-to-reach", routeSlug(r.route.origin.slug, r.city.slug));
   if (r.kind === "section") return guideUrl(d, r.city?.slug, r.section);
   return guideUrl(d, r.city?.slug);
 }
@@ -138,6 +153,17 @@ const SECTION_DESCRIPTIONS: Record<SectionSlug, (where: string) => string> = {
 export async function guideMetadata(r: GuideRoute): Promise<Metadata> {
   const { title, where } = names(r);
   const own = readContent(r.city ? r.city.content : r.destination.content);
+  if (r.kind === "route") {
+    const t = `${routeTitle(r.route)} Distance, Route, Bus, Train & Flight`;
+    const desc = routeDescription(r.route);
+    return {
+      title: t,
+      description: desc,
+      alternates: { canonical: pathOf(r) },
+      openGraph: { title: t, description: desc, url: pathOf(r) },
+      robots: (await indexable(r)) ? undefined : { index: false, follow: true },
+    };
+  }
   const description =
     r.kind === "place"
       ? `${r.place.name} in ${where}: what to see, when to go, how to get there, and tour packages that include it.`
@@ -158,12 +184,20 @@ function crumbsFor(r: GuideRoute): Crumb[] {
   const d = r.destination;
   const crumbs: Crumb[] = [{ name: `${d.name} Tourism`, href: guideUrl(d.slug) }];
   if (r.city) crumbs.push({ name: r.city.name, href: guideUrl(d.slug, r.city.slug) });
-  if (r.kind === "section" || r.kind === "place") {
-    const sec = r.kind === "section" ? r.section : r.place.kind === "ACTIVITY" ? "things-to-do" : "places-to-visit";
+  if (r.kind === "section" || r.kind === "place" || r.kind === "route") {
+    const sec =
+      r.kind === "section"
+        ? r.section
+        : r.kind === "route"
+          ? "how-to-reach"
+          : r.place.kind === "ACTIVITY"
+            ? "things-to-do"
+            : "places-to-visit";
     const label = GUIDE_SECTIONS.find((g) => g.slug === sec)!.name;
     crumbs.push({ name: label, href: guideUrl(d.slug, r.city?.slug, sec) });
   }
   if (r.kind === "place") crumbs.push({ name: r.place.name, href: pathOf(r) });
+  if (r.kind === "route") crumbs.push({ name: routeTitle(r.route), href: pathOf(r) });
   return crumbs;
 }
 
@@ -183,6 +217,19 @@ async function destinationWidePlaces(destinationId: string, kind: "PLACE" | "ACT
 
 export default async function GuidePage({ route: r }: { route: GuideRoute }) {
   const d = r.destination;
+  if (r.kind === "route") {
+    return (
+      <RoutePage
+        route={r.route}
+        path={pathOf(r)}
+        crumbs={crumbsFor(r)}
+        updated={r.city.updatedAt}
+        destinationId={d.id}
+        cityId={r.city.id}
+        hasOriginPackages={Boolean(readContent(r.city.content).packages?.fromOrigins?.[r.route.origin.slug])}
+      />
+    );
+  }
   const { title, where } = names(r);
   const content = readContent(r.kind === "place" ? r.place.content : r.city ? r.city.content : d.content);
   const packagesSlug = r.city ? r.city.slug : d.slug;
@@ -329,6 +376,16 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
           {content.routes && content.routes.length > 0 && (
             <Section title={`Distances and routes to ${where}`}>
               <Routes routes={content.routes} />
+            </Section>
+          )}
+          {r.city && routesTo(r.city.slug).length > 0 && (
+            <Section title={`How to reach ${where} from your city`}>
+              <ChipLinks
+                links={routesTo(r.city.slug).map((o) => ({
+                  label: `${o.origin.name} to ${where} (${o.dist.km.toLocaleString("en-IN")} km)`,
+                  href: guideUrl(d.slug, r.city!.slug, "how-to-reach", o.slug),
+                }))}
+              />
             </Section>
           )}
         </>

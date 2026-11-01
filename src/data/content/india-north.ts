@@ -130,7 +130,7 @@ export const INDIA_NORTH: Record<string, GuideContent> = {
     howToReach: {
       air: "Chandigarh is the nearest major airport. Smaller airports at Bhuntar near Kullu and Manali (KUU) and Gaggal near Dharamshala (DHM) have limited flights from Delhi.",
       rail: "Kalka and Chandigarh are the main railheads; the narrow-gauge toy train runs from Kalka to Shimla. Pathankot is the railhead for Dharamshala and Dalhousie.",
-      road: "Delhi to Shimla is about 350 km and Delhi to Manali about 540 km. Overnight Volvo buses and private cabs from Delhi and Chandigarh are the most common way in.",
+      road: "Delhi to Shimla is about 390 km and Delhi to Manali about 540 km. Overnight Volvo buses and private cabs from Delhi and Chandigarh are the most common way in.",
       local: "Hire a cab for sightseeing. Rohtang Pass needs an online permit with a daily vehicle limit; Atal Tunnel gives year-round access to Lahaul.",
     },
     thingsToKnow: [

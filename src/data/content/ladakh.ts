@@ -42,7 +42,7 @@ export const LADAKH_CITIES: Record<string, GuideContent> = {
       local: "Leh taxi union cabs run all local sightseeing and circuits. Self-drive and bike rentals are available in Leh.",
     },
     routes: [
-      { from: "Delhi", to: "Leh", distanceKm: "About 1,000 km by road via Manali", time: "Three to four days by road, about 1.5 hours by air", how: "Fly direct, or drive via Chandigarh and Manali, or via Jammu and Srinagar." },
+      { from: "Delhi", to: "Leh", distanceKm: "About 960 km by road", time: "Three to four days by road, about 1.5 hours by air", how: "Fly direct, or drive via Chandigarh and Manali, or via Jammu and Srinagar." },
     ],
     sections: {
       "travel-guide-tips": {

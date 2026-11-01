@@ -1,0 +1,482 @@
+{
+  "delhi-to-manali": {
+    "km": 540,
+    "hours": 7
+  },
+  "mumbai-to-manali": {
+    "km": 1860,
+    "hours": 22
+  },
+  "bangalore-to-manali": {
+    "km": 2570,
+    "hours": 31
+  },
+  "chennai-to-manali": {
+    "km": 2720,
+    "hours": 33.5
+  },
+  "kolkata-to-manali": {
+    "km": 1960,
+    "hours": 23.5
+  },
+  "hyderabad-to-manali": {
+    "km": 2070,
+    "hours": 26
+  },
+  "pune-to-manali": {
+    "km": 1870,
+    "hours": 22.5
+  },
+  "ahmedabad-to-manali": {
+    "km": 1380,
+    "hours": 17.5
+  },
+  "jaipur-to-manali": {
+    "km": 750,
+    "hours": 9.5
+  },
+  "lucknow-to-manali": {
+    "km": 970,
+    "hours": 12
+  },
+  "chandigarh-to-manali": {
+    "km": 270,
+    "hours": 4
+  },
+  "kochi-to-manali": {
+    "km": 2970,
+    "hours": 37
+  },
+  "delhi-to-shimla": {
+    "km": 390,
+    "hours": 5
+  },
+  "mumbai-to-shimla": {
+    "km": 1700,
+    "hours": 19.5
+  },
+  "bangalore-to-shimla": {
+    "km": 2410,
+    "hours": 29
+  },
+  "chennai-to-shimla": {
+    "km": 2560,
+    "hours": 31.5
+  },
+  "kolkata-to-shimla": {
+    "km": 1800,
+    "hours": 21
+  },
+  "hyderabad-to-shimla": {
+    "km": 1920,
+    "hours": 24
+  },
+  "pune-to-shimla": {
+    "km": 1710,
+    "hours": 20.5
+  },
+  "ahmedabad-to-shimla": {
+    "km": 1240,
+    "hours": 15.5
+  },
+  "jaipur-to-shimla": {
+    "km": 590,
+    "hours": 7.5
+  },
+  "lucknow-to-shimla": {
+    "km": 820,
+    "hours": 9.5
+  },
+  "chandigarh-to-shimla": {
+    "km": 120,
+    "hours": 2
+  },
+  "kochi-to-shimla": {
+    "km": 2810,
+    "hours": 35
+  },
+  "delhi-to-dharamshala": {
+    "km": 510,
+    "hours": 7
+  },
+  "mumbai-to-dharamshala": {
+    "km": 1830,
+    "hours": 22
+  },
+  "bangalore-to-dharamshala": {
+    "km": 2540,
+    "hours": 31
+  },
+  "chennai-to-dharamshala": {
+    "km": 2690,
+    "hours": 33.5
+  },
+  "kolkata-to-dharamshala": {
+    "km": 1930,
+    "hours": 23.5
+  },
+  "hyderabad-to-dharamshala": {
+    "km": 2050,
+    "hours": 26
+  },
+  "pune-to-dharamshala": {
+    "km": 1840,
+    "hours": 22.5
+  },
+  "ahmedabad-to-dharamshala": {
+    "km": 1300,
+    "hours": 16.5
+  },
+  "jaipur-to-dharamshala": {
+    "km": 720,
+    "hours": 9.5
+  },
+  "lucknow-to-dharamshala": {
+    "km": 950,
+    "hours": 12
+  },
+  "chandigarh-to-dharamshala": {
+    "km": 240,
+    "hours": 4
+  },
+  "kochi-to-dharamshala": {
+    "km": 2940,
+    "hours": 37
+  },
+  "delhi-to-kasol": {
+    "km": 520,
+    "hours": 7.5
+  },
+  "mumbai-to-kasol": {
+    "km": 1840,
+    "hours": 22.5
+  },
+  "bangalore-to-kasol": {
+    "km": 2550,
+    "hours": 31.5
+  },
+  "chennai-to-kasol": {
+    "km": 2700,
+    "hours": 34
+  },
+  "kolkata-to-kasol": {
+    "km": 1940,
+    "hours": 24
+  },
+  "hyderabad-to-kasol": {
+    "km": 2060,
+    "hours": 26.5
+  },
+  "pune-to-kasol": {
+    "km": 1850,
+    "hours": 23
+  },
+  "ahmedabad-to-kasol": {
+    "km": 1360,
+    "hours": 18
+  },
+  "jaipur-to-kasol": {
+    "km": 730,
+    "hours": 10
+  },
+  "lucknow-to-kasol": {
+    "km": 950,
+    "hours": 12.5
+  },
+  "chandigarh-to-kasol": {
+    "km": 250,
+    "hours": 4.5
+  },
+  "kochi-to-kasol": {
+    "km": 2950,
+    "hours": 37.5
+  },
+  "delhi-to-spiti-valley": {
+    "km": 790,
+    "hours": 12
+  },
+  "mumbai-to-spiti-valley": {
+    "km": 2110,
+    "hours": 26.5
+  },
+  "bangalore-to-spiti-valley": {
+    "km": 2810,
+    "hours": 36
+  },
+  "chennai-to-spiti-valley": {
+    "km": 2970,
+    "hours": 38.5
+  },
+  "kolkata-to-spiti-valley": {
+    "km": 2180,
+    "hours": 27.5
+  },
+  "hyderabad-to-spiti-valley": {
+    "km": 2320,
+    "hours": 30.5
+  },
+  "pune-to-spiti-valley": {
+    "km": 2120,
+    "hours": 27.5
+  },
+  "ahmedabad-to-spiti-valley": {
+    "km": 1750,
+    "hours": 22.5
+  },
+  "jaipur-to-spiti-valley": {
+    "km": 990,
+    "hours": 14.5
+  },
+  "lucknow-to-spiti-valley": {
+    "km": 1200,
+    "hours": 16
+  },
+  "chandigarh-to-spiti-valley": {
+    "km": 530,
+    "hours": 9
+  },
+  "kochi-to-spiti-valley": {
+    "km": 3220,
+    "hours": 42
+  },
+  "delhi-to-leh": {
+    "km": 960,
+    "hours": 12.5
+  },
+  "mumbai-to-leh": {
+    "km": 2280,
+    "hours": 27.5
+  },
+  "bangalore-to-leh": {
+    "km": 2990,
+    "hours": 36.5
+  },
+  "chennai-to-leh": {
+    "km": 3140,
+    "hours": 39
+  },
+  "kolkata-to-leh": {
+    "km": 2380,
+    "hours": 29
+  },
+  "hyderabad-to-leh": {
+    "km": 2490,
+    "hours": 31.5
+  },
+  "pune-to-leh": {
+    "km": 2290,
+    "hours": 28
+  },
+  "ahmedabad-to-leh": {
+    "km": 1800,
+    "hours": 22.5
+  },
+  "jaipur-to-leh": {
+    "km": 1170,
+    "hours": 15
+  },
+  "lucknow-to-leh": {
+    "km": 1390,
+    "hours": 17.5
+  },
+  "chandigarh-to-leh": {
+    "km": 690,
+    "hours": 9.5
+  },
+  "kochi-to-leh": {
+    "km": 3390,
+    "hours": 42.5
+  },
+  "delhi-to-dalhousie": {
+    "km": 590,
+    "hours": 8
+  },
+  "mumbai-to-dalhousie": {
+    "km": 1870,
+    "hours": 22
+  },
+  "bangalore-to-dalhousie": {
+    "km": 2580,
+    "hours": 31.5
+  },
+  "chennai-to-dalhousie": {
+    "km": 2730,
+    "hours": 34
+  },
+  "kolkata-to-dalhousie": {
+    "km": 1990,
+    "hours": 24.5
+  },
+  "hyderabad-to-dalhousie": {
+    "km": 2080,
+    "hours": 26.5
+  },
+  "pune-to-dalhousie": {
+    "km": 1880,
+    "hours": 23
+  },
+  "ahmedabad-to-dalhousie": {
+    "km": 1300,
+    "hours": 16.5
+  },
+  "jaipur-to-dalhousie": {
+    "km": 760,
+    "hours": 10
+  },
+  "lucknow-to-dalhousie": {
+    "km": 1000,
+    "hours": 13
+  },
+  "chandigarh-to-dalhousie": {
+    "km": 330,
+    "hours": 5
+  },
+  "kochi-to-dalhousie": {
+    "km": 2980,
+    "hours": 37.5
+  },
+  "delhi-to-kasauli": {
+    "km": 320,
+    "hours": 4
+  },
+  "mumbai-to-kasauli": {
+    "km": 1630,
+    "hours": 19
+  },
+  "bangalore-to-kasauli": {
+    "km": 2340,
+    "hours": 28
+  },
+  "chennai-to-kasauli": {
+    "km": 2490,
+    "hours": 30.5
+  },
+  "kolkata-to-kasauli": {
+    "km": 1730,
+    "hours": 20
+  },
+  "hyderabad-to-kasauli": {
+    "km": 1840,
+    "hours": 23
+  },
+  "pune-to-kasauli": {
+    "km": 1640,
+    "hours": 19.5
+  },
+  "ahmedabad-to-kasauli": {
+    "km": 1170,
+    "hours": 14.5
+  },
+  "jaipur-to-kasauli": {
+    "km": 520,
+    "hours": 6.5
+  },
+  "lucknow-to-kasauli": {
+    "km": 750,
+    "hours": 9
+  },
+  "chandigarh-to-kasauli": {
+    "km": 50,
+    "hours": 1
+  },
+  "kochi-to-kasauli": {
+    "km": 2740,
+    "hours": 34
+  },
+  "delhi-to-jibhi": {
+    "km": 490,
+    "hours": 6.5
+  },
+  "mumbai-to-jibhi": {
+    "km": 1820,
+    "hours": 21
+  },
+  "bangalore-to-jibhi": {
+    "km": 2520,
+    "hours": 30.5
+  },
+  "chennai-to-jibhi": {
+    "km": 2670,
+    "hours": 33
+  },
+  "kolkata-to-jibhi": {
+    "km": 1910,
+    "hours": 22.5
+  },
+  "hyderabad-to-jibhi": {
+    "km": 2030,
+    "hours": 25.5
+  },
+  "pune-to-jibhi": {
+    "km": 1820,
+    "hours": 22
+  },
+  "ahmedabad-to-jibhi": {
+    "km": 1340,
+    "hours": 16.5
+  },
+  "jaipur-to-jibhi": {
+    "km": 700,
+    "hours": 9
+  },
+  "lucknow-to-jibhi": {
+    "km": 930,
+    "hours": 11.5
+  },
+  "chandigarh-to-jibhi": {
+    "km": 230,
+    "hours": 3.5
+  },
+  "kochi-to-jibhi": {
+    "km": 2930,
+    "hours": 36.5
+  },
+  "delhi-to-kinnaur": {
+    "km": 600,
+    "hours": 9.5
+  },
+  "mumbai-to-kinnaur": {
+    "km": 1920,
+    "hours": 24.5
+  },
+  "bangalore-to-kinnaur": {
+    "km": 2620,
+    "hours": 33.5
+  },
+  "chennai-to-kinnaur": {
+    "km": 2780,
+    "hours": 36
+  },
+  "kolkata-to-kinnaur": {
+    "km": 1990,
+    "hours": 25.5
+  },
+  "hyderabad-to-kinnaur": {
+    "km": 2130,
+    "hours": 28.5
+  },
+  "pune-to-kinnaur": {
+    "km": 1930,
+    "hours": 25
+  },
+  "ahmedabad-to-kinnaur": {
+    "km": 1560,
+    "hours": 20
+  },
+  "jaipur-to-kinnaur": {
+    "km": 800,
+    "hours": 12.5
+  },
+  "lucknow-to-kinnaur": {
+    "km": 1010,
+    "hours": 14
+  },
+  "chandigarh-to-kinnaur": {
+    "km": 340,
+    "hours": 7
+  },
+  "kochi-to-kinnaur": {
+    "km": 3030,
+    "hours": 39.5
+  }
+}

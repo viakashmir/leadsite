@@ -35,13 +35,13 @@ export const HIMACHAL_CITIES: Record<string, GuideContent> = {
     howToReach: {
       air: "Gaggal (Kangra) airport, about 15 km from Dharamshala, has flights from Delhi. Chandigarh and Amritsar airports are 5 to 6 hours away by road.",
       rail: "Pathankot, about 90 km away, is the nearest broad-gauge station with trains from Delhi and Mumbai. The Kangra Valley narrow-gauge line runs from Pathankot towards Kangra and Palampur.",
-      road: "Overnight Volvo buses from Delhi reach McLeodganj and Dharamshala in about 12 hours. By car, Delhi to Dharamshala is about 475 km via Chandigarh and Una or via Pathankot.",
+      road: "Overnight Volvo buses from Delhi reach McLeodganj and Dharamshala in about 12 hours. By car, Delhi to Dharamshala is about 510 km via Chandigarh and Una or via Pathankot.",
       local: "Local taxis and buses link Dharamshala with McLeodganj; the Dharamshala Skyway ropeway connects the two in about 10 minutes.",
     },
     routes: [
       { from: "Dharamshala", to: "McLeodganj", distanceKm: "About 10 km by road, 1.8 km by ropeway", time: "30 minutes by road, 10 minutes by Skyway", how: "Shared taxis and HRTC buses run all day. The Dharamshala Skyway ropeway links the two towns." },
       { from: "Dharamshala", to: "Dalhousie", distanceKm: "About 120 km by road", time: "4 to 5 hours", how: "Via Shahpur, Chamba road junction and Banikhet. Many Dalhousie and Dharamshala tours drive this on one day, with Khajjiar added from Dalhousie." },
-      { from: "Delhi", to: "Dharamshala", distanceKm: "About 475 km by road", time: "10 to 12 hours", how: "Via Chandigarh, Ropar, Una and Kangra, or via Pathankot. Overnight Volvo buses run from Delhi's Kashmere Gate and Majnu ka Tilla." },
+      { from: "Delhi", to: "Dharamshala", distanceKm: "About 510 km by road", time: "10 to 12 hours", how: "Via Chandigarh, Ropar, Una and Kangra, or via Pathankot. Overnight Volvo buses run from Delhi's Kashmere Gate and Majnu ka Tilla." },
       { from: "Mumbai", to: "Dharamshala", distanceKm: "No direct route", how: "Fly to Gaggal via Delhi, or take a train to Pathankot and a taxi for the last 90 km." },
       { from: "Dharamkot", to: "Dharamshala", distanceKm: "About 13 km by road", time: "40 minutes", how: "Dharamkot is 2 km above McLeodganj; taxis run down to lower Dharamshala." },
     ],
@@ -112,14 +112,14 @@ export const HIMACHAL_CITIES: Record<string, GuideContent> = {
     howToReach: {
       air: "Shimla's Jubbarhatti airport has limited flights. Chandigarh airport, about 115 km away, is the usual choice.",
       rail: "Take a broad-gauge train to Kalka, then the Kalka to Shimla toy train (about 96 km, roughly 5 to 6 hours).",
-      road: "Delhi to Shimla is about 345 km via Chandigarh and Parwanoo. Volvo buses run overnight from Delhi.",
+      road: "Delhi to Shimla is about 390 km from central Delhi via Chandigarh and Parwanoo. Volvo buses run overnight from Delhi.",
     },
     routes: [
       { from: "Kalka", to: "Shimla", distanceKm: "About 85 km by road, 96 km by toy train", time: "3 hours by road, 5 to 6 hours by train", how: "Road via Parwanoo, Dharampur and Solan on NH 5. HRTC and private buses run frequently from Kalka; the toy train runs several times a day." },
       { from: "Shimla", to: "Manali", distanceKm: "About 250 km by road", time: "7 to 9 hours", how: "Via Bilaspur or Tattapani, Sundernagar, Mandi and Kullu." },
       { from: "Shimla", to: "Kalpa", distanceKm: "About 230 km by road", time: "8 to 9 hours", how: "Via Narkanda and Rampur on the Hindustan-Tibet road, then up from Reckong Peo." },
       { from: "Shimla", to: "Kinnaur", distanceKm: "About 200 to 250 km", time: "6 to 9 hours", how: "Sangla is about 220 km and Reckong Peo about 225 km from Shimla, along the Sutlej valley." },
-      { from: "Delhi", to: "Shimla", distanceKm: "About 345 km by road", time: "8 to 9 hours", how: "Via Ambala, Chandigarh and Parwanoo." },
+      { from: "Delhi", to: "Shimla", distanceKm: "About 390 km by road from central Delhi", time: "8 to 9 hours", how: "Via Ambala, Chandigarh and Parwanoo." },
     ],
     blocks: [
       {
@@ -227,10 +227,10 @@ export const HIMACHAL_CITIES: Record<string, GuideContent> = {
       { month: "June", tempC: "Day 22 to 28°C, night 13 to 17°C", weather: "Warm and busy before the monsoon.", goodFor: "Jibhi temperature in June stays comfortable for treks." },
     ],
     howToReach: {
-      road: "Jibhi is about 500 km from Delhi. Overnight buses to Aut (on the Manali highway) connect with local buses and taxis via Banjar.",
+      road: "Jibhi is about 490 km from Delhi. Overnight buses to Aut (on the Manali highway) connect with local buses and taxis via Banjar.",
     },
     routes: [
-      { from: "Delhi", to: "Jibhi", distanceKm: "About 500 km by road", time: "11 to 13 hours", how: "Delhi to Aut by overnight Volvo, then about 35 km to Jibhi by taxi via the Aut tunnel and Banjar. A Delhi to Jibhi cab takes the same route." },
+      { from: "Delhi", to: "Jibhi", distanceKm: "About 490 km by road", time: "11 to 13 hours", how: "Delhi to Aut by overnight Volvo, then about 35 km to Jibhi by taxi via the Aut tunnel and Banjar. A Delhi to Jibhi cab takes the same route." },
       { from: "Jibhi", to: "Tirthan Valley", distanceKm: "About 15 km to Gushaini", time: "40 minutes", how: "Down to Banjar and along the Tirthan river. Tirthan to Jibhi is the same route in reverse." },
       { from: "Jibhi", to: "Shoja", distanceKm: "About 5 km", time: "15 minutes", how: "Uphill on the road to Jalori Pass." },
     ],
@@ -279,7 +279,7 @@ export const HIMACHAL_CITIES: Record<string, GuideContent> = {
       road: "From Shimla along the Hindustan-Tibet road via Narkanda and Rampur: about 225 km to Reckong Peo and Kalpa, and about 220 km to Sangla. HRTC buses run from Delhi and Shimla to Reckong Peo.",
     },
     routes: [
-      { from: "Delhi", to: "Kinnaur", distanceKm: "About 570 km to Kalpa", time: "Two days by road", how: "Delhi to Shimla or Narkanda on day one, then along the Sutlej to Kalpa or Sangla. HRTC runs a Delhi to Reckong Peo bus." },
+      { from: "Delhi", to: "Kinnaur", distanceKm: "About 600 km to Kalpa", time: "Two days by road", how: "Delhi to Shimla or Narkanda on day one, then along the Sutlej to Kalpa or Sangla. HRTC runs a Delhi to Reckong Peo bus." },
       { from: "Shimla", to: "Kinnaur", distanceKm: "About 220 to 230 km", time: "7 to 9 hours", how: "Via Narkanda, Rampur and Jeori. Distance from Shimla to Kinnaur's Kalpa is about 230 km." },
     ],
     sections: {
@@ -314,10 +314,10 @@ export const HIMACHAL_CITIES: Record<string, GuideContent> = {
     ],
     howToReach: {
       rail: "Pathankot, about 80 km away, is the nearest railhead.",
-      road: "Delhi to Dalhousie is about 560 km via Pathankot.",
+      road: "Delhi to Dalhousie is about 590 km via Pathankot.",
     },
     routes: [
-      { from: "Delhi", to: "Dalhousie", distanceKm: "About 560 km by road", time: "11 to 12 hours", how: "Via Ambala, Jalandhar and Pathankot." },
+      { from: "Delhi", to: "Dalhousie", distanceKm: "About 590 km by road", time: "11 to 12 hours", how: "Via Ambala, Jalandhar and Pathankot." },
     ],
     sections: {
       "places-to-visit": {
@@ -336,12 +336,12 @@ export const HIMACHAL_CITIES: Record<string, GuideContent> = {
 
   kasauli: {
     intro:
-      "Kasauli is a small cantonment hill town in Solan district at about 1,900 m, about 290 km from Delhi and 65 km from Chandigarh. It is known for quiet walks, Christ Church, Monkey Point and sunset views over the plains.",
+      "Kasauli is a small cantonment hill town in Solan district at about 1,900 m, about 320 km from Delhi and 65 km from Chandigarh. It is known for quiet walks, Christ Church, Monkey Point and sunset views over the plains.",
     idealDuration: "1 to 2 days",
     bestMonths: "March to June, September to November",
     gateway: "Kalka or Chandigarh",
     routes: [
-      { from: "Delhi", to: "Kasauli", distanceKm: "About 290 km by road", time: "6 to 7 hours", how: "Via Chandigarh, Parwanoo and Dharampur." },
+      { from: "Delhi", to: "Kasauli", distanceKm: "About 320 km by road", time: "6 to 7 hours", how: "Via Chandigarh, Parwanoo and Dharampur." },
     ],
   },
 

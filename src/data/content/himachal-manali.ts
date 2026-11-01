@@ -258,7 +258,7 @@ export const MANALI_CITIES: Record<string, GuideContent> = {
       local: "HRTC buses link Kaza with Reckong Peo and, in summer, Manali. Most travellers hire a cab for the circuit.",
     },
     routes: [
-      { from: "Delhi", to: "Spiti Valley", distanceKm: "About 730 km to Kaza via Shimla", time: "Two to three days", how: "Delhi to Shimla or Narkanda on day 1, Kinnaur (Kalpa or Sangla) on day 2, Kaza on day 3. In summer you can also go via Manali (about 740 km)." },
+      { from: "Delhi", to: "Spiti Valley", distanceKm: "About 750 to 800 km to Kaza", time: "Two to three days", how: "Delhi to Shimla or Narkanda on day 1, Kinnaur (Kalpa or Sangla) on day 2, Kaza on day 3. In summer you can also go via Manali (about 740 km)." },
       { from: "Manali", to: "Spiti Valley", distanceKm: "About 200 km to Kaza", time: "8 to 10 hours", how: "Through the Atal Tunnel, Gramphu, Chhatru, Batal and Kunzum La. Open roughly June to October; the road is rough between Gramphu and Losar." },
       { from: "Shimla", to: "Spiti Valley", distanceKm: "About 420 km to Kaza", time: "Two days", how: "On the Hindustan-Tibet road (NH 5) through Narkanda, Rampur and Reckong Peo, then along the Spiti river via Nako and Tabo." },
       { from: "Chandigarh", to: "Spiti Valley", distanceKm: "About 530 km to Kaza via Shimla", time: "Two to three days", how: "HRTC buses run Chandigarh to Reckong Peo; change there for Kaza." },
