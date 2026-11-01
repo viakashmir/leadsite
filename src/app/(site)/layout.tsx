@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import MobileQuoteBar from "@/components/MobileQuoteBar";
+import Analytics from "@/components/Analytics";
 import { getEnquiryOptions } from "@/lib/locations";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import { LOGO_URL, siteGraph } from "@/lib/schema";
@@ -72,6 +73,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <main className="flex-1">{children}</main>
         <Footer />
         <MobileQuoteBar options={enquiryOptions} />
+        <Analytics />
       </body>
     </html>
   );

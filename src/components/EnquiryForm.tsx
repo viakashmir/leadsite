@@ -2,6 +2,7 @@
 
 import { useId, useState } from "react";
 import { titleCase } from "@/lib/text";
+import { trackEvent } from "@/components/Analytics";
 
 export type DestinationOption = {
   id: string;
@@ -91,6 +92,12 @@ export default function EnquiryForm({
         setStatus("error");
         return;
       }
+      trackEvent("generate_lead", {
+        destination: selectedDestination?.name,
+        place: placeName,
+        source_package: sourcePackageId || undefined,
+        page_path: window.location.pathname,
+      });
       setStatus("success");
       formEl.reset();
     } catch {
