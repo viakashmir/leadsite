@@ -3,14 +3,23 @@
 # the new schema. Reads DATABASE_URL from .env.production.local (git-ignored).
 # Use Supabase's direct or Session pooler connection string for migrations.
 #
-#   ./scripts/deploy-db.sh            backup + migrate + seed locations + seed content
+#   ./scripts/deploy-db.sh                              uses $ENV_FILE
+#   DATABASE_URL="postgresql://..." ./scripts/deploy-db.sh   one-off, no file needed
+#
+# Steps: backup + migrate + seed locations + seed content.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 ENV_FILE=.env.production.local
-[ -f "$ENV_FILE" ] || { echo "Missing $ENV_FILE with DATABASE_URL"; exit 1; }
-set -a; . "./$ENV_FILE"; set +a
-[ -n "${DATABASE_URL:-}" ] || { echo "DATABASE_URL not set in $ENV_FILE"; exit 1; }
+# A DATABASE_URL given on the command line wins; otherwise read the env file.
+if [ -z "${DATABASE_URL:-}" ] && [ -f "$ENV_FILE" ]; then
+  set -a; . "./$ENV_FILE"; set +a
+fi
+[ -n "${DATABASE_URL:-}" ] || { echo "DATABASE_URL is empty: pass it on the command line or set it in $ENV_FILE"; exit 1; }
+case "$DATABASE_URL" in
+  postgres://*|postgresql://*) ;;
+  *) echo "DATABASE_URL must start with postgresql:// (got something else, maybe a placeholder)"; exit 1 ;;
+esac
 unset PG_POOL_MAX
 
 BACKUP_DIR="${BACKUP_DIR:-../backups}"
