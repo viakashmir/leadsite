@@ -70,14 +70,71 @@ export default async function AdminAgentDetailPage({
         </form>
       </div>
 
+      {agent.status !== "ACTIVE" && (
+        <div
+          className={`mt-5 flex flex-col gap-3 rounded-lg border p-4 sm:flex-row sm:items-center sm:justify-between ${
+            agent.status === "SUSPENDED" ? "border-red-200 bg-red-50" : "border-amber-200 bg-amber-50"
+          }`}
+        >
+          <div>
+            <p className={`font-semibold ${agent.status === "SUSPENDED" ? "text-red-800" : "text-amber-900"}`}>
+              {agent.status === "SUSPENDED" ? "This agent is suspended" : "This agent is awaiting approval"}
+            </p>
+            <p className={`text-sm ${agent.status === "SUSPENDED" ? "text-red-700" : "text-amber-800"}`}>
+              {agent.status === "SUSPENDED"
+                ? "They can't sign in or unlock leads until you reactivate them."
+                : "Check their details below. Once approved they can unlock leads and their packages go live."}
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <form action={boundUpdateStatus}>
+              <input type="hidden" name="status" value="ACTIVE" />
+              <button
+                type="submit"
+                className="rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
+              >
+                {agent.status === "SUSPENDED" ? "Reactivate profile" : "✓ Approve profile"}
+              </button>
+            </form>
+            {agent.status === "PENDING" && (
+              <form action={boundUpdateStatus}>
+                <input type="hidden" name="status" value="SUSPENDED" />
+                <button
+                  type="submit"
+                  className="rounded-md border border-red-300 bg-white px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-50"
+                >
+                  Reject
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="mt-5 grid gap-4 sm:grid-cols-4">
         <div className="rounded-lg border border-zinc-200 bg-white p-4">
           <p className="text-xs text-zinc-500">Credits</p>
           <p className="text-xl font-bold text-blue-700">{agent.credits}</p>
         </div>
         <div className="rounded-lg border border-zinc-200 bg-white p-4">
-          <p className="text-xs text-zinc-500">Status</p>
-          <form action={boundUpdateStatus} className="mt-1 flex gap-2">
+          <p className="flex items-center gap-2 text-xs text-zinc-500">
+            Status
+            <span
+              className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${
+                agent.status === "ACTIVE"
+                  ? "bg-green-50 text-green-700"
+                  : agent.status === "SUSPENDED"
+                    ? "bg-red-50 text-red-700"
+                    : "bg-amber-50 text-amber-700"
+              }`}
+            >
+              {agent.status === "ACTIVE" ? "Approved" : agent.status === "SUSPENDED" ? "Suspended" : "Pending"}
+            </span>
+          </p>
+          {/* key: React resets a form after its action runs, which put the
+              select back to the status it first rendered with; remounting on
+              status change makes it show the saved value. */}
+          <form key={agent.status} action={boundUpdateStatus} className="mt-1 flex gap-2">
             <select name="status" defaultValue={agent.status} className="rounded-md border border-zinc-300 px-2 py-1 text-sm">
               <option value="PENDING">Pending</option>
               <option value="ACTIVE">Active</option>
@@ -90,7 +147,7 @@ export default async function AdminAgentDetailPage({
         </div>
         <div className="rounded-lg border border-zinc-200 bg-white p-4">
           <p className="text-xs text-zinc-500">Relationship Manager</p>
-          <form action={boundAssignRm} className="mt-1 flex gap-2">
+          <form key={agent.assignedRmId ?? ""} action={boundAssignRm} className="mt-1 flex gap-2">
             <select name="rmId" defaultValue={agent.assignedRmId ?? ""} className="rounded-md border border-zinc-300 px-2 py-1 text-sm">
               <option value="">Unassigned</option>
               {admins.map((a) => (

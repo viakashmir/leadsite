@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import RevealField from "@/components/admin/RevealField";
 import { formatDate } from "@/lib/format";
+import { updateAgentStatus } from "@/lib/adminActions";
 
 export default async function AdminAgentsPage({
   searchParams,
@@ -106,6 +107,17 @@ export default async function AdminAgentsPage({
                   >
                     {agent.status}
                   </span>
+                  {agent.status === "PENDING" && (
+                    <form action={updateAgentStatus.bind(null, agent.id)} className="mt-1">
+                      <input type="hidden" name="status" value="ACTIVE" />
+                      <button
+                        type="submit"
+                        className="rounded-md bg-green-600 px-2 py-0.5 text-xs font-semibold text-white hover:bg-green-700"
+                      >
+                        Approve
+                      </button>
+                    </form>
+                  )}
                 </td>
                 <td className="hidden px-4 py-3 text-xs text-zinc-500 lg:table-cell">{formatDate(agent.createdAt)}</td>
               </tr>
