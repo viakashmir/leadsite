@@ -24,7 +24,7 @@ export default async function AgentPackagesPage() {
       </div>
       <p className="mt-1 text-sm text-zinc-500">
         Packages you post here appear on {`the site's`} public pages and receive their own
-        enquiries.
+        enquiries. Until your account is verified, new packages wait for review before going live.
       </p>
 
       <div className="mt-5 space-y-3">
@@ -35,7 +35,14 @@ export default async function AgentPackagesPage() {
             className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white p-4 hover:border-gold"
           >
             <div>
-              <p className="font-medium text-zinc-900">{p.title}</p>
+              <p className="font-medium text-zinc-900">
+                {p.title}
+                {!p.published && (
+                  <span className="ml-2 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700">
+                    Awaiting review
+                  </span>
+                )}
+              </p>
               <p className="text-xs text-zinc-500">
                 {p.destination.name} · {p.durationDays}D/{p.durationNights}N
               </p>

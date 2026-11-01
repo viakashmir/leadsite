@@ -76,6 +76,7 @@ export default function EnquiryForm({
       children: form.get("children") || 0,
       budgetBand: hotel,
       message: form.get("message") ?? "",
+      website: form.get("website") ?? "",
     };
 
     try {
@@ -118,6 +119,13 @@ export default function EnquiryForm({
   // content on a laptop screen and inside one phone screen.
   return (
     <form onSubmit={handleSubmit} className={card} aria-label="Get free quotes">
+      {/* Honeypot for spam bots: visually hidden and skipped by keyboard and screen readers. */}
+      <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }}>
+        <label>
+          Website
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
+        </label>
+      </div>
       <p className="font-display text-[20px] font-bold leading-tight text-ink">{titleCase(title)}</p>
       <p className="mt-0.5 text-[11px] text-ink-soft">
         <span className="font-semibold text-brand">Free</span> · No booking fee · Up to 3 quotes

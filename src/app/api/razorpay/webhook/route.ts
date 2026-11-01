@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
-import { fulfillPaymentOrder } from "@/lib/paymentFulfillment";
+import { fulfillPaymentOrder, signaturesMatch } from "@/lib/paymentFulfillment";
 
 // Configure this URL in the Razorpay Dashboard under Settings -> Webhooks,
-// subscribed to the "payment.captured" event, with RAZORPAY_WEBHOOK_SECRET
-// as the webhook secret.
+// subscribed to the "payment.captured" (and optionally "order.paid") events,
+// with RAZORPAY_WEBHOOK_SECRET as the webhook secret.
 export async function POST(req: NextRequest) {
   const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
   if (!secret) {
@@ -18,16 +18,28 @@ export async function POST(req: NextRequest) {
   }
 
   const expected = crypto.createHmac("sha256", secret).update(rawBody).digest("hex");
-  if (expected !== signature) {
+  if (!signaturesMatch(expected, signature)) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
-  const event = JSON.parse(rawBody);
+  let event: {
+    event?: string;
+    payload?: { payment?: { entity?: { id?: string; order_id?: string; amount?: number; currency?: string; status?: string } } };
+  };
+  try {
+    event = JSON.parse(rawBody);
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
 
-  if (event.event === "payment.captured") {
+  if (event.event === "payment.captured" || event.event === "order.paid") {
     const payment = event.payload?.payment?.entity;
-    if (payment?.order_id && payment?.id) {
-      await fulfillPaymentOrder(payment.order_id, payment.id);
+    if (payment?.order_id && payment?.id && payment.status === "captured" && payment.currency === "INR") {
+      const result = await fulfillPaymentOrder(payment.order_id, payment.id, payment.amount);
+      if (!result.ok && result.reason !== "Order not found") {
+        // Logged for support; still 200 so Razorpay doesn't retry forever.
+        console.error(`Razorpay webhook: ${result.reason} (order ${payment.order_id}, payment ${payment.id})`);
+      }
     }
   }
 

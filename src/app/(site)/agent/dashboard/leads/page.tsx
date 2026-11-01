@@ -1,6 +1,6 @@
 import { requireAgent } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { maskName, maskPhone } from "@/lib/mask";
+import { maskContactsInText, maskName, maskPhone } from "@/lib/mask";
 import { formatDate } from "@/lib/format";
 import UnlockButton from "@/components/agent/UnlockButton";
 
@@ -60,7 +60,11 @@ export default async function AgentLeadsPage() {
                   </span>
                 )}
               </div>
-              {lead.message && <p className="mt-1 text-xs text-zinc-500">{lead.message}</p>}
+              {lead.message && (
+                <p className="mt-1 text-xs text-zinc-500">
+                  {unlocked ? lead.message : maskContactsInText(lead.message)}
+                </p>
+              )}
               <p className="mt-1 text-xs text-zinc-400">
                 Posted {formatDate(lead.createdAt)}
                 {lead.budgetBand ? ` · Budget: ${lead.budgetBand}` : ""}

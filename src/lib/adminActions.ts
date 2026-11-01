@@ -23,28 +23,40 @@ export async function grantAgentCredits(agentId: string, formData: FormData): Pr
   const amount = Number(formData.get("amount"));
   const note = String(formData.get("note") ?? "").trim();
 
-  if (!Number.isFinite(amount) || amount === 0) return { error: "Enter a non-zero amount" };
+  if (!Number.isInteger(amount) || amount === 0) return { error: "Enter a non-zero whole number" };
+  if (Math.abs(amount) > 1_000_000) return { error: "Adjustments are capped at 1,000,000 credits" };
   if (!note) return { error: "Add a reason for this adjustment" };
+  if (note.length > 500) return { error: "Keep the reason under 500 characters" };
 
-  await prisma.$transaction([
-    prisma.agent.update({ where: { id: agentId }, data: { credits: { increment: amount } } }),
-    prisma.creditTransaction.create({
+  // A deduction may not take the wallet below zero (the unlock flow assumes a
+  // balance can't go negative). Balance change and ledger rows commit together.
+  const result = await prisma.$transaction(async (tx) => {
+    const charged = await tx.agent.updateMany({
+      where: { id: agentId, ...(amount < 0 ? { credits: { gte: -amount } } : {}) },
+      data: { credits: { increment: amount } },
+    });
+    if (charged.count === 0) {
+      return { error: amount < 0 ? "Agent doesn't have that many credits to deduct" : "Agent not found" };
+    }
+    await tx.creditTransaction.create({
       data: {
         agentId,
         amount,
         type: amount > 0 ? "BONUS" : "REFUND",
         note: `${note} (by ${admin.name})`,
       },
-    }),
-    prisma.agentActivity.create({
+    });
+    await tx.agentActivity.create({
       data: {
         agentId,
         type: "CREDIT_ADJUSTMENT",
         actor: admin.name,
         detail: `${amount > 0 ? "+" : ""}${amount} credits — ${note}`,
       },
-    }),
-  ]);
+    });
+    return {};
+  });
+  if (result.error) return result;
 
   revalidatePath(`/admin/agents/${agentId}`);
   return {};
@@ -152,6 +164,14 @@ export async function updateLeadStatus(leadId: string, formData: FormData): Prom
   revalidatePath("/admin/leads");
 }
 
+function validateCreditPackNumbers(v: { amountINR: number; baseCredits: number; bonusCredits: number; sortOrder: number }) {
+  if (!Number.isInteger(v.amountINR) || v.amountINR < 1 || v.amountINR > 10_000_000) return "Price must be a whole rupee amount";
+  if (!Number.isInteger(v.baseCredits) || v.baseCredits < 1) return "Credits must be a positive whole number";
+  if (!Number.isInteger(v.bonusCredits) || v.bonusCredits < 0) return "Bonus credits must be zero or more";
+  if (!Number.isInteger(v.sortOrder)) return "Sort order must be a whole number";
+  return null;
+}
+
 export async function createCreditPack(formData: FormData): Promise<{ error?: string }> {
   await requireAdmin();
   const name = String(formData.get("name") ?? "").trim();
@@ -162,6 +182,8 @@ export async function createCreditPack(formData: FormData): Promise<{ error?: st
   const tagline = String(formData.get("tagline") ?? "").trim() || undefined;
 
   if (!name || !amountINR || !baseCredits) return { error: "Fill in name, price, and credits" };
+  const packError = validateCreditPackNumbers({ amountINR, baseCredits, bonusCredits, sortOrder });
+  if (packError) return { error: packError };
 
   await prisma.creditPack.create({
     data: { name, tagline, amountINR, baseCredits, bonusCredits, sortOrder },
@@ -182,6 +204,8 @@ export async function updateCreditPack(packId: string, formData: FormData): Prom
   const active = formData.get("active") === "on";
 
   if (!name || !amountINR || !baseCredits) return { error: "Fill in name, price, and credits" };
+  const packError = validateCreditPackNumbers({ amountINR, baseCredits, bonusCredits, sortOrder });
+  if (packError) return { error: packError };
 
   await prisma.creditPack.update({
     where: { id: packId },
@@ -218,6 +242,10 @@ export async function createProposal(formData: FormData): Promise<{ error?: stri
 
   const kycRaw = String(formData.get("kycChecklist") ?? DEFAULT_KYC_CHECKLIST.join("\n"));
   const kycChecklist = kycRaw.split("\n").map((f) => f.trim()).filter(Boolean);
+
+  const numbers = [walletCredits, priceINR, validityMonths, domesticLeadPrice, internationalLeadPrice, gstPercent, validDays];
+  if (!numbers.every((n) => Number.isFinite(n) && n >= 0)) return { error: "Numbers must be zero or more" };
+  if (gstPercent > 100 || validDays > 365) return { error: "Check the GST percent and validity days" };
 
   const subtotal = priceINR;
   const gstAmount = Math.round((subtotal * gstPercent) / 100);
@@ -367,6 +395,9 @@ export async function createAdminPackage(formData: FormData): Promise<{ error?: 
   if (!title || !destinationId || !summary || !durationDays || !durationNights || !price) {
     return { error: "Please fill in all required fields" };
   }
+  if (![durationDays, durationNights, price].every((n) => Number.isInteger(n) && n > 0)) {
+    return { error: "Days, nights and price must be positive whole numbers" };
+  }
 
   const slug = `${slugify(title)}-${Math.random().toString(36).slice(2, 6)}`;
 
@@ -409,6 +440,9 @@ export async function updateAdminPackage(packageId: string, formData: FormData):
 
   if (!title || !destinationId || !summary || !durationDays || !durationNights || !price) {
     return { error: "Please fill in all required fields" };
+  }
+  if (![durationDays, durationNights, price].every((n) => Number.isInteger(n) && n > 0)) {
+    return { error: "Days, nights and price must be positive whole numbers" };
   }
 
   const pkg = await prisma.package.update({
@@ -540,7 +574,9 @@ export async function createAdminUser(formData: FormData): Promise<{ error?: str
   const password = String(formData.get("password") ?? "");
 
   if (!name || !email) return { error: "Name and email are required" };
-  if (password.length < 6) return { error: "Password must be at least 6 characters" };
+  if (password.length < 12) return { error: "Admin passwords must be at least 12 characters" };
+  if (password.length > 72) return { error: "Password must be at most 72 characters" };
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { error: "Enter a valid email" };
 
   const existing = await prisma.adminUser.findUnique({ where: { email } });
   if (existing) return { error: "An admin with this email already exists" };

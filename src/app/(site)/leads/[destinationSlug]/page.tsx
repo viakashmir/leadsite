@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import LeadCard from "@/components/LeadCard";
+import { maskContactsInText, maskEmail, maskName, maskPhone } from "@/lib/mask";
 import JsonLd from "@/components/JsonLd";
 import { SITE_URL } from "@/lib/site";
 
@@ -105,9 +106,9 @@ export default async function DestinationLeadsPage({
             key={lead.id}
             lead={{
               id: lead.id,
-              name: lead.name,
-              phone: lead.phone,
-              email: lead.email,
+              maskedName: maskName(lead.name),
+              maskedPhone: maskPhone(lead.phone),
+              maskedEmail: lead.email ? maskEmail(lead.email) : null,
               originCity: lead.originCity,
               destinationName: lead.destination.name,
               cityName: lead.city?.name ?? null,
@@ -116,7 +117,7 @@ export default async function DestinationLeadsPage({
               adults: lead.adults,
               children: lead.children,
               budgetBand: lead.budgetBand,
-              message: lead.message,
+              message: lead.message ? maskContactsInText(lead.message) : null,
               verified: lead.verified,
               status: lead.status,
               createdAt: lead.createdAt,

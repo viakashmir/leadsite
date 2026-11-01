@@ -17,3 +17,11 @@ export function maskName(name: string): string {
   const last = parts[parts.length - 1];
   return `${parts[0]} ${last[0]}.`;
 }
+
+// Travellers sometimes type their number or email into the free-text message.
+// Before a lead is unlocked, hide anything that looks like contact details.
+export function maskContactsInText(text: string): string {
+  return text
+    .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, "[email hidden]")
+    .replace(/(?:\+?\d[\d\s().-]{6,}\d)/g, "[number hidden]");
+}

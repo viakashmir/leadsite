@@ -5,9 +5,11 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireAgent } from "@/lib/auth";
 import { slugify } from "@/lib/slug";
+import { agentPackageSchema } from "@/lib/validation";
 
 export async function unlockLead(leadId: string): Promise<{ error?: string }> {
   const agent = await requireAgent();
+  if (typeof leadId !== "string" || !leadId || leadId.length > 64) return { error: "Lead not found" };
 
   // Only agents an admin has approved can see contacts; the public site
   // promises travellers "verified" agents.
@@ -25,6 +27,14 @@ export async function unlockLead(leadId: string): Promise<{ error?: string }> {
       include: { _count: { select: { unlocks: true } } },
     });
     if (!lead) return { error: "Lead not found" };
+
+    // Agents only buy leads for destinations they serve; the leads page only
+    // lists those, but the action itself is callable with any lead id.
+    const serves = await tx.agentDestination.findUnique({
+      where: { agentId_destinationId: { agentId: agent.id, destinationId: lead.destinationId } },
+      select: { id: true },
+    });
+    if (!serves) return { error: "This lead is outside the destinations you serve." };
 
     const already = await tx.leadUnlock.findUnique({
       where: { agentId_leadId: { agentId: agent.id, leadId } },
@@ -73,22 +83,20 @@ export async function unlockLead(leadId: string): Promise<{ error?: string }> {
 export async function createAgentPackage(formData: FormData): Promise<{ error?: string }> {
   const agent = await requireAgent();
 
-  const title = String(formData.get("title") ?? "").trim();
-  const destinationId = String(formData.get("destinationId") ?? "");
-  const cityId = String(formData.get("cityId") ?? "") || undefined;
-  const summary = String(formData.get("summary") ?? "").trim();
-  const itinerary = String(formData.get("itinerary") ?? "").trim();
-  const durationDays = Number(formData.get("durationDays"));
-  const durationNights = Number(formData.get("durationNights"));
-  const price = Number(formData.get("price"));
-  const theme = String(formData.get("theme") ?? "").trim();
-
-  if (!title || !destinationId || !summary || !durationDays || !durationNights || !price) {
-    return { error: "Please fill in all required fields" };
+  const parsed = agentPackageSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Please fill in all required fields" };
   }
+  const { title, destinationId, summary, itinerary, durationDays, durationNights, price, theme } = parsed.data;
+  if (durationNights > durationDays) return { error: "Nights can't be more than days" };
 
   const destination = await prisma.destination.findUnique({ where: { id: destinationId } });
   if (!destination) return { error: "Unknown destination" };
+
+  const city = parsed.data.cityId
+    ? await prisma.city.findFirst({ where: { id: parsed.data.cityId, destinationId }, select: { id: true } })
+    : null;
+  if (parsed.data.cityId && !city) return { error: "That city isn't part of the chosen destination" };
 
   const baseSlug = slugify(title);
   const slug = `${baseSlug}-${Math.random().toString(36).slice(2, 7)}`;
@@ -105,8 +113,11 @@ export async function createAgentPackage(formData: FormData): Promise<{ error?: 
       price,
       theme: theme || "General",
       destinationId,
-      cityId,
+      cityId: city?.id,
       agentId: agent.id,
+      // Packages from agents an admin hasn't verified yet stay off the public
+      // site until approved; admins can publish them from /admin/packages.
+      published: agent.status === "ACTIVE",
     },
   });
 

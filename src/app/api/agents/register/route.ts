@@ -3,10 +3,14 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { agentRegisterSchema } from "@/lib/validation";
 import { setAgentSessionCookie } from "@/lib/auth";
+import { clientIp, hit, tooManyRequests } from "@/lib/rateLimit";
 
 const SIGNUP_BONUS_CREDITS = 500;
 
 export async function POST(req: NextRequest) {
+  // Each signup carries bonus credits, so throttle mass account creation.
+  if (!hit(`register:${clientIp(req)}`, 5, 60 * 60_000)) return tooManyRequests();
+
   const body = await req.json().catch(() => null);
   if (!body) {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
@@ -22,7 +26,10 @@ export async function POST(req: NextRequest) {
 
   const data = parsed.data;
 
-  const existing = await prisma.agent.findUnique({ where: { email: data.email } });
+  const existing = await prisma.agent.findFirst({
+    where: { email: { equals: data.email, mode: "insensitive" } },
+    select: { id: true },
+  });
   if (existing) {
     return NextResponse.json({ error: "An account with this email already exists" }, { status: 409 });
   }

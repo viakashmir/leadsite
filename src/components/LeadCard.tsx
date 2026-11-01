@@ -1,12 +1,13 @@
 import Link from "next/link";
-import { maskEmail, maskName, maskPhone } from "@/lib/mask";
 import { formatDate } from "@/lib/format";
 
+// Contact fields arrive already masked: this is a client component, so any
+// raw value passed in would be readable in the page payload.
 type LeadCardData = {
   id: string;
-  name: string;
-  phone: string;
-  email: string | null;
+  maskedName: string;
+  maskedPhone: string;
+  maskedEmail: string | null;
   originCity: string | null;
   destinationName: string;
   cityName: string | null;
@@ -67,15 +68,15 @@ export default function LeadCard({ lead }: { lead: LeadCardData }) {
       <div className="mt-3 flex items-center justify-between border-t border-zinc-100 pt-3">
         <div className="text-xs text-zinc-500">
           <div className="flex items-center gap-1.5">
-            <span className="font-medium text-zinc-700">{maskName(lead.name)}</span>
+            <span className="font-medium text-zinc-700">{lead.maskedName}</span>
             {lead.verified && (
               <span className="rounded-full bg-green-50 px-1.5 py-0.5 text-[10px] font-medium text-green-700">
                 Verified
               </span>
             )}
           </div>
-          <div>{maskPhone(lead.phone)}</div>
-          {lead.email && <div>{maskEmail(lead.email)}</div>}
+          <div>{lead.maskedPhone}</div>
+          {lead.maskedEmail && <div>{lead.maskedEmail}</div>}
         </div>
         <Link
           href={`/agent/login?next=/agent/dashboard/leads&lead=${lead.id}`}
