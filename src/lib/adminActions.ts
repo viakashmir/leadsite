@@ -7,7 +7,8 @@ import { setAgentSessionCookie } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { generateProposalNumber } from "@/lib/proposals";
 import { slugify } from "@/lib/slug";
-import { searchPixabayImage } from "@/lib/pixabay";
+import { searchStockImage, type PixabayHit } from "@/lib/pixabay";
+import { storeImageAsWebp } from "@/lib/media";
 import bcrypt from "bcryptjs";
 import {
   DEFAULT_KYC_CHECKLIST,
@@ -446,13 +447,22 @@ export async function deletePackage(packageId: string): Promise<void> {
 
 // ---------- Photos (Pixabay) ----------
 
+// Downloads the Pixabay photo, stores it as WebP and returns our /media URL.
+// Alt text names the place and what the photo shows (Pixabay's own tags).
+async function storePixabayHit(hit: PixabayHit, slugHint: string, subject: string) {
+  const tags = hit.tags.split(",").map((t) => t.trim()).filter(Boolean).slice(0, 3);
+  const alt = tags.length > 0 ? `${subject}: ${tags.join(", ")}` : subject;
+  return storeImageAsWebp({ sourceUrl: hit.url, slugHint, alt, credit: hit.pageUrl });
+}
+
 export async function fetchDestinationPhoto(destinationId: string): Promise<{ error?: string }> {
   await requireAdmin();
   const destination = await prisma.destination.findUnique({ where: { id: destinationId } });
   if (!destination) return { error: "Destination not found" };
 
-  const imageUrl = await searchPixabayImage(`${destination.name} india travel`);
-  if (!imageUrl) return { error: "No Pixabay photo found — check PIXABAY_API_KEY is set" };
+  const hit = await searchStockImage(`${destination.name} india travel`);
+  if (!hit) return { error: "No photo found on Pixabay or Pexels — check PIXABAY_API_KEY / PEXELS_API_KEY" };
+  const imageUrl = await storePixabayHit(hit, `destination-${destination.slug}`, destination.name);
 
   await prisma.destination.update({ where: { id: destinationId }, data: { heroImage: imageUrl } });
   revalidatePath("/admin/destinations");
@@ -468,8 +478,9 @@ export async function fetchPackagePhoto(packageId: string): Promise<{ error?: st
   const pkg = await prisma.package.findUnique({ where: { id: packageId }, include: { destination: true } });
   if (!pkg) return { error: "Package not found" };
 
-  const imageUrl = await searchPixabayImage(`${pkg.destination.name} ${pkg.title}`);
-  if (!imageUrl) return { error: "No Pixabay photo found — check PIXABAY_API_KEY is set" };
+  const hit = await searchStockImage(`${pkg.destination.name} ${pkg.title}`);
+  if (!hit) return { error: "No photo found on Pixabay or Pexels — check PIXABAY_API_KEY / PEXELS_API_KEY" };
+  const imageUrl = await storePixabayHit(hit, `package-${pkg.slug}`, pkg.title);
 
   await prisma.package.update({ where: { id: packageId }, data: { heroImage: imageUrl } });
   revalidatePath("/admin/packages");
@@ -491,7 +502,8 @@ export async function backfillAllPhotos(): Promise<{ done: number; failed: numbe
   let failed = 0;
 
   for (const d of destinations) {
-    const imageUrl = await searchPixabayImage(`${d.name} india travel`);
+    const hit = await searchStockImage(`${d.name} india travel`);
+    const imageUrl = hit && (await storePixabayHit(hit, `destination-${d.slug}`, d.name).catch(() => null));
     if (imageUrl) {
       await prisma.destination.update({ where: { id: d.id }, data: { heroImage: imageUrl } });
       done++;
@@ -501,7 +513,8 @@ export async function backfillAllPhotos(): Promise<{ done: number; failed: numbe
   }
 
   for (const p of packages) {
-    const imageUrl = await searchPixabayImage(`${p.destination.name} ${p.title}`);
+    const hit = await searchStockImage(`${p.destination.name} ${p.title}`);
+    const imageUrl = hit && (await storePixabayHit(hit, `package-${p.slug}`, p.title).catch(() => null));
     if (imageUrl) {
       await prisma.package.update({ where: { id: p.id }, data: { heroImage: imageUrl } });
       done++;

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { isPhoto } from "@/lib/media";
 
 export default function DestinationCard({
   slug,
@@ -14,7 +15,7 @@ export default function DestinationCard({
   leadCount?: number;
   heroImage?: string | null;
 }) {
-  const hasPhoto = heroImage?.startsWith("http");
+  const hasPhoto = isPhoto(heroImage);
 
   return (
     <Link

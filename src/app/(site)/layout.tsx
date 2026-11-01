@@ -41,6 +41,13 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
   },
+  // Ownership tags for Search Console, Bing Webmaster Tools and Yandex,
+  // set as Vercel env vars once each account is created.
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    yandex: process.env.YANDEX_SITE_VERIFICATION || undefined,
+    other: process.env.BING_SITE_VERIFICATION ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION } : undefined,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

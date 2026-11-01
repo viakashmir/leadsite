@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { isPhoto } from "@/lib/media";
 import { formatINR } from "@/lib/format";
 
 export default function PackageCard({
@@ -24,7 +25,7 @@ export default function PackageCard({
   heroImage?: string | null;
 }) {
   const tags = theme.split(",").filter(Boolean);
-  const hasPhoto = heroImage?.startsWith("http");
+  const hasPhoto = isPhoto(heroImage);
 
   return (
     <Link

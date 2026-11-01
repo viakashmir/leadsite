@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { isPhoto } from "@/lib/media";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getDestinationsWithCities } from "@/lib/data";
@@ -83,7 +84,7 @@ export default async function PackagePage({
       />
 
       <section className="relative overflow-hidden bg-zinc-800 py-8">
-        {pkg.heroImage.startsWith("http") && (
+        {isPhoto(pkg.heroImage) && (
           <Image src={pkg.heroImage} alt={pkg.title} fill sizes="100vw" priority className="object-cover" />
         )}
         <div className="absolute inset-0 bg-zinc-900/60" />

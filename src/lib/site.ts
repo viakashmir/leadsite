@@ -10,6 +10,7 @@ function normalizeSiteUrl(value: string | undefined): string {
 }
 
 export const SITE_URL = normalizeSiteUrl(process.env.SITE_URL);
+export const absoluteUrl = (path: string) => (/^https?:\/\//.test(path) ? path : `${SITE_URL}${path}`);
 export const SITE_DESCRIPTION =
   "Tell us your trip once and get up to 3 customised quotes from verified local travel agents, for every state in India and top international destinations.";
 
@@ -32,3 +33,8 @@ export const ORG = {
 };
 
 export const EDITORIAL_TEAM = `${SITE_NAME} Editorial Team`;
+
+// IndexNow key (public by design): Bing, Copilot, DuckDuckGo (Bing index),
+// Yandex, Seznam and Naver pick up new and changed URLs within minutes.
+// Served at /indexnow.txt; submitted by scripts/indexnow-submit.ts.
+export const INDEXNOW_KEY = "ee432788d4679a9d409514f177f6454f";

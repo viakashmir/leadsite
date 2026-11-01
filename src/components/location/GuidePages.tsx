@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import { webPageSchema } from "@/lib/schema";
+import { isPhoto } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site";
 import {
   CardLinks,
   ChipLinks,
@@ -192,7 +194,7 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
           "@type": "TouristAttraction",
           name: r.place.name,
           containedInPlace: { "@type": "Place", name: where },
-          ...(r.place.heroImage && { image: r.place.heroImage }),
+          ...(isPhoto(r.place.heroImage) && { image: absoluteUrl(r.place.heroImage) }),
         }
       : {
           "@type": "TouristDestination",

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, absoluteUrl } from "@/lib/site";
+import { isPhoto } from "@/lib/media";
 import { THEMES } from "@/data/locations";
 import { fromToUrl, guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { readContent } from "@/lib/locations";
@@ -17,6 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         slug: true,
         kind: true,
         updatedAt: true,
+        heroImage: true,
         content: true,
         _count: { select: { places: true } },
       },
@@ -27,21 +29,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         slug: true,
         updatedAt: true,
         content: true,
+        heroImage: true,
         destination: { select: { slug: true } },
         _count: { select: { places: true } },
       },
     }),
     prisma.place.findMany({
       where: { contentStatus: "READY" },
-      select: { path: true, updatedAt: true, destination: { select: { slug: true } } },
+      select: { path: true, updatedAt: true, heroImage: true, destination: { select: { slug: true } } },
     }),
     prisma.package.findMany({
       where: { published: true },
-      select: { slug: true, updatedAt: true },
+      select: { slug: true, updatedAt: true, heroImage: true },
     }),
   ]);
 
   const url = (path: string) => `${SITE_URL}${path}`;
+  // Image sitemap entries for our own WebP photos (Google Images, Bing Images).
+  const images = (src?: string | null) => (isPhoto(src) ? { images: [absoluteUrl(src)] } : {});
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: url("/"), changeFrequency: "daily", priority: 1 },
@@ -82,12 +87,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   };
 
   const destinationRoutes: MetadataRoute.Sitemap = destinations.flatMap((d) => [
-    { url: url(tourPackagesUrl(d.slug)), lastModified: d.updatedAt, changeFrequency: "weekly" as const, priority: 0.9 },
+    { url: url(tourPackagesUrl(d.slug)), lastModified: d.updatedAt, changeFrequency: "weekly" as const, priority: 0.9, ...images(d.heroImage) },
     ...slices(d.slug, d.content, d.updatedAt),
     ...(d.kind === "CIRCUIT"
       ? []
       : [
-          { url: url(guideUrl(d.slug)), lastModified: d.updatedAt, changeFrequency: "monthly" as const, priority: 0.7 },
+          { url: url(guideUrl(d.slug)), lastModified: d.updatedAt, changeFrequency: "monthly" as const, priority: 0.7, ...images(d.heroImage) },
           ...guideSections(d.content, d._count.places).map((section) => ({
             url: url(guideUrl(d.slug, section)),
             lastModified: d.updatedAt,
@@ -99,7 +104,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const cityRoutes: MetadataRoute.Sitemap = cities.flatMap((c) => [
     { url: url(tourPackagesUrl(c.slug)), lastModified: c.updatedAt, changeFrequency: "weekly" as const, priority: 0.8 },
-    { url: url(guideUrl(c.destination.slug, c.slug)), lastModified: c.updatedAt, changeFrequency: "monthly" as const, priority: 0.6 },
+    { url: url(guideUrl(c.destination.slug, c.slug)), lastModified: c.updatedAt, changeFrequency: "monthly" as const, priority: 0.6, ...images(c.heroImage) },
     ...guideSections(c.content, c._count.places).map((section) => ({
       url: url(guideUrl(c.destination.slug, c.slug, section)),
       lastModified: c.updatedAt,
@@ -114,6 +119,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: p.updatedAt,
     changeFrequency: "monthly" as const,
     priority: 0.5,
+    ...images(p.heroImage),
   }));
 
   const packageRoutes: MetadataRoute.Sitemap = packages.map((p) => ({
@@ -121,6 +127,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: p.updatedAt,
     changeFrequency: "weekly" as const,
     priority: 0.7,
+    ...images(p.heroImage),
   }));
 
   return [...staticRoutes, ...destinationRoutes, ...cityRoutes, ...placeRoutes, ...packageRoutes];

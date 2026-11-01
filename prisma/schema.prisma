@@ -476,3 +476,19 @@ model AdminUser {
 
   createdAt      DateTime @default(now())
 }
+
+// Every site image, stored once as WebP and served from /media/{slug}.webp on
+// our own domain (no hotlinking, stable URLs for image search and schema).
+model MediaAsset {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  mime      String   @default("image/webp")
+  width     Int
+  height    Int
+  bytes     Bytes
+  alt       String
+  sourceUrl String   @default("")
+  credit    String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
