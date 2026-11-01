@@ -150,6 +150,132 @@ export const SOUTH_CITIES: Record<string, GuideContent> = {
     gateway: "Alappuzha station; Kochi airport",
   },
 
+  kochi: {
+    intro:
+      "Kochi (Cochin) is Kerala's main port city and the usual starting point for a Kerala holiday, with the state's busiest international airport at Nedumbassery. Fort Kochi and Mattancherry, on the peninsula across the harbour from Ernakulam, hold the Chinese fishing nets, Portuguese and Dutch-era buildings, the Paradesi Synagogue and the spice warehouses of Jew Town.\n\nMost itineraries spend one or two nights here before heading to Munnar (about 130 km) or Alleppey (about 50 km). Evenings are for a Kathakali performance and a walk along the Fort Kochi waterfront.",
+    highlights: [
+      "The Chinese fishing nets on the Fort Kochi waterfront, best at sunset",
+      "Mattancherry Palace (the Dutch Palace) and its Ramayana murals",
+      "The Paradesi Synagogue and the antique shops of Jew Town",
+      "St. Francis Church, where Vasco da Gama was first buried",
+      "A Kathakali or Kalaripayattu show in Fort Kochi",
+      "Harbour ferries between Ernakulam, Fort Kochi and Vypeen",
+    ],
+    idealDuration: "1 to 2 days",
+    bestMonths: "October to March",
+    gateway: "Cochin International Airport (COK); Ernakulam Junction station",
+    routes: [
+      { from: "Cochin airport", to: "Fort Kochi", distanceKm: "About 40 km", time: "1 to 1.5 hours", how: "By taxi via Aluva and Ernakulam; allow extra time in evening traffic." },
+      { from: "Kochi", to: "Munnar", distanceKm: "About 130 km", time: "4 hours", how: "Via Kothamangalam and Adimali." },
+      { from: "Kochi", to: "Alleppey", distanceKm: "About 50 km", time: "1.5 hours", how: "South on NH 66 along the coast." },
+    ],
+    faqs: [
+      { q: "Is Kochi worth a night on a Kerala trip?", a: "Yes. Fort Kochi's old town, the fishing nets and a Kathakali show fill a day, and starting here breaks the drive to Munnar after a morning flight." },
+      { q: "Should I stay in Fort Kochi or Ernakulam?", a: "Fort Kochi for heritage stays and walks; Ernakulam for business hotels, malls and the railway station. Ferries link the two in about 20 minutes." },
+      { q: "How far is Kochi from Munnar and Alleppey?", a: "About 130 km (4 hours) to Munnar and about 50 km (1.5 hours) to Alleppey, which is why most Kerala circuits begin or end in Kochi." },
+    ],
+  },
+
+  thekkady: {
+    intro:
+      "Thekkady is the town at the edge of Periyar Tiger Reserve in Kerala's Idukki district, next to Kumily on the Tamil Nadu border. Visitors come for boat rides on Periyar Lake, where elephants, gaur and sambar come down to the water, and for the cardamom, pepper and coffee plantations in the surrounding hills.\n\nIt sits between Munnar (about 90 km) and the backwaters, so most Kerala itineraries give it one or two nights on the way from the hills to Alleppey or Kumarakom.",
+    highlights: [
+      "Boat safari on Periyar Lake inside the tiger reserve",
+      "Guided nature walks, bamboo rafting and border hikes run by the forest department",
+      "Spice plantation tours for cardamom, pepper, cloves and coffee",
+      "Kalaripayattu and Kathakali shows in Kumily",
+      "Day trips to Gavi and to the Mangala Devi temple when it opens for Chitra Pournami",
+    ],
+    idealDuration: "1 to 2 days",
+    bestMonths: "October to April",
+    gateway: "Kochi airport, about 145 km; Kottayam station, about 115 km",
+    routes: [
+      { from: "Munnar", to: "Thekkady", distanceKm: "About 90 km", time: "3 hours", how: "Via Poopara and Kumily through cardamom country." },
+      { from: "Thekkady", to: "Alleppey", distanceKm: "About 140 km", time: "4 hours", how: "Via Kottayam." },
+      { from: "Thekkady", to: "Madurai", distanceKm: "About 140 km", time: "4 hours", how: "Down the ghats via Cumbum into Tamil Nadu." },
+    ],
+    faqs: [
+      { q: "Can you see tigers in Periyar?", a: "Tiger sightings are rare. The boat ride and walks are more likely to show elephants, gaur, sambar, wild boar and many birds; mornings are best." },
+      { q: "How do I book the Periyar boat ride?", a: "Tickets are sold by the Kerala forest department, online and at the counter, for fixed departures through the day. Early boats sell out first in the holiday season." },
+      { q: "Is Thekkady good for families?", a: "Yes. The boat ride, spice gardens, elephant-free nature walks and cultural shows suit children, and the drive from Munnar is short." },
+    ],
+  },
+
+  kumarakom: {
+    intro:
+      "Kumarakom is a cluster of islands and villages on the eastern shore of Vembanad Lake near Kottayam, quieter than Alleppey across the water. It is known for lakeside resorts, houseboat cruises that start straight from the resort jetty, and the Kumarakom Bird Sanctuary, a migratory stop for herons, egrets and cormorants.\n\nCouples often choose Kumarakom for the last two nights of a Kerala honeymoon, and it is about 16 km from Kottayam railway station.",
+    highlights: [
+      "Kumarakom Bird Sanctuary on a 14-acre stretch of the lake shore",
+      "Houseboat and shikara cruises on Vembanad Lake",
+      "Village canal rides past paddy fields below sea level",
+      "Lake-view resorts with Ayurveda spas",
+      "Sunset over Vembanad from Pathiramanal island",
+    ],
+    idealDuration: "1 to 2 days",
+    bestMonths: "September to March; November to February for migratory birds",
+    gateway: "Kottayam station, about 16 km; Kochi airport, about 85 km",
+    routes: [
+      { from: "Kochi airport", to: "Kumarakom", distanceKm: "About 85 km", time: "2.5 hours", how: "Via Ettumanoor and Kottayam." },
+      { from: "Thekkady", to: "Kumarakom", distanceKm: "About 125 km", time: "3.5 hours", how: "Via Kottayam." },
+      { from: "Alleppey", to: "Kumarakom", distanceKm: "About 35 km by road", time: "1 hour", how: "By road, or across Vembanad Lake by boat." },
+    ],
+    faqs: [
+      { q: "Kumarakom or Alleppey for a houseboat?", a: "Alleppey has the most houseboats and canal routes. Kumarakom is quieter, with resorts on the lake and day cruises from their jetties. Many couples do a night on an Alleppey houseboat and two nights at a Kumarakom resort." },
+      { q: "When is the best time for the bird sanctuary?", a: "November to February for migratory birds, early in the morning. From June to August many resident birds nest." },
+      { q: "How do I reach Kumarakom by train?", a: "Kottayam station, about 16 km away, has trains from Kochi, Thiruvananthapuram, Chennai and Bengaluru." },
+    ],
+  },
+
+  kovalam: {
+    intro:
+      "Kovalam is a beach town about 16 km south of Thiruvananthapuram, with three crescent bays separated by rocky headlands: Lighthouse Beach, Hawa (Eve's) Beach and Samudra Beach. It was one of Kerala's first beach destinations and is known for Ayurveda resorts, the red-and-white Vizhinjam lighthouse and calm, swimmable water in the dry months.\n\nKovalam pairs well with Varkala, about 55 km north, and with Thiruvananthapuram's Padmanabhaswamy Temple at the end of a Kerala trip.",
+    highlights: [
+      "Lighthouse Beach and the climb up the Vizhinjam lighthouse",
+      "Hawa Beach and Samudra Beach for quieter swims",
+      "Ayurveda treatments and resorts on the cliffs",
+      "Sri Padmanabhaswamy Temple and Napier Museum in Thiruvananthapuram",
+      "Day trips to Poovar's estuary and Kanyakumari",
+    ],
+    idealDuration: "2 to 3 days",
+    bestMonths: "October to March",
+    gateway: "Thiruvananthapuram airport (TRV), about 15 km",
+    routes: [
+      { from: "Thiruvananthapuram airport", to: "Kovalam", distanceKm: "About 15 km", time: "30 to 40 minutes", how: "By taxi." },
+      { from: "Kovalam", to: "Varkala", distanceKm: "About 55 km", time: "1.5 to 2 hours", how: "North via Thiruvananthapuram." },
+      { from: "Kovalam", to: "Kanyakumari", distanceKm: "About 85 km", time: "2.5 hours", how: "South on NH 66 into Tamil Nadu." },
+    ],
+    faqs: [
+      { q: "Is it safe to swim at Kovalam?", a: "In the dry season the water is usually calm at Lighthouse and Hawa beaches; swim only between the lifeguard flags. During the monsoon (June to September) the sea is rough and swimming is not advised." },
+      { q: "Kovalam or Varkala?", a: "Kovalam has gentler bays and bigger resorts; Varkala has a dramatic cliff with cafes and a younger crowd. They are under two hours apart, so many trips include both." },
+      { q: "When is Ayurveda season in Kovalam?", a: "Resorts offer treatments all year. The monsoon months are traditionally considered good for Ayurveda, and they are also the off-season for rates." },
+    ],
+  },
+
+  varkala: {
+    intro:
+      "Varkala is a coastal town about 50 km north of Thiruvananthapuram where red laterite cliffs drop straight to the Arabian Sea. The North Cliff is lined with cafes, guesthouses and yoga schools, while Papanasam Beach below is a pilgrimage spot near the 2,000-year-old Janardhana Swamy Temple.\n\nVarkala has its own railway station on the Kochi to Thiruvananthapuram line, which makes it easy to add two or three beach days to a Kerala backwaters trip.",
+    highlights: [
+      "Sunset walks along the North Cliff",
+      "Papanasam Beach and the Janardhana Swamy Temple",
+      "Black Beach and Odayam Beach for quieter stretches",
+      "Yoga courses, Ayurveda and surfing lessons",
+      "A day at Kappil, where the backwaters meet the sea",
+    ],
+    idealDuration: "2 to 3 days",
+    bestMonths: "October to March",
+    gateway: "Varkala Sivagiri station; Thiruvananthapuram airport, about 50 km",
+    routes: [
+      { from: "Thiruvananthapuram airport", to: "Varkala", distanceKm: "About 50 km", time: "1.5 hours", how: "By taxi on NH 66." },
+      { from: "Alleppey", to: "Varkala", distanceKm: "About 110 km", time: "3 hours", how: "South via Kollam, or by train to Varkala Sivagiri." },
+      { from: "Varkala", to: "Kovalam", distanceKm: "About 55 km", time: "1.5 to 2 hours", how: "Via Thiruvananthapuram." },
+    ],
+    faqs: [
+      { q: "Is Varkala good for families?", a: "Yes, with care: the cliff edge has no railings in places, so keep children close. Papanasam and Odayam beaches are easier with small children than the busier North Cliff." },
+      { q: "Can you swim at Varkala?", a: "In the dry months, near the lifeguards. Currents can be strong, and the sea is rough in the monsoon." },
+      { q: "How do I get to Varkala by train?", a: "Varkala Sivagiri station is on the main line between Kochi and Thiruvananthapuram; the cliff is a short auto ride away." },
+    ],
+  },
+
   wayanad: {
     intro:
       "Wayanad is a hill district in north-east Kerala, about 270 km from both Bengaluru and Kochi, known for forests, spice and coffee estates, and wildlife. Tourist places to visit in Wayanad include the Edakkal caves with their ancient rock carvings, Banasura Sagar dam, Chembra Peak with its heart-shaped lake, Pookode Lake and the Muthanga wildlife sanctuary.",
