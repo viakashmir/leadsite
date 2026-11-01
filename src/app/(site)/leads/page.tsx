@@ -1,3 +1,6 @@
+import JsonLd from "@/components/JsonLd";
+import { Breadcrumbs } from "@/components/location/blocks";
+import { webPageSchema } from "@/lib/schema";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
@@ -18,6 +21,15 @@ export default async function LeadsIndexPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
+      <JsonLd
+        data={webPageSchema({
+          path: "/leads",
+          name: "Travel Leads by Destination",
+          description: "Verified traveller enquiries by destination for travel agents.",
+          type: "CollectionPage",
+        })}
+      />
+      <Breadcrumbs items={[{ name: "Travel Leads", href: "/leads" }]} />
       <h1 className="text-2xl font-bold text-zinc-900">Travel Leads by Destination</h1>
       <p className="mt-1 text-sm text-zinc-600">
         Browse verified traveler enquiries. Sign up free as a travel agent to unlock contact

@@ -195,3 +195,30 @@ export function readContent(value: Prisma.JsonValue | null | undefined): GuideCo
     ? (value as GuideContent)
     : {};
 }
+
+// Which guide sections of a destination or city have something real to show.
+// Tabs, links, the sitemap and routing all use this, so no visitor or crawler
+// is ever sent to an empty "being written" page.
+export async function availableSections(
+  destinationId: string,
+  cityId: string | null,
+  content: Prisma.JsonValue | null | undefined,
+): Promise<Set<(typeof GUIDE_SECTIONS)[number]["slug"]>> {
+  const c = readContent(content);
+  const intro = (s: keyof NonNullable<GuideContent["sections"]>) => Boolean(c.sections?.[s]?.intro);
+  const where = cityId ? { cityId } : { destinationId };
+  const [places, activities] = await Promise.all([
+    prisma.place.count({ where: { ...where, kind: "PLACE" } }),
+    prisma.place.count({ where: { ...where, kind: "ACTIVITY" } }),
+  ]);
+  const has = {
+    "places-to-visit": places > 0 || intro("places-to-visit"),
+    "things-to-do": activities > 0 || intro("things-to-do"),
+    "best-time-to-visit": Boolean(c.bestTimeToVisit || c.months?.length || intro("best-time-to-visit")),
+    "how-to-reach": Boolean(c.howToReach?.air || c.howToReach?.rail || c.howToReach?.road || c.routes?.length || intro("how-to-reach")),
+    "travel-guide-tips": Boolean(c.thingsToKnow?.length || intro("travel-guide-tips")),
+    "local-food": intro("local-food"),
+    "culture-and-heritage": intro("culture-and-heritage"),
+  } as const;
+  return new Set((Object.keys(has) as (keyof typeof has)[]).filter((k) => has[k]));
+}

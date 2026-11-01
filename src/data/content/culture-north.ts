@@ -8,6 +8,102 @@ import type { GuideContent } from "@/lib/locations";
 type Supplement = Partial<GuideContent>;
 
 export const CULTURE_DESTINATIONS: Record<string, Supplement> = {
+  kashmir: {
+    sections: {
+      "local-food": {
+        intro:
+          "Kashmiri food is built around slow-cooked meat, rice, yoghurt, dried spices and saffron, with a strong vegetarian tradition among Kashmiri Pandits. Its centrepiece is wazwan, the multi-course feast served at weddings and celebrations, but everyday food (haak greens, nadru lotus stem, Kashmiri bread from the local baker) is just as much part of a visit.",
+        blocks: [
+          {
+            heading: "Wazwan: the Kashmiri feast",
+            body: "Wazwan is cooked overnight by hereditary chefs called wazas and served on a large copper plate, the trami, shared by four guests. A traditional wazwan can run to more than 30 courses. Its best-known dishes are rista (meatballs in a red gravy), gushtaba (soft meatballs in a yoghurt gravy, served last), rogan josh, tabak maaz (fried lamb ribs) and yakhni (lamb in a yoghurt and fennel gravy). Many Srinagar restaurants serve a short wazwan thali.",
+          },
+          {
+            heading: "Famous Kashmiri dishes to try",
+            items: [
+              "Rogan josh: lamb in a red gravy coloured with Kashmiri chilli and cockscomb flower (mawal)",
+              "Yakhni: lamb or chicken cooked in yoghurt with fennel and cardamom",
+              "Gushtaba and rista: pounded-meat balls in yoghurt and red gravies",
+              "Haak: collard greens cooked simply with mustard oil and chilli, eaten with rice",
+              "Nadru yakhni and nadru monje: lotus stem from the Dal and Anchar lakes in a yoghurt gravy, or fried as fritters",
+              "Kashmiri dum aloo: small potatoes in a fennel and chilli gravy",
+              "Harissa: a slow-cooked mutton dish eaten for breakfast in Srinagar in winter",
+              "Modur pulav: sweet saffron rice with dry fruit",
+            ],
+          },
+          {
+            heading: "Kahwa, noon chai and Kashmiri bread",
+            items: [
+              "Kahwa: green tea with saffron, cardamom, cinnamon and almonds",
+              "Noon chai (sheer chai): pink salted tea with milk, drunk at breakfast and in the afternoon",
+              "Breads from the local kandur (baker): girda in the morning, lavasa, kulcha and bakarkhani",
+            ],
+          },
+          {
+            heading: "Saffron, walnuts and dry fruit",
+            body: "Kashmiri saffron from the Pampore area south of Srinagar has a GI tag; the flowers are harvested around October and November. Walnuts, almonds, apricots and apples from the valley are sold in Srinagar markets. Buy saffron from government emporiums or established shops and check the GI label.",
+          },
+        ],
+        faqs: [
+          { q: "What is the famous food of Kashmir?", a: "Wazwan dishes such as rogan josh, rista, gushtaba and yakhni, plus haak, nadru (lotus stem), harissa in winter, and drinks like kahwa and noon chai." },
+          { q: "Is vegetarian food available in Kashmir?", a: "Yes. Kashmiri Pandit cooking is largely vegetarian, and dishes like dum aloo, haak, nadru and rajma are easy to find alongside North Indian vegetarian food." },
+          { q: "What is wazwan?", a: "The traditional multi-course Kashmiri feast cooked by hereditary chefs (wazas) for weddings and celebrations, served on a shared copper plate called a trami." },
+        ],
+      },
+      "culture-and-heritage": {
+        intro:
+          "Kashmir's culture blends Sufi Islam, Hindu and Buddhist history, Persian and Central Asian influences and centuries of craft. Kashmiri (Koshur) is the language of the valley, with Urdu, Hindi, Dogri in Jammu and English widely used. Shrines, Mughal gardens, wooden mosques and ancient temple ruins sit within a short drive of Srinagar.",
+        blocks: [
+          {
+            heading: "Heritage sites in Kashmir",
+            items: [
+              "The Mughal gardens of Srinagar: Shalimar Bagh (built for Emperor Jahangir), Nishat Bagh, Chashme Shahi and Pari Mahal",
+              "Jamia Masjid in Srinagar's old city, with a courtyard surrounded by hundreds of deodar wood pillars",
+              "Khanqah-e-Moula (Shah-e-Hamdan) on the Jhelum, a carved and painted wooden shrine",
+              "Hazratbal Shrine on the banks of Dal Lake",
+              "Shankaracharya Temple on the hill above Dal Lake",
+              "The Martand Sun Temple ruins near Anantnag, built in the 8th century",
+              "Kheer Bhawani temple at Tulmulla, home of an annual mela on Jyeshtha Ashtami",
+            ],
+          },
+          {
+            heading: "Kashmiri crafts",
+            items: [
+              "Pashmina and Kani shawls, both GI-tagged; Kani shawls are woven with small wooden bobbins",
+              "Papier-mache boxes and ornaments, hand-painted in Srinagar workshops",
+              "Walnut wood carving and khatamband, the geometric wooden ceilings of old houses and houseboats",
+              "Hand-knotted Kashmiri carpets and crewel embroidery",
+            ],
+          },
+          {
+            heading: "Festivals and traditions",
+            items: [
+              "The tulip festival at the Indira Gandhi Memorial Tulip Garden, around late March to April",
+              "Eid ul-Fitr and Eid ul-Adha, celebrated across the valley",
+              "Navroz, the spring new year, in March",
+              "The Kheer Bhawani mela at Tulmulla, usually in May or June",
+              "The Amarnath Yatra to the cave shrine, usually July and August",
+              "Sufiana kalam (Sufi music) and the Rouf folk dance at celebrations",
+              "The pheran (long woollen gown) and kangri (wicker fire pot) in winter",
+            ],
+          },
+          {
+            heading: "Customs to respect in Kashmir",
+            items: [
+              "Dress modestly, especially in the old city and at shrines and mosques",
+              "Remove shoes at shrines; women usually cover their heads, and some shrines limit entry to inner areas",
+              "Ask before photographing people, and inside shrines",
+              "During Ramzan, avoid eating and drinking in public places in the daytime as a courtesy",
+            ],
+          },
+        ],
+        faqs: [
+          { q: "What language is spoken in Kashmir?", a: "Kashmiri (Koshur) in the valley, with Urdu, Hindi and English widely understood. Dogri is spoken in the Jammu region." },
+          { q: "What should I buy in Kashmir?", a: "Pashmina and Kani shawls, papier-mache, walnut wood carving, carpets, saffron from Pampore, dry fruit and kahwa. Buy from government emporiums or established shops and check GI labels." },
+        ],
+      },
+    },
+  },
   himachal: {
     sections: {
       "local-food": {

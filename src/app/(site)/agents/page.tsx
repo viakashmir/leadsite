@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { QuoteBox } from "@/components/location/blocks";
+import { Breadcrumbs, QuoteBox } from "@/components/location/blocks";
+import JsonLd from "@/components/JsonLd";
+import { webPageSchema } from "@/lib/schema";
 import { SERVICE_OPTIONS } from "@/lib/validation";
 
 export const revalidate = 600;
@@ -23,7 +25,16 @@ export default async function AgentsDirectoryPage() {
   return (
     <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 sm:py-10 lg:grid-cols-3">
       <div className="min-w-0 lg:col-span-2">
-        <h1 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+        <JsonLd
+          data={webPageSchema({
+            path: "/agents",
+            name: "Find Top Travel Agents",
+            description: "Verified travel agents and tour operators on Tavel Package.",
+            type: "CollectionPage",
+          })}
+        />
+        <Breadcrumbs items={[{ name: "Travel Agents", href: "/agents" }]} />
+        <h1 className="mt-3 font-display text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
           Find Top Travel Agents
         </h1>
         <p className="mt-1 text-sm text-zinc-600">

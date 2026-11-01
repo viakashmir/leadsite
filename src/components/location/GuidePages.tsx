@@ -33,6 +33,7 @@ import {
   readContent,
   type CityWithPlaces,
   type DestinationWithTree,
+  availableSections,
 } from "@/lib/locations";
 import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 
@@ -74,7 +75,11 @@ export async function resolveGuide(destSlug: string, path: string[]): Promise<Gu
 
   if (rest.length === 0) return { kind: "overview", destination, city };
   if (!isSection(rest[0])) return null;
-  if (rest.length === 1) return { kind: "section", destination, city, section: rest[0] };
+  if (rest.length === 1) {
+    // Empty sections 404 rather than showing a placeholder.
+    const sections = await availableSections(destination.id, city?.id ?? null, city ? city.content : destination.content);
+    return sections.has(rest[0]) ? { kind: "section", destination, city, section: rest[0] } : null;
+  }
   if (rest.length === 2 && rest[0] === "how-to-reach" && city) {
     const route = getRoute(city.slug, rest[1]);
     return route ? { kind: "route", destination, city, route } : null;
@@ -215,6 +220,55 @@ function placesOf(r: GuideRoute, kind: "PLACE" | "ACTIVITY") {
   return r.destination.places.filter((p) => p.kind === kind);
 }
 
+// Link text for a guide section of a place, matching how people search it.
+function sectionLabel(section: SectionSlug, where: string) {
+  switch (section) {
+    case "places-to-visit":
+      return `Places to visit in ${where}`;
+    case "things-to-do":
+      return `Things to do in ${where}`;
+    case "best-time-to-visit":
+      return `Best time to visit ${where}`;
+    case "how-to-reach":
+      return `How to reach ${where}`;
+    case "travel-guide-tips":
+      return `${where} travel tips`;
+    case "local-food":
+      return `Food of ${where}`;
+    case "culture-and-heritage":
+      return `Culture of ${where}`;
+  }
+}
+
+const listNames = (names: string[]) =>
+  names.length <= 1 ? names.join("") : `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+
+// A short, factual intro built from the location data we hold, used until a
+// written guide exists, so no page shows an empty "being written" box.
+function autoIntro(r: GuideRoute): string | undefined {
+  const d = r.destination;
+  if (r.kind === "place") {
+    const where = r.city ? `${r.city.name}, ${d.name}` : d.name;
+    const others = (r.city ? r.city.places : d.places).filter((p) => p.id !== r.place.id && p.kind === "PLACE").slice(0, 4);
+    return `${r.place.name} is one of the places to visit in ${where}. Most travellers see it as part of a ${r.city?.name ?? d.name} trip${
+      others.length ? `, together with ${listNames(others.map((p) => p.name))}` : ""
+    }. Local agents on Tavel Package can add it to a customised itinerary.`;
+  }
+  if (r.city) {
+    const kind = r.city.kind ? r.city.kind.replace(/-/g, " ") : "destination";
+    const places = r.city.places.filter((p) => p.kind === "PLACE").slice(0, 5);
+    return `${r.city.name} is a ${kind} in ${d.officialName ?? d.name}.${
+      places.length ? ` Places to visit include ${listNames(places.map((p) => p.name))}.` : ""
+    } Verified local agents can plan a ${r.city.name} trip around your dates, group and budget.`;
+  }
+  if (d.cities.length) {
+    return `${d.officialName ?? d.name} is a travel destination whose most visited places include ${listNames(
+      d.cities.slice(0, 6).map((c) => c.name),
+    )}. Verified local agents can plan a customised ${d.name} trip around your dates, group and budget.`;
+  }
+  return undefined;
+}
+
 async function destinationWidePlaces(destinationId: string, kind: "PLACE" | "ACTIVITY") {
   return prisma.place.findMany({
     where: { destinationId, kind },
@@ -239,7 +293,9 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
     );
   }
   const { title, where } = names(r);
-  const content = readContent(r.kind === "place" ? r.place.content : r.city ? r.city.content : d.content);
+  const raw = readContent(r.kind === "place" ? r.place.content : r.city ? r.city.content : d.content);
+  // Pages without written copy get a factual intro from our location data.
+  const content = raw.intro || raw.highlights?.length ? raw : { ...raw, intro: autoIntro(r) };
   const packagesSlug = r.city ? r.city.slug : d.slug;
   const updated = r.kind === "place" ? r.place.updatedAt : r.city ? r.city.updatedAt : d.updatedAt;
   const published = r.kind === "place" ? r.place.createdAt : r.city ? r.city.createdAt : d.createdAt;
@@ -258,9 +314,10 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
         };
   const sectionBase = [d.slug, r.city?.slug] as const;
 
+  const available = await availableSections(d.id, r.city?.id ?? null, r.city ? r.city.content : d.content);
   const sectionLinks = [
     { label: "Overview", href: guideUrl(...sectionBase), active: r.kind === "overview" },
-    ...GUIDE_SECTIONS.map((s) => ({
+    ...GUIDE_SECTIONS.filter((s) => available.has(s.slug)).map((s) => ({
       label: s.name,
       href: guideUrl(...sectionBase, s.slug),
       active: r.kind === "section" && r.section === s.slug,
@@ -420,10 +477,27 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
         </Section>
       );
     }
+    // Lateral links: the same guide for the other places in this destination
+    // (only where that guide has content), so long-tail pages link to each other.
+    const section = r.section;
+    const siblings = (
+      await Promise.all(
+        d.cities
+          .filter((c) => c.id !== r.city?.id)
+          .map(async (c) => ((await availableSections(d.id, c.id, c.content)).has(section) ? c : null)),
+      )
+    ).filter((c): c is NonNullable<typeof c> => c !== null);
     main = (
       <>
         {main}
         <Blocks blocks={sec?.blocks} />
+        {siblings.length > 0 && (
+          <Section title={`${GUIDE_SECTIONS.find((g) => g.slug === section)!.name}: More Places in ${d.name}`}>
+            <ChipLinks
+              links={siblings.map((c) => ({ label: sectionLabel(section, c.name), href: guideUrl(d.slug, c.slug, section) }))}
+            />
+          </Section>
+        )}
       </>
     );
   } else {

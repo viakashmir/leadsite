@@ -31,6 +31,7 @@ import {
   targetName,
   targetSlug,
   type Target,
+  availableSections,
 } from "@/lib/locations";
 import { SITE_URL } from "@/lib/site";
 import { fromToUrl, guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
@@ -169,6 +170,9 @@ export default async function TargetPackagesPage({
   }));
 
   const guideCity = t.type === "city" ? t.city.slug : undefined;
+  const guideSections = isCircuit
+    ? new Set<string>()
+    : await availableSections(dest.id, t.type === "city" ? t.city.id : null, t.type === "city" ? t.city.content : dest.content);
 
   return (
     <div>
@@ -296,7 +300,7 @@ export default async function TargetPackagesPage({
                 <ChipLinks
                   links={[
                     { label: `${name} Tourism`, href: guideUrl(dest.slug, guideCity) },
-                    ...GUIDE_SECTIONS.map((s) => ({
+                    ...GUIDE_SECTIONS.filter((s) => guideSections.has(s.slug)).map((s) => ({
                       label: s.name,
                       href: guideUrl(dest.slug, guideCity, s.slug),
                     })),

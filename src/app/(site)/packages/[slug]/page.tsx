@@ -7,8 +7,9 @@ import { prisma } from "@/lib/prisma";
 import { getDestinationsWithCities } from "@/lib/data";
 import EnquiryForm from "@/components/EnquiryForm";
 import JsonLd from "@/components/JsonLd";
-import { formatINR } from "@/lib/format";
-import { SITE_URL } from "@/lib/site";
+import { formatDate, formatINR } from "@/lib/format";
+import { EDITORIAL_TEAM, SITE_URL } from "@/lib/site";
+import { ORG_ID, webPageSchema } from "@/lib/schema";
 import TrustTicks from "@/components/TrustTicks";
 
 export const revalidate = 3600;
@@ -66,7 +67,18 @@ export default async function PackagePage({
     });
 
   return (
-    <div>
+    <article>
+      <JsonLd
+        data={webPageSchema({
+          path: `/packages/${pkg.slug}`,
+          name: pkg.title,
+          description: pkg.summary,
+          dateModified: pkg.updatedAt,
+          datePublished: pkg.createdAt,
+          breadcrumb: false,
+          about: { "@type": "TouristDestination", name: pkg.city?.name ?? pkg.destination.name },
+        })}
+      />
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -86,6 +98,9 @@ export default async function PackagePage({
           description: pkg.summary,
           url: `${SITE_URL}/packages/${pkg.slug}`,
           touristType: pkg.theme.split(",").filter(Boolean),
+          provider: pkg.agent
+            ? { "@type": "TravelAgency", name: pkg.agent.companyName }
+            : { "@id": ORG_ID },
           offers: {
             "@type": "Offer",
             priceCurrency: "INR",
@@ -118,6 +133,11 @@ export default async function PackagePage({
               {pkg.city ? ` · ${pkg.city.name}` : ""}
             </span>
           </div>
+          <p className="mt-2 text-xs text-ink-soft">
+            Listed by <span className="font-semibold text-ink">{pkg.agent?.companyName ?? EDITORIAL_TEAM}</span>
+            <span className="mx-1.5 text-zinc-300">·</span>
+            Updated <time dateTime={pkg.updatedAt.toISOString()}>{formatDate(pkg.updatedAt)}</time>
+          </p>
           <nav aria-label="Breadcrumb" className="mt-2.5 text-xs text-ink-soft">
             <Link href="/" className="hover:text-brand">Home</Link>
             <span className="mx-1.5 text-zinc-300">/</span>
@@ -182,6 +202,6 @@ export default async function PackagePage({
           />
         </div>
       </div>
-    </div>
+    </article>
   );
 }

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <InfoPage path="/about-us" title={title} description={description} type="AboutPage">
+    <InfoPage updated="2026-11-01" path="/about-us" title={title} description={description} type="AboutPage">
       <section>
         <h2>What {SITE_NAME} Does</h2>
         <p>

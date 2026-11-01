@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   const a = ORG.address;
   return (
-    <InfoPage path="/contact-us" title={title} description={description} type="ContactPage">
+    <InfoPage updated="2026-11-01" path="/contact-us" title={title} description={description} type="ContactPage">
       {(ORG.email || ORG.phone || a) && (
         <section>
           <h2>Reach Us</h2>

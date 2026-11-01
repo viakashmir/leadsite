@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ChipLinks, PageHero, QuoteBox, Section, TwoColumn, type Crumb } from "@/components/location/blocks";
 import { THEMES } from "@/data/locations";
+import JsonLd from "@/components/JsonLd";
+import { webPageSchema } from "@/lib/schema";
 import { getCircuits, getDestinationsByZone } from "@/lib/locations";
 import { themeUrl, tourPackagesUrl } from "@/lib/urls";
 
@@ -29,6 +31,9 @@ export default async function DestinationIndex({
 
   return (
     <div>
+      <JsonLd
+        data={webPageSchema({ path: crumbs[crumbs.length - 1].href, name: title, description: subtitle, type: "CollectionPage" })}
+      />
       <PageHero crumbs={crumbs} title={title} subtitle={subtitle}>
         {!scope && (
           <div className="mt-5 flex flex-wrap gap-2">

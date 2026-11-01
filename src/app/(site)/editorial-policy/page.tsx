@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function EditorialPolicyPage() {
   return (
-    <InfoPage path="/editorial-policy" title={title} description={description} type="WebPage">
+    <InfoPage updated="2026-11-01" path="/editorial-policy" title={title} description={description} type="WebPage">
       <section>
         <h2>Who Writes Our Guides</h2>
         <p>

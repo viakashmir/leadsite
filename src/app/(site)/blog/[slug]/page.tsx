@@ -78,7 +78,7 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
   ];
 
   return (
-    <div>
+    <article>
       <JsonLd
         data={webPageSchema({
           path: postUrl(post.slug),
@@ -222,6 +222,6 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
           />
         }
       />
-    </div>
+    </article>
   );
 }
