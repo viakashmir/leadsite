@@ -1,5 +1,7 @@
 import crypto from "crypto";
+import { after } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { notifyCreditPurchase } from "@/lib/email/agentNotifications";
 
 /** Constant-time comparison of two hex HMAC signatures. */
 export function signaturesMatch(expectedHex: string, receivedHex: string): boolean {
@@ -27,7 +29,7 @@ export async function fulfillPaymentOrder(
     return { ok: false as const, reason: "Paid amount does not match the order" };
   }
 
-  return prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx) => {
     // Claim the order with a conditional update: of two concurrent callers
     // only one flips it to PAID, so credits can never be applied twice.
     const claimed = await tx.paymentOrder.updateMany({
@@ -58,4 +60,9 @@ export async function fulfillPaymentOrder(
     });
     return { ok: true as const, alreadyProcessed: false };
   });
+
+  // Receipt to the agent + payment alert to admins, only for the call that
+  // actually credited the order (verify and webhook can both arrive).
+  if (result.ok && !result.alreadyProcessed) after(() => notifyCreditPurchase(order.id));
+  return result;
 }

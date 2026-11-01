@@ -5,7 +5,9 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { requireAgent, requireAgentAccount } from "@/lib/auth";
 import { agentOnboardingSchema, agentProfileSchema } from "@/lib/validation";
-import { AGENT_HOME } from "@/lib/signIn";
+import { after } from "next/server";
+import { AGENT_HOME, SIGNUP_BONUS_CREDITS, agentNeedsOnboarding } from "@/lib/signIn";
+import { notifyAgentRegistered } from "@/lib/email/agentNotifications";
 
 export type FormResult = { error?: string; ok?: boolean };
 
@@ -20,7 +22,11 @@ export async function completeOnboarding(_prev: FormResult, fd: FormData): Promi
   });
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Please check the form" };
 
+  const firstTime = agentNeedsOnboarding(agent);
   await prisma.agent.update({ where: { id: agent.id }, data: parsed.data });
+  // Google sign-ups get their welcome + admin signup alert here, once the
+  // company name and phone the emails need are filled in.
+  if (firstTime) after(() => notifyAgentRegistered(agent.id, SIGNUP_BONUS_CREDITS));
   redirect(AGENT_HOME);
 }
 

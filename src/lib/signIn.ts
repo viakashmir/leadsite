@@ -18,7 +18,7 @@ export const ADMIN_HOME = "/admin/agents";
 export const AGENT_HOME = "/agent/dashboard/profile";
 export const AGENT_ONBOARDING = "/agent/onboarding";
 
-const SIGNUP_BONUS_CREDITS = WELCOME_CREDITS;
+export const SIGNUP_BONUS_CREDITS = WELCOME_CREDITS;
 
 /** Comma-separated ADMIN_EMAILS, lower-cased. */
 export function adminEmailAllowlist(): string[] {

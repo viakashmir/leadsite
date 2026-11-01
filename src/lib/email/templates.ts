@@ -4,7 +4,7 @@
 
 import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/site";
 
-const C = {
+export const C = {
   brand: "#7a1f2b",
   brandDark: "#5e1621",
   ink: "#14213d",
@@ -15,7 +15,7 @@ const C = {
   panel: "#f4eee4",
   line: "#e7dfd2",
 };
-const FONT = "'Plus Jakarta Sans','Segoe UI',Helvetica,Arial,sans-serif";
+export const FONT = "'Plus Jakarta Sans','Segoe UI',Helvetica,Arial,sans-serif";
 
 export function esc(value: unknown): string {
   return String(value ?? "")
@@ -56,9 +56,9 @@ export type SuggestedPackage = {
   price: number;
 };
 
-const inr = (n: number) =>
+export const inr = (n: number) =>
   new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n);
-const date = (d: Date) => d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Kolkata" });
+export const date = (d: Date) => d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Kolkata" });
 const dateTime = (d: Date) =>
   d.toLocaleString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit", timeZone: "Asia/Kolkata" }) + " IST";
 
@@ -68,7 +68,7 @@ const img = (src: string | null) => (src ? absoluteUrl(src) : null);
 // address nobody has verified. Only greet by name when it looks like a name,
 // so the form can't be used to put someone else's words ("call this number")
 // in front of a stranger under our brand.
-const firstName = (name: string) => {
+export const firstName = (name: string) => {
   const first = name.trim().split(/\s+/)[0] ?? "";
   return /^\p{L}[\p{L}.'-]{0,29}$/u.test(first) ? first : "";
 };
@@ -76,14 +76,14 @@ const tripPlace = (l: LeadEmailData) => (l.cityName ? `${l.cityName}, ${l.destin
 const travellers = (l: LeadEmailData) =>
   `${l.adults} adult${l.adults === 1 ? "" : "s"}${l.children ? `, ${l.children} child${l.children === 1 ? "" : "ren"}` : ""}`;
 
-function button(href: string, label: string, bg = C.brand, color = "#ffffff") {
+export function button(href: string, label: string, bg = C.brand, color = "#ffffff") {
   return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;"><tr>
 <td align="center" bgcolor="${bg}" style="border-radius:999px;">
 <a href="${esc(href)}" target="_blank" style="display:inline-block;padding:14px 30px;font-family:${FONT};font-size:15px;font-weight:700;color:${color};text-decoration:none;border-radius:999px;">${label}</a>
 </td></tr></table>`;
 }
 
-function detailRows(rows: [string, string | null | undefined][]) {
+export function detailRows(rows: [string, string | null | undefined][]) {
   return rows
     .filter(([, v]) => v)
     .map(
@@ -95,7 +95,7 @@ function detailRows(rows: [string, string | null | undefined][]) {
     .join("");
 }
 
-function layout(opts: { preheader: string; body: string; footerNote: string }) {
+export function layout(opts: { preheader: string; body: string; footerNote: string }) {
   const year = new Date().getFullYear();
   return `<!DOCTYPE html>
 <html lang="en"><head>

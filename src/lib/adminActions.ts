@@ -1,6 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
+import { notifyAgentApproved } from "@/lib/email/agentNotifications";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/adminAuth";
 import { setAgentSessionCookie } from "@/lib/auth";
@@ -83,12 +85,18 @@ export async function updateAgentStatus(agentId: string, formData: FormData): Pr
   const status = String(formData.get("status") ?? "");
   if (!["PENDING", "ACTIVE", "SUSPENDED"].includes(status)) return;
 
+  const before = await prisma.agent.findUnique({ where: { id: agentId }, select: { status: true } });
+  if (!before) return;
+
   await prisma.$transaction([
     prisma.agent.update({ where: { id: agentId }, data: { status: status as never } }),
     prisma.agentActivity.create({
       data: { agentId, type: "STATUS_CHANGE", actor: admin.name, detail: `Status changed to ${status}` },
     }),
   ]);
+
+  // Tell the agent when they're approved (or reactivated), once per change.
+  if (status === "ACTIVE" && before.status !== "ACTIVE") after(() => notifyAgentApproved(agentId));
 
   revalidatePath(`/admin/agents/${agentId}`);
   revalidatePath("/admin/agents");

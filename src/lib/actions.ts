@@ -3,7 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { refreshPublicLeadPages } from "@/lib/leadPages";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { notifyLeadUnlocked } from "@/lib/email/agentNotifications";
 import { requireAgent } from "@/lib/auth";
 import { slugify } from "@/lib/slug";
 import { agentPackageSchema } from "@/lib/validation";
@@ -18,7 +20,7 @@ export async function unlockLead(leadId: string): Promise<{ error?: string }> {
     return { error: "Your account is awaiting verification. You can unlock leads once it is approved." };
   }
 
-  const result = await prisma.$transaction(async (tx) => {
+  const result: { error?: string; unlocked?: boolean } = await prisma.$transaction(async (tx) => {
     // Row lock so concurrent unlocks of the same lead are serialised and the
     // 3-agent cap holds.
     await tx.$queryRaw`SELECT id FROM "Lead" WHERE id = ${leadId} FOR UPDATE`;
@@ -72,9 +74,13 @@ export async function unlockLead(leadId: string): Promise<{ error?: string }> {
         detail: `Contact unlocked for ${lead.unlockPrice} credits`,
       },
     });
-    return {};
+    return { unlocked: true };
   });
-  if (result.error) return result;
+  if (result.error) return { error: result.error };
+
+  // Lead details to the agent, alert to admins, and "meet your travel
+  // expert" to the traveller. Only on a fresh unlock, not a repeat click.
+  if (result.unlocked) after(() => notifyLeadUnlocked(agent.id, leadId));
 
   revalidatePath("/agent/dashboard/leads");
   revalidatePath("/agent/dashboard");

@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import bcrypt from "bcryptjs";
 import { WELCOME_CREDITS } from "@/lib/credits";
 import { prisma } from "@/lib/prisma";
 import { agentRegisterSchema } from "@/lib/validation";
 import { AGENT_HOME, findAdminByEmail, startSession } from "@/lib/signIn";
 import { clientIp, hit, tooManyRequests } from "@/lib/rateLimit";
+import { notifyAgentRegistered } from "@/lib/email/agentNotifications";
 
 const SIGNUP_BONUS_CREDITS = WELCOME_CREDITS;
 
@@ -81,6 +82,9 @@ export async function POST(req: NextRequest) {
   });
 
   await startSession("agent", agent);
+
+  // Welcome email to the agent + signup alert to admins, after the response.
+  after(() => notifyAgentRegistered(agent.id, SIGNUP_BONUS_CREDITS));
 
   return NextResponse.json({ ok: true, agentId: agent.id, redirect: AGENT_HOME }, { status: 201 });
 }
