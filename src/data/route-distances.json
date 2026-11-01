@@ -1,4 +1,52 @@
 {
+  "delhi-to-north-goa": {
+    "km": 1720,
+    "hours": 20.5
+  },
+  "mumbai-to-north-goa": {
+    "km": 540,
+    "hours": 7
+  },
+  "bangalore-to-north-goa": {
+    "km": 600,
+    "hours": 7.5
+  },
+  "chennai-to-north-goa": {
+    "km": 900,
+    "hours": 11.5
+  },
+  "kolkata-to-north-goa": {
+    "km": 2130,
+    "hours": 26
+  },
+  "hyderabad-to-north-goa": {
+    "km": 680,
+    "hours": 9
+  },
+  "pune-to-north-goa": {
+    "km": 470,
+    "hours": 6
+  },
+  "ahmedabad-to-north-goa": {
+    "km": 1040,
+    "hours": 12.5
+  },
+  "jaipur-to-north-goa": {
+    "km": 1540,
+    "hours": 18.5
+  },
+  "lucknow-to-north-goa": {
+    "km": 1830,
+    "hours": 22
+  },
+  "chandigarh-to-north-goa": {
+    "km": 1990,
+    "hours": 23.5
+  },
+  "kochi-to-north-goa": {
+    "km": 780,
+    "hours": 12.5
+  },
   "delhi-to-manali": {
     "km": 540,
     "hours": 7

@@ -35,10 +35,23 @@ export type RouteTarget = {
   road: string; // last leg by road, highways, seasonal notes
   hub: string; // the airport most travellers from far away fly into
   bus?: string; // regular bus links (HRTC, Volvo) from hubs
+  busFrom?: string[]; // origin slugs with regular direct buses (default Delhi, Chandigarh)
   season?: string; // when the road route is open, if seasonal
 };
 
 export const ROUTE_TARGETS: RouteTarget[] = [
+  {
+    city: "north-goa",
+    hub: "Goa: Mopa (GOX) or Dabolim (GOI)",
+    destination: "goa",
+    name: "Goa",
+    coord: { lat: 15.4909, lng: 73.8278 },
+    air: "Goa has two airports: Manohar International at Mopa (GOX) in North Goa and Dabolim (GOI) near Vasco in South Goa. Both have direct flights from most major Indian cities.",
+    rail: "Goa is on the Konkan Railway. Madgaon (Margao) is the main station for South Goa, and Thivim and Karmali serve North Goa and Panaji.",
+    road: "Goa is reached by NH 66 along the coast from Mumbai and Mangaluru, and by NH 748 from Belagavi.",
+    busFrom: ["mumbai", "pune", "bangalore"],
+    bus: "KTC (Goa), MSRTC, KSRTC and private sleeper buses run overnight to Panaji, Mapusa and Margao from Mumbai, Pune and Bengaluru.",
+  },
   {
     city: "manali",
     hub: "Chandigarh (IXC) or Bhuntar (KUU)",

@@ -263,6 +263,7 @@ export const DESTINATIONS: DestinationDef[] = [
   india("goa", "Goa", "state", "west-india", 1, [
     c("north-goa", "North Goa", "beach", 1, ["Baga Beach", "Calangute Beach", "Anjuna Beach", "Fort Aguada", "Vagator Beach"]),
     c("south-goa", "South Goa", "beach", 1, ["Palolem Beach", "Colva Beach", "Cabo de Rama", "Butterfly Beach"]),
+    c("old-goa", "Old Goa", "heritage", 2, ["Basilica of Bom Jesus", "Se Cathedral", "Church of St. Francis of Assisi"]),
   ]),
 
   india("maharashtra", "Maharashtra", "state", "west-india", 2, [

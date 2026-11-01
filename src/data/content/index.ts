@@ -13,6 +13,7 @@ import {
   PLACE_SUPPLEMENTS,
 } from "./supplements-north";
 import { CULTURE_CITIES, CULTURE_DESTINATIONS } from "./culture-north";
+import { GOA_CITIES, GOA_DESTINATION, GOA_PLACES } from "./goa";
 
 // Supplements add FAQs, blocks and section copy on top of base content:
 // lists are appended, sections and packages are merged one level deep.
@@ -46,18 +47,18 @@ const BASE: Record<string, GuideContent> = {
 export const DESTINATION_CONTENT: Record<string, GuideContent> = Object.fromEntries(
   Object.entries({ ...BASE, ...CIRCUIT_CONTENT }).map(([slug, c]) => [
     slug,
-    mergeContent(mergeContent(mergeContent(c, DESTINATION_EXTRAS[slug]), DESTINATION_SUPPLEMENTS[slug]), CULTURE_DESTINATIONS[slug]),
+    mergeContent(mergeContent(mergeContent(c, DESTINATION_EXTRAS[slug]), DESTINATION_SUPPLEMENTS[slug]), { ...CULTURE_DESTINATIONS, goa: GOA_DESTINATION }[slug]),
   ]),
 );
 
 // City slug -> guide content for /{dest}-tourism/{city} and its sections.
 export const CITY_CONTENT: Record<string, GuideContent> = mergeAll(
-  mergeAll({ ...MANALI_CITIES, ...HIMACHAL_CITIES, ...LADAKH_CITIES }, { ...CITY_SUPPLEMENTS, ...LADAKH_CITY_SUPPLEMENTS }),
+  mergeAll({ ...MANALI_CITIES, ...HIMACHAL_CITIES, ...LADAKH_CITIES, ...GOA_CITIES }, { ...CITY_SUPPLEMENTS, ...LADAKH_CITY_SUPPLEMENTS }),
   CULTURE_CITIES,
 );
 
 // Place path (e.g. "manali/places-to-visit/rohtang-pass") -> place page content.
 export const PLACE_CONTENT: Record<string, GuideContent> = mergeAll(
-  { ...MANALI_PLACES, ...HIMACHAL_PLACES, ...LADAKH_PLACES },
+  { ...MANALI_PLACES, ...HIMACHAL_PLACES, ...LADAKH_PLACES, ...GOA_PLACES },
   PLACE_SUPPLEMENTS,
 );

@@ -47,7 +47,7 @@ export default function RoutePage({
   const title = routeTitle(r);
   const { origin, target, dist } = r;
   const km = dist.km.toLocaleString("en-IN");
-  const busHub = BUS_HUBS.has(origin.slug);
+  const busHub = target.busFrom ? target.busFrom.includes(origin.slug) : BUS_HUBS.has(origin.slug);
 
   const faqs = [
     { q: `What is the distance from ${origin.name} to ${target.name}?`, a: `About ${km} km by road on the route OpenStreetMap finds from central ${origin.name}. The exact figure depends on your start point and the route you take.` },
@@ -57,7 +57,9 @@ export default function RoutePage({
       q: `Is there a direct bus from ${origin.name} to ${target.name}?`,
       a: busHub
         ? (target.bus ?? `Check HRTC and private operators for current services from ${origin.name}.`)
-        : `Long-distance buses from ${origin.name} are limited; most travellers reach Delhi or Chandigarh first and take an HRTC or private bus from there.`,
+        : target.busFrom
+          ? `Direct buses from ${origin.name} are limited; most travellers take a train or flight instead.`
+          : `Long-distance buses from ${origin.name} are limited; most travellers reach Delhi or Chandigarh first and take an HRTC or private bus from there.`,
     },
     { q: `Which is the nearest airport to ${target.name}?`, a: target.air },
   ];
@@ -128,7 +130,9 @@ export default function RoutePage({
               <p className="leading-relaxed text-ink">
                 {busHub
                   ? target.bus
-                  : `Direct buses from ${origin.name} are limited. Reach Delhi or Chandigarh by train or flight first. ${target.bus ?? ""}`}
+                  : target.busFrom
+                    ? `Direct buses from ${origin.name} are limited; a train or flight is usually easier. ${target.bus ?? ""}`
+                    : `Direct buses from ${origin.name} are limited. Reach Delhi or Chandigarh by train or flight first. ${target.bus ?? ""}`}
               </p>
             </Section>
             {others.length > 0 && (

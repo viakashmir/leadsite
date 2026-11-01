@@ -1,0 +1,558 @@
+keyword,volume,reason,competitor_url
+hotel,13600000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+hotel near me,11100000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+pnr status,11100000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+dollar to indian rupees,7480000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr/100-usd
+american dollar to indian rupee,7480000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr
+usd to rs,7480000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr
+hotels near me,6120000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+us to rupee,6120000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr
+usd to indian rupee,6120000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr
+dollar to indian rupee,6120000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr
+make my trip,4090000,X-exclude / exclude:brand,https://www.makemytrip.com/
+running status train running status,4090000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+us dollar to rupees,4090000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr
+train live running status,4090000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+american dollar to inr,4090000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr
+usd dollar to inr,4090000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr
+current running status of train,3350000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+train current running status,3350000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+train status today,3350000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+train current status,3350000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+hotels,3350000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+dollor to inr,3350000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr
+railway running status,2740000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+train running status,2740000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+pound in rupees,2240000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/gbp-to-inr
+euro to inr currency,2240000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/eur-to-inr
+gbp to inr,2240000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/gbp-to-inr
+euro to rupees,2240000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/eur-to-inr
+euro to rs,2240000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/eur-to-inr
+british pound to inr,2240000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/gbp-to-inr
+bangalore airport,1830000,X-local-nav / target,https://www.makemytrip.com/flights/bangalore_international_airport_limited_airport-blr-bangalore.html
+where is my train,1830000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+running train running status,1830000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+irctc login,1830000,X-exclude / exclude:brand,https://www.makemytrip.com/railways/irctc-login.html
+indigo web check in,1830000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/indigo-web-check-in.htm
+pound to indian rupee,1830000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/gbp-to-inr
+pound to inr,1830000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/gbp-to-inr
+railway station,1500000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/new-delhi-ndls-railway-station.html
+railway station railway,1500000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/new-delhi-ndls-railway-station.html
+uae dirham to inr,1500000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/aed-to-inr
+aed in rupees,1500000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/aed-to-inr
+aed to inr,1500000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/aed-to-inr
+euro in indian currency,1500000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/eur-to-inr
+united states dollar to indian rupee,1500000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr
+pound to indian rupees,1500000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/gbp-to-inr
+patna jn,1220000,X-local-nav / target,https://www.makemytrip.com/railways/hi/patna-jn-pnbe-railway-station.html
+delhi junction,1220000,X-local-nav / target,https://www.makemytrip.com/railways/delhi-new-delhi-train-tickets.html
+bus stand,1220000,X-local-nav / gap:no-location,https://www.makemytrip.com/bus-tickets/delhi-city-online-booking.html
+anand vihar terminal,1220000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/anand-vihar-trm-anvt-railway-station.html
+rajiv gandhi airport,1220000,X-local-nav / gap:no-location,https://www.makemytrip.com/flights/rajiv_gandhi_intl_airport_shamshabad_airport-hyd-hyderabad.html
+rajiv gandhi international airport,1220000,X-local-nav / gap:no-location,https://www.makemytrip.com/international-flights/hyderabad-hyd-rajiv_gandhi_international-airport.html
+patna junction,1220000,X-local-nav / target,https://www.makemytrip.com/railways/patna-jn-pnbe-railway-station.html
+makemytrip,1220000,X-exclude / exclude:brand,https://www.makemytrip.com/
+pnr status check,1220000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+get pnr status,1220000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+anand vihar railway station,1220000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/anand-vihar-trm-anvt-railway-station.html
+delhi junction railway station,1220000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-dli-railway-station.html
+us dollar rate,1220000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency/us-dollar-rate
+usd rate,1220000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency/us-dollar-rate
+rate of dollar,1220000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency/us-dollar-rate
+anand vihar station,1000000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/anand-vihar-trm-anvt-railway-station.html
+secunderabad station,1000000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/secunderabad-jn-sc-railway-station.html
+pune junction,1000000,X-local-nav / target,https://www.makemytrip.com/railways/pune-jn-pune-railway-station.html
+kempegowda airport bangalore,1000000,X-local-nav / target,https://www.makemytrip.com/flights/bangalore_international_airport_limited_airport-blr-bangalore.html
+railway reservation ticket,1000000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+flight ticket,1000000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+american dollar rate,1000000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr
+howrah railway,1000000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/howrah-jn-hwh-railway-station.html
+attractions near me,1000000,X-exclude / exclude:utility,https://www.makemytrip.com/tripideas/places-to-visit-in-delhi
+pune railway station,1000000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/pune-jn-pune-railway-station.html
+secunderabad railway station,1000000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/secunderabad-jn-sc-railway-station.html
+howrah railway station,1000000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/howrah-jn-hwh-railway-station.html
+ambience mall gurgaon,823000,X-local-nav / gap:no-location,https://www.makemytrip.com/tripideas/attractions/ambience-mall
+indira gandhi international airport,823000,X-local-nav / gap:no-location,https://www.makemytrip.com/flights/indira_gandhi_international_airport-del-new_delhi.html
+mmt,823000,X-exclude / exclude:brand,https://www.makemytrip.com/
+pnr enquiry,823000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+sealdah railway station,823000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/sealdah-sdah-railway-station.html
+live running status of train,823000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+dollar in indian rupees,823000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr/100-usd
+resturant near me,823000,X-exclude / exclude:utility,https://www.makemytrip.com/tripideas/foodie-hotspots-cuttack
+nizamuddin station,673000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/h-nizamuddin-nzm-railway-station.html
+jaipur junction,673000,X-local-nav / target,https://www.makemytrip.com/railways/jaipur-jp-railway-station.html
+sadar bazar,673000,X-local-nav / gap:no-location,https://www.makemytrip.com/tripideas/attractions/sadar-bazar-near-gurgaon
+train ticket reservation,673000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+book flight tickets,673000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+train running train status,673000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+train ticket booking,673000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+pnr,673000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+flight booking,673000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+1 dollar to inr,673000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr
+thane railway station,673000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/thane-tna-railway-station.html
+oyo,673000,X-exclude / exclude:brand,https://www.makemytrip.com/hotels/oyo_rooms_939596696-delhi-chain.html
+railway station near me,673000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/new-delhi-ndls-railway-station.html
+aus dollar to inr,673000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/aud-to-inr
+yeshwantpur railway station,673000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/yesvantpur-jn-ypr-railway-station.html
+chhatrapati shivaji maharaj terminus,550000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/c-shivaji-mah-t-cstm-railway-station.html
+pune station,550000,X-local-nav / target,https://www.makemytrip.com/railways/pune-jn-pune-railway-station.html
+cochin international airport,550000,X-local-nav / gap:no-location,https://www.makemytrip.com/flights/kochi_airport-cok-kochi.html
+ltt station,550000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/lokmanyatilak-t-ltt-railway-station.html
+train,550000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+flight,550000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+live train status,550000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+100 dollars in rupees,550000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr/100-usd
+sar to indian rupee,550000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/sar-to-inr
+anand vihar terminal railway station,550000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/anand-vihar-trm-anvt-railway-station.html
+dadar railway station,550000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/dadar-ddr-railway-station.html
+easemytrip,550000,X-exclude / exclude:brand,https://www.makemytrip.com/
+hyderabad secunderabad railway station,550000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/secunderabad-jn-sc-railway-station.html
+temple near me,550000,X-exclude / exclude:utility,https://traveltriangle.com/blog/temples-in-delhi/
+bandra terminus,450000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/bandra-terminus-bdts-railway-station.html
+sarojini market delhi,450000,X-local-nav / target,https://www.makemytrip.com/tripideas/attractions/sarojini-nagar
+rooms near me,450000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+track train status,450000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+air flight booking,450000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+air india web check in,450000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/air_india-web-check-in.html
+train ticket,450000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+egmore railway station,450000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/chennai-egmore-ms-railway-station.html
+1 dollar to rupee,450000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr
+chennai egmore railway station,450000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/chennai-egmore-ms-railway-station.html
+mumbai central railway station,450000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/mumbai-central-bct-railway-station.html
+lokmanya tilak station,368000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/lokmanyatilak-t-ltt-railway-station.html
+salem new bus stand,368000,X-local-nav / gap:no-location,https://www.makemytrip.com/bus-tickets/new-bus-stand-salem-new-bus-stand-bus-ticket-booking.html
+agra cantt,368000,X-local-nav / target,https://www.makemytrip.com/railways/agra-cantt-agc-railway-station.html
+bengaluru airport,368000,X-local-nav / gap:no-location,https://www.makemytrip.com/flights/bangalore_international_airport_limited_airport-blr-bangalore.html
+check pnr status,368000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+train pnr status,368000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+railway pnr status,368000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+bus booking,368000,X-exclude / exclude:utility,https://www.makemytrip.com/bus-tickets/delhi-city-online-booking.html
+flight ticket booking,368000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+live location of train,368000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+railway status,368000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+agra cantt railway station,368000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/agra-cantt-agc-railway-station.html
+train live status,368000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+bandra terminus railway station,368000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/bandra-terminus-bdts-railway-station.html
+yeshwanthpur bangalore railway station,368000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/yesvantpur-jn-ypr-railway-station.html
+pounds to inr,368000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/gbp-to-inr
+tatkal booking time,368000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/tatkal-railway-reservation.html
+varanasi jn,301000,X-local-nav / target,https://www.makemytrip.com/railways/hi/varanasi-jn-bsb-railway-station.html
+sardar vallabhbhai patel airport,301000,X-local-nav / gap:no-location,https://www.makemytrip.com/flights/ahmedabad_airport-amd-ahmedabad.html
+sector 17 chandigarh,301000,X-local-nav / target,https://www.makemytrip.com/tripideas/attractions/sector-17-market
+jaipur airport,301000,X-local-nav / target,https://www.makemytrip.com/flights/sanganeer_airport-jai-jaipur.html
+khan market delhi,301000,X-local-nav / target,https://www.makemytrip.com/tripideas/attractions/khan-market
+resort near me,301000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/resorts-near-delhi-p.html
+pnr status train,301000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+book railway ticket,301000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+enquiry pnr,301000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+train running status today,301000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+lodge near me,301000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/budget-hotels-in-delhi.html
+agra cantt railway,301000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/agra-cantt-agc-railway-station.html
+railway,301000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+resort,301000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/resorts-near-delhi-p.html
+usd vs inr,301000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr
+ghaziabad railway station,301000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/ghaziabad-gzb-railway-station.html
+chandigarh railway station,301000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/chandigarh-cdg-railway-station.html
+1000 dollars in rupees,301000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr/1000-usd
+sarai rohilla railway station,301000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-s-rohilla-dee-railway-station.html
+cherlapally railway station,301000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/charlapalli-chz-railway-station.html
+tatkal ticket time,301000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/tatkal-railway-reservation.html
+lingampalli railway station,301000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/lingampalli-lpi-railway-station.html
+mgbs bus stand,246000,X-local-nav / gap:no-location,https://www.makemytrip.com/bus-tickets/mahatma_gandhi_bus_station_mgbs_-bus-stand.html
+yesvantpur junction,246000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/yesvantpur-jn-ypr-railway-station.html
+ghaziabad junction,246000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/ghaziabad-gzb-railway-station.html
+airport jaipur,246000,X-local-nav / target,https://www.makemytrip.com/flights/sanganeer_airport-jai-jaipur.html
+dharamsala cricket stadium,246000,X-local-nav / gap:no-location,https://traveltriangle.com/himachal-tourism/dharamshala/places-to-visit/cricket-stadium/how-to-reach
+train ticket train,246000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+ujjain railway,246000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-ujjain-train-tickets.html
+reservation train ticket booking,246000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+get pnr,246000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+resorts near me,246000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/resorts-near-delhi-p.html
+train reservation ticket booking,246000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+guwahati railway station,246000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/guwahati-ghy-railway-station.html
+current status of train,246000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+spot my train,246000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+rm to rupees,246000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/myr-to-inr
+ticket booking railway irctc,246000,X-exclude / exclude:brand,https://www.makemytrip.com/railways/
+spot your train,246000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+malaysian ringgit to inr,246000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/myr-to-inr/100-myr
+lingampally railway station,246000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/lingampalli-lpi-railway-station.html
+ernakulam junction railway station,246000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/ernakulam-jn-ers-railway-station.html
+cheapest flight,246000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+surat station,201000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/surat-st-railway-station.html
+shanti nagar bangalore,201000,X-local-nav / target,https://www.makemytrip.com/hotels/hotels-in-shanti_nagar-bangalore.html
+bidhannagar station,201000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/bidhan-nagar-bnxr-railway-station.html
+vasai road,201000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/vasai-road-bsr-railway-station.html
+bagdogra airport,201000,X-local-nav / gap:no-location,https://www.makemytrip.com/flights/bagdogra_airport-ixb-bagdogra.html
+cheap flights,201000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+flight tickets,201000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+pnr check,201000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+live location train,201000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+running status,201000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+book flight ticket,201000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+pnr status irctc,201000,X-exclude / exclude:brand,https://www.makemytrip.com/railways/PNR/
+indigo flight booking,201000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/indigo-airlines.html
+train tracking,201000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+indian railway,201000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+nagpur railway station,201000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/nagpur-ngp-railway-station.html
+200 dollars in rupees,201000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr/200-usd
+indigo check in,201000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/indigo-airlines.html
+falls near me,201000,X-exclude / exclude:utility,https://traveltriangle.com/blog/waterfalls-near-delhi/
+njp station,165000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/new-jalpaiguri-njp-railway-station.html
+bhubaneswar station,165000,X-local-nav / target,https://www.makemytrip.com/railways/bhubaneswar-bbs-railway-station.html
+santragachi station,165000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/santragachi-jn-src-railway-station.html
+njp railway,165000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/new-jalpaiguri-njp-railway-station.html
+hotel in near me,165000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+bus ticket booking,165000,X-exclude / exclude:utility,https://www.makemytrip.com/bus-tickets/delhi-city-online-booking.html
+near hotel me,165000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/hotels-near-me.htm
+near hotels,165000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+nearby hotel,165000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+train status live,165000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+vande bharat train,165000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/vande-bharat-express-train-list.html
+near hotel,165000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels-near-pragati_maidan.html
+near by hotels,165000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+train enquiry,165000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+setc bus booking,165000,X-exclude / exclude:utility,https://www.makemytrip.com/bus-tickets/tnstc-tamil-nadu-state-transport-corporation-bus-booking.html
+near by hotel,165000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+nearby hotels,165000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+usd rate in india,165000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency/us-dollar-rate
+ernakulam town railway station,165000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/ernakulam-town-ern-railway-station.html
+indigo flight ticket,165000,X-exclude / exclude:utility,https://www.makemytrip.com/international-flights/indigo-airlines.html
+aluva railway station,165000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/aluva-awy-railway-station.html
+inr to dirham,165000,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/aed-to-inr
+indigo flight ticket booking,165000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+delhi sarai rohilla railway station,165000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-s-rohilla-dee-railway-station.html
+mathura jn,135000,X-local-nav / target,https://www.makemytrip.com/railways/hi/mathura-jn-mtj-railway-station.html
+paltan bazaar,135000,X-local-nav / gap:no-location,https://traveltriangle.com/uttarakhand-tourism/dehradun/things-to-do/paltan-bazar
+sunder nagar,135000,X-local-nav / gap:no-location,https://traveltriangle.com/himachal-tourism/mandi/places-to-visit/sunder-nagar
+hostels near me,135000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/p-hostels-in-delhi.html
+hotel raj,135000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/hotel_the_raj_new_delhi_railway_station-details-delhi.html
+hotels near by me,135000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+pnr status check for railway ticket,135000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+pnr status check for railway,135000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+car rental near me,135000,X-exclude / exclude:utility,https://www.makemytrip.com/car-rental/rental-cabs-in-new_delhi.html
+railway pnr,135000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+pnr train,135000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+current train status,135000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+hotel near me for food,135000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels-with-restaurant.html
+hotel near by me,135000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+train booking,135000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+flight status,135000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/flight-status.htm
+track my train,135000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+hostel near me,135000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/p-hostels-in-delhi.html
+jammu tawi railway station,135000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/jammu-tawi-jat-railway-station.html
+flights,135000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+cheap flight,135000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+irctc chart vacancy,135000,X-exclude / exclude:brand,https://www.makemytrip.com/railways/
+train running status live,135000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+temples near me,135000,X-exclude / exclude:utility,https://traveltriangle.com/blog/temples-in-delhi/
+sector 48 gurgaon,110000,X-local-nav / gap:no-location,https://www.makemytrip.com/hotels/hotels-in-sector_48-gurgaon.html
+sector 49 gurgaon,110000,X-local-nav / gap:no-location,https://www.makemytrip.com/hotels/hotels-in-sector_49-gurgaon.html
+sundar nagar,110000,X-local-nav / gap:no-location,https://traveltriangle.com/himachal-tourism/mandi/places-to-visit/sunder-nagar
+ksr bengaluru railway station,110000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/ksr-bengaluru-sbc-railway-station.html
+hotel room near me,110000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+train booking online,110000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+guest house near me,110000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/p-guest_houses-in-delhi.html
+hotel rooms near me,110000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+my train,110000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+railway train status,110000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+cheap flight tickets,110000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+irctc pnr enquiry,110000,X-exclude / exclude:brand,https://www.makemytrip.com/railways/PNR/
+new jalpaiguri station,96200,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/new-jalpaiguri-njp-railway-station.html
+sector 15 chandigarh,96200,X-local-nav / target,https://www.makemytrip.com/hotels/hotels-in-sector_15-chandigarh.html
+train status check,96200,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+ksr bangalore railway station,96200,X-exclude / exclude:utility,https://www.makemytrip.com/railways/ksr-bengaluru-sbc-railway-station.html
+online railway ticket booking,96200,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+live train status check,96200,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+sabarmati railway,96200,X-exclude / exclude:utility,https://www.makemytrip.com/railways/sabarmati-bg-sbib-railway-station.html
+live flight status,96200,X-exclude / exclude:utility,https://www.makemytrip.com/flights/flight-status.htm
+flight tracking,96200,X-exclude / exclude:utility,https://www.makemytrip.com/flights/flight-status.htm
+25 dollars in rupees,96200,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/usd-to-inr/25-usd
+grant road,90500,X-local-nav / gap:no-location,https://www.makemytrip.com/hotels/hotels-in-grant_road-mumbai.html
+hotels near me for stay,90500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+near me hotel,90500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+pnr check railway,90500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+check live train status,90500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+mumbai to goa flight,90500,X-exclude / exclude:utility,https://www.makemytrip.com/flights/mumbai-goa-cheap-airtickets.html
+flight tracker air india,90500,X-exclude / exclude:utility,https://www.makemytrip.com/flights/air_india-flight-status.htm
+rajkot junction,74000,X-local-nav / gap:no-location,https://www.makemytrip.com/railways/rajkot-jn-rjt-railway-station.html
+make my trip customer care,74000,X-exclude / exclude:brand,https://www.makemytrip.com/support/contact-us.php
+mmt partner,74000,X-exclude / exclude:brand,https://mypartner.makemytrip.com/
+rajdhani train,74000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/rajdhani-express-train-list.html
+bus ticket,74000,X-exclude / exclude:utility,https://www.makemytrip.com/bus-tickets/delhi-city-online-booking.html
+homestay near me,74000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/p-homestays-in-delhi.html
+bus booking online,74000,X-exclude / exclude:utility,https://www.makemytrip.com/bus-tickets/delhi-city-online-booking.html
+farm house near me,74000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/p-farm_houses-in-delhi.html
+lodges near me,74000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/budget-hotels-in-delhi.html
+hotel near me for stay,74000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+near me hotels,74000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+cheapest flights,74000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+railway ticket status,74000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+pnr status railway,74000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+train ticket status,74000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+train booking status,74000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+hotel near,74000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels-near-new_delhi_railway_station.html
+train ticket booking online,74000,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+hotel sagar,74000,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/sagar_palace-details-delhi.html
+irctc trains,74000,X-exclude / exclude:brand,https://www.makemytrip.com/railways/
+delhi to bangalore flight,74000,X-exclude / exclude:utility,https://www.makemytrip.com/flights/new_delhi-bangalore-cheap-airtickets.html
+mandir near me,74000,X-exclude / exclude:utility,https://traveltriangle.com/blog/temples-in-delhi/
+place to visit near me,74000,X-exclude / exclude:utility,https://traveltriangle.com/blog/places-to-visit-near-delhi/
+nad junction,60500,X-local-nav / gap:no-location,https://www.makemytrip.com/hotels/hotels-in-nad_junction-visakhapatnam.html
+book my train,60500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+farmhouse near me,60500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/p-farm_houses-in-delhi.html
+hotels near to me,60500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+tatkal ticket booking,60500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/tatkal-railway-reservation.html
+stay near me,60500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+check pnr status train,60500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+banglore to delhi flight,60500,X-exclude / exclude:utility,https://www.makemytrip.com/flights/bangalore-new_delhi-cheap-airtickets.html
+rajdhani express train,60500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/rajdhani-express-train-list.html
+pune to delhi flight,60500,X-exclude / exclude:utility,https://www.makemytrip.com/flights/pune-new_delhi-cheap-airtickets.html
+hotel in jaipur,60500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/jaipur-hotels.html
+hotels in jaipur,60500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/jaipur-hotels.html
+train tracking live,60500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+best hotel near me,60500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+running status live,60500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+live status of train,60500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+2500 aed to inr,60500,X-exclude / exclude:utility,https://www.makemytrip.com/tripmoney/currency-converter/aed-to-inr/2500-aed
+train time,60500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+flight status indigo,60500,X-exclude / exclude:utility,https://www.makemytrip.com/flights/indigo-airlines.html
+spot near me,60500,X-exclude / exclude:utility,https://traveltriangle.com/blog/
+makemytrip india,49500,X-exclude / exclude:brand,https://www.makemytrip.com/
+train tracker,49500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/liveStatus/
+bus ticket booking online,49500,X-exclude / exclude:utility,https://www.makemytrip.com/bus-tickets/delhi-city-online-booking.html
+flight ticket price,49500,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+hotel room,49500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+hotels in delhi,49500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+best room near me,49500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+raj hotel,49500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/hotel_the_raj_new_delhi_railway_station-details-delhi.html
+mumbai to delhi flight ticket,49500,X-exclude / exclude:utility,https://www.makemytrip.com/flights/mumbai-new_delhi-cheap-airtickets.html
+check train pnr status,49500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+online train ticket booking,49500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+hotel booking,49500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+mumbai to bangalore flight,49500,X-exclude / exclude:utility,https://www.makemytrip.com/flights/mumbai-bangalore-cheap-airtickets.html
+railway station train,49500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/new-delhi-ndls-railway-station.html
+flight ticket rate,49500,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+railway ticket booking,49500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+visiting place near me,49500,X-exclude / exclude:utility,https://traveltriangle.com/blog/tourist-places-in-delhi/
+sultan bazar,47500,X-local-nav / gap:no-location,https://traveltriangle.com/blog/sultan-bazar-hyderabad/
+online bus ticket booking,47500,X-exclude / exclude:utility,https://www.makemytrip.com/bus-tickets/delhi-city-online-booking.html
+near lodge,47500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/budget-hotels-in-delhi.html
+hotel royal palace,47500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/hotel_royal_palace-details-delhi.html
+12619 train running status,47500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/12619-matsyagandha-exp-running-status.html
+hotel in puri,47500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/puri-hotels.html
+jaipur hotel,47500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/jaipur-hotels.html
+02563 train running status,47500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/02563-bju-ndls-spl-running-status.html
+dandeli resorts,47500,X-exclude / exclude:utility,https://traveltriangle.com/blog/dandeli-resorts/
+locations near me,47500,X-exclude / exclude:utility,https://traveltriangle.com/blog/places-to-visit-near-delhi/
+mango bus stand,40500,X-local-nav / gap:no-location,https://www.makemytrip.com/bus-tickets/jamshedpur-city-online-booking.html
+johri bazar,40500,X-local-nav / gap:no-location,https://traveltriangle.com/blog/johri-bazar/
+varanasi airport,40500,X-local-nav / target,https://traveltriangle.com/blog/airports-in-varanasi/
+make my trip train,40500,X-exclude / exclude:brand,https://www.makemytrip.com/railways/
+02570 train running status,40500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/02570-ndls-dbg-sf-spl-running-status.html
+varkala railway station,40500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/varkalasivagiri-vak-railway-station.html
+hotels in varanasi,40500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/varanasi-hotels.html
+online bus booking,40500,X-exclude / exclude:utility,https://www.makemytrip.com/bus-tickets/delhi-city-online-booking.html
+resorts in sakleshpur,40500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/p-resorts-in-sakleshpur.html
+online bus ticket reservation,40500,X-exclude / exclude:utility,https://www.makemytrip.com/bus-tickets/
+hotel president,40500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/hotel_grand_president-details-delhi.html
+hotel mayur,40500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/hotel_mayur_c_r_park_greater_kailash_new_delhi-details-delhi.html
+hotel krishna,40500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/hotel_krishna_by_rcg_hotels-details-delhi.html
+5 star hotel,40500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/five_star-hotels-delhi.html
+resort in udaipur,40500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/p-resorts-in-udaipur.html
+hotel in delhi,40500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+pnr status of train,40500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+pnr status enquiry,40500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+pnr train status,40500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/PNR/
+hotel aditya,40500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/hotel_aditya_by_wb_inn-details-delhi.html
+near hotel room,40500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/delhi-hotels.html
+12620 train running status,40500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/12620-matsyaganda-exp-running-status.html
+12134 train running status,40500,X-exclude / exclude:utility,https://www.makemytrip.com/railways/12134-majn-csmt-sf-exp-running-status.html
+hotel in jaipur city,40500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/jaipur-hotels.html
+sakleshpur resorts,40500,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/p-resorts-in-sakleshpur.html
+besant road,33100,X-local-nav / gap:no-location,https://traveltriangle.com/blog/besant-road-vijayawada/
+mumbai to pune train,33100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/mumbai-pune-train-tickets.html
+delhi to ujjain train,33100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-ujjain-train-tickets.html
+make my trip hotel,33100,X-exclude / exclude:brand,https://www.makemytrip.com/hotels/delhi-hotels.html
+mmt customer care,33100,X-exclude / exclude:brand,https://www.makemytrip.com/support/contact-us.php
+ksr railway station,33100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/ksr-bengaluru-sbc-railway-station.html
+makemytrip customer care,33100,X-exclude / exclude:brand,https://www.makemytrip.com/support/contact-us.php
+delhi to mumbai train,33100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-mumbai-train-tickets.html
+the orchid hotel mumbai,33100,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/the_orchid_hotel_mumbai_vile_parle-details-mumbai.html
+radha krishna hotel,33100,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/hotel_o_radha_krishna-details-delhi.html
+villa near me,33100,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/p-villas-in-delhi.html
+garib rath train,33100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/garib-rath-express-train-list.html
+hotels in pune,33100,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/pune-hotels.html
+hotels in bangalore,33100,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/bangalore-hotels.html
+ahmedabad to mumbai train,33100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/ahmedabad-mumbai-train-tickets.html
+udaipur resorts,33100,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/p-resorts-in-udaipur.html
+hotel rajdhani,33100,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/hotel_new_rajdhani_inn-details-delhi.html
+mussoorie hotels,33100,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/mussoorie-hotels.html
+hotels in mussoorie,33100,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/mussoorie-hotels.html
+ghumne ki jagah near me,33100,X-exclude / exclude:utility,https://traveltriangle.com/blog/delhi-ke-paas-ghumne-ki-jagah-hindi/
+spots near me,33100,X-exclude / exclude:utility,https://traveltriangle.com/blog/
+delhi to varanasi train,27800,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-varanasi-train-tickets.html
+bangalore to chennai train,27800,X-exclude / exclude:utility,https://www.makemytrip.com/railways/bangalore-chennai-train-tickets.html
+11020 train running status,27800,X-exclude / exclude:utility,https://www.makemytrip.com/railways/11020-konark-express-running-status.html
+delhi to jaipur train,27800,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-jaipur-train-tickets.html
+ooty railway station,27800,X-exclude / exclude:utility,https://traveltriangle.com/tamil-nadu-tourism/ooty/things-to-do/toy-train-ride/timings
+kabini resorts,27800,X-exclude / exclude:utility,https://traveltriangle.com/blog/kabini-resorts/
+best place near me,27800,X-exclude / exclude:utility,https://traveltriangle.com/blog/places-to-visit-near-delhi/
+chikmagalur resorts,27800,X-exclude / exclude:utility,https://traveltriangle.com/blog/resorts-in-chikmagalur/
+banaras airport,27100,X-local-nav / gap:no-location,https://traveltriangle.com/blog/airports-in-varanasi/
+kerala airport,27100,X-local-nav / target,https://traveltriangle.com/blog/airports-in-kerala/
+necklace road,27100,X-local-nav / gap:no-location,https://traveltriangle.com/blog/necklace-road-in-hyderabad/
+mmt partner login,27100,X-exclude / exclude:brand,https://mypartner.makemytrip.com/
+delhi to katra train,27100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-katra-train-tickets.html
+irctc next gen,27100,X-exclude / exclude:brand,https://www.makemytrip.com/railways/irctc-info/irctc-next-generation-eticketing-system.html
+delhi to goa train,27100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-goa-train-tickets.html
+book my train ticket,27100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/
+kalka to shimla toy train,27100,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+panjim market,22400,X-local-nav / gap:no-location,https://traveltriangle.com/blog/shopping-in-panjim/
+jaipur to delhi train,22400,X-exclude / exclude:utility,https://www.makemytrip.com/railways/jaipur-delhi-train-tickets.html
+hotel dwarka,22400,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/hotels-in-sector_12_dwarka-delhi.html
+12864 train running status,22400,X-exclude / exclude:utility,https://www.makemytrip.com/railways/12864-smvb-howrah-exp-running-status.html
+church near me,22400,X-exclude / exclude:utility,https://traveltriangle.com/blog/churches-in-delhi/
+dandeli resort,22400,X-exclude / exclude:utility,https://traveltriangle.com/blog/dandeli-resorts/
+make my trip customer care number,22200,X-exclude / exclude:brand,https://www.makemytrip.com/support/contact-us.php
+ahmedabad to dwarka train,20100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/ahmedabad-dwarka-train-tickets.html
+delhi to thailand flight,20100,X-exclude / exclude:utility,https://www.makemytrip.com/international-flights/delhi-thailand-cheap-airtickets.html
+hill station near me,20100,X-exclude / exclude:utility,https://traveltriangle.com/blog/hill-stations-near-delhi/
+lakes near me,20100,X-exclude / exclude:utility,https://traveltriangle.com/blog/lakes-in-and-around-delhi/
+16381 train running status,19100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/16381-kanyakumari-exp-running-status.html
+surat to ahmedabad train,19100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/surat-ahmedabad-train-tickets.html
+12863 train running status,19100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/12863-hwh-smvb-exp-running-status.html
+delhi to bangalore train,19100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-bangalore-train-tickets.html
+makemytrip flight,19100,X-exclude / exclude:brand,https://www.makemytrip.com/flights/
+chennai to coimbatore train,19100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/chennai-coimbatore-train-tickets.html
+traveltriangle,19100,X-exclude / exclude:brand,https://traveltriangle.com/
+delhi to amritsar train,18700,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-amritsar-train-tickets.html
+sardar market,18100,X-local-nav / gap:no-location,https://traveltriangle.com/blog/sardar-market-jodhpur/
+cheap flight ticket,18100,X-exclude / exclude:utility,https://www.makemytrip.com/flights/
+11302 train running status,18100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/11302-udyan-exp-running-status.html
+bangalore to mysore train,18100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/bangalore-mysore-train-tickets.html
+jaipur to jodhpur train,18100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/jaipur-jodhpur-train-tickets.html
+indore to bhopal train,18100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/indore-bhopal-train-tickets.html
+chennai to madurai train,18100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/chennai-madurai-train-tickets.html
+ahmedabad to surat train,18100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/ahmedabad-surat-train-tickets.html
+mumbai to bangalore train,18100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/mumbai-bangalore-train-tickets.html
+my make my trip,18100,X-exclude / exclude:brand,https://www.makemytrip.com/
+delhi to pune train,18100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-pune-train-tickets.html
+best place to visit near me,18100,X-exclude / exclude:utility,https://traveltriangle.com/blog/places-to-visit-near-delhi/
+cheran ma nagar,14800,X-local-nav / gap:no-location,https://traveltriangle.com/blog/cheranmanagar/
+johari bazar,14800,X-local-nav / gap:no-location,https://traveltriangle.com/blog/johri-bazar/
+nearest airport to rameshwaram,14800,X-local-nav / gap:no-location,https://traveltriangle.com/tamil-nadu-tourism/rameshwaram/how-to-reach
+mmt my partner,14800,X-exclude / exclude:brand,https://mypartner.makemytrip.com/
+bhopal to indore train,14800,X-exclude / exclude:utility,https://www.makemytrip.com/railways/bhopal-indore-train-tickets.html
+howrah to puri train,14800,X-exclude / exclude:utility,https://www.makemytrip.com/railways/howrah-puri-train-tickets.html
+12840 train running status,14800,X-exclude / exclude:utility,https://www.makemytrip.com/railways/12840-mas-hwh-sf-mail-running-status.html
+trichy to chennai train,14800,X-exclude / exclude:utility,https://www.makemytrip.com/railways/tiruchirappalli-chennai-train-tickets.html
+delhi to ahmedabad train,14800,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-ahmedabad-train-tickets.html
+ahmedabad to delhi train,14800,X-exclude / exclude:utility,https://www.makemytrip.com/railways/ahmedabad-delhi-train-tickets.html
+hyderabad to bangalore trains,14800,X-exclude / exclude:utility,https://www.makemytrip.com/railways/hyderabad-bangalore-train-tickets.html
+botanix nature resort,14800,X-exclude / exclude:utility,https://www.makemytrip.com/hotels/hotel_botanix_nature_resort-details-sohna.html
+16526 train running status,14800,X-exclude / exclude:utility,https://www.makemytrip.com/railways/16526-kanyakumari-exp-running-status.html
+activities near me,14800,X-exclude / exclude:utility,https://traveltriangle.com/blog/fun-places-in-delhi/
+resorts in coorg,14800,X-exclude / exclude:utility,https://traveltriangle.com/blog/best-resorts-in-coorg/
+somnath nearest railway station,14800,X-exclude / exclude:utility,https://traveltriangle.com/gujarat-tourism/somnath/how-to-reach-from-delhi
+resort in dandeli,14800,X-exclude / exclude:utility,https://traveltriangle.com/blog/dandeli-resorts/
+malana cream,12100,"Illegal drug query (cannabis resin, NDPS Act). The Malana page states the law; we do not target it",https://traveltriangle.com/blog/secrets-of-malana/
+nagpur to pune train,12100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/nagpur-pune-train-tickets.html
+bangalore to coimbatore train,12100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/bangalore-coimbatore-train-tickets.html
+madurai to rameswaram train,12100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/madurai-rameswaram-train-tickets.html
+delhi to jammu train,12100,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-jammu-train-tickets.html
+mountains near me,12100,X-exclude / exclude:utility,https://traveltriangle.com/blog/hill-stations-near-delhi/
+famous temples near me,12100,X-exclude / exclude:utility,https://traveltriangle.com/blog/temples-in-delhi/
+delhi to patna train,10800,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-patna-train-tickets.html
+delhi to guwahati train,10800,X-exclude / exclude:utility,https://www.makemytrip.com/railways/delhi-guwahati-train-tickets.html
+good food near me,10800,X-exclude / exclude:utility,https://traveltriangle.com/blog/best-places-to-eat-in-delhi/
+resorts in dandeli,10800,X-exclude / exclude:utility,https://traveltriangle.com/blog/dandeli-resorts/
+delhi to manali train,9900,X-exclude / exclude:utility,https://traveltriangle.com/blog/delhi-to-manali-trains/
+kalka shimla toy train,9900,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+mangal bazar in vadodara,8100,X-local-nav / gap:no-location,https://traveltriangle.com/blog/shopping-in-vadodara/
+sadar bazar agra,8100,X-local-nav / target,https://traveltriangle.com/blog/sadar-bazaar/
+lakkar bazar,8100,X-local-nav / gap:no-location,https://traveltriangle.com/blog/lakkar-bazaar/
+makemytrip customer care number,8100,X-exclude / exclude:brand,https://www.makemytrip.com/support/contact-us.php
+my partner mmt,8100,X-exclude / exclude:brand,https://mypartner.makemytrip.com/
+delhi to kashmir train,8100,X-exclude / exclude:utility,https://traveltriangle.com/blog/delhi-to-kashmir-trains/
+my partner login,8000,X-exclude / exclude:utility,https://mypartner.makemytrip.com/
+jim corbett resort,8000,X-exclude / exclude:utility,https://traveltriangle.com/blog/places-to-visit-near-jim-corbett-national-park/
+dubai market,6600,X-local-nav / target,https://traveltriangle.com/blog/markets-in-dubai/
+dharamshala stadium,6600,X-local-nav / target,https://travelcoffee.in/blog/dharamshala-mcleodganj-travel-guide
+makemytrip partner,6600,X-exclude / exclude:brand,https://mypartner.makemytrip.com/
+delhi to hyderabad trains,6600,X-exclude / exclude:utility,https://traveltriangle.com/blog/delhi-to-hyderabad-trains/
+homestay shillong,6600,X-exclude / exclude:utility,https://traveltriangle.com/blog/homestays-in-shillong/
+gokarna resorts,6600,X-exclude / exclude:utility,https://traveltriangle.com/blog/gokarna-beach-resorts/
+resorts in bandipur,5700,X-exclude / exclude:utility,https://traveltriangle.com/blog/forest-resorts-in-bandipur/
+toy train kalka to shimla,5700,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+delhi to nainital train,5400,X-exclude / exclude:utility,https://traveltriangle.com/blog/delhi-to-manali-trains/
+dharamshala in somnath,4400,"Different meaning: a pilgrim rest house (dharamshala) in Somnath, Gujarat, not Dharamshala town",https://travelcoffee.in/blog/is-dharamshala-safe-for-solo-female-travellers
+begum bazar in hyderabad,4400,X-local-nav / target,https://traveltriangle.com/blog/begum-bazar-in-hyderabad/
+mypartner mmt,4400,X-exclude / exclude:brand,https://mypartner.makemytrip.com/
+ramar temple near me,4400,X-exclude / exclude:utility,https://traveltriangle.com/blog/temples-in-delhi/
+dharamshala hotels,4400,X-exclude / exclude:utility,https://travelcoffee.in/blog/dharamshala-vs-mcleodganj-difference-where-to-stay
+railway station near hampi,3600,X-exclude / exclude:utility,https://traveltriangle.com/karnataka-tourism/hampi/how-to-reach
+kalka to shimla train,3600,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+kalka shimla toy train booking,3200,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+toy train from kalka to shimla,3100,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+nearest airport to varanasi,2900,X-local-nav / target,https://traveltriangle.com/blog/airports-in-varanasi/
+trekking spots near me,2900,X-exclude / exclude:utility,https://traveltriangle.com/blog/trekking-near-delhi/
+trans siberian railway,2900,X-exclude / exclude:utility,https://traveltriangle.com/blog/trans-siberian-railway/
+shiv mandir near me,2900,X-exclude / exclude:utility,https://traveltriangle.com/blog/temples-in-delhi/
+pin valley,2400,X-local-nav / gap:no-location,https://travelcoffee.in/places-to-visit/pin-valley-national-park
+delhi to rameshwaram flight,2400,X-exclude / exclude:utility,https://traveltriangle.com/tamil-nadu-tourism/rameshwaram/how-to-reach-from-new-delhi
+toy train shimla,1500,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+shimla to kalka train,1500,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+shimla toy train booking,1300,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+kalka to shimla toy train booking online,1100,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+dharamshala mcleodganj hotels,1000,X-exclude / exclude:utility,https://travelcoffee.in/blog/2-days-in-dharamshala-and-mcleodganj
+toy train kalka,1000,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+traveltriangle login,590,X-exclude / exclude:brand,https://traveltriangle.com/users/sign_in
+shimla to kalka toy train timings,590,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+hotels in mcleodganj dharamshala,500,X-exclude / exclude:utility,https://travelcoffee.in/blog/2-days-in-dharamshala-and-mcleodganj
+manali road condition,480,X-local-nav / target,https://travelcoffee.in/blog/spiti-valley-in-may
+tibetan market in manali,480,X-local-nav / target,https://travelcoffee.in/blog/famous-things-to-buy-in-manali
+india to vietnam distance by flight,480,X-exclude / exclude:utility,https://traveltriangle.com/vietnam-tourism/how-to-reach-from-new-delhi
+how to book toy train from kalka to shimla,480,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+dharamshala near me under 500,480,X-exclude / exclude:utility,https://travelcoffee.in/from-delhi/dharamshala-tour-packages
+kalka to manali toy train,480,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+kolkata to dharamsala flight,480,X-exclude / exclude:utility,https://travelcoffee.in/from-kolkata/dharamshala-tour-packages
+kalka toy train,410,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+rohtang pass road,390,X-local-nav / target,https://travelcoffee.in/blog/rohtang-pass-in-april
+shimla to manali road,390,X-local-nav / target,https://travelcoffee.in/blog/best-places-to-visit-on-the-way-from-shimla-to-manali
+manali rohtang road,390,X-local-nav / target,https://travelcoffee.in/blog/rohtang-pass-in-may
+kinnaur valley road,390,X-local-nav / target,https://travelcoffee.in/blog/best-time-to-visit-kinnaur-valley
+rohtang road,390,X-local-nav / gap:no-location,https://travelcoffee.in/blog/rohtang-pass-in-april
+shimla to manali by road,390,X-local-nav / target,https://travelcoffee.in/blog/best-places-to-visit-on-the-way-from-shimla-to-manali
+kalka toy train booking,390,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+mumbai to dharamshala train,390,X-exclude / exclude:utility,https://travelcoffee.in/from-mumbai/dharamshala-tour-packages
+kalka to shimla toy train name,390,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+pin valley national park,330,X-local-nav / gap:no-location,https://travelcoffee.in/places-to-visit/pin-valley-national-park
+dharamshala station code,320,X-local-nav / target,https://travelcoffee.in/blog/how-to-reach-dharamshala-mcleodganj-from-delhi-chandigarh-amritsar
+traveltriangle sign in,320,X-exclude / exclude:brand,https://traveltriangle.com/users/sign_in
+travel triangle sign in,320,X-exclude / exclude:brand,https://traveltriangle.com/users/sign_in
+kalka to shimla toy train route,320,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+train tickets from kalka to shimla,320,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+3 star hotels in kasol,260,X-exclude / exclude:utility,https://travelcoffee.in/blog/kasol-itinerary-for-3-days
+kasol 3 star hotels,260,X-exclude / exclude:utility,https://travelcoffee.in/blog/kasol-itinerary-for-3-days
+kalka to shimla distance by train,260,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+kalka to shimla toy train booking,150,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+travel triangle tour packages,110,X-exclude / exclude:brand,https://traveltriangle.com/
+shimla to kalka toy train,110,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+best airbnb in dharamshala,110,X-exclude / exclude:brand,https://travelcoffee.in/blog/dharamshala-vs-mcleodganj-difference-where-to-stay
+traveltriangle.com,90,X-exclude / exclude:brand,https://traveltriangle.com/
+traveltriangle com,90,X-exclude / exclude:brand,https://traveltriangle.com/
+rohtang weather today images,70,X-exclude / exclude:utility,https://travelcoffee.in/blog/rohtang-pass-in-march
+dharamkot himachal hotels,60,X-exclude / exclude:utility,https://travelcoffee.in/blog/dharamkot-travel-guide
+riverside stay in tirthan valley,50,X-exclude / exclude:utility,https://travelcoffee.in/blog/jibhi-or-kasol-which-is-better
+kalka to shimla toy train ticket price,40,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+make my trip mcleodganj,40,X-exclude / exclude:brand,https://travelcoffee.in/blog/2-days-in-dharamshala-and-mcleodganj
+dharamshala in paharganj new delhi,20,"Different meaning: pilgrim rest houses in Paharganj, Delhi",https://travelcoffee.in/from-delhi/dharamshala-tour-packages
+shimla toy train route,20,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+list of dharamshala in shimla,10,Different meaning: pilgrim rest houses in Shimla,https://travelcoffee.in/blog/dharamshala-vs-shimla
+somnath temple trust dharamshala,10,"Different meaning: Somnath temple trust's pilgrim rest house, not Dharamshala town",https://travelcoffee.in/blog/is-dharamshala-safe-for-solo-female-travellers
+manali to rohtang pass road condition today,10,X-local-nav / target,https://travelcoffee.in/blog/rohtang-pass-in-april
+speciality of manali market,10,X-local-nav / target,https://travelcoffee.in/blog/famous-things-to-buy-in-manali
+kalka to shimla toy train ticket booking,10,X-exclude / exclude:utility,https://travelcoffee.in/blog/kalka-to-shimla-toy-train-guide
+resorts in kasol,10,X-exclude / exclude:utility,https://travelcoffee.in/blog/kasol-itinerary-for-3-days
+delhi to kinnaur by train,10,X-exclude / exclude:utility,https://travelcoffee.in/blog/how-to-reach-kinnaur-from-delhi-chandigarh-shimla
