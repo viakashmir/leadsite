@@ -129,15 +129,18 @@ export default async function Home() {
       {/* 1. HERO: one job, start a trip request. */}
       <section className="relative isolate overflow-hidden bg-royal text-white">
         {heroPhoto && (
-          <Image src={heroPhoto} alt="" fill priority sizes="100vw" className="-z-20 object-cover object-[center_40%]" />
+          <Image src={heroPhoto} alt="" fill priority sizes="100vw" className="-z-20 object-cover object-[center_35%] lg:brightness-[1.06] lg:contrast-[1.04] lg:saturate-[1.08]" />
         )}
         {/* Shade only where the text sits, so the photo shows through on the
             right and around the form; a soft floor keeps the stats readable. */}
         {/* Neutral shade, not a navy tint, so the photo keeps its real colours:
             dark only behind the text (left on desktop, top on phones) and a
             soft floor under the stats; text shadows do the rest. */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/45 via-black/25 to-black/55 lg:bg-gradient-to-r lg:from-black/60 lg:via-black/25 lg:to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 -z-10 h-20 bg-gradient-to-t from-black/40 to-transparent" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/45 via-black/25 to-black/55 lg:hidden" />
+        {/* Desktop: a soft shadow pooled behind the text block only; the rest of
+            the photo is left untouched. */}
+        <div className="absolute inset-0 -z-10 hidden bg-[radial-gradient(ellipse_55%_75%_at_22%_50%,rgb(0_0_0/0.5),rgb(0_0_0/0.18)_55%,transparent_80%)] lg:block" />
+        <div className="absolute inset-x-0 bottom-0 -z-10 h-20 bg-gradient-to-t from-black/40 to-transparent lg:from-black/30" />
         <div className="mx-auto grid max-w-7xl gap-8 px-4 pb-7 pt-6 sm:pb-10 sm:pt-10 lg:grid-cols-[1fr_380px] lg:items-center lg:gap-12">
           <div className="min-w-0">
             {snowSeason && (
@@ -230,7 +233,7 @@ export default async function Home() {
         </div>
 
         {proof.length > 0 && (
-          <div className="border-t border-white/15 bg-black/25 backdrop-blur-sm">
+          <div className="border-t border-white/15 bg-black/20 backdrop-blur-md">
             <dl className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 py-4 sm:grid-cols-4">
               {proof.map((p) => (
                 <div key={p.label}>
