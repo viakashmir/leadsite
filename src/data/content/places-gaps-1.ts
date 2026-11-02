@@ -200,6 +200,115 @@ export const PG1_CITIES: S = {
       { q: "How far are Diveagar, Shrivardhan Beach and Harihareshwar Beach from Alibaug (Alibag)?", a: "Along the Konkan coast south of Alibaug: Diveagar is about 85 km, Shrivardhan Beach about 100 km and Harihareshwar Beach about 110 km. Each has quiet beaches and homestays." },
     ],
   },
+  "kochi": {
+    faqs: [
+      { q: "How far is Guruvayur Temple (Guruvayoor) and Chavakkad Beach from Kochi?", a: "About 85 km north (around 2.5 hours) in Thrissur district. Guruvayur Sri Krishna Temple has a strict dress code (mundu for men, saree or traditional dress for women) and admits only Hindus inside. Chavakkad Beach is about 5 km away." },
+      { q: "What is Cherai Beach like?", a: "A 15 km beach on Vypin island, about 25 km north of Kochi, with calm water, backwaters on the other side and Chinese fishing nets nearby. Good for an evening trip from the city." },
+      { q: "Which are the main temples in Ernakulam, such as Chottanikkara Temple, Vaikom and Chettikulangara?", a: "Chottanikkara Bhagavathy Temple, about 17 km from Kochi, the Ernakulam Shiva Temple in the city, and Vaikom Mahadeva Temple, about 40 km south. Chettikulangara Bhagavathy Temple is further south near Mavelikkara." },
+      { q: "What is Vadakkunnathan Temple, the main Thrissur temple, and Sakthan Thampuran Palace?", a: "A Shiva temple in the centre of Thrissur, about 80 km north of Kochi, home of the Thrissur Pooram festival in April or May. Sakthan Thampuran Palace museum is about 1 km away." },
+      { q: "Which are the waterfalls in Thrissur and the places to visit near Athirapally falls (Athirapally waterfalls)?", a: "Athirapally Falls, about 60 km from Thrissur and 70 km from Kochi, plus Vazhachal Falls (5 km on), Charpa Falls and Thumboormuzhi dam garden. Sholayar and Malakkappara lie further on the same road." },
+      { q: "Which are the Malappuram places to visit, including Angadipuram?", a: "Kottakkunnu hill in Malappuram town, Thirumandhamkunnu Temple at Angadipuram near Perinthalmanna, Nilambur teak forests and Kadalundi bird sanctuary." },
+      { q: "How far are Silent Valley National Park, Parambikulam Tiger Reserve and Nelliyampathy?", a: "All are in Palakkad district. Silent Valley is about 45 km from Mannarkkad, Nelliyampathy hills about 60 km from Palakkad, and Parambikulam about 100 km, reached via Pollachi. Entry is by forest department permits." },
+    ],
+  },
+  "alleppey": {
+    faqs: [
+      { q: "What is Kuttanad near Alleppey?", a: "The low-lying rice bowl of Kerala, much of it below sea level, crossed by the backwater canals that houseboats from Alleppey cruise through." },
+    ],
+  },
+  "thekkady": {
+    faqs: [
+      { q: "How far are Peermade and Nilakkal from Thekkady?", a: "Peermade is a tea and plantation hill town about 40 km away on the Kottayam road. Nilakkal, the base camp for Sabarimala, is about 100 km away." },
+    ],
+  },
+  "wayanad": {
+    faqs: [
+      { q: "Which are the hill stations near Kozhikode and the hill stations in Kannur?", a: "Near Kozhikode: Wayanad (about 85 km) and Kakkayam. In Kannur district: Paithalmala, Kottiyoor and Aralam. Wayanad is the most popular base." },
+      { q: "What is Parassinikadavu Muthappan Temple, what is Kannur beach known for, and where is Rajarajeshwara Temple?", a: "Parassinikadavu Muthappan Temple on the Valapattanam river, about 18 km from Kannur, offers daily Theyyam-style Muthappan performances. Payyambalam and Muzhappilangad drive-in beach are Kannur's main beaches. Rajarajeshwara Temple is at Taliparamba, about 25 km north." },
+    ],
+  },
+  "mysore": {
+    faqs: [
+      { q: "How far are Srirangapatna, Ranganathittu Bird Sanctuary and Melukote from Mysore?", a: "Srirangapatna, Tipu Sultan's island capital, is about 15 km away, with Ranganathittu Bird Sanctuary 3 km further. Melukote, with the Cheluvanarayana Swamy temple, is about 50 km north." },
+      { q: "How far are BR Hills and Shravanabelagola from Mysore?", a: "Biligiri Rangana (BR) Hills is about 90 km south-east, a tiger reserve with a hilltop temple. Shravanabelagola, with the 17 m Gommateshwara statue, is about 85 km north." },
+      { q: "How far is the Belur Chennakeshava temple, and Sakleshpur, from Mysore?", a: "Belur, home of the 12th century Hoysala Chennakeshava Temple, is about 150 km north-west; Halebidu is 16 km from Belur. Sakleshpur, a coffee and hill town, is about 125 km away." },
+    ],
+  },
+  "coorg": {
+    faqs: [
+      { q: "Which are the places to visit in and around Madikeri, including Talakaveri Temple?", a: "Raja's Seat, Abbey Falls, Madikeri Fort and Omkareshwara Temple in town; Talakaveri Temple at the source of the Kaveri, about 45 km away; Bhagamandala; Dubare elephant camp and the Golden Temple at Bylakuppe." },
+    ],
+  },
+  "chikmagalur": {
+    faqs: [
+      { q: "How far is Kemmangundi from Chikmagalur?", a: "About 55 km north, a hill station with Z Point, Hebbe Falls and rose gardens." },
+    ],
+  },
+  "bangalore": {
+    faqs: [
+      { q: "Which are Bangalore's well-known temples: Bull Temple, Dodda Ganapathi Temple, Banashankari Temple and Kotilingeshwara Temple?", a: "Bull Temple (Dodda Basavana Gudi) and Dodda Ganapathi Temple are side by side in Basavanagudi. Banashankari Temple is in south Bangalore. Kotilingeshwara Temple, with its huge linga, is at Kammasandra in Kolar district, about 95 km east." },
+      { q: "How far are Shivagange Hills, Anthargange and Chunchi Falls from Bangalore?", a: "Shivagange Hills is about 55 km north-west, Anthargange caves near Kolar about 70 km east, and Chunchi Falls on the Arkavathi about 90 km south-west near Kanakapura." },
+    ],
+  },
+  "udupi": {
+    faqs: [
+      { q: "How far is Kukke Subramanya Temple (Subramanya) from Udupi?", a: "About 140 km east, near the Western Ghats. Kukke Subramanya temple is known for Sarpa Samskara pujas; book them in advance." },
+      { q: "Which is the best Mangalore beach: Panambur, Tannirbhavi or Someshwar, and where is Mangaladevi Temple?", a: "Panambur Beach is the busiest, with water sports and the kite festival. Tannirbhavi is quieter, across the river by ferry. Someshwar has rocks and the Someshwar temple. Mangaladevi Temple, which gave Mangalore its name, is in the city." },
+    ],
+  },
+  "gokarna": {
+    faqs: [
+      { q: "How far is Sirsi from Gokarna?", a: "About 85 km east in the Western Ghats, with the Marikamba Temple, Sahasralinga on the Shalmala river and Unchalli Falls nearby." },
+    ],
+  },
+  "tirupati": {
+    faqs: [
+      { q: "How far are Horsley Hills and Kailasa Kona Falls from Tirupati?", a: "Horsley Hills, a small hill station, is about 150 km west. Kailasa Kona Falls is about 45 km away, on the Nagari side." },
+    ],
+  },
+  "visakhapatnam": {
+    faqs: [
+      { q: "What are Bheemunipatnam and Tenneti Park in Visakhapatnam?", a: "Tenneti Park is a seaside park on Beach Road in Vizag. Bheemunipatnam, about 25 km north, is an old Dutch settlement with a quiet beach and Dutch cemetery." },
+      { q: "How far are Maredumilli, Draksharamam and Dwaraka Tirumala from Visakhapatnam?", a: "In the Godavari districts: Maredumilli forest and waterfalls are about 250 km, Draksharamam Bhimeswara Temple about 180 km, and Dwaraka Tirumala Venkateswara Temple about 290 km." },
+    ],
+  },
+  "srisailam": {
+    faqs: [
+      { q: "What is the Nallamala forest around Srisailam?", a: "Srisailam sits inside the Nallamala hills, part of the Nagarjunasagar-Srisailam Tiger Reserve, the largest tiger reserve in India. Ghat roads close at night for wildlife." },
+      { q: "How far are Alampur Jogulamba Temple and Yaganti from Srisailam?", a: "Alampur, with the Jogulamba Shakti Peetha and the Navabrahma temples, is about 200 km away near Kurnool. Yaganti Uma Maheswara Temple is about 170 km away." },
+    ],
+  },
+  "hyderabad": {
+    faqs: [
+      { q: "What are Qutub Shahi Tombs, Lumbini Park (Lumbini Garden) and Peddamma Temple (Jubilee Hills) in Hyderabad?", a: "The Qutb Shahi Tombs are royal tombs near Golconda Fort. Lumbini Park is on Hussain Sagar, with boats to the Buddha statue. Peddamma Temple is in Jubilee Hills, busiest during Bonalu." },
+      { q: "How far are Nagarjuna Sagar, Basara Saraswati Temple and Bhadrachalam from Hyderabad?", a: "Nagarjuna Sagar dam is about 150 km south-east. Basara, with the Gnana Saraswati temple, is about 210 km north. Bhadrachalam Sri Rama temple is about 310 km east." },
+    ],
+  },
+  "warangal": {
+    faqs: [
+      { q: "How far is Bogatha Waterfalls from Warangal?", a: "About 140 km east, near Wazeedu in Mulugu district. It flows best from July to October." },
+    ],
+  },
+  "kedarnath": {
+    faqs: [
+      { q: "How far are Guptkashi and Triyuginarayan Temple from Kedarnath?", a: "Both are on the way. Guptkashi is about 45 km before Sonprayag. Triyuginarayan Temple, where Shiva and Parvati are believed to have married, is about 12 km from Sonprayag." },
+    ],
+  },
+  "nainital": {
+    faqs: [
+      { q: "How far are Bhowali and Pangot from Nainital?", a: "Bhowali, a fruit market town, is about 11 km away, with Kainchi Dham 9 km further. Pangot, a birding village, is about 15 km north." },
+    ],
+  },
+  "jim-corbett": {
+    faqs: [
+      { q: "What is Garjia Temple near Jim Corbett?", a: "Garjia Devi Temple stands on a rock in the Kosi river, about 15 km from Ramnagar on the Ranikhet road." },
+    ],
+  },
+  "dehradun": {
+    faqs: [
+      { q: "How far are Tapkeshwar Mahadev, Chakrata Tiger Fall and Mahasu Devta from Dehradun?", a: "Tapkeshwar Mahadev, a cave Shiva temple, is about 6 km away. Tiger Fall near Chakrata is about 100 km. Mahasu Devta Temple at Hanol is about 190 km." },
+    ],
+  },
 };
 
 export const PG1_PLACES: S = {
