@@ -13,6 +13,7 @@ export const HUB_FAQS: Record<string, Faq[]> = {
     { q: "Are there trip packages and tour packages under 5000?", a: "Rarely for a full trip. Short trips such as a 2 night 3 days package or a two days holiday package to a nearby hill station or pilgrim town can be close to that per person by bus or train with budget stays. Share your budget and agents will say what fits." },
     { q: "What does a 2 night 3 days package or two days holiday package usually cover?", a: "One destination within about 300 km of your city: 2 nights of hotel with breakfast, a cab for transfers and local sightseeing. Popular picks are weekend hill stations, beaches and temple towns." },
     { q: "Which are good long tour options from India?", a: "10 to 15 day trips such as Rajasthan, Kerala and Tamil Nadu together, the North East, Ladakh with Spiti, or Europe and Southeast Asia abroad." },
+    { q: "Which are popular tour packages from Coimbatore, including family tour packages?", a: "Ooty, Kodaikanal, Munnar and Coorg by road, Kerala backwaters, and by air from Coimbatore airport to Goa, Kashmir, Andaman, Dubai and Singapore. Family trips usually add a private cab and family rooms." },
     { q: "Are there Diwali holiday tour packages?", a: "Yes. Diwali week is peak season, so book 6 to 8 weeks ahead. Goa, Rajasthan, Kerala, Andaman, Dubai, Thailand and Singapore are popular; prices rise for those dates." },
   ],
   "/tour-packages/international": [
@@ -23,11 +24,14 @@ export const HUB_FAQS: Record<string, Faq[]> = {
     { q: "Which is the best low budget international trip from India?", a: "Nepal (no visa for Indians, reachable by road), then Bhutan, Sri Lanka and Thailand." },
     { q: "Which countries to visit from India first?", a: "Easy first trips are Thailand, Dubai, Singapore, Bali, Sri Lanka, Nepal, Bhutan, Maldives, Vietnam and Malaysia." },
     { q: "Which are the best places to visit in May in Asia?", a: "Bhutan, Nepal's lower valleys, Japan's Hokkaido, Bali, Vietnam's north and central coast, and the Maldives early in the month." },
+    { q: "Is there a Laos honeymoon package?", a: "Yes, usually combined with Vietnam, Cambodia or Thailand: Luang Prabang's temples and Kuang Si Falls over 3 to 4 nights. Indians can apply for a Laos e-visa or visa on arrival; check the Laos embassy for current rules." },
+    { q: "What do holiday packages in Zanzibar include?", a: "Usually 4 to 6 nights on the Tanzanian island: Stone Town (a UNESCO site), a spice tour, and beach stays at Nungwi or Kendwa, often combined with a Serengeti safari. Indians need a Tanzania e-visa." },
     { q: "Are there 5 days international trips from India?", a: "Yes: Dubai, Thailand, Singapore, Bali, Sri Lanka, Nepal, Bhutan and Vietnam all fit in 4 nights 5 days." },
   ],
   "/tour-packages/india": [
     { q: "Which are the best places to visit in India and top tourist destinations in India?", a: "Kashmir, Ladakh, Himachal (Manali, Shimla), Rajasthan (Jaipur, Udaipur, Jaisalmer), Goa, Kerala, Andaman, Agra, Varanasi, Rishikesh, Darjeeling, Sikkim, Meghalaya, Hampi and Coorg." },
     { q: "Which are the best tourism destinations in India and traveling places in India by region?", a: "North: Kashmir, Ladakh, Himachal, Uttarakhand. West: Rajasthan, Goa, Gujarat. South: Kerala, Karnataka, Tamil Nadu. East and North East: Darjeeling, Sikkim, Meghalaya, Odisha. Islands: Andaman and Lakshadweep." },
+    { q: "What does a North East tour package cover?", a: "Usually Gangtok and Darjeeling, or Shillong, Cherrapunji and Kaziranga, over 6 to 9 days from Bagdogra or Guwahati. Sikkim and Arunachal need permits that agents arrange." },
     { q: "Which are good places to go in India for a first trip?", a: "The Golden Triangle (Delhi, Agra, Jaipur), Goa, Kerala, or Shimla and Manali." },
     { q: "Which is the best tourist spot in North India?", a: "Kashmir, Ladakh, Manali, Shimla, Rishikesh, Agra, Amritsar, Varanasi and the Rajasthan cities." },
     { q: "Which are the best places to visit in India in May?", a: "Ladakh (from late May), Kashmir, Manali, Shimla, Darjeeling, Sikkim, Munnar, Ooty and Coorg." },
