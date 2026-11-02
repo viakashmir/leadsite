@@ -64,6 +64,7 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
   const placeName = place?.name ?? post.destination;
   const photo = [city?.heroImage, destination?.heroImage].find((src) => isPhoto(src)) ?? null;
   const published = new Date(`${post.date}T00:00:00+05:30`);
+  const modified = post.updated ? new Date(`${post.updated}T00:00:00+05:30`) : published;
   const minutes = readMinutes(post);
   const related = relatedPosts(post);
   const theme = CATEGORY_THEME[post.category];
@@ -86,7 +87,7 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
           description: post.description,
           type: "Article",
           datePublished: published,
-          dateModified: published,
+          dateModified: modified,
           image: photo ? absoluteUrl(photo) : undefined,
           about: { "@type": "TouristDestination", name: placeName },
         })}
@@ -113,7 +114,7 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
           <h1 className="mt-2 max-w-4xl font-display text-2xl font-bold leading-tight tracking-tight text-ink sm:text-[30px]">
             {post.title}
           </h1>
-          <Byline updated={published} />
+          <Byline updated={modified} />
         </div>
       </section>
 

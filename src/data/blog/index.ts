@@ -13,6 +13,8 @@ import { KERALA_DEEP_2 } from "./kerala-deep-2";
 import { RAJASTHAN_DEEP, RAJASTHAN_UPGRADES } from "./rajasthan-deep";
 import { RAJASTHAN_DEEP_2 } from "./rajasthan-deep-2";
 import { SOUTH_WEST_GUIDES } from "./south-west-guides";
+import { SIKKIM_DEEP, SIKKIM_UPGRADES } from "./sikkim-deep";
+import { SIKKIM_DEEP_2 } from "./sikkim-deep-2";
 import { SOUTH_INDIA } from "./south-india";
 import { EAST_ISLANDS } from "./east-islands";
 import { INTERNATIONAL_ASIA } from "./international-asia";
@@ -53,6 +55,8 @@ const ALL_POSTS: BlogPost[] = [
   ...RAJASTHAN_DEEP,
   ...RAJASTHAN_DEEP_2,
   ...SOUTH_WEST_GUIDES,
+  ...SIKKIM_DEEP,
+  ...SIKKIM_DEEP_2,
   ...SOUTH_INDIA,
   ...EAST_ISLANDS,
   ...INTERNATIONAL_ASIA,
@@ -73,8 +77,27 @@ const ALL_POSTS: BlogPost[] = [
 
 // Full rewrites keep the published slug, title and description and replace
 // the body, so the URL keeps its history while the page stops being thin.
-const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs">> = { ...KASHMIR_UPGRADES, ...KASHMIR_UPGRADES_2, ...KASHMIR_UPGRADES_3, ...KASHMIR_UPGRADES_4, ...HIMACHAL_UPGRADES, ...LADAKH_UPGRADES, ...GOA_UPGRADES, ...UTTARAKHAND_UPGRADES, ...KERALA_UPGRADES, ...RAJASTHAN_UPGRADES };
-
-export const BLOG_POSTS: BlogPost[] = ALL_POSTS.filter((p) => !(p.slug in SUPERSEDED_POSTS)).map((p) =>
-  UPGRADES[p.slug] ? { ...p, ...UPGRADES[p.slug] } : p,
+// Each rewrite batch, with the day it went live (sets the post's updated date,
+// so the sitemap, Article dateModified and byline reflect the rewrite).
+const UPGRADE_BATCHES: [Record<string, Pick<BlogPost, "intro" | "sections" | "faqs">>, string][] = [
+  [KASHMIR_UPGRADES, "2026-11-01"],
+  [KASHMIR_UPGRADES_2, "2026-11-01"],
+  [KASHMIR_UPGRADES_3, "2026-11-01"],
+  [HIMACHAL_UPGRADES, "2026-11-01"],
+  [LADAKH_UPGRADES, "2026-11-01"],
+  [KASHMIR_UPGRADES_4, "2026-11-02"],
+  [GOA_UPGRADES, "2026-11-02"],
+  [UTTARAKHAND_UPGRADES, "2026-11-02"],
+  [KERALA_UPGRADES, "2026-11-02"],
+  [RAJASTHAN_UPGRADES, "2026-11-02"],
+  [SIKKIM_UPGRADES, "2026-11-02"],
+];
+const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs" | "updated">> = Object.fromEntries(
+  UPGRADE_BATCHES.flatMap(([batch, updated]) => Object.entries(batch).map(([slug, u]) => [slug, { ...u, updated }])),
 );
+
+export const BLOG_POSTS: BlogPost[] = ALL_POSTS.filter((p) => !(p.slug in SUPERSEDED_POSTS)).map((p) => {
+  const u = UPGRADES[p.slug];
+  if (!u) return p;
+  return { ...p, ...u, updated: u.updated && u.updated > p.date ? u.updated : undefined };
+});

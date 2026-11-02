@@ -30,6 +30,7 @@ export type BlogPost = {
   destination: string; // destination slug: photo fallback, package links, form pre-fill
   city?: string; // city slug when the post is about one town
   date: string; // YYYY-MM-DD first published
+  updated?: string; // YYYY-MM-DD of the last full rewrite, when later than date
   intro: string; // answer-first opening paragraph
   sections: BlogSection[];
   faqs: { q: string; a: string }[];
