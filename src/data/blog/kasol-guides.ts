@@ -33,7 +33,7 @@ const BASE: BlogPost[] = [
     category: "Adventure",
     destination: "himachal",
     city: "kasol",
-    date: "2026-11-04",
+    date: "2026-11-02",
     intro:
       "The Kheerganga trek starts at Barshaini, about 15 km beyond Kasol, and climbs roughly 10 to 12 km to a meadow at about 2,950 m with a natural hot spring and a small Shiva shrine. Most fit beginners reach the top in 4 to 6 hours. The best seasons are May to June and September to November; the trail is slippery in the monsoon and snowbound in winter.",
     sections: [
@@ -127,7 +127,7 @@ const BASE: BlogPost[] = [
     category: "Planning",
     destination: "himachal",
     city: "kasol",
-    date: "2026-11-04",
+    date: "2026-11-02",
     intro:
       "Tosh is a small mountain village at about 2,400 m at the head of the Parvati valley, above Barshaini, known for wide views of snow peaks, wooden houses and quiet guesthouses. It is about 20 km from Kasol: a 40-minute drive to Barshaini, then a short steep road or walk up. Spend at least one night to enjoy the sunset and morning views.",
     sections: [
@@ -211,7 +211,7 @@ const BASE: BlogPost[] = [
     category: "Planning",
     destination: "himachal",
     city: "kasol",
-    date: "2026-11-04",
+    date: "2026-11-02",
     intro:
       "Malana is an ancient village at about 2,650 m in a side valley off the Parvati, known for its own customs, its village council and strict rules for outsiders, such as not touching people, houses or temples. It is a day trip from Kasol by road to the Malana dam area and a steep walk up. Visit with a guide, follow the rules, and respect the residents' privacy.",
     sections: [
@@ -293,7 +293,7 @@ const BASE: BlogPost[] = [
     category: "Pilgrimage",
     destination: "himachal",
     city: "kasol",
-    date: "2026-11-04",
+    date: "2026-11-02",
     intro:
       "Manikaran is a pilgrimage town about 4 km beyond Kasol in the Parvati valley, at about 1,760 m, sacred to both Sikhs and Hindus. Its best-known sights are Gurudwara Shri Manikaran Sahib, where langar is cooked using the heat of natural hot springs, and the Ram and Shiva temples beside the river. Plan two to three hours, and longer if you bathe in the hot spring baths.",
     sections: [
@@ -375,7 +375,7 @@ const BASE: BlogPost[] = [
     category: "Planning",
     destination: "himachal",
     city: "kasol",
-    date: "2026-11-04",
+    date: "2026-11-02",
     intro:
       "The best time to visit Kasol is March to June and September to November, when days are pleasant, roads are open and treks like Kheerganga are at their best. The monsoon, July to August, brings heavy rain and landslides on the valley road. Winter, December to February, is cold and quiet; Kasol sees occasional light snow, while Tosh and higher villages are snowbound.",
     sections: [
@@ -467,7 +467,7 @@ const BASE: BlogPost[] = [
     category: "Planning",
     destination: "himachal",
     city: "kasol",
-    date: "2026-11-04",
+    date: "2026-11-02",
     intro:
       "Kasol's food scene mixes Himachali home cooking with Israeli, Italian and Tibetan dishes, thanks to decades of backpackers. Try shakshuka, hummus and falafel in the riverside cafes, and local siddu and trout. Vegetarians are well served, and the free langar at Manikaran Sahib, 4 km away, is a meal worth having.",
     sections: [
@@ -552,7 +552,7 @@ const BASE: BlogPost[] = [
     category: "Honeymoon",
     destination: "himachal",
     city: "kasol",
-    date: "2026-11-04",
+    date: "2026-11-02",
     intro:
       "Kasol suits couples who want a slow, nature-filled trip: riverside cottages, pine forest walks, a night in Tosh for mountain views and the Kheerganga hot spring. Four days is ideal. Stay in Chalal or on the quieter edges of Kasol rather than the busiest lanes, and visit in October, November or April for calm and clear weather.",
     sections: [
@@ -637,7 +637,7 @@ const BASE: BlogPost[] = [
     category: "Adventure",
     destination: "himachal",
     city: "kasol",
-    date: "2026-11-04",
+    date: "2026-11-02",
     intro:
       "Three of the best short treks from Kasol are the easy Chalal riverside walk (about 30 minutes), the steep climb from Chalal to Rasol village (3 to 4 hours up), and the Grahan village trek (about 8 to 9 km, 4 to 5 hours). Chalal suits everyone; Rasol and Grahan need fitness and good shoes. Go from April to June or September to November.",
     sections: [
@@ -722,7 +722,7 @@ const BASE: BlogPost[] = [
     category: "Planning",
     destination: "himachal",
     city: "kasol",
-    date: "2026-11-04",
+    date: "2026-11-02",
     intro:
       "Kasol in winter, from December to February, is cold, quiet and often sunny. The village itself gets only occasional light snow, but Tosh, Kalga, Pulga and Grahan above it are usually snow-covered. Many cafes and guesthouses close for part of the season, so book an open stay in advance, pack proper winter gear and plan daylight-only travel.",
     sections: [
@@ -808,7 +808,7 @@ const BASE: BlogPost[] = [
     category: "Itineraries",
     destination: "himachal",
     city: "kasol",
-    date: "2026-11-04",
+    date: "2026-11-02",
     intro:
       "Five days in the Parvati valley covers its best: Kasol and Chalal, Manikaran Sahib, the mountain village of Tosh, the Kheerganga trek with its hot spring, and a respectful visit to Malana. Base yourself in Kasol, spend a night in Tosh or near Kheerganga, and travel between April and June or September and November for the best weather.",
     sections: [

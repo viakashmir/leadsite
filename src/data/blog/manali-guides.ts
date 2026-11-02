@@ -20,7 +20,7 @@ const BASE: BlogPost[] = [
     category: "Planning",
     destination: "himachal",
     city: "manali",
-    date: "2026-11-03",
+    date: "2026-11-02",
     intro:
       "The best time to visit Manali is March to June for pleasant weather and open roads to Solang Valley and the Atal Tunnel, and October to November for clear skies and fewer crowds. For snow, visit between December and February, when Manali and Solang usually get snowfall. Avoid the peak monsoon of July and August if you can: heavy rain and landslides often disrupt the Kullu valley roads.",
     sections: [
@@ -108,7 +108,7 @@ const BASE: BlogPost[] = [
     category: "Planning",
     destination: "himachal",
     city: "manali",
-    date: "2026-11-03",
+    date: "2026-11-02",
     intro:
       "The best places to visit in Manali are Hadimba Temple, Old Manali, the Vashisht hot springs and the Mall Road in town; Solang Valley and the Atal Tunnel to Sissu for snow and views; and Naggar Castle and Jogini Falls for heritage and nature. Rohtang Pass is open in summer with a permit. Three to four days covers Manali and its highlights comfortably.",
     sections: [
@@ -192,7 +192,7 @@ const BASE: BlogPost[] = [
     category: "Adventure",
     destination: "himachal",
     city: "manali",
-    date: "2026-11-03",
+    date: "2026-11-02",
     intro:
       "Solang Valley is a wide valley about 13 km north of Manali, known for snow in winter, a ropeway and adventure sports. Visit from December to March for snow play and skiing, and from spring to autumn for paragliding, zorbing and views of the peaks. Go early in the morning to avoid traffic and long queues, and agree activity details before you pay.",
     sections: [
@@ -265,7 +265,7 @@ const BASE: BlogPost[] = [
     category: "Planning",
     destination: "himachal",
     city: "manali",
-    date: "2026-11-03",
+    date: "2026-11-02",
     intro:
       "The Atal Tunnel is a roughly 9 km highway tunnel under the Rohtang range, opened in 2020, that connects the Manali side with Lahaul in minutes instead of a long climb over Rohtang Pass. On the far side lies Sissu, with a waterfall and wide views of the Chandra river. It is an easy half-day trip from Manali, open most of the year, and does not need the Rohtang permit.",
     sections: [
@@ -340,7 +340,7 @@ const BASE: BlogPost[] = [
     category: "Itineraries",
     destination: "himachal",
     city: "manali",
-    date: "2026-11-03",
+    date: "2026-11-02",
     intro:
       "Three days in Manali covers the highlights at a comfortable pace: day one in town at Hadimba Temple, Old Manali and the Mall; day two at Solang Valley and through the Atal Tunnel to Sissu; day three at Naggar Castle, the Roerich gallery and the Vashisht hot springs. Arrive the evening before, or on an overnight Volvo, so you start fresh.",
     sections: [
@@ -415,7 +415,7 @@ const BASE: BlogPost[] = [
     category: "Family",
     destination: "himachal",
     city: "manali",
-    date: "2026-11-03",
+    date: "2026-11-02",
     intro:
       "Manali is a great family destination if you keep days short and plan around children and older parents. Spend 4 to 5 days, stay in a hotel with road access, do Solang Valley in the morning, keep high-altitude stops like Sissu short, and plan rest in the afternoons. May and June are the most popular family months; book Volvo seats and hotels early.",
     sections: [
@@ -493,7 +493,7 @@ const BASE: BlogPost[] = [
     category: "Planning",
     destination: "himachal",
     city: "manali",
-    date: "2026-11-03",
+    date: "2026-11-02",
     intro:
       "Old Manali, Vashisht and Hadimba Temple are the heart of Manali's village life and history, and all three are easy to explore on foot in a day. Start at Hadimba's cedar forest early, walk to Old Manali's lanes and the Manu temple, then cross the Beas to Vashisht for its hot spring baths and stone temple. Wear good shoes: lanes are steep and uneven.",
     sections: [
@@ -565,7 +565,7 @@ const BASE: BlogPost[] = [
     category: "Adventure",
     destination: "himachal",
     city: "manali",
-    date: "2026-11-03",
+    date: "2026-11-02",
     intro:
       "Manali is one of India's adventure hubs: tandem paragliding at Solang and Dobhi, white-water rafting on the Beas near Kullu, skiing at Solang in winter and treks such as Hampta Pass and Bhrigu Lake in summer. Most activities are seasonal and weather dependent, so match your dates to what you want to do and always choose registered operators.",
     sections: [
@@ -641,7 +641,7 @@ const BASE: BlogPost[] = [
     category: "Planning",
     destination: "himachal",
     city: "manali",
-    date: "2026-11-03",
+    date: "2026-11-02",
     intro:
       "The most popular way from Delhi to Manali is an overnight Volvo bus, which covers the roughly 540 km in about 12 to 14 hours and arrives in the morning. Driving takes a similar time via Chandigarh, Bilaspur, Mandi and Kullu. For speed, fly to Kullu-Bhuntar (limited, weather-dependent flights) or Chandigarh, then drive. There is no direct train to Manali.",
     sections: [
@@ -723,7 +723,7 @@ const BASE: BlogPost[] = [
     category: "Itineraries",
     destination: "himachal",
     city: "manali",
-    date: "2026-11-03",
+    date: "2026-11-02",
     intro:
       "Five days is the right length to see both Manali and Kasol: two and a half days in Manali for the town, Solang Valley and the Atal Tunnel, then two days in the Parvati valley for Kasol, Manikaran and the village of Tosh. The two are about 80 km apart, roughly 3 hours by road via Kullu and Bhuntar.",
     sections: [
