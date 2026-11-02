@@ -15,6 +15,7 @@ import { RAJASTHAN_DEEP_2 } from "./rajasthan-deep-2";
 import { SOUTH_WEST_GUIDES } from "./south-west-guides";
 import { SIKKIM_DEEP, SIKKIM_UPGRADES } from "./sikkim-deep";
 import { SIKKIM_DEEP_2 } from "./sikkim-deep-2";
+import { ANDAMAN_DEEP, ANDAMAN_UPGRADES } from "./andaman-deep";
 import { SOUTH_INDIA } from "./south-india";
 import { EAST_ISLANDS } from "./east-islands";
 import { INTERNATIONAL_ASIA } from "./international-asia";
@@ -57,6 +58,7 @@ const ALL_POSTS: BlogPost[] = [
   ...SOUTH_WEST_GUIDES,
   ...SIKKIM_DEEP,
   ...SIKKIM_DEEP_2,
+  ...ANDAMAN_DEEP,
   ...SOUTH_INDIA,
   ...EAST_ISLANDS,
   ...INTERNATIONAL_ASIA,
@@ -91,6 +93,7 @@ const UPGRADE_BATCHES: [Record<string, Pick<BlogPost, "intro" | "sections" | "fa
   [KERALA_UPGRADES, "2026-11-02"],
   [RAJASTHAN_UPGRADES, "2026-11-02"],
   [SIKKIM_UPGRADES, "2026-11-02"],
+  [ANDAMAN_UPGRADES, "2026-11-02"],
 ];
 const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs" | "updated">> = Object.fromEntries(
   UPGRADE_BATCHES.flatMap(([batch, updated]) => Object.entries(batch).map(([slug, u]) => [slug, { ...u, updated }])),
