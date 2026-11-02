@@ -16,6 +16,7 @@ import { SOUTH_WEST_GUIDES } from "./south-west-guides";
 import { SIKKIM_DEEP, SIKKIM_UPGRADES } from "./sikkim-deep";
 import { SIKKIM_DEEP_2 } from "./sikkim-deep-2";
 import { ANDAMAN_DEEP, ANDAMAN_UPGRADES } from "./andaman-deep";
+import { ANDAMAN_DEEP_2 } from "./andaman-deep-2";
 import { SOUTH_INDIA } from "./south-india";
 import { EAST_ISLANDS } from "./east-islands";
 import { INTERNATIONAL_ASIA } from "./international-asia";
@@ -59,6 +60,7 @@ const ALL_POSTS: BlogPost[] = [
   ...SIKKIM_DEEP,
   ...SIKKIM_DEEP_2,
   ...ANDAMAN_DEEP,
+  ...ANDAMAN_DEEP_2,
   ...SOUTH_INDIA,
   ...EAST_ISLANDS,
   ...INTERNATIONAL_ASIA,
