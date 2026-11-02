@@ -30,6 +30,10 @@ import { KASHMIR_UPGRADES } from "./kashmir-deep";
 import { KASHMIR_UPGRADES_2 } from "./kashmir-deep-2";
 import { KASHMIR_UPGRADES_3 } from "./kashmir-deep-3";
 import { KASHMIR_UPGRADES_4 } from "./kashmir-deep-4";
+import { KASHMIR_WINTER_MONTHS } from "./kashmir-winter-months";
+import { KASHMIR_PLANNING_DEEP } from "./kashmir-planning-deep";
+import { KASHMIR_LOCAL_GUIDES } from "./kashmir-local-guides";
+import { withKashmirExtras } from "./kashmir-extras";
 import { LADAKH_DEEP } from "./ladakh-deep";
 import { LADAKH_DEEP_2, LADAKH_UPGRADES } from "./ladakh-deep-2";
 import { LADAKH_DEEP_3 } from "./ladakh-deep-3";
@@ -46,6 +50,7 @@ export { SUPERSEDED_POSTS };
 
 const ALL_POSTS: BlogPost[] = [
   ...KASHMIR_CORE,
+  ...withKashmirExtras([...KASHMIR_WINTER_MONTHS, ...KASHMIR_PLANNING_DEEP, ...KASHMIR_LOCAL_GUIDES]),
   ...KASHMIR_GUIDES,
   ...KASHMIR_LADAKH,
   ...HIMACHAL_UTTARAKHAND,

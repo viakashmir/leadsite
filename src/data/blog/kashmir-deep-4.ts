@@ -31,7 +31,7 @@ export const KASHMIR_UPGRADES_4: Record<string, Pick<BlogPost, "intro" | "sectio
           "Day trip to Sonamarg; pony or walk to Thajiwas Glacier where snow lingers into summer.",
           "Day trip to Gulmarg; gondola to Apharwat for summer snow and wide views.",
           "Drive to Pahalgam via Pampore and Awantipora.",
-          "Betaab Valley, Aru Valley and Baisaran meadow.",
+          "Betaab Valley, Aru Valley and the Lidder riverside walks. (Baisaran meadow has been closed to visitors since April 2025; check its status locally.)",
           "Return to Srinagar and depart.",
         ],
       },
@@ -39,7 +39,7 @@ export const KASHMIR_UPGRADES_4: Record<string, Pick<BlogPost, "intro" | "sectio
         h: "Best summer experiences",
         list: [
           "Snow at Thajiwas Glacier and Apharwat even in June",
-          "Picnics in the meadows of Aru, Betaab and Baisaran",
+          "Picnics in the meadows of Aru and Betaab Valley",
           "Lotus blooms on Dal Lake from July",
           "White-water rafting on the Lidder at Pahalgam and the Sindh at Sonamarg, in season",
           "Trout fishing with a permit from the Fisheries Department",

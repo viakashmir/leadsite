@@ -191,7 +191,7 @@ export const KASHMIR_UPGRADES_3: Record<string, Pick<BlogPost, "intro" | "sectio
           "Betaab Valley, about 15 km from Pahalgam, a green meadow along the Lidder named after a Bollywood film shot there",
           "Aru Valley, about 12 km from Pahalgam, a quiet village and base for treks to Kolahoi Glacier and Tarsar Lake",
           "Chandanwari, about 16 km from Pahalgam, known for snow bridges and the start of the Amarnath Yatra route",
-          "Baisaran, often called mini Switzerland, reached by pony or on foot from Pahalgam",
+          "Baisaran, often called mini Switzerland, above Pahalgam: closed to visitors since the April 2025 attack, so confirm with the local administration before planning it",
           "Evening walks along the Lidder river and Pahalgam's small market",
         ],
       },

@@ -42,7 +42,7 @@ export const D = {
   pahalgamTransfer:
     "Drive to Pahalgam (about 95 km, 2.5 to 3 hours) via the saffron fields of Pampore and the Avantipora temple ruins. Check in by the Lidder River and spend the evening by the water.",
   pahalgamValleys:
-    "Pahalgam sightseeing by local union taxi: Aru Valley, Betaab Valley and Chandanwari (snow points usually into early summer). Pony rides to Baisaran meadow are optional.",
+    "Pahalgam sightseeing by local union taxi: Aru Valley, Betaab Valley and Chandanwari (snow points usually into early summer). Baisaran meadow has been closed to visitors since April 2025 and is not included.",
   pahalgamSlow:
     "A free day in Pahalgam: a riverside walk along the Lidder, trout fishing in season with a permit, or a half-day pony ride. Ideal for families with young children or older parents.",
   pahalgamToSrinagar:
