@@ -114,6 +114,7 @@ export const PG1_CITIES: S = {
   },
   "ajmer": {
     faqs: [
+      { q: "How far are Mandore Gardens from Ajmer?", a: "Mandore, with its royal cenotaphs and gardens, is about 9 km north of Jodhpur and around 210 km from Ajmer." },
       { q: "What is Ana Sagar Lake in Ajmer?", a: "An artificial lake built in the 12th century by Arnoraja, with marble baradaris (pavilions) added by Shah Jahan along the Daulat Bagh side. It is about 2 km from Ajmer Sharif Dargah and is best at sunset." },
       { q: "What is Taragarh Fort in Ajmer?", a: "A hill fort on the Aravalli ridge above Ajmer, about 5 km by road from the dargah, with views over the city. It also has the Dargah of Miran Sahib inside." },
     ],
@@ -135,6 +136,8 @@ export const PG1_CITIES: S = {
   },
   "varanasi": {
     faqs: [
+      { q: "Where is Chitrakoot Dham, and how is it different from Chitrakoot Falls (Chitrakoot waterfall or waterfalls)?", a: "Chitrakoot Dham, on the UP and MP border, is about 270 km west of Varanasi, where Ram is believed to have spent his exile. Chitrakoot Falls is a different place: a wide waterfall on the Indravati river near Jagdalpur in Chhattisgarh." },
+      { q: "How far is Mundeshwari Temple from Varanasi?", a: "About 110 km east in Kaimur district, Bihar. Mundeshwari Devi temple is among the oldest functioning Hindu temples in India." },
       { q: "Is Banaras the same as Varanasi?", a: "Yes. Banaras (Benares) and Kashi are older names of Varanasi, the city on the Ganga known for its ghats, Kashi Vishwanath Temple and the Ganga Aarti at Dashashwamedh Ghat." },
     ],
   },
@@ -174,6 +177,8 @@ export const PG1_CITIES: S = {
   },
   "bhopal": {
     faqs: [
+      { q: "How far are Chanderi, Pitambara Peeth and Bargi Dam Jabalpur from Bhopal?", a: "Chanderi, known for its handloom sarees and fort, is about 220 km north. Pitambara Peeth in Datia is about 330 km north. Bargi Dam on the Narmada near Jabalpur is about 320 km east." },
+      { q: "How far are Kandariya Mahadev at Khajuraho and Kalinjar Fort from Bhopal?", a: "Khajuraho, home of the Kandariya Mahadev Temple, is about 380 km north-east. Kalinjar Fort in Banda, Uttar Pradesh, is about 100 km beyond Khajuraho." },
       { q: "What is Van Vihar in Bhopal?", a: "A national park and zoo on the Upper Lake, about 5 km from the city centre, where animals are kept in near-natural enclosures. It is closed on Fridays; cycles and cars can go around inside." },
       { q: "How far is Bhojpur Temple from Bhopal?", a: "About 28 km south-east. The 11th century Bhojeshwar Temple has one of the largest Shiva lingas in India, about 7.5 m tall including the platform." },
     ],
@@ -246,6 +251,7 @@ export const PG1_CITIES: S = {
   },
   "bangalore": {
     faqs: [
+      { q: "Where is Shivoham Shiva Temple in Bangalore?", a: "Behind the Kemp Fort mall on Old Airport Road, with a 65 ft Shiva statue. It is open daily." },
       { q: "Which are Bangalore's well-known temples: Bull Temple, Dodda Ganapathi Temple, Banashankari Temple and Kotilingeshwara Temple?", a: "Bull Temple (Dodda Basavana Gudi) and Dodda Ganapathi Temple are side by side in Basavanagudi. Banashankari Temple is in south Bangalore. Kotilingeshwara Temple, with its huge linga, is at Kammasandra in Kolar district, about 95 km east." },
       { q: "How far are Shivagange Hills, Anthargange and Chunchi Falls from Bangalore?", a: "Shivagange Hills is about 55 km north-west, Anthargange caves near Kolar about 70 km east, and Chunchi Falls on the Arkavathi about 90 km south-west near Kanakapura." },
     ],
@@ -302,7 +308,57 @@ export const PG1_CITIES: S = {
   },
   "dehradun": {
     faqs: [
+      { q: "How far are Bhadraj Temple and Pauri Garhwal from Dehradun?", a: "Bhadraj Temple is on a ridge about 15 km by trail from Mussoorie, about 50 km from Dehradun. Pauri town, the Pauri Garhwal district headquarters, is about 150 km east." },
       { q: "How far are Tapkeshwar Mahadev, Chakrata Tiger Fall and Mahasu Devta from Dehradun?", a: "Tapkeshwar Mahadev, a cave Shiva temple, is about 6 km away. Tiger Fall near Chakrata is about 100 km. Mahasu Devta Temple at Hanol is about 190 km." },
+    ],
+  },
+  leh: {
+    faqs: [
+      { q: "What is the LAHDC permit, and how far is Tsomoriri Lake from Leh?", a: "The Inner Line Permit for Nubra, Pangong, Tso Moriri and other protected areas is issued online through the LAHDC (Ladakh Autonomous Hill Development Council) Leh portal, with an environment fee and Red Cross fee. Tso Moriri (Tsomoriri Lake) is about 220 km south-east of Leh, 6 to 7 hours by road." },
+    ],
+  },
+  srinagar: {
+    faqs: [
+      { q: "How far are Yousmarg and Kupwara from Srinagar?", a: "Yousmarg, a meadow in Budgam district, is about 47 km south-west (around 1.5 hours). Kupwara is about 90 km north, the base for Bangus Valley and Lolab Valley." },
+    ],
+  },
+  kolkata: {
+    faqs: [
+      { q: "How far is Tarapith (Tarapith Mandir) from Kolkata?", a: "About 220 km north-west in Birbhum district, around 5 hours by road. Rampurhat is the nearest railway station, about 9 km away. Tarapith is known for the Tara Ma temple and its cremation ground." },
+      { q: "How far is Dalma Wildlife Sanctuary from Kolkata?", a: "About 270 km west, near Jamshedpur in Jharkhand. Dalma is known for wild elephants and is best from October to March." },
+    ],
+  },
+  puri: {
+    faqs: [
+      { q: "What is Sakhigopal temple near Puri?", a: "Sakhigopal is a Krishna temple about 20 km from Puri on the Bhubaneswar road, traditionally visited on the way to Jagannath Temple." },
+    ],
+  },
+  bhubaneswar: {
+    faqs: [
+      { q: "How far is Biraja Temple from Bhubaneswar?", a: "Biraja (Girija) Temple, one of the Shakti Peethas, is in Jajpur, about 110 km north-east (around 2.5 hours)." },
+    ],
+  },
+  dwarka: {
+    faqs: [
+      { q: "What are Dwarkadhish Mandir timings and how far is Madhavpur Beach?", a: "Dwarkadhish Mandir (Jagat Mandir) usually opens around 6:30 am to 1 pm and 5 pm to 9:30 pm; aarti times vary on festivals. Madhavpur Beach, near Porbandar, is about 150 km south, known for the Madhavpur Ghed fair in March or April." },
+    ],
+  },
+  ahmedabad: {
+    faqs: [
+      { q: "What is the Sabarmati Nadi riverfront in Ahmedabad?", a: "The Sabarmati river (Sabarmati Nadi) runs through the city; the Sabarmati Riverfront has walkways, Atal Bridge, gardens and Sabarmati Ashram on its west bank." },
+      { q: "How far are Sarangpur Hanuman Mandir (Sarangpur Hanuman Temple) and Zanzari Waterfall from Ahmedabad?", a: "Sarangpur Kashtbhanjan Hanuman Temple is about 150 km south-west, around 3 hours. Zanzari Waterfall near Bayad is about 80 km east and flows best in the monsoon." },
+      { q: "Where is Kuber Bhandari Temple (Kuber Bhandari)?", a: "At Karnali on the Narmada river, about 60 km from Vadodara and 170 km from Ahmedabad. Amavasya days draw the largest crowds." },
+    ],
+  },
+  gangtok: {
+    faqs: [
+      { q: "How far is Khangchendzonga National Park from Gangtok?", a: "The park covers north and west Sikkim; Yuksom, the trek base about 125 km from Gangtok, is the usual entry. Treks need permits arranged through a registered agency." },
+    ],
+  },
+  guwahati: {
+    faqs: [
+      { q: "How far are Sualkuchi and Bhalukpong from Guwahati?", a: "Sualkuchi, the silk weaving village known for muga and pat silk, is about 35 km west. Bhalukpong, on the Assam to Arunachal border on the way to Tawang, is about 230 km north." },
+      { q: "Which is Asia's cleanest village, and how far is it from Guwahati?", a: "Mawlynnong in Meghalaya's East Khasi Hills, about 175 km from Guwahati via Shillong. The living root bridge at Riwai is nearby." },
     ],
   },
 };

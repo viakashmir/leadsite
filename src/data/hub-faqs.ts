@@ -17,6 +17,11 @@ export const HUB_FAQS: Record<string, Faq[]> = {
     { q: "Are there Diwali holiday tour packages?", a: "Yes. Diwali week is peak season, so book 6 to 8 weeks ahead. Goa, Rajasthan, Kerala, Andaman, Dubai, Thailand and Singapore are popular; prices rise for those dates." },
   ],
   "/tour-packages/international": [
+    { q: "What is Barcelona known for?", a: "Barcelona, in Spain, is known for Gaudi's Sagrada Familia, Park Guell, La Rambla and its beaches. Indians need a Schengen visa." },
+    { q: "When is La Tomatina festival?", a: "The tomato fight in Bunol, near Valencia in Spain, is held on the last Wednesday of August; entry is by paid ticket." },
+    { q: "Where are the Royal Palace and the Palace of Versailles?", a: "The Royal Palace of Madrid is in Spain. The Palace of Versailles is about 20 km west of Paris, France. Both need a Schengen visa." },
+    { q: "How do you visit Windsor Castle and Niagara Falls from India?", a: "Windsor Castle is about 40 km west of London and needs a UK visa. Niagara Falls lies on the USA and Canada border; you need a visa for the side you visit." },
+    { q: "What is Yas Island in Abu Dhabi?", a: "An entertainment island in Abu Dhabi with Ferrari World, Warner Bros World, Yas Waterworld and the Formula 1 circuit, about 50 minutes from Dubai." },
     { q: "Which are cheap international trips and the cheapest foreign trips from India?", a: "Nepal, Bhutan, Sri Lanka, Thailand, Vietnam, Malaysia, Indonesia (Bali) and Dubai are usually the cheapest international trips, thanks to short flights, visa-free or e-visa entry for Indians, and low daily costs." },
     { q: "Which are cheap international destinations from India for a budget foreign trip?", a: "Nepal and Bhutan by road or a short flight, Sri Lanka, Thailand, Vietnam, Malaysia and Bali. Travel outside peak holidays and book flights early to keep costs down." },
     { q: "How do I plan affordable international trips, cheap international travel or a cheap international vacation?", a: "Pick a country with easy visas and short flights, travel in the shoulder season, choose 3-star stays, and fix the plan 6 to 8 weeks ahead. Agents can quote a cheap international vacation with flights or without." },
@@ -29,6 +34,9 @@ export const HUB_FAQS: Record<string, Faq[]> = {
     { q: "Are there 5 days international trips from India?", a: "Yes: Dubai, Thailand, Singapore, Bali, Sri Lanka, Nepal, Bhutan and Vietnam all fit in 4 nights 5 days." },
   ],
   "/tour-packages/india": [
+    { q: "What are Safdarjung Tomb and Amrit Udyan in Delhi?", a: "Safdarjung Tomb is an 18th century Mughal garden tomb near Lodhi Road. Amrit Udyan is the garden at Rashtrapati Bhavan, open to the public in season (usually February to March) with free online booking." },
+    { q: "How far are Sultanpur National Park and the Aravali Hills (Gurgaon) from Delhi?", a: "Sultanpur National Park, a winter bird sanctuary, is about 50 km from Delhi. The Aravali hills in Gurgaon include the Aravali Biodiversity Park, about 30 km from central Delhi." },
+    { q: "Where is Trincomalee?", a: "On the north-east coast of Sri Lanka, known for Nilaveli beach, Pigeon Island and the Koneswaram temple. It is about 260 km from Colombo." },
     { q: "Which are the best places to visit in India and top tourist destinations in India?", a: "Kashmir, Ladakh, Himachal (Manali, Shimla), Rajasthan (Jaipur, Udaipur, Jaisalmer), Goa, Kerala, Andaman, Agra, Varanasi, Rishikesh, Darjeeling, Sikkim, Meghalaya, Hampi and Coorg." },
     { q: "Which are the best tourism destinations in India and traveling places in India by region?", a: "North: Kashmir, Ladakh, Himachal, Uttarakhand. West: Rajasthan, Goa, Gujarat. South: Kerala, Karnataka, Tamil Nadu. East and North East: Darjeeling, Sikkim, Meghalaya, Odisha. Islands: Andaman and Lakshadweep." },
     { q: "What does a North East tour package cover?", a: "Usually Gangtok and Darjeeling, or Shillong, Cherrapunji and Kaziranga, over 6 to 9 days from Bagdogra or Guwahati. Sikkim and Arunachal need permits that agents arrange." },
