@@ -9,6 +9,7 @@ import { GOA_DEEP, GOA_UPGRADES } from "./goa-deep";
 import { UTTARAKHAND_DEEP, UTTARAKHAND_UPGRADES } from "./uttarakhand-deep";
 import { UTTARAKHAND_DEEP_2 } from "./uttarakhand-deep-2";
 import { KERALA_DEEP, KERALA_UPGRADES } from "./kerala-deep";
+import { KERALA_DEEP_2 } from "./kerala-deep-2";
 import { SOUTH_INDIA } from "./south-india";
 import { EAST_ISLANDS } from "./east-islands";
 import { INTERNATIONAL_ASIA } from "./international-asia";
@@ -45,6 +46,7 @@ const ALL_POSTS: BlogPost[] = [
   ...UTTARAKHAND_DEEP,
   ...UTTARAKHAND_DEEP_2,
   ...KERALA_DEEP,
+  ...KERALA_DEEP_2,
   ...SOUTH_INDIA,
   ...EAST_ISLANDS,
   ...INTERNATIONAL_ASIA,
