@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ChipLinks, PageHero, QuoteBox, Section, TwoColumn, type Crumb } from "@/components/location/blocks";
+import { ChipLinks, Faqs, PageHero, QuoteBox, Section, TwoColumn, type Crumb } from "@/components/location/blocks";
 import { THEMES } from "@/data/locations";
+import { HUB_FAQS } from "@/data/hub-faqs";
 import JsonLd from "@/components/JsonLd";
 import { webPageSchema } from "@/lib/schema";
 import { getCircuits, getDestinationsByZone } from "@/lib/locations";
@@ -23,6 +24,7 @@ export default async function DestinationIndex({
   linkFor?: (slug: string) => string;
   showThemes?: boolean;
 }) {
+  const faqs = HUB_FAQS[crumbs[crumbs.length - 1].href];
   const [zones, circuits] = await Promise.all([getDestinationsByZone(), getCircuits()]);
   const shownZones = scope ? zones.filter((z) => z.scope === scope) : zones;
   const shownCircuits = circuits.filter(
@@ -77,6 +79,11 @@ export default async function DestinationIndex({
             {showThemes && (
               <Section title="Browse by holiday theme">
                 <ChipLinks links={THEMES.map((t) => ({ label: `${t.name} Packages`, href: themeUrl(t.prefix) }))} />
+              </Section>
+            )}
+            {faqs && (
+              <Section title={`${title} FAQs`}>
+                <Faqs faqs={faqs} />
               </Section>
             )}
           </>
