@@ -18,6 +18,8 @@ import { KASHMIR_UPGRADES_3 } from "./kashmir-deep-3";
 import { KASHMIR_UPGRADES_4 } from "./kashmir-deep-4";
 import { LADAKH_DEEP } from "./ladakh-deep";
 import { LADAKH_DEEP_2, LADAKH_UPGRADES } from "./ladakh-deep-2";
+import { LADAKH_DEEP_3 } from "./ladakh-deep-3";
+import { LADAKH_DEEP_4 } from "./ladakh-deep-4";
 import { FOCUS_BATCH_1 } from "./focus-batch-1";
 import { MONEY_FROM_CITIES } from "./money-from-cities";
 import { SHIMLA_GUIDES } from "./shimla-guides";
@@ -48,6 +50,8 @@ const ALL_POSTS: BlogPost[] = [
   ...MANALI_GUIDES,
   ...LADAKH_DEEP,
   ...LADAKH_DEEP_2,
+  ...LADAKH_DEEP_3,
+  ...LADAKH_DEEP_4,
   ...KASOL_GUIDES,
 ];
 
