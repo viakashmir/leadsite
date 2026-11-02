@@ -102,6 +102,104 @@ export const PG1_CITIES: S = {
       { q: "Where is Bogmalo Beach?", a: "A small bay about 4 km from Dabolim airport and 8 km from Vasco da Gama. Bogmalo Beach is good for a short stop before a flight, with diving schools and boat trips to Grande Island." },
     ],
   },
+  "jaipur": {
+    faqs: [
+      { q: "Where is Khatu Shyam Ji Mandir and how far is the Khatu Shyam Ji temple from Jaipur?", a: "Khatu Shyam Ji Temple is in Khatu village, Sikar district, about 80 km north-west of Jaipur (around 2 hours by road via Ringas). Ringas railway station is about 17 km away. The Phalgun fair around Phalgun Shukla Ekadashi draws very large crowds." },
+      { q: "What is Dundlod known for?", a: "Dundlod is a Shekhawati village in Jhunjhunu district, about 160 km from Jaipur, known for Dundlod Fort and painted havelis with fresco walls. It pairs well with Nawalgarh (about 7 km) and Mandawa (about 25 km)." },
+      { q: "How far is Sariska and what is Sariska National Park like?", a: "Sariska Tiger Reserve is in Alwar district, about 110 km from Jaipur and about 35 km from Alwar city. It has tigers, leopards and the ruined Kankwari Fort. Safari zones usually open October to June; book through the Rajasthan Forest Department." },
+      { q: "Which are the places to visit in Alwar city?", a: "Bala Quila (Alwar Fort), City Palace and its museum, Moosi Maharani ki Chhatri, Siliserh Lake (about 13 km) and Sariska Tiger Reserve (about 35 km). Bhangarh Fort is about 85 km away." },
+      { q: "What is Dahar ka Balaji?", a: "A popular Hanuman temple on the Sikar Road side of Jaipur, in the Vidyadhar Nagar area, about 9 km from the city centre. Tuesdays and Saturdays are busiest." },
+      { q: "What are Achrol, Govindgarh and Rambagh near Jaipur?", a: "Achrol is a village on the Delhi highway about 30 km north of Jaipur, known for Achrol Fort. Govindgarh is a town about 40 km north on the Ajmer-Sikar side. Rambagh is the former royal residence in south Jaipur, now the Rambagh Palace hotel." },
+    ],
+  },
+  "ajmer": {
+    faqs: [
+      { q: "What is Ana Sagar Lake in Ajmer?", a: "An artificial lake built in the 12th century by Arnoraja, with marble baradaris (pavilions) added by Shah Jahan along the Daulat Bagh side. It is about 2 km from Ajmer Sharif Dargah and is best at sunset." },
+      { q: "What is Taragarh Fort in Ajmer?", a: "A hill fort on the Aravalli ridge above Ajmer, about 5 km by road from the dargah, with views over the city. It also has the Dargah of Miran Sahib inside." },
+    ],
+  },
+  "mount-abu": {
+    faqs: [
+      { q: "What are the Dilwara temples in Mount Abu?", a: "A group of five Jain temples built between the 11th and 13th centuries, about 2.5 km from Nakki Lake, famous for very fine white marble carving. Photography is not allowed inside, and non-Jain visiting hours are usually around noon to 6 pm; check locally." },
+    ],
+  },
+  "vrindavan": {
+    faqs: [
+      { q: "Where is Radha Rani Mandir Barsana, the Barsana mandir?", a: "Shri Radha Rani (Ladli Ji) temple sits on Bhanugarh hill in Barsana, about 45 km from Vrindavan and 50 km from Mathura. The Lathmar Holi a few days before Holi is its biggest event." },
+    ],
+  },
+  "ayodhya": {
+    faqs: [
+      { q: "What is Guptar Ghat in Ayodhya?", a: "A ghat on the Sarayu river in Faizabad, about 10 km from Ram Janmabhoomi, where Lord Ram is believed to have taken jal samadhi. It has temples and an evening aarti." },
+    ],
+  },
+  "varanasi": {
+    faqs: [
+      { q: "Is Banaras the same as Varanasi?", a: "Yes. Banaras (Benares) and Kashi are older names of Varanasi, the city on the Ganga known for its ghats, Kashi Vishwanath Temple and the Ganga Aarti at Dashashwamedh Ghat." },
+    ],
+  },
+  "lucknow": {
+    faqs: [
+      { q: "How far is Dudhwa National Park from Lucknow?", a: "Dudhwa Tiger Reserve in Lakhimpur Kheri is about 230 km (5 to 6 hours) from Lucknow, near the Nepal border. It has tigers, swamp deer and reintroduced one-horned rhinos. Usually open November 15 to June 15." },
+    ],
+  },
+  "madurai": {
+    faqs: [
+      { q: "How far is Rameshwaram from Madurai, and what is the Rameshwaram mandir known for?", a: "Rameshwaram is about 170 km (4 hours) east of Madurai over the Pamban bridge. Ramanathaswamy Temple, one of the 12 Jyotirlingas, is known for its long pillared corridors and 22 theertham wells." },
+      { q: "What is Adam's Bridge (Ram Setu) near Rameshwaram?", a: "A chain of shoals between Dhanushkodi, about 20 km from Rameshwaram, and Mannar Island in Sri Lanka. You can see the start of it from Arichal Munai at the tip of Dhanushkodi." },
+      { q: "What is Ramnad, and is there a hill station near Rameshwaram?", a: "Ramnad is Ramanathapuram, the district town about 55 km before Rameshwaram, with the Ramalinga Vilasam palace. There is no hill station near Rameshwaram; the closest is Kodaikanal, about 290 km away via Madurai." },
+    ],
+  },
+  "chennai": {
+    faqs: [
+      { q: "What is Kapaleeswarar Temple in Chennai?", a: "A Dravidian-style Shiva temple in Mylapore, Chennai, with a tall colourful gopuram and a large tank. The Arupathimoovar festival in March or April is its biggest event." },
+      { q: "Where is Parthasarathy Temple in Chennai?", a: "In Triplicane, near Marina Beach. It is an 8th century Vishnu temple dedicated to Krishna as Arjuna's charioteer, one of the 108 Divya Desams." },
+      { q: "Where is Kanchi Kamakshi Amman temple (Kamakshi temple)?", a: "Kamakshi Amman Temple is in Kanchipuram, about 75 km south-west of Chennai. Kanchi Kamakshi is one of the Shakti Peethas. Varadaraja Perumal Temple and Ekambareswarar Temple are in the same town." },
+      { q: "What is Varadaraja Perumal temple?", a: "A large Vishnu temple in Kanchipuram, about 75 km from Chennai, famous for the Athi Varadar idol shown only once every 40 years (last in 2019) and its 100-pillared hall." },
+      { q: "What is Nithyakalyana Perumal Temple?", a: "A Vishnu temple at Thiruvidanthai on the East Coast Road, about 40 km south of Chennai and 15 km before Mahabalipuram. Devotees visit for marriage blessings." },
+      { q: "What are Pulicat, Nagalapuram and Gingee Fort near Chennai?", a: "Pulicat Lake, about 60 km north, is a lagoon known for flamingos (October to March). Nagalapuram, about 70 km north-west in Andhra Pradesh, has a Vishnu temple and trekking falls. Gingee Fort is a hill fort about 160 km south-west." },
+      { q: "Which are the places to see in Vellore?", a: "Vellore Fort with the Jalakandeswarar Temple inside, the Sripuram Golden Temple (about 8 km), Amirthi forest and falls (about 25 km) and Yelagiri hills (about 90 km). Vellore is about 140 km from Chennai." },
+      { q: "Which are the places to visit in Tamilnadu?", a: "Chennai, Mahabalipuram, Kanchipuram, Madurai, Rameshwaram, Kanyakumari, Thanjavur, Ooty, Kodaikanal, Coonoor and Yercaud are the main stops on a Tamil Nadu trip." },
+    ],
+  },
+  "ooty": {
+    faqs: [
+      { q: "What is Pykara Lake near Ooty?", a: "A reservoir about 20 km from Ooty on the Mysore road, with boating and the Pykara falls nearby. Pine and shola forest surround it." },
+    ],
+  },
+  "ujjain": {
+    faqs: [
+      { q: "What is Mangalnath Mandir in Ujjain?", a: "A Shiva temple on the Shipra river about 5 km from Mahakaleshwar, believed to be the birthplace of Mars (Mangal). People visit for Mangal dosh puja, busiest on Tuesdays." },
+    ],
+  },
+  "bhopal": {
+    faqs: [
+      { q: "What is Van Vihar in Bhopal?", a: "A national park and zoo on the Upper Lake, about 5 km from the city centre, where animals are kept in near-natural enclosures. It is closed on Fridays; cycles and cars can go around inside." },
+      { q: "How far is Bhojpur Temple from Bhopal?", a: "About 28 km south-east. The 11th century Bhojeshwar Temple has one of the largest Shiva lingas in India, about 7.5 m tall including the platform." },
+    ],
+  },
+  "mumbai": {
+    faqs: [
+      { q: "What is Haji Ali Dargah?", a: "A mosque and tomb on an islet off Worli, Mumbai, reached by a 500 m causeway that floods at high tide. Check tide times before going." },
+      { q: "Which Chowpatty in Mumbai is famous?", a: "Girgaum Chowpatty at the end of Marine Drive, known for street food and Ganesh visarjan; Juhu Beach is the other big one." },
+      { q: "What are Powai Lake, Borivali National Park and Taraporewala Aquarium?", a: "Powai Lake is an artificial lake in central Mumbai. Borivali National Park (Sanjay Gandhi National Park) is a forest in the north with the Kanheri Caves. Taraporewala Aquarium is on Marine Drive and reopened in 2015." },
+    ],
+  },
+  "pune": {
+    faqs: [
+      { q: "How far are Rajgad Fort, Lavasa, Kamshet and Mulshi Dam from Pune?", a: "Rajgad Fort, Shivaji's first capital, is about 55 km south-west (a 2 to 3 hour climb). Mulshi Dam is about 45 km west, and Lavasa about 60 km. Kamshet, about 45 km on the Mumbai road, is known for paragliding." },
+    ],
+  },
+  "nashik": {
+    faqs: [
+      { q: "What are Ramkund and the Tapovan temple in Nashik?", a: "Ramkund is the main bathing ghat on the Godavari in Panchavati, where the Kumbh Mela snan takes place. Tapovan, about 2 km away, is where Lakshman is believed to have cut Surpanakha's nose." },
+    ],
+  },
+  "alibaug": {
+    faqs: [
+      { q: "How far are Diveagar, Shrivardhan Beach and Harihareshwar Beach from Alibaug (Alibag)?", a: "Along the Konkan coast south of Alibaug: Diveagar is about 85 km, Shrivardhan Beach about 100 km and Harihareshwar Beach about 110 km. Each has quiet beaches and homestays." },
+    ],
+  },
 };
 
 export const PG1_PLACES: S = {
