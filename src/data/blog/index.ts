@@ -6,6 +6,7 @@ import { HIMACHAL_UTTARAKHAND } from "./himachal-uttarakhand";
 import { RAJASTHAN_NORTH } from "./rajasthan-north";
 import { GOA_WEST_CENTRAL } from "./goa-west-central";
 import { GOA_DEEP, GOA_UPGRADES } from "./goa-deep";
+import { UTTARAKHAND_DEEP, UTTARAKHAND_UPGRADES } from "./uttarakhand-deep";
 import { SOUTH_INDIA } from "./south-india";
 import { EAST_ISLANDS } from "./east-islands";
 import { INTERNATIONAL_ASIA } from "./international-asia";
@@ -39,6 +40,7 @@ const ALL_POSTS: BlogPost[] = [
   ...RAJASTHAN_NORTH,
   ...GOA_WEST_CENTRAL,
   ...GOA_DEEP,
+  ...UTTARAKHAND_DEEP,
   ...SOUTH_INDIA,
   ...EAST_ISLANDS,
   ...INTERNATIONAL_ASIA,
@@ -59,7 +61,7 @@ const ALL_POSTS: BlogPost[] = [
 
 // Full rewrites keep the published slug, title and description and replace
 // the body, so the URL keeps its history while the page stops being thin.
-const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs">> = { ...KASHMIR_UPGRADES, ...KASHMIR_UPGRADES_2, ...KASHMIR_UPGRADES_3, ...KASHMIR_UPGRADES_4, ...HIMACHAL_UPGRADES, ...LADAKH_UPGRADES, ...GOA_UPGRADES };
+const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs">> = { ...KASHMIR_UPGRADES, ...KASHMIR_UPGRADES_2, ...KASHMIR_UPGRADES_3, ...KASHMIR_UPGRADES_4, ...HIMACHAL_UPGRADES, ...LADAKH_UPGRADES, ...GOA_UPGRADES, ...UTTARAKHAND_UPGRADES };
 
 export const BLOG_POSTS: BlogPost[] = ALL_POSTS.filter((p) => !(p.slug in SUPERSEDED_POSTS)).map((p) =>
   UPGRADES[p.slug] ? { ...p, ...UPGRADES[p.slug] } : p,
