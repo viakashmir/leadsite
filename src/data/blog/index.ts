@@ -18,6 +18,7 @@ import { SIKKIM_DEEP_2 } from "./sikkim-deep-2";
 import { ANDAMAN_DEEP, ANDAMAN_UPGRADES } from "./andaman-deep";
 import { ANDAMAN_DEEP_2 } from "./andaman-deep-2";
 import { THAILAND_DEEP, THAILAND_UPGRADES } from "./thailand-deep";
+import { THAILAND_DEEP_2 } from "./thailand-deep-2";
 import { SOUTH_INDIA } from "./south-india";
 import { EAST_ISLANDS } from "./east-islands";
 import { INTERNATIONAL_ASIA } from "./international-asia";
@@ -63,6 +64,7 @@ const ALL_POSTS: BlogPost[] = [
   ...ANDAMAN_DEEP,
   ...ANDAMAN_DEEP_2,
   ...THAILAND_DEEP,
+  ...THAILAND_DEEP_2,
   ...SOUTH_INDIA,
   ...EAST_ISLANDS,
   ...INTERNATIONAL_ASIA,

@@ -5,39 +5,39 @@ import type { BlogPost } from "./types";
 // invented prices. Visa rules change often, so they are stated with dates and
 // a pointer to official sources.
 
-const QUOTE =
+export const QUOTE =
   "Share your dates, departure city, group size and hotel category on Tavel Package. Up to 3 verified agents who sell Thailand send itemised quotes with flights, hotels, transfers and tours, so you can compare them side by side before you book.";
-const p = (h: string, ...text: string[]) => ({ h, p: text });
+export const p = (h: string, ...text: string[]) => ({ h, p: text });
 
-const VISA = p(
+export const VISA = p(
   "Visa and entry for Indians",
   "Thailand has allowed Indian passport holders visa-free entry for tourism in recent years, with the permitted stay extended to 60 days from July 2024; the length of stay and conditions can change, so check the Royal Thai Embassy or Thailand's official e-visa website before you travel. All foreign arrivals must also complete the Thailand Digital Arrival Card (TDAC) online before arrival. Carry a passport valid for at least six months, a return or onward ticket, hotel bookings and proof of funds, as immigration may ask for them.",
 );
-const MONEY = p(
+export const MONEY = p(
   "Money, SIM cards and payments",
   "Thailand's currency is the baht. Carry some baht from India for arrival, and use ATMs (which charge a fee per withdrawal), forex cards or international debit and credit cards in cities. Small shops, street food stalls and markets prefer cash. Tourist SIM cards and eSIMs are sold at airports and convenience stores, and are the easiest way to use maps and ride-hailing apps such as Grab and Bolt.",
 );
-const FLIGHTS = p(
+export const FLIGHTS = p(
   "Flights from India",
   "Direct flights connect Delhi, Mumbai, Bengaluru, Chennai, Kolkata, Hyderabad and other Indian cities with Bangkok, usually in about 3 to 4.5 hours. Bangkok has two airports: Suvarnabhumi (BKK) for most full-service and many low-cost flights, and Don Mueang (DMK) for low-cost carriers. Phuket and Krabi also have flights from some Indian cities and frequent domestic flights from Bangkok.",
 );
-const SEASON = p(
+export const SEASON = p(
   "Weather and the best season",
   "November to February is the cool, dry season and the most popular time to visit, with comfortable weather in Bangkok and calm seas on the Andaman coast around Phuket and Krabi. March to May is hot. The southwest monsoon, roughly May to October, brings rain and rough seas to Phuket and Krabi, when some island trips are cancelled, while the Gulf islands such as Koh Samui get most of their rain from about October to December.",
 );
-const ETIQUETTE = p(
+export const ETIQUETTE = p(
   "Etiquette and rules",
   "Dress modestly at temples, covering shoulders and knees, and remove shoes before entering halls. The Thai royal family is deeply respected, and criticising it is a serious criminal offence. Do not touch people's heads or point your feet at people or Buddha images. Vaping and e-cigarettes are illegal in Thailand, drug laws are strict, and carrying your passport or a copy is advised.",
 );
-const FOOD = p(
+export const FOOD = p(
   "Food for Indian travellers",
   "Thai food is famous for dishes such as pad thai, green and red curries, tom yum soup, som tam (papaya salad), mango sticky rice and fresh fruit. Vegetarians can ask for 'jay' food, which is vegan, or say 'mai sai nuea' (no meat), though fish sauce is common. Indian restaurants are easy to find in Bangkok, Pattaya, Phuket and Krabi, including vegetarian and Jain options, and Bangkok's Pahurat area is known as Little India.",
 );
-const TRANSPORT = p(
+export const TRANSPORT = p(
   "Getting around",
   "In Bangkok, the BTS Skytrain and MRT metro are the fastest way to avoid traffic, and Grab and Bolt apps work well for taxis. Between cities, there are domestic flights, buses and private transfers. Island trips use ferries, speedboats and longtail boats. Agree on fares before tuk-tuk rides, and avoid unlicensed operators.",
 );
-const INSURANCE = p(
+export const INSURANCE = p(
   "Travel insurance and safety",
   "Buy travel insurance that covers medical treatment, as private hospitals in Thailand can be expensive, and make sure it covers activities such as diving or riding scooters if you plan them. Wear helmets on scooters, follow beach flags and lifeguard instructions, and beware of common tourist scams such as gem shops and unofficial guides.",
 );
