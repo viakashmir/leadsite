@@ -14,6 +14,7 @@ import { RAJASTHAN_DEEP, RAJASTHAN_UPGRADES } from "./rajasthan-deep";
 import { RAJASTHAN_DEEP_2 } from "./rajasthan-deep-2";
 import { SOUTH_WEST_GUIDES } from "./south-west-guides";
 import { SIKKIM_DEEP, SIKKIM_UPGRADES } from "./sikkim-deep";
+import { SIKKIM_DEEP_2 } from "./sikkim-deep-2";
 import { SOUTH_INDIA } from "./south-india";
 import { EAST_ISLANDS } from "./east-islands";
 import { INTERNATIONAL_ASIA } from "./international-asia";
@@ -55,6 +56,7 @@ const ALL_POSTS: BlogPost[] = [
   ...RAJASTHAN_DEEP_2,
   ...SOUTH_WEST_GUIDES,
   ...SIKKIM_DEEP,
+  ...SIKKIM_DEEP_2,
   ...SOUTH_INDIA,
   ...EAST_ISLANDS,
   ...INTERNATIONAL_ASIA,
