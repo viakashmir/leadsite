@@ -289,19 +289,15 @@ export const PG1_CITIES: S = {
       { q: "How far is Bogatha Waterfalls from Warangal?", a: "About 140 km east, near Wazeedu in Mulugu district. It flows best from July to October." },
     ],
   },
-  "kedarnath": {
+  chopta: {
     faqs: [
-      { q: "How far are Guptkashi and Triyuginarayan Temple from Kedarnath?", a: "Both are on the way. Guptkashi is about 45 km before Sonprayag. Triyuginarayan Temple, where Shiva and Parvati are believed to have married, is about 12 km from Sonprayag." },
+      { q: "How far are Guptkashi and Triyuginarayan Temple from Chopta?", a: "Both lie on the Kedarnath route. Guptkashi is about 40 km from Chopta and 45 km before Sonprayag. Triyuginarayan Temple, where Shiva and Parvati are believed to have married, is about 12 km from Sonprayag." },
     ],
   },
   "nainital": {
     faqs: [
       { q: "How far are Bhowali and Pangot from Nainital?", a: "Bhowali, a fruit market town, is about 11 km away, with Kainchi Dham 9 km further. Pangot, a birding village, is about 15 km north." },
-    ],
-  },
-  "jim-corbett": {
-    faqs: [
-      { q: "What is Garjia Temple near Jim Corbett?", a: "Garjia Devi Temple stands on a rock in the Kosi river, about 15 km from Ramnagar on the Ranikhet road." },
+      { q: "How far is Garjia Temple from Nainital?", a: "Garjia Devi Temple stands on a rock in the Kosi river, about 15 km from Ramnagar on the Ranikhet road and about 65 km from Nainital." },
     ],
   },
   "dehradun": {
