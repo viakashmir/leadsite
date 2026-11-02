@@ -26,6 +26,7 @@ import { KASHMIR_CITIES, KASHMIR_PLACES } from "./kashmir";
 import { KASHMIR_ORIGIN_DESTINATION } from "./kashmir-origins";
 import { KASHMIR_WINTER_DESTINATION } from "./kashmir-winter";
 import { STATES_BATCH_1 } from "./states-batch-1";
+import { PG1_CITIES, PG1_PLACES } from "./places-gaps-1";
 
 // Supplements add FAQs, blocks and section copy on top of base content:
 // lists are appended, sections and packages are merged one level deep.
@@ -77,7 +78,7 @@ export const DESTINATION_CONTENT: Record<string, GuideContent> = Object.fromEntr
 );
 
 // City slug -> guide content for /{dest}-tourism/{city} and its sections.
-export const CITY_CONTENT: Record<string, GuideContent> = mergeAll(
+export const CITY_CONTENT: Record<string, GuideContent> = mergeAll( mergeAll(
   mergeAll(
   mergeAll(
   mergeAll(
@@ -89,13 +90,18 @@ export const CITY_CONTENT: Record<string, GuideContent> = mergeAll(
   REST_CITY_FAQS,
   ),
   FINAL_CITIES,
+  ),
+  PG1_CITIES,
 );
 
 // Place path (e.g. "manali/places-to-visit/rohtang-pass") -> place page content.
 export const PLACE_CONTENT: Record<string, GuideContent> = mergeAll(
   mergeAll(
+  mergeAll(
   { ...MANALI_PLACES, ...HIMACHAL_PLACES, ...LADAKH_PLACES, ...GOA_PLACES, ...SOUTH_PLACES, ...RJ_PLACES, ...TN_MH_PLACES, ...KASHMIR_PLACES, ...GUP_PLACES, ...EAST_PLACES, ...REST_PLACES },
   PLACE_SUPPLEMENTS,
   ),
   FINAL_PLACES,
+  ),
+  PG1_PLACES,
 );
