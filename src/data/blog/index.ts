@@ -7,6 +7,7 @@ import { RAJASTHAN_NORTH } from "./rajasthan-north";
 import { GOA_WEST_CENTRAL } from "./goa-west-central";
 import { GOA_DEEP, GOA_UPGRADES } from "./goa-deep";
 import { UTTARAKHAND_DEEP, UTTARAKHAND_UPGRADES } from "./uttarakhand-deep";
+import { UTTARAKHAND_DEEP_2 } from "./uttarakhand-deep-2";
 import { SOUTH_INDIA } from "./south-india";
 import { EAST_ISLANDS } from "./east-islands";
 import { INTERNATIONAL_ASIA } from "./international-asia";
@@ -41,6 +42,7 @@ const ALL_POSTS: BlogPost[] = [
   ...GOA_WEST_CENTRAL,
   ...GOA_DEEP,
   ...UTTARAKHAND_DEEP,
+  ...UTTARAKHAND_DEEP_2,
   ...SOUTH_INDIA,
   ...EAST_ISLANDS,
   ...INTERNATIONAL_ASIA,
