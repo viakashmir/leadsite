@@ -35,6 +35,9 @@ import { SPITI_DEEP } from "./spiti-deep";
 import { SPITI_DEEP_2 } from "./spiti-deep-2";
 import { LADAKH_DEEP_5 } from "./ladakh-deep-5";
 import { withSpitiLadakhExtras } from "./spiti-ladakh-extras";
+import { SPITI_MONTHS } from "./spiti-months";
+import { KINNAUR_LAHAUL_GUIDES } from "./kinnaur-lahaul-guides";
+import { withSpitiKinnaurExtras } from "./spiti-kinnaur-extras";
 import { KASHMIR_WINTER_MONTHS } from "./kashmir-winter-months";
 import { KASHMIR_PLANNING_DEEP } from "./kashmir-planning-deep";
 import { KASHMIR_LOCAL_GUIDES } from "./kashmir-local-guides";
@@ -91,6 +94,7 @@ const ALL_POSTS: BlogPost[] = [
   ...LADAKH_DEEP_3,
   ...LADAKH_DEEP_4,
   ...withSpitiLadakhExtras([...LADAKH_DEEP_5, ...SPITI_DEEP, ...SPITI_DEEP_2]),
+  ...withSpitiKinnaurExtras([...SPITI_MONTHS, ...KINNAUR_LAHAUL_GUIDES]),
   ...KASOL_GUIDES,
 ];
 
