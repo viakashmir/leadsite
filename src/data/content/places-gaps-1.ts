@@ -83,6 +83,25 @@ export const PG1_CITIES: S = {
   manali: {
     faqs: [{ q: "What are Sethan Heights and Sethan village?", a: "Sethan is a small village above Prini near Manali, at about 2,700 m, known for winter snow, igloo stays and the Hampta trek approach." }],
   },
+  "north-goa": {
+    faqs: [
+      { q: "What is Candolim Beach like?", a: "A long, quieter stretch between Sinquerim and Calangute in Bardez, about 14 km from Panaji. Wide sand, beach shacks, water sports in season and the wreck of the River Princess was once offshore. Calmer than Baga and Calangute." },
+      { q: "Where is Sinquerim Beach?", a: "At the southern end of the Candolim stretch, right below Fort Aguada, about 13 km from Panaji. Known for the fort views and water sports such as parasailing and jet skis in the October to May season." },
+      { q: "What is Morjim Beach known for?", a: "Morjim in Pernem taluka, at the mouth of the Chapora river, is a nesting site for Olive Ridley turtles (protected by the Forest Department in winter). It is quiet, with many Russian-run shacks, about 30 km from Panaji." },
+      { q: "What is Ashvem Beach like?", a: "A calm, clean beach between Morjim and Mandrem in north Pernem, with boutique huts and yoga retreats. Good for swimming in season and much less crowded than Baga." },
+      { q: "What is the Dona Paula view point?", a: "A rocky headland about 7 km from Panaji where the Zuari and Mandovi rivers meet the Arabian Sea. A jetty and viewpoint look across to Mormugao harbour; it is busiest at sunset." },
+      { q: "What is Reis Magos Fort?", a: "A restored 16th century Portuguese fort on the north bank of the Mandovi, opposite Panaji in Verem. It has exhibitions on Goa's history and views over the river mouth. Usually open Tuesday to Sunday; check timings locally." },
+    ],
+  },
+  "south-goa": {
+    faqs: [
+      { q: "What is Benaulim Beach like?", a: "A wide, quiet beach about 7 km west of Margao, known for fishing boats, dolphin trips and calm evenings. It runs into Colva to the north and Varca to the south." },
+      { q: "Which is the Margao beach, the beach nearest Margao?", a: "Margao (Madgaon) is an inland town. The nearest beaches are Colva (about 6 km) and Benaulim (about 7 km); Majorda and Betalbatim are a little further north." },
+      { q: "What is Agonda Beach like?", a: "A 3 km quiet beach in Canacona, about 37 km south of Margao, with seasonal beach huts and an Olive Ridley turtle nesting area. Calm and less crowded than Palolem, 8 km south." },
+      { q: "What is Cola Beach and how do you reach it?", a: "A small cove in Canacona between Cabo de Rama and Agonda, with a freshwater lagoon behind the sand. The last stretch is a rough dirt track, so most visitors walk down or come by local taxi." },
+      { q: "Where is Bogmalo Beach?", a: "A small bay about 4 km from Dabolim airport and 8 km from Vasco da Gama. Bogmalo Beach is good for a short stop before a flight, with diving schools and boat trips to Grande Island." },
+    ],
+  },
 };
 
 export const PG1_PLACES: S = {
