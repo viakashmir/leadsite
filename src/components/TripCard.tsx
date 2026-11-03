@@ -125,7 +125,7 @@ export default function TripCard({
           href={`${href}#get-quotes`}
           className="flex h-9 flex-1 items-center justify-center rounded-lg bg-brand px-3 text-[13px] font-semibold text-white hover:bg-brand-dark"
         >
-          Get Free Quotes
+          Enquire Now
         </Link>
       </div>
     </article>

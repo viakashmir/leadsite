@@ -60,6 +60,7 @@ export default function EnquiryForm({
   bare = false,
   compact = false,
   dense = false,
+  brand = false,
 }: {
   destinations: DestinationOption[];
   defaultDestinationId?: string;
@@ -69,6 +70,7 @@ export default function EnquiryForm({
   bare?: boolean; // no card chrome, for use inside a sheet
   compact?: boolean; // tighter layout with the glass card, for the homepage hero
   dense?: boolean; // the same tight layout on a plain card, for page sidebars
+  brand?: boolean; // traveller-facing homepage copy: our trip experts, no quotes/agents talk
 }) {
   const tight = compact || dense;
   const field = `${fieldBase} ${tight ? "h-9 rounded-md px-2 text-[13px]" : "h-10 rounded-lg px-2.5 text-sm"}`;
@@ -177,10 +179,17 @@ export default function EnquiryForm({
     return (
       <div className={`${card} text-center`}>
         <p className="font-display text-xl font-extrabold tracking-tight text-ink">Your request is in</p>
-        <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-          Up to 3 verified agents who operate {placeName ?? "this destination"} will call or
-          WhatsApp you with customised itineraries and quotes. Compare them and book only if you like one.
-        </p>
+        {brand ? (
+          <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+            Our {placeName ?? "trip"} experts will call or WhatsApp you shortly with a day-by-day plan and
+            price. Change anything you like; you book only when it feels right.
+          </p>
+        ) : (
+          <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+            Up to 3 verified agents who operate {placeName ?? "this destination"} will call or
+            WhatsApp you with customised itineraries and quotes. Compare them and book only if you like one.
+          </p>
+        )}
       </div>
     );
   }
@@ -207,7 +216,7 @@ export default function EnquiryForm({
         {titleCase(title)}
       </p>
       <p className="mt-0.5 text-[11px] text-ink-soft">
-        <span className="font-semibold text-brand">Free</span> · No booking fee · Up to 3 quotes
+        <span className="font-semibold text-brand">Free</span> · No booking fee · {brand ? "Fully customisable" : "Up to 3 quotes"}
       </p>
 
       <div className={`grid gap-x-2 ${tight ? "mt-2.5 grid-cols-12 gap-y-2" : "mt-3 grid-cols-6 gap-y-2"}`}>
@@ -507,10 +516,12 @@ export default function EnquiryForm({
         disabled={status === "submitting"}
         className={`w-full rounded-lg bg-brand text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-60 ${compact ? "mt-2.5 py-2.5" : "mt-3 py-2.5"}`}
       >
-        {status === "submitting" ? "Sending..." : "Get Free Quotes"}
+        {status === "submitting" ? "Sending..." : brand ? "Plan My Trip" : "Get Free Quotes"}
       </button>
       <p className="mt-1.5 text-center text-[11px] leading-snug text-ink-soft">
-        Shared only with up to 3 verified agents for this trip.
+        {brand
+          ? "Your number stays private and is used only to plan this trip."
+          : "Shared only with up to 3 verified agents for this trip."}
       </p>
     </form>
   );
