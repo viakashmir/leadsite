@@ -69,6 +69,7 @@ export function webPageSchema(opts: {
   dateModified?: Date;
   datePublished?: Date;
   about?: Record<string, unknown>;
+  mentions?: Record<string, unknown>[]; // places the page names and links to
   image?: string;
   breadcrumb?: boolean;
 }) {
@@ -90,6 +91,7 @@ export function webPageSchema(opts: {
     ...(opts.datePublished && { datePublished: opts.datePublished.toISOString() }),
     ...(opts.dateModified && { dateModified: opts.dateModified.toISOString() }),
     ...(opts.about && { about: opts.about }),
+    ...(opts.mentions?.length && { mentions: opts.mentions }),
     ...(opts.image && { image: opts.image }),
     ...(opts.breadcrumb !== false && { breadcrumb: ref(`${url}#breadcrumb`) }),
   };

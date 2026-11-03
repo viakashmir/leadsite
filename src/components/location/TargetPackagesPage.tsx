@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { postsForPlace, THEME_CATEGORIES } from "@/lib/topicLinks";
+import { TopicArticles } from "@/components/location/TopicArticles";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import { webPageSchema } from "@/lib/schema";
@@ -180,6 +182,17 @@ export default async function TargetPackagesPage({
   }));
 
   const guideCity = t.type === "city" ? t.city.slug : undefined;
+  // Topic cluster: the articles about this place, matched to the page's
+  // theme (honeymoon, family...) or, for "from {city}" pages, to routes.
+  const articles = isCircuit
+    ? []
+    : postsForPlace({
+        destination: dest.slug,
+        city: guideCity,
+        categories: v.theme ? THEME_CATEGORIES[v.theme.tag] : undefined,
+        section: v.origin ? "how-to-reach" : undefined,
+        limit: 6,
+      });
   const guideSections = isCircuit
     ? new Set<string>()
     : await availableSections(dest.id, t.type === "city" ? t.city.id : null, t.type === "city" ? t.city.content : dest.content);
@@ -336,6 +349,13 @@ export default async function TargetPackagesPage({
                 />
               </Section>
             )}
+
+            <TopicArticles
+              title={`Plan your ${name} trip: travel guides`}
+              posts={articles}
+              moreHref={`${guideUrl(dest.slug)}#travel-guides`}
+              moreLabel={`All ${dest.name} guides`}
+            />
 
             {!v.theme && !v.origin && content.seasons && content.seasons.length > 0 && (
               <Section title={`Best time for a ${name} tour`}>

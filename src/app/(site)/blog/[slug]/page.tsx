@@ -12,6 +12,7 @@ import { absoluteUrl } from "@/lib/site";
 import { webPageSchema } from "@/lib/schema";
 import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { BLOG_PATH, CATEGORY_THEME, getPost, metaTitle, postUrl, readMinutes, relatedPosts } from "@/lib/blog";
+import { createLinker, entitiesFor } from "@/lib/entityLinks";
 
 export const revalidate = 3600;
 
@@ -30,10 +31,13 @@ async function placeFor(destinationSlug: string, citySlug?: string) {
   const [destination, city] = await Promise.all([
     prisma.destination.findUnique({
       where: { slug: destinationSlug },
-      select: { id: true, slug: true, name: true, heroImage: true },
+      select: { id: true, slug: true, name: true, heroImage: true, contentStatus: true },
     }),
     citySlug
-      ? prisma.city.findFirst({ where: { slug: citySlug }, select: { id: true, slug: true, name: true, heroImage: true } })
+      ? prisma.city.findFirst({
+          where: { slug: citySlug },
+          select: { id: true, slug: true, name: true, heroImage: true, contentStatus: true },
+        })
       : null,
   ]);
   return { destination, city };
@@ -66,7 +70,7 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
   const published = new Date(`${post.date}T00:00:00+05:30`);
   const modified = post.updated ? new Date(`${post.updated}T00:00:00+05:30`) : published;
   const minutes = readMinutes(post);
-  const related = relatedPosts(post);
+  const related = relatedPosts(post, 6);
   const theme = CATEGORY_THEME[post.category];
 
   const moneyLinks = [
@@ -77,6 +81,53 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
       : []),
     ...(destination ? [{ label: `${destination.name} travel guide`, href: guideUrl(destination.slug, city?.slug) }] : []),
   ];
+
+  // Topic cluster, spoke to hub: the article sits under its place's guide in
+  // the breadcrumb, and the first mention of each place links to its guide.
+  const destinationGuide = destination?.contentStatus === "READY" ? guideUrl(destination.slug) : null;
+  const cityGuide = destination && city?.contentStatus === "READY" ? guideUrl(destination.slug, city.slug) : null;
+  const crumbs = [
+    ...(destination && destinationGuide ? [{ name: `${destination.name} Travel Guide`, href: destinationGuide }] : [{ name: "Travel Blog", href: BLOG_PATH }]),
+    ...(city && cityGuide ? [{ name: city.name, href: cityGuide }] : []),
+    { name: post.title, href: postUrl(post.slug) },
+  ];
+  const linker = createLinker(await entitiesFor(post.destination));
+  const intro = linker.link(post.intro);
+  const body = (
+    <>
+    {post.sections.map((s, i) => (
+      <div key={s.h}>
+        <Section id={anchor(s.h)} title={s.h} tint={s.days ? "warm" : undefined}>
+          <div className="space-y-3 leading-relaxed text-ink">
+            {s.p?.map((para, j) => <p key={j}>{linker.link(para)}</p>)}
+            {s.list && (
+              <ul className="list-disc space-y-1.5 pl-5">
+                {s.list.map((item, j) => (
+                  <li key={j}>{linker.link(item)}</li>
+                ))}
+              </ul>
+            )}
+            {s.days && <DayList days={s.days} />}
+          </div>
+        </Section>
+        {i === 1 && (
+          <aside className="my-4 flex flex-col gap-3 rounded-[14px] bg-brand p-5 text-white sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-lg font-bold leading-snug">Want this {placeName} trip planned for you?</p>
+              <p className="mt-1 text-sm text-white/80">
+                Share your dates and budget once. Up to 3 verified local agents send customised quotes.
+              </p>
+            </div>
+            <QuoteButton className="shrink-0 rounded-lg bg-white px-5 py-2.5 text-center text-sm font-semibold text-brand hover:bg-zinc-100">
+              Get Free Quotes
+            </QuoteButton>
+          </aside>
+        )}
+      </div>
+    ))}
+    </>
+  );
+  const mentions = linker.linked().map((e) => ({ "@type": e.type, name: e.name, url: absoluteUrl(e.href) }));
 
   return (
     <article>
@@ -89,19 +140,19 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
           datePublished: published,
           dateModified: modified,
           image: photo ? absoluteUrl(photo) : undefined,
-          about: { "@type": "TouristDestination", name: placeName },
+          about: {
+            "@type": "TouristDestination",
+            name: placeName,
+            ...((cityGuide ?? destinationGuide) && { url: absoluteUrl((cityGuide ?? destinationGuide)!) }),
+          },
+          ...(mentions.length > 0 && { mentions }),
         })}
       />
       <QuoteTarget slugs={[post.city ?? "", post.destination].filter(Boolean)} />
 
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-4 pb-1 pt-4 sm:pt-6">
-          <Breadcrumbs
-            items={[
-              { name: "Travel Blog", href: BLOG_PATH },
-              { name: post.title, href: postUrl(post.slug) },
-            ]}
-          />
+          <Breadcrumbs items={crumbs} />
           <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
             <Link
               href={`${BLOG_PATH}#${anchor(post.category)}`}
@@ -126,7 +177,7 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
                 <Image src={photo} alt={placeName} fill priority sizes="(min-width: 1024px) 800px, 100vw" className="object-cover" />
               </div>
             )}
-            <p className="text-[17px] leading-relaxed text-ink">{post.intro}</p>
+            <p className="text-[17px] leading-relaxed text-ink">{intro}</p>
 
             <nav aria-label="In this guide" className="mt-5 rounded-[14px] bg-zinc-50 p-4">
               <p className="text-sm font-bold text-ink">In this guide</p>
@@ -141,37 +192,7 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
               </ol>
             </nav>
 
-            {post.sections.map((s, i) => (
-              <div key={s.h}>
-                <Section id={anchor(s.h)} title={s.h} tint={s.days ? "warm" : undefined}>
-                  <div className="space-y-3 leading-relaxed text-ink">
-                    {s.p?.map((para, j) => <p key={j}>{para}</p>)}
-                    {s.list && (
-                      <ul className="list-disc space-y-1.5 pl-5">
-                        {s.list.map((item, j) => (
-                          <li key={j}>{item}</li>
-                        ))}
-                      </ul>
-                    )}
-                    {s.days && <DayList days={s.days} />}
-                  </div>
-                </Section>
-                {i === 1 && (
-                  <aside className="my-4 flex flex-col gap-3 rounded-[14px] bg-brand p-5 text-white sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                      <p className="text-lg font-bold leading-snug">Want this {placeName} trip planned for you?</p>
-                      <p className="mt-1 text-sm text-white/80">
-                        Share your dates and budget once. Up to 3 verified local agents send customised quotes.
-                      </p>
-                    </div>
-                    <QuoteButton className="shrink-0 rounded-lg bg-white px-5 py-2.5 text-center text-sm font-semibold text-brand hover:bg-zinc-100">
-                      Get Free Quotes
-                    </QuoteButton>
-                  </aside>
-                )}
-              </div>
-            ))}
-
+            {body}
             {post.faqs.length > 0 && (
               <Section title={`${placeName} trip FAQs`}>
                 <Faqs faqs={post.faqs} />
@@ -197,7 +218,7 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
             </section>
 
             {related.length > 0 && (
-              <Section title="Related travel guides">
+              <Section title={`More ${placeName} travel guides`}>
                 <ul className="grid gap-3 sm:grid-cols-3">
                   {related.map((r) => (
                     <li key={r.slug}>

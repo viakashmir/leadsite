@@ -122,13 +122,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ].map((path) => ({ url: url(path), lastModified, changeFrequency: "weekly" as const, priority: 0.7 }));
   };
 
+  // A guide hub lists its place's articles, so a new or rewritten article
+  // changes the hub too: its date is the later of the two.
+  const latestPost = new Map<string, Date>();
+  for (const p of allPosts()) {
+    const at = new Date(`${p.updated ?? p.date}T00:00:00+05:30`);
+    for (const key of [p.destination, p.city && `${p.destination}/${p.city}`].filter(Boolean) as string[])
+      if (!latestPost.has(key) || latestPost.get(key)! < at) latestPost.set(key, at);
+  }
+  const hubDate = (updatedAt: Date, key: string) => {
+    const post = latestPost.get(key);
+    return post && post > updatedAt && post.getTime() <= Date.now() ? post : updatedAt;
+  };
+
   const destinationRoutes: MetadataRoute.Sitemap = destinations.flatMap((d) => [
     { url: url(tourPackagesUrl(d.slug)), lastModified: d.updatedAt, changeFrequency: "weekly" as const, priority: 0.9, ...images(d.heroImage) },
     ...slices(d.slug, d.content, d.updatedAt),
     ...(d.kind === "CIRCUIT"
       ? []
       : [
-          { url: url(guideUrl(d.slug)), lastModified: d.updatedAt, changeFrequency: "monthly" as const, priority: 0.7, ...images(d.heroImage) },
+          { url: url(guideUrl(d.slug)), lastModified: hubDate(d.updatedAt, d.slug), changeFrequency: "monthly" as const, priority: 0.7, ...images(d.heroImage) },
           ...guideSections(d.content, d._count.places).map((section) => ({
             url: url(guideUrl(d.slug, section)),
             lastModified: d.updatedAt,
@@ -140,7 +153,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const cityRoutes: MetadataRoute.Sitemap = cities.flatMap((c) => [
     { url: url(tourPackagesUrl(c.slug)), lastModified: c.updatedAt, changeFrequency: "weekly" as const, priority: 0.8 },
-    { url: url(guideUrl(c.destination.slug, c.slug)), lastModified: c.updatedAt, changeFrequency: "monthly" as const, priority: 0.6, ...images(c.heroImage) },
+    { url: url(guideUrl(c.destination.slug, c.slug)), lastModified: hubDate(c.updatedAt, `${c.destination.slug}/${c.slug}`), changeFrequency: "monthly" as const, priority: 0.6, ...images(c.heroImage) },
     ...guideSections(c.content, c._count.places).map((section) => ({
       url: url(guideUrl(c.destination.slug, c.slug, section)),
       lastModified: c.updatedAt,

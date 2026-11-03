@@ -15,7 +15,7 @@ import {
   postsByCategory,
   readMinutes,
 } from "@/lib/blog";
-import { tourPackagesUrl } from "@/lib/urls";
+import { guideUrl, tourPackagesUrl } from "@/lib/urls";
 
 export const revalidate = 3600;
 
@@ -44,7 +44,7 @@ export default async function BlogIndex() {
   );
   const [destinations, cities] = await Promise.all([
     prisma.destination.findMany({
-      select: { slug: true, name: true, heroImage: true },
+      select: { slug: true, name: true, heroImage: true, contentStatus: true },
     }),
     prisma.city.findMany({
       select: { slug: true, name: true, heroImage: true },
@@ -57,6 +57,14 @@ export default async function BlogIndex() {
       city ? cityBySlug.get(city)?.heroImage : null,
       destBySlug.get(destination)?.heroImage,
     ].find((s) => isPhoto(s)) ?? null;
+  // Topic clusters: each destination's articles are listed on its travel
+  // guide (the pillar page), so the blog index routes readers there.
+  const clusterCounts = new Map<string, number>();
+  for (const p of posts) clusterCounts.set(p.destination, (clusterCounts.get(p.destination) ?? 0) + 1);
+  const clusters = [...clusterCounts.entries()]
+    .map(([slug, n]) => ({ d: destBySlug.get(slug), n }))
+    .filter((c): c is { d: NonNullable<typeof c.d>; n: number } => Boolean(c.d))
+    .sort((a, b) => b.n - a.n || a.d.name.localeCompare(b.d.name));
   const placeFor = (destination: string, city?: string) =>
     (city ? cityBySlug.get(city)?.name : undefined) ??
     destBySlug.get(destination)?.name ??
@@ -110,6 +118,19 @@ export default async function BlogIndex() {
       </PageHero>
 
       <div className="mx-auto max-w-7xl px-4 pb-8">
+        {clusters.length > 0 && (
+          <section className="pt-5 sm:pt-6">
+            <h2 className="font-display text-lg font-bold tracking-tight text-ink sm:text-xl">Guides by destination</h2>
+            <div className="mt-3">
+              <ChipLinks
+                links={clusters.map(({ d, n }) => ({
+                  label: `${d.name} (${n})`,
+                  href: d.contentStatus === "READY" ? `${guideUrl(d.slug)}#travel-guides` : tourPackagesUrl(d.slug),
+                }))}
+              />
+            </div>
+          </section>
+        )}
         {featured.length > 0 && (
           <section
             id={anchor(FEATURED_DESTINATION.name)}

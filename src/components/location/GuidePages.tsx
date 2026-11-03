@@ -36,6 +36,8 @@ import {
   availableSections,
 } from "@/lib/locations";
 import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
+import { clusterByCategory, postsForDestination, postsForPlace } from "@/lib/topicLinks";
+import { ArticleCluster, TopicArticles } from "@/components/location/TopicArticles";
 
 type SectionSlug = (typeof GUIDE_SECTIONS)[number]["slug"];
 
@@ -534,6 +536,33 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
     );
   }
 
+  // Topic cluster: link this page down to the articles about the same place.
+  let articles: React.ReactNode = null;
+  if (r.kind === "overview" && !r.city) {
+    const { groups } = clusterByCategory(d.slug);
+    articles = <ArticleCluster title={`${d.name} travel guides and itineraries`} groups={groups} />;
+  } else if (r.kind === "overview" && r.city) {
+    const { groups, total } = clusterByCategory(d.slug, r.city.slug);
+    const more = postsForDestination(d.slug).filter((p) => p.city !== r.city!.slug).length;
+    articles = (
+      <>
+        <ArticleCluster title={`${r.city.name} travel guides`} groups={groups} />
+        <TopicArticles
+          title={total > 0 ? `More ${d.name} guides` : `${d.name} travel guides`}
+          posts={postsForPlace({ destination: d.slug, limit: 4 }).filter((p) => p.city !== r.city!.slug)}
+          moreHref={more > 4 ? `${guideUrl(d.slug)}#travel-guides` : undefined}
+          moreLabel={`All ${d.name} guides`}
+        />
+      </>
+    );
+  } else if (r.kind === "section") {
+    const posts = postsForPlace({ destination: d.slug, city: r.city?.slug, section: r.section, strict: true });
+    articles = <TopicArticles title={`${title}: in-depth guides`} posts={posts} moreHref={`${guideUrl(d.slug)}#travel-guides`} moreLabel={`All ${d.name} guides`} />;
+  } else if (r.kind === "place") {
+    const posts = postsForPlace({ destination: d.slug, city: r.city?.slug, mention: r.place.name, limit: 4 });
+    articles = <TopicArticles title={`Guides that cover ${r.place.name}`} posts={posts} />;
+  }
+
   const faqs = r.kind === "section" ? content.sections?.[r.section]?.faqs : content.faqs;
 
   return (
@@ -567,6 +596,7 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
         main={
           <>
             {main}
+            {articles}
             <Section title={`Plan your ${where} trip`}>
               <ChipLinks
                 links={[
