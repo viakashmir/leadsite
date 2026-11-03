@@ -7,7 +7,10 @@ import { THEMES } from "@/data/locations";
 import { resolveTarget } from "@/lib/locations";
 import { themeUrl, tourPackagesUrl } from "@/lib/urls";
 
-export const revalidate = 3600;
+// No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
+// crawlers hitting thousands of pages hourly blocked the Vercel account.
+// Pages refresh on deploy and on demand (admin edits, new leads, unlocks).
+export const revalidate = false;
 
 // Empty list = nothing prerendered at build; each page is rendered on its first
 // visit and then cached (ISR) instead of hitting the database on every request.

@@ -5,7 +5,7 @@ import { BLOG_PATH, allPosts, postUrl } from "@/lib/blog";
 
 // llms.txt (llmstxt.org): a plain-markdown map of the site for AI assistants.
 // Lists only READY pages, the same set the sitemap exposes.
-export const revalidate = 3600;
+export const revalidate = 86400; // daily: each rebuild is a billed ISR write
 
 export async function GET() {
   const [destinations, cities, packages] = await Promise.all([

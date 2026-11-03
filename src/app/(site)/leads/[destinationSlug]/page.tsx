@@ -8,7 +8,10 @@ import { maskContactsInText, maskEmail, maskName, maskPhone } from "@/lib/mask";
 import JsonLd from "@/components/JsonLd";
 import { SITE_URL } from "@/lib/site";
 
-export const revalidate = 300;
+// No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
+// crawlers hitting thousands of pages hourly blocked the Vercel account.
+// Pages refresh on deploy and on demand (admin edits, new leads, unlocks).
+export const revalidate = false;
 
 async function getData(destinationSlug: string) {
   const destination = await prisma.destination.findUnique({

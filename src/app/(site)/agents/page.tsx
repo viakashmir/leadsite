@@ -6,7 +6,7 @@ import JsonLd from "@/components/JsonLd";
 import { webPageSchema } from "@/lib/schema";
 import { SERVICE_OPTIONS } from "@/lib/validation";
 
-export const revalidate = 600;
+export const revalidate = 86400; // daily: each rebuild is a billed ISR write
 
 export const metadata: Metadata = {
   alternates: { canonical: "/agents" },

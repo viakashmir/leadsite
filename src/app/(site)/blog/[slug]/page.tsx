@@ -14,7 +14,10 @@ import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { BLOG_PATH, CATEGORY_THEME, getPost, metaTitle, postUrl, readMinutes, relatedPosts } from "@/lib/blog";
 import { createLinker, entitiesFor } from "@/lib/entityLinks";
 
-export const revalidate = 3600;
+// No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
+// crawlers hitting thousands of pages hourly blocked the Vercel account.
+// Pages refresh on deploy and on demand (admin edits, new leads, unlocks).
+export const revalidate = false;
 
 // Rendered on first visit, then cached (ISR), like the location pages.
 export async function generateStaticParams() {

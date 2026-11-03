@@ -9,7 +9,7 @@ import { fromToUrl, guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { readContent } from "@/lib/locations";
 import { BLOG_PATH, allPosts, postUrl } from "@/lib/blog";
 
-export const revalidate = 3600;
+export const revalidate = 86400; // daily: each rebuild is a billed ISR write
 
 // Only pages whose content is READY are listed; DRAFT location pages render but
 // are noindex (see robotsFor in lib/locations.ts), so they stay out of here too.

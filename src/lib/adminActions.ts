@@ -241,6 +241,7 @@ export async function updateLeadPricing(_prev: { error?: string; ok?: boolean },
 
   revalidatePath("/admin/pricing");
   revalidatePath("/admin/leads");
+  revalidatePath("/leads", "layout");
   revalidatePath("/agent/dashboard/leads");
   return { ok: true };
 }
@@ -432,7 +433,8 @@ export async function updateDestination(destinationId: string, formData: FormDat
 
   revalidatePath("/admin/destinations");
   revalidatePath(`/admin/destinations/${destinationId}`);
-  revalidatePath("/tour-packages");
+  // Public pages have no timed rebuilds, so a content change refreshes them all.
+  revalidatePath("/", "layout");
   revalidatePath(`/tour-packages/${destination.slug}`);
   return {};
 }
@@ -446,7 +448,8 @@ export async function createCity(destinationId: string, formData: FormData): Pro
   await prisma.city.create({ data: { slug, name, destinationId } });
 
   revalidatePath(`/admin/destinations/${destinationId}`);
-  revalidatePath("/tour-packages");
+  // Public pages have no timed rebuilds, so a content change refreshes them all.
+  revalidatePath("/", "layout");
   return {};
 }
 
@@ -456,6 +459,7 @@ export async function deleteCity(cityId: string): Promise<void> {
   if (!city) return;
   await prisma.city.delete({ where: { id: cityId } });
   revalidatePath(`/admin/destinations/${city.destinationId}`);
+  revalidatePath("/", "layout");
 }
 
 // Package price, optionally derived from a competitor's price: with
@@ -517,7 +521,8 @@ export async function createAdminPackage(formData: FormData): Promise<{ error?: 
   });
 
   revalidatePath("/admin/packages");
-  revalidatePath("/tour-packages");
+  // Public pages have no timed rebuilds, so a content change refreshes them all.
+  revalidatePath("/", "layout");
   redirect(`/admin/packages/${pkg.id}`);
 }
 
@@ -563,7 +568,8 @@ export async function updateAdminPackage(packageId: string, formData: FormData):
   });
 
   revalidatePath("/admin/packages");
-  revalidatePath("/tour-packages");
+  // Public pages have no timed rebuilds, so a content change refreshes them all.
+  revalidatePath("/", "layout");
   revalidatePath(`/packages/${pkg.slug}`);
   return {};
 }
@@ -575,7 +581,8 @@ export async function deletePackage(packageId: string): Promise<void> {
   await prisma.lead.updateMany({ where: { sourcePackageId: packageId }, data: { sourcePackageId: null } });
   await prisma.package.delete({ where: { id: packageId } });
   revalidatePath("/admin/packages");
-  revalidatePath("/tour-packages");
+  // Public pages have no timed rebuilds, so a content change refreshes them all.
+  revalidatePath("/", "layout");
   redirect("/admin/packages");
 }
 
@@ -601,7 +608,8 @@ export async function fetchDestinationPhoto(destinationId: string): Promise<{ er
   await prisma.destination.update({ where: { id: destinationId }, data: { heroImage: imageUrl } });
   revalidatePath("/admin/destinations");
   revalidatePath(`/admin/destinations/${destinationId}`);
-  revalidatePath("/tour-packages");
+  // Public pages have no timed rebuilds, so a content change refreshes them all.
+  revalidatePath("/", "layout");
   revalidatePath(`/tour-packages/${destination.slug}`);
   revalidatePath("/");
   return {};
@@ -619,7 +627,8 @@ export async function fetchPackagePhoto(packageId: string): Promise<{ error?: st
   await prisma.package.update({ where: { id: packageId }, data: { heroImage: imageUrl } });
   revalidatePath("/admin/packages");
   revalidatePath(`/admin/packages/${packageId}`);
-  revalidatePath("/tour-packages");
+  // Public pages have no timed rebuilds, so a content change refreshes them all.
+  revalidatePath("/", "layout");
   revalidatePath(`/packages/${pkg.slug}`);
   revalidatePath("/");
   return {};
@@ -659,8 +668,8 @@ export async function backfillAllPhotos(): Promise<{ done: number; failed: numbe
 
   revalidatePath("/admin/destinations");
   revalidatePath("/admin/packages");
-  revalidatePath("/tour-packages");
-  revalidatePath("/tour-packages");
+  // Public pages have no timed rebuilds, so a content change refreshes them all.
+  revalidatePath("/", "layout");
   revalidatePath("/");
   return { done, failed };
 }

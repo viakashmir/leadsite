@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import DestinationIndex from "@/components/location/DestinationIndex";
 import { tourPackagesUrl } from "@/lib/urls";
 
-export const revalidate = 3600;
+// No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
+// crawlers hitting thousands of pages hourly blocked the Vercel account.
+// Pages refresh on deploy and on demand (admin edits, new leads, unlocks).
+export const revalidate = false;
 
 export const metadata: Metadata = {
   title: "Tour Packages for Every State in India & Top International Destinations",

@@ -8,7 +8,10 @@ import { durationBySlug, durationsFor, type Duration } from "@/lib/durations";
 import { webPageSchema } from "@/lib/schema";
 import { guideUrl, tourPackagesUrl } from "@/lib/urls";
 
-export const revalidate = 3600;
+// No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
+// crawlers hitting thousands of pages hourly blocked the Vercel account.
+// Pages refresh on deploy and on demand (admin edits, new leads, unlocks).
+export const revalidate = false;
 
 export async function generateStaticParams() {
   return [];

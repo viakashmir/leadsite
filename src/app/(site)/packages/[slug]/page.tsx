@@ -13,7 +13,10 @@ import { ORG_ID, webPageSchema } from "@/lib/schema";
 import TrustTicks from "@/components/TrustTicks";
 import { Faqs } from "@/components/location/blocks";
 
-export const revalidate = 3600;
+// No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
+// crawlers hitting thousands of pages hourly blocked the Vercel account.
+// Pages refresh on deploy and on demand (admin edits, new leads, unlocks).
+export const revalidate = false;
 
 async function getPackage(slug: string) {
   // Unpublished packages (e.g. from agents awaiting verification) stay hidden.

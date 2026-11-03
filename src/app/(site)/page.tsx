@@ -18,7 +18,10 @@ import { THEMES } from "@/data/locations";
 import { SITE_NAME, WHATSAPP_DIGITS, WHATSAPP_NUMBER } from "@/lib/site";
 import { ORG_ID, webPageSchema } from "@/lib/schema";
 
-export const revalidate = 300;
+// No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
+// crawlers hitting thousands of pages hourly blocked the Vercel account.
+// Pages refresh on deploy and on demand (admin edits, new leads, unlocks).
+export const revalidate = false;
 
 // Editorial serif for the homepage's emotional headlines only; the rest of
 // the site stays on Plus Jakarta Sans.

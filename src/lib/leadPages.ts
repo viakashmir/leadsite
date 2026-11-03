@@ -10,7 +10,6 @@ export async function refreshPublicLeadPages(leadId: string) {
     select: { destination: { select: { slug: true } }, city: { select: { slug: true } } },
   });
   if (!lead) return;
-  revalidatePath("/");
   revalidatePath("/leads");
   revalidatePath(`/leads/${lead.destination.slug}`);
   if (lead.city) revalidatePath(`/leads/${lead.destination.slug}/${lead.city.slug}`);

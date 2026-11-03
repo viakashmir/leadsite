@@ -137,6 +137,7 @@ export async function createAgentPackage(formData: FormData): Promise<{ error?: 
   });
 
   revalidatePath("/agent/dashboard/packages");
-  revalidatePath("/tour-packages");
+  // Public pages have no timed rebuilds, so a content change refreshes them all.
+  revalidatePath("/", "layout");
   redirect("/agent/dashboard/packages");
 }
