@@ -206,7 +206,6 @@ export default async function Home() {
       ? [{ big: `${stats.destinationCount}+`, label: "destinations", sub: "Across India and abroad" }]
       : []),
     { big: "Tailor-made", label: "", sub: "Every day planned around you" },
-    { big: "₹0", label: "booking fee", sub: "Planning your trip is free" },
     { big: "Real people", label: "", sub: "Call or WhatsApp a trip expert" },
   ];
 
@@ -276,16 +275,6 @@ export default async function Home() {
         )}
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/45 via-black/25 to-black/70 sm:bg-gradient-to-r sm:from-black/70 sm:via-black/35 sm:to-black/10" />
         <div className="mx-auto flex min-h-[540px] max-w-7xl flex-col justify-end px-4 pb-20 pt-16 sm:min-h-[600px] sm:justify-center sm:pb-24">
-          {snowSeason && (
-            <Link
-              href={themeUrl("winter-tour-packages", "kashmir")}
-              className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-semibold backdrop-blur-sm transition hover:bg-white/25"
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-sky-300" aria-hidden />
-              Kashmir is turning white. See winter holidays
-              <span aria-hidden="true">&rarr;</span>
-            </Link>
-          )}
           <h1 className={`${serif} max-w-4xl text-[38px] font-semibold leading-[1.02] tracking-tight [text-shadow:0_2px_18px_rgb(0_0_0/0.35)] sm:text-6xl lg:text-7xl`}>
             Some places you visit.
             <span className="block font-normal italic text-[#f3e6cf]">Some stay with you forever.</span>
@@ -315,13 +304,12 @@ export default async function Home() {
       </section>
 
       <div className="mx-auto max-w-7xl px-4">
-        {/* 2. PROMISES: four plain facts, overlapping the hero edge. */}
-        <ul className="relative z-10 -mt-12 grid grid-cols-2 overflow-hidden rounded-2xl bg-white shadow-[0_12px_40px_-12px_rgb(20_33_61/0.25)] ring-1 ring-zinc-100 lg:grid-cols-4">
-          {promises.slice(0, 4).map((p, i) => (
-            <li
-              key={p.sub}
-              className={`px-4 py-4 sm:px-6 sm:py-5 ${i % 2 ? "border-l border-zinc-100" : ""} ${i > 1 ? "border-t border-zinc-100 lg:border-t-0" : ""} ${i === 2 ? "lg:border-l" : ""}`}
-            >
+        {/* 2. PROMISES: plain facts in one row, overlapping the hero edge. */}
+        <ul
+          className={`relative z-10 -mt-12 grid overflow-hidden rounded-2xl bg-white shadow-[0_12px_40px_-12px_rgb(20_33_61/0.25)] ring-1 ring-zinc-100 ${promises.length === 3 ? "grid-cols-3" : "grid-cols-2"}`}
+        >
+          {promises.map((p, i) => (
+            <li key={p.sub} className={`px-3 py-4 sm:px-6 sm:py-5 ${i > 0 ? "border-l border-zinc-100" : ""}`}>
               <p className="text-lg font-extrabold leading-tight tracking-tight text-brand sm:text-xl">
                 {p.big} {p.label && <span className="text-sm font-semibold text-ink">{p.label}</span>}
               </p>
