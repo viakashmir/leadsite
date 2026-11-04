@@ -185,7 +185,9 @@ export default async function Home() {
   const moods = MOODS.flatMap((m) => {
     const theme = THEMES.find((t) => t.tag === m.tag);
     const photo = photoOf(m.photo);
-    return theme && photo ? [{ ...m, name: theme.name, href: themeUrl(theme.prefix), photo }] : [];
+    const prices = packages.filter((p) => hasTag(p, m.tag)).map((p) => p.price);
+    const from = prices.length ? Math.min(...prices) : undefined;
+    return theme && photo ? [{ ...m, name: theme.name, href: themeUrl(theme.prefix), photo, from }] : [];
   });
 
   const stories = STORIES.flatMap((s) => {
@@ -205,13 +207,14 @@ export default async function Home() {
   // Real catalogue numbers, rounded down so every "+" stays true.
   const roundDown = (n: number) => (n >= 20 ? Math.floor(n / 10) * 10 : n);
   const statTiles = [
-    { n: stats.destinationCount, label: "destinations across India and abroad", photo: photoOf("ladakh"), href: "/tour-packages" },
-    { n: stats.packageCount, label: "holiday packages, each one customisable", photo: photoOf("kerala"), href: "/tour-packages" },
-    { n: cityGuideCount, label: "cities and hill towns with full guides", photo: photoOf("rajasthan") ?? photoOf("goa"), href: "/tour-packages" },
-    { n: BLOG_POSTS.length, label: "travel guides written by our editors", photo: photoOf("kashmir"), href: "/blog" },
+    { n: stats.destinationCount, label: "Destinations", sub: "India and abroad", photo: photoOf("ladakh"), href: "/tour-packages" },
+    { n: stats.packageCount, label: "Holiday packages", sub: "All customisable", photo: photoOf("kerala"), href: "/tour-packages" },
+    { n: cityGuideCount, label: "City guides", sub: "Hill towns to beaches", photo: photoOf("rajasthan") ?? photoOf("goa"), href: "/tour-packages" },
+    { n: BLOG_POSTS.length, label: "Travel guides", sub: "Written by our editors", photo: photoOf("kashmir"), href: "/blog" },
   ].filter((t) => t.n >= 10 && t.photo);
 
   const escapes = moods.slice(0, 4);
+  const popular = photoDestinations.filter((d) => ["kashmir", "ladakh", "goa", "kerala", "maldives", "dubai"].includes(d.slug));
   const aboutPhotos = ["kashmir", "maldives", "kerala"].flatMap((s) => photoOf(s) ?? []);
   const principlePhotos = [photoOf("uttarakhand"), photoOf("himachal"), photoOf("andaman")];
   const bannerPhoto = photoOf("ladakh") ?? heroPhoto;
@@ -260,7 +263,7 @@ export default async function Home() {
   );
 
   return (
-    <div className="pb-10">
+    <div className="pb-8">
       <JsonLd
         data={webPageSchema({
           path: "/",
@@ -271,72 +274,76 @@ export default async function Home() {
         })}
       />
 
-      {/* 1. HERO: one rounded photo card, the promise in the middle, the next step below. */}
-      <section className="mx-auto max-w-7xl px-4 pt-4">
-        <div className="relative isolate flex min-h-[560px] flex-col overflow-hidden rounded-[28px] bg-royal text-white sm:min-h-[640px]">
+      {/* 1. HERO: compact photo card, the promise and the search. */}
+      <section className="mx-auto max-w-7xl px-4 pt-3 sm:pt-4">
+        <div className="relative isolate overflow-hidden rounded-3xl bg-royal text-white">
           {heroPhoto && (
             <Image src={heroPhoto} alt="" fill priority sizes="(min-width: 1280px) 1248px, 100vw" className="-z-20 object-cover object-[center_45%]" />
           )}
-          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/50 via-black/15 to-black/60" />
-          <div className="flex flex-1 flex-col items-center justify-center px-5 pt-12 text-center">
-            <h1 className="[text-shadow:0_2px_24px_rgb(0_0_0/0.35)]">
-              <span className="block text-[11px] font-semibold uppercase tracking-[0.28em] text-white/85 sm:text-sm">
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/55 via-black/25 to-black/55" />
+          <div className="flex min-h-[380px] flex-col items-center justify-center px-4 py-10 text-center sm:min-h-[420px] sm:py-12">
+            <h1 className="[text-shadow:0_2px_20px_rgb(0_0_0/0.35)]">
+              <span className="block text-[11px] font-semibold uppercase tracking-[0.25em] text-white/85 sm:text-xs">
                 Holiday packages for India and abroad
               </span>
-              <span className="mt-3 block text-[44px] font-extrabold uppercase leading-[0.95] tracking-tight sm:text-7xl lg:text-[104px]">
+              <span className="mt-2 block text-4xl font-extrabold uppercase leading-none tracking-tight sm:text-6xl">
                 Your perfect escape
               </span>
             </h1>
-            <div className="mt-8 flex w-full justify-center">
+            <p className="mt-3 max-w-lg text-sm text-white/90 sm:text-base">
+              Handcrafted holidays, planned day by day around you by trip experts who know these places by heart.
+            </p>
+            <div className="mt-6 flex w-full justify-center">
               <HeroSearch destinations={destinations.map((d) => ({ name: d.name, href: tourPackagesUrl(d.slug) }))} />
             </div>
-          </div>
-          <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-end sm:justify-between sm:p-8">
-            <p className="max-w-sm text-sm leading-relaxed text-white/90 [text-shadow:0_1px_8px_rgb(0_0_0/0.5)]">
-              Handcrafted holidays across India and the world, planned day by day around you by trip experts who know
-              these places by heart.
-            </p>
-            <PillLink href="#get-quotes" light>
-              Plan my trip
-            </PillLink>
+            {popular.length > 0 && (
+              <div className="mt-4 flex flex-wrap justify-center gap-2 text-[13px]">
+                {popular.map((d) => (
+                  <Link key={d.id} href={tourPackagesUrl(d.slug)} className="rounded-full bg-white/15 px-3 py-1 font-medium backdrop-blur-sm transition hover:bg-white hover:text-ink">
+                    {d.name}
+                    {fromPrice.has(d.slug) && <span className="font-bold"> from {formatINR(fromPrice.get(d.slug)!)}</span>}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl space-y-14 px-4 pt-14 sm:space-y-20 sm:pt-20">
-        {/* 2. NUMBERS: the real size of the catalogue, on photos. */}
+      <div className="mx-auto max-w-7xl space-y-8 px-4 pt-6 sm:space-y-12 sm:pt-8">
+        {/* 2. NUMBERS: the real size of the catalogue, one slim row. */}
         {statTiles.length >= 2 && (
-          <section>
-            <SectionHead title="Where we can take you" href="/tour-packages" label="All destinations" />
-            <div className={`grid grid-cols-2 gap-3 sm:gap-4 ${statTiles.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
-              {statTiles.map((t) => (
-                <Link key={t.label} href={t.href} className="group relative isolate flex aspect-[3/4] flex-col justify-between overflow-hidden rounded-3xl p-4 text-white sm:p-5">
-                  <Image src={t.photo!} alt="" fill sizes="(min-width: 1024px) 25vw, 50vw" className="-z-20 object-cover transition duration-700 group-hover:scale-105" />
-                  <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/45 via-black/5 to-black/65" />
-                  <p className="text-4xl font-extrabold tracking-tight sm:text-6xl">{roundDown(t.n)}+</p>
-                  <p className="max-w-[14rem] text-[13px] font-medium leading-snug sm:text-[15px]">{t.label}</p>
-                </Link>
-              ))}
-            </div>
+          <section className={`grid grid-cols-2 gap-2.5 sm:gap-3 ${statTiles.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
+            {statTiles.map((t) => (
+              <Link key={t.label} href={t.href} className="group relative isolate flex h-24 items-end overflow-hidden rounded-2xl p-3 text-white sm:h-28 sm:p-4">
+                <Image src={t.photo!} alt="" fill sizes="(min-width: 1024px) 25vw, 50vw" className="-z-20 object-cover transition duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/70 to-black/20" />
+                <div>
+                  <p className="text-2xl font-extrabold leading-none tracking-tight sm:text-3xl">{roundDown(t.n)}+</p>
+                  <p className="mt-1 text-[13px] font-semibold leading-tight">{t.label}</p>
+                  <p className="text-[11px] leading-tight text-white/80">{t.sub}</p>
+                </div>
+              </Link>
+            ))}
           </section>
         )}
 
-        {/* 3. ESCAPES: pick the kind of holiday first. */}
+        {/* 3. ESCAPES: pick the kind of holiday, priced. */}
         {escapes.length === 4 && (
           <section>
-            <SectionHead title="Which escape is yours?" href="/tour-packages" label="All holidays" />
-            <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
+            <SectionHead title="Which escape is yours?" subtitle="Holidays by mood, with real starting prices." href="/tour-packages" />
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
               {escapes.map((m) => (
-                <Link key={m.tag} href={m.href} className="group relative isolate flex aspect-[16/10] flex-col justify-end overflow-hidden rounded-3xl p-4 text-white sm:aspect-[16/9] sm:p-6">
-                  <Image src={m.photo} alt="" fill sizes="(min-width: 640px) 50vw, 100vw" className="-z-20 object-cover transition duration-700 group-hover:scale-105" />
-                  <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
-                  <div className="flex items-end justify-between gap-3">
-                    <div>
-                      <p className="text-xl font-bold sm:text-2xl">{m.name}</p>
-                      <p className="mt-1 text-[13px] text-white/85 sm:text-sm">{m.line}</p>
-                    </div>
-                    <PillSpan light>Explore</PillSpan>
-                  </div>
+                <Link key={m.tag} href={m.href} className="group relative isolate flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-2xl p-3 text-white sm:aspect-[4/3] sm:p-4">
+                  <Image src={m.photo} alt="" fill sizes="(min-width: 1024px) 25vw, 50vw" className="-z-20 object-cover transition duration-500 group-hover:scale-105" />
+                  <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                  {m.from && (
+                    <span className="absolute left-3 top-3 rounded-md bg-white px-2 py-0.5 text-[11px] font-bold text-ink shadow-sm">
+                      From {formatINR(m.from)}
+                    </span>
+                  )}
+                  <p className="text-lg font-bold leading-tight sm:text-xl">{m.name}</p>
+                  <p className="mt-0.5 line-clamp-1 text-[12px] text-white/85">{m.line}</p>
                 </Link>
               ))}
             </div>
@@ -346,50 +353,42 @@ export default async function Home() {
         {/* 4. LEAD PACKAGES: real trips with real prices. */}
         {leadRow && <div>{packageRow(leadRow)}</div>}
 
-        {/* 5. ABOUT: who plans the trip, on one soft panel. */}
-        <section className="grid gap-5 rounded-[28px] bg-brand-tint p-4 sm:p-8 lg:grid-cols-[1.15fr_1fr] lg:gap-8">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-[32px]">Who we are, and what drives us</h2>
-            <div className="mt-5 grid grid-cols-2 gap-3">
-              {aboutPhotos.map((src, i) => (
-                <div key={src} className={`relative overflow-hidden rounded-2xl ${i === 0 ? "row-span-2 aspect-[3/4] sm:aspect-auto" : "aspect-[4/3]"}`}>
-                  <Image src={src} alt="" fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
-                </div>
-              ))}
-            </div>
+        {/* 5. ABOUT: who plans the trip, kept short. */}
+        <section className="grid items-center gap-4 rounded-3xl bg-brand-tint p-4 sm:grid-cols-[1fr_1.3fr] sm:gap-6 sm:p-6">
+          <div className="grid grid-cols-3 gap-2">
+            {aboutPhotos.map((src) => (
+              <div key={src} className="relative aspect-[3/4] overflow-hidden rounded-xl">
+                <Image src={src} alt="" fill sizes="(min-width: 640px) 15vw, 33vw" className="object-cover" />
+              </div>
+            ))}
           </div>
-          <div className="flex flex-col justify-between gap-6 rounded-3xl bg-white p-5 sm:p-7">
-            <div className="space-y-4 text-[15px] leading-relaxed text-ink-soft">
-              <p className="text-lg font-semibold leading-snug text-ink">
-                We believe a holiday should feel like it was made for you, because it was.
-              </p>
-              <p>
-                {SITE_NAME} plans holidays across {roundDown(stats.destinationCount)}+ destinations in India and abroad, from
-                Kashmir&apos;s houseboats and Ladakh&apos;s high passes to Kerala&apos;s backwaters, the Maldives and Dubai.
-              </p>
-              <p>
-                Every trip is planned by a trip expert who runs holidays in that destination, so hotels, roads and seasons are
-                chosen by people who know them first-hand. Our editorial team writes and fact-checks the travel guides on
-                this site, so you plan with real information.
-              </p>
-              <p>You see the day-by-day plan and the full price before you pay anything, and you can change any part of it.</p>
-            </div>
-            <PillLink href="/about-us">Read our story</PillLink>
+          <div>
+            <h2 className="text-xl font-bold tracking-tight text-ink sm:text-2xl">Who we are, and what drives us</h2>
+            <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+              {SITE_NAME} plans holidays across {roundDown(stats.destinationCount)}+ destinations in India and abroad. Every
+              trip is planned by a trip expert who runs holidays in that destination, so hotels, roads and seasons are
+              chosen first-hand. You see the day-by-day plan and the full price before you pay anything.
+            </p>
+            <Link href="/about-us" className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand hover:text-brand-dark">
+              Read our story <span aria-hidden="true">&rarr;</span>
+            </Link>
           </div>
         </section>
 
-        {/* 6. PRINCIPLES: how every trip is planned. */}
+        {/* 6. PRINCIPLES: how every trip is planned, one compact row. */}
         <section>
           <SectionHead title="How we plan every trip" />
-          <div className="grid gap-3 sm:grid-cols-3 sm:gap-4">
+          <div className="grid gap-2.5 sm:grid-cols-3 sm:gap-3">
             {PRINCIPLES.map((p, i) => {
               const photo = principlePhotos[i];
               return (
-                <div key={p.title} className="relative isolate flex aspect-[4/3] flex-col justify-end overflow-hidden rounded-3xl bg-royal p-3 sm:aspect-[4/5]">
-                  {photo && <Image src={photo} alt="" fill sizes="(min-width: 640px) 33vw, 100vw" className="-z-10 object-cover" />}
-                  <div className="rounded-2xl bg-white/95 p-4 backdrop-blur-sm">
-                    <p className="font-bold text-ink">{p.title}</p>
-                    <p className="mt-1 text-[13px] leading-relaxed text-ink-soft">{p.body}</p>
+                <div key={p.title} className="flex items-center gap-3 rounded-2xl bg-white p-2.5 ring-1 ring-zinc-200">
+                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-brand-tint">
+                    {photo && <Image src={photo} alt="" fill sizes="64px" className="object-cover" />}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold leading-snug text-ink">{p.title}</p>
+                    <p className="mt-0.5 text-[12px] leading-snug text-ink-soft">{p.body}</p>
                   </div>
                 </div>
               );
@@ -397,29 +396,34 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* 7. STORIES: sell the place, then the package. */}
+        {/* 7. STORIES: sell the place, then the price. */}
         {stories.length > 0 && (
-          <section>
-            <SectionHead title="Places that stay with you" href="/tour-packages" label="All destinations" />
-            <div className="grid gap-3 sm:gap-4 lg:grid-cols-3">
+          <div>
+            <ScrollRow title="Places that stay with you" subtitle="What these trips feel like, and where they start." href="/tour-packages">
               {stories.map((s) => (
-                <article key={s.slug} className="flex flex-col rounded-3xl bg-brand-tint p-3 sm:p-4">
-                  <Link href={s.href} tabIndex={-1} className="relative block aspect-[16/10] overflow-hidden rounded-2xl">
-                    <Image src={s.photo} alt={`${s.kicker} holiday`} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />
-                  </Link>
-                  <div className="flex flex-1 flex-col px-2 pb-2 pt-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">{s.kicker}</p>
-                    <h3 className="mt-1 text-xl font-bold leading-tight text-ink">{s.title}</h3>
-                    <p className="mt-2 flex-1 text-[14px] leading-relaxed text-ink-soft">{s.body}</p>
-                    <Link href={s.href} className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:text-brand-dark">
-                      {s.from ? `${s.kicker} holidays from ${formatINR(s.from)} / person` : `Explore ${s.kicker} holidays`}
-                      <span aria-hidden="true">&rarr;</span>
-                    </Link>
+                <Link key={s.slug} href={s.href} className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-zinc-200">
+                  <div className="relative aspect-[16/9] overflow-hidden">
+                    <Image src={s.photo} alt={`${s.kicker} holiday`} fill sizes="(min-width: 1024px) 33vw, 82vw" className="object-cover transition duration-500 group-hover:scale-105" />
+                    <span className="absolute left-3 top-3 rounded-md bg-white px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider text-brand">{s.kicker}</span>
                   </div>
-                </article>
+                  <div className="flex flex-1 flex-col p-4">
+                    <h3 className="text-base font-bold leading-snug text-ink">{s.title}</h3>
+                    <p className="mt-1 line-clamp-3 flex-1 text-[13px] leading-relaxed text-ink-soft">{s.body}</p>
+                    <div className="mt-3 flex items-end justify-between gap-2 border-t border-zinc-100 pt-3">
+                      {s.from ? (
+                        <p className="text-[11px] text-ink-soft">
+                          Starting <span className="block text-lg font-extrabold leading-none text-ink">{formatINR(s.from)}</span>per person
+                        </p>
+                      ) : (
+                        <span />
+                      )}
+                      <span className="rounded-lg bg-brand px-3 py-2 text-[13px] font-semibold text-white transition group-hover:bg-brand-dark">View packages</span>
+                    </div>
+                  </div>
+                </Link>
               ))}
-            </div>
-          </section>
+            </ScrollRow>
+          </div>
         )}
 
         {/* 8. MORE PACKAGES and every destination. */}
@@ -427,7 +431,7 @@ export default async function Home() {
 
         {getaways.length >= 3 && (
           <section>
-            <SectionHead title="Where will you wake up next?" href="/tour-packages" label="All destinations" />
+            <SectionHead title="Where will you wake up next?" href="/tour-packages" />
             <GetawayTiles items={getaways} />
           </section>
         )}
@@ -442,39 +446,37 @@ export default async function Home() {
               mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
             }}
           />
-          <div className="grid items-start gap-3 md:grid-cols-2">
+          <div className="grid items-start gap-2.5 md:grid-cols-2">
             {faqs.map((f) => (
-              <details key={f.q} className="group rounded-2xl bg-white px-5 py-4 ring-1 ring-zinc-200 open:bg-brand-tint open:ring-transparent">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-3 font-semibold text-ink [&::-webkit-details-marker]:hidden">
+              <details key={f.q} className="group rounded-xl bg-white px-4 py-3 ring-1 ring-zinc-200 open:bg-brand-tint open:ring-transparent">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-3 text-sm font-semibold text-ink [&::-webkit-details-marker]:hidden">
                   <span>{f.q}</span>
-                  <span aria-hidden className="mt-0.5 shrink-0 text-lg leading-none text-brand transition group-open:rotate-45">
+                  <span aria-hidden className="shrink-0 text-lg leading-none text-brand transition group-open:rotate-45">
                     +
                   </span>
                 </summary>
-                <p className="mt-2 text-sm leading-relaxed text-ink-soft">{f.a}</p>
+                <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">{f.a}</p>
               </details>
             ))}
           </div>
         </section>
 
         {/* 10. PLAN: the page's one form, on a photo banner. */}
-        <section id="get-quotes" className="relative isolate scroll-mt-20 overflow-hidden rounded-[28px] bg-royal text-white">
+        <section id="get-quotes" className="relative isolate scroll-mt-20 overflow-hidden rounded-3xl bg-royal text-white">
           {bannerPhoto && <Image src={bannerPhoto} alt="" fill sizes="(min-width: 1280px) 1248px, 100vw" className="-z-20 object-cover" />}
-          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/75 via-black/55 to-black/30" />
-          <div className="grid gap-8 p-5 sm:p-10 lg:grid-cols-[1fr_420px] lg:items-center lg:gap-14">
+          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/55 to-black/30" />
+          <div className="grid gap-6 p-4 sm:p-8 lg:grid-cols-[1fr_400px] lg:items-center lg:gap-12">
             <div>
-              <h2 className="text-3xl font-bold leading-tight tracking-tight sm:text-5xl">
-                Tell us the trip you have been dreaming of. We will make it real.
-              </h2>
-              <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/85">
-                Share where you want to go and when. A trip expert gets back to you with a day-by-day plan, the hotels and
-                the price, and shapes it with you until it feels exactly right.
+              <h2 className="text-2xl font-bold leading-tight tracking-tight sm:text-4xl">Tell us the trip you are dreaming of. We will make it real.</h2>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/85 sm:text-[15px]">
+                Share where and when. A trip expert gets back to you with a day-by-day plan, the hotels and the price, and
+                shapes it with you until it feels right.
               </p>
               <a
                 href={`https://wa.me/${WHATSAPP_DIGITS}?text=${encodeURIComponent(`Hi ${SITE_NAME}, I'd like help planning a holiday.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2.5 text-sm font-semibold transition hover:bg-white/10"
+                className="mt-5 inline-flex items-center gap-2 rounded-lg border border-white/40 px-4 py-2 text-sm font-semibold transition hover:bg-white/10"
               >
                 Prefer to chat? WhatsApp {WHATSAPP_NUMBER}
               </a>
@@ -487,55 +489,22 @@ export default async function Home() {
   );
 }
 
-const ARROW = (
-  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M7 17 17 7M9 7h8v8" />
-  </svg>
-);
-
-function SectionHead({ title, href, label }: { title: string; href?: string; label?: string }) {
+// Section title in the same style as the package rows, with a View All link.
+function SectionHead({ title, subtitle, href }: { title: string; subtitle?: string; href?: string }) {
   return (
-    <div className="mb-5 flex items-center justify-between gap-4 sm:mb-6">
-      <h2 className="text-2xl font-bold tracking-tight text-ink sm:text-[32px]">{title}</h2>
+    <div className="mb-3 flex items-end justify-between gap-3 sm:mb-4">
+      <div className="min-w-0">
+        <h2 className="text-xl font-bold tracking-tight text-ink sm:text-2xl">{title}</h2>
+        {subtitle && <p className="mt-0.5 text-[13px] text-ink-soft sm:text-sm">{subtitle}</p>}
+      </div>
       {href && (
         <Link
           href={href}
-          aria-label={label ?? title}
-          className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-ink ring-1 ring-zinc-300 transition hover:bg-brand hover:text-white hover:ring-brand"
+          className="inline-flex shrink-0 items-center gap-1 rounded-full border border-brand px-3 py-1 text-[13px] font-semibold text-brand hover:bg-brand-tint"
         >
-          {ARROW}
+          View All <span aria-hidden>&rarr;</span>
         </Link>
       )}
     </div>
-  );
-}
-
-function PillInner({ children, light }: { children: React.ReactNode; light?: boolean }) {
-  return (
-    <>
-      <span className="pl-2">{children}</span>
-      <span className={`grid h-9 w-9 place-items-center rounded-full ${light ? "bg-brand text-white" : "bg-white text-brand"}`}>{ARROW}</span>
-    </>
-  );
-}
-
-const pillClass = (light?: boolean) =>
-  `inline-flex w-fit shrink-0 items-center gap-3 rounded-full py-1 pl-3 pr-1 text-sm font-semibold transition ${
-    light ? "bg-white text-ink hover:bg-brand-tint" : "bg-brand text-white hover:bg-brand-dark"
-  }`;
-
-function PillLink({ href, children, light }: { href: string; children: React.ReactNode; light?: boolean }) {
-  return (
-    <Link href={href} className={pillClass(light)}>
-      <PillInner light={light}>{children}</PillInner>
-    </Link>
-  );
-}
-
-function PillSpan({ children, light }: { children: React.ReactNode; light?: boolean }) {
-  return (
-    <span className={pillClass(light)}>
-      <PillInner light={light}>{children}</PillInner>
-    </span>
   );
 }
