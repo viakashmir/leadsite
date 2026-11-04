@@ -122,11 +122,13 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const [destinations, packages, stats, cityGuideCount] = await Promise.all([
+  const [destinations, packages, stats, cityGuideCount, cityPhotos, assets] = await Promise.all([
     getDestinationsWithCitiesAndLeadCounts({ tier: 1 }),
     getHomePackages(),
     getSiteStats(),
     prisma.city.count({ where: { contentStatus: "READY" } }),
+    prisma.city.findMany({ where: { heroImage: { startsWith: "/media/" } }, select: { name: true, heroImage: true, destinationId: true } }),
+    prisma.mediaAsset.findMany({ select: { slug: true } }),
   ]);
 
   const snowSeason = isKashmirSnowSeason();
@@ -242,25 +244,55 @@ export default async function Home() {
     },
   ];
 
-  const packageRow = (row: Row) => (
-    <ScrollRow key={row.key} title={row.title} subtitle={row.subtitle} href={row.href}>
-      {row.items.map((p) => (
-        <TripCard
-          key={p.id}
-          slug={p.slug}
-          title={p.title}
-          summary={p.summary}
-          durationDays={p.durationDays}
-          durationNights={p.durationNights}
-          price={p.price}
-          referencePrice={p.referencePrice}
-          destinationName={p.destination.name}
-          theme={p.theme}
-          heroImage={packagePhoto(p)}
-        />
-      ))}
-    </ScrollRow>
-  );
+  // Packages have no photos of their own yet, so cards borrow real photos of
+  // the places they visit. Within a row no photo repeats: a stop named in the
+  // title first, then the package's city, then other photos of that destination.
+  const photoPool = (p: HomePackage) => {
+    const named = cityPhotos.filter((c) => c.destinationId === p.destinationId);
+    const extra = assets
+      .filter((a) => a.slug === `destination-${p.destination.slug}` || a.slug.startsWith(`destination-${p.destination.slug}-`))
+      .map((a) => `/media/${a.slug}.webp`);
+    const title = p.title.toLowerCase();
+    const inTitle = named
+      .filter((c) => title.includes(c.name.toLowerCase()))
+      .sort((a, b) => title.indexOf(a.name.toLowerCase()) - title.indexOf(b.name.toLowerCase()))
+      .map((c) => c.heroImage);
+    const rest = [...named.map((c) => c.heroImage), ...extra];
+    const shift = [...p.slug].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 0) % Math.max(rest.length, 1);
+    const winter = hasTag(p, "Winter") && p.destination.slug === "kashmir" ? [WINTER_HERO] : [];
+    return [p.heroImage, ...winter, ...inTitle, p.city?.heroImage, ...rest.slice(shift), ...rest.slice(0, shift)].filter(isPhoto);
+  };
+  const rowPhotos = (items: HomePackage[]) => {
+    const used = new Set<string>();
+    return items.map((p) => {
+      const pick = photoPool(p).find((src) => !used.has(src)) ?? packagePhoto(p);
+      if (pick) used.add(pick);
+      return pick;
+    });
+  };
+
+  const packageRow = (row: Row) => {
+    const photos = rowPhotos(row.items);
+    return (
+      <ScrollRow key={row.key} title={row.title} subtitle={row.subtitle} href={row.href}>
+        {row.items.map((p, i) => (
+          <TripCard
+            key={p.id}
+            slug={p.slug}
+            title={p.title}
+            summary={p.summary}
+            durationDays={p.durationDays}
+            durationNights={p.durationNights}
+            price={p.price}
+            referencePrice={p.referencePrice}
+            destinationName={p.destination.name}
+            theme={p.theme}
+            heroImage={photos[i]}
+          />
+        ))}
+      </ScrollRow>
+    );
+  };
 
   return (
     <div className="pb-8">
