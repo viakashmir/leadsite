@@ -216,7 +216,7 @@ export default function EnquiryForm({
         {titleCase(title)}
       </p>
       <p className="mt-0.5 text-[11px] text-ink-soft">
-        <span className="font-semibold text-brand">Free</span> · No booking fee · {brand ? "Fully customisable" : "Up to 3 quotes"}
+        <span className="font-semibold text-brand">Free</span> · {brand ? "Fully customisable" : "No booking fee · Up to 3 quotes"}
       </p>
 
       <div className={`grid gap-x-2 ${tight ? "mt-2.5 grid-cols-12 gap-y-2" : "mt-3 grid-cols-6 gap-y-2"}`}>

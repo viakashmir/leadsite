@@ -115,7 +115,7 @@ const STORIES: { slug: string; kicker: string; title: string; body: string }[] =
 export const metadata: Metadata = {
   title: { absolute: `${SITE_NAME}: Holiday Packages for India and Abroad, Planned Around You` },
   description:
-    "Handcrafted holiday packages for Kashmir, Ladakh, Kerala, Goa, the Maldives, Dubai and more. Every itinerary tailored day by day, no booking fee, talk to a trip expert on call or WhatsApp.",
+    "Handcrafted holiday packages for Kashmir, Ladakh, Kerala, Goa, the Maldives, Dubai and more. Every itinerary tailored day by day; talk to a trip expert on call or WhatsApp.",
   alternates: { canonical: "/" },
 };
 
@@ -217,10 +217,6 @@ export default async function Home() {
     {
       q: "Can I customise a tour package?",
       a: "Yes, every package is a starting point. You can add or remove days, change hotels, switch the cab, add experiences like a shikara ride or a backwater cruise, and plan around your own dates and budget.",
-    },
-    {
-      q: "Is there a booking fee?",
-      a: "No. Planning your trip and getting a price is free, and there is no booking fee. You pay only after you have confirmed the final itinerary.",
     },
     {
       q: "Are the package prices final?",

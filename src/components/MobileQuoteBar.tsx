@@ -76,7 +76,7 @@ export default function MobileQuoteBar({ options }: { options: DestinationOption
         >
           <span className="min-w-0 text-sm font-semibold text-ink">
             {target ? `Planning your ${target.name} trip?` : "Need help planning?"}
-            <span className="block truncate text-xs font-normal text-ink-soft">Free trip plan, no booking fee</span>
+            <span className="block truncate text-xs font-normal text-ink-soft">Free trip plan from a trip expert</span>
           </span>
           <span className="shrink-0 rounded-lg bg-brand px-3.5 py-2 text-xs font-semibold text-white">{pathname === "/" ? "Plan My Trip" : "Get Quotes"}</span>
         </button>
