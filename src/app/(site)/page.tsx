@@ -47,6 +47,7 @@ function getHomePackages() {
       slug: true,
       title: true,
       summary: true,
+      itinerary: true,
       durationDays: true,
       durationNights: true,
       price: true,
@@ -246,18 +247,20 @@ export default async function Home() {
 
   // Packages have no photos of their own yet, so cards borrow real photos of
   // the places they visit. Within a row no photo repeats: a stop named in the
-  // title first, then the package's city, then other photos of that destination.
+  // title first, then the package's city, other stops it visits, then photos
+  // of the destination itself. Never a town the trip does not go to.
   const photoPool = (p: HomePackage) => {
     const named = cityPhotos.filter((c) => c.destinationId === p.destinationId);
     const extra = assets
       .filter((a) => a.slug === `destination-${p.destination.slug}` || a.slug.startsWith(`destination-${p.destination.slug}-`))
       .map((a) => `/media/${a.slug}.webp`);
     const title = p.title.toLowerCase();
+    const route = `${title} ${p.summary.toLowerCase()} ${JSON.stringify(p.itinerary ?? "").toLowerCase()}`;
     const inTitle = named
       .filter((c) => title.includes(c.name.toLowerCase()))
       .sort((a, b) => title.indexOf(a.name.toLowerCase()) - title.indexOf(b.name.toLowerCase()))
       .map((c) => c.heroImage);
-    const rest = [...named.map((c) => c.heroImage), ...extra];
+    const rest = [...named.filter((c) => route.includes(c.name.toLowerCase())).map((c) => c.heroImage), ...extra];
     const shift = [...p.slug].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 0) % Math.max(rest.length, 1);
     const winter = hasTag(p, "Winter") && p.destination.slug === "kashmir" ? [WINTER_HERO] : [];
     return [p.heroImage, ...winter, ...inTitle, p.city?.heroImage, ...rest.slice(shift), ...rest.slice(0, shift)].filter(isPhoto);
