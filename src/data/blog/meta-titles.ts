@@ -29,7 +29,7 @@ export const META_TITLES: Record<string, string> = {
   "srinagar-houseboat-guide": "Srinagar Houseboat Booking Guide: Dal vs Nigeen Lake",
   "gulmarg-gondola-guide": "Gulmarg Gondola {year}: Online Booking, Phase 1 & 2 Tips",
   "tulip-garden-srinagar-guide": "Tulip Garden Srinagar {year}: Dates & Spring Kashmir Tour",
-  "kashmir-christmas-new-year-trip": "Kashmir New Year Package {year}: Christmas Snow Trip Plan",
+  "kashmir-christmas-new-year-trip": "Kashmir New Year {nextSeason} Packages: Gulmarg Snow & NYE Plan",
   "kashmir-in-summer": "Kashmir Summer Tour Package: May and June Trip Plan",
   "amarnath-yatra-plan": "Amarnath Yatra Package {year}: Registration & Route Guide",
   "pahalgam-itinerary-guide": "Pahalgam Tour Package: 2 to 3 Day Itinerary & Tips",
@@ -143,4 +143,8 @@ export const META_TITLES: Record<string, string> = {
   "parvati-valley-itinerary-5-days": "Parvati Valley Itinerary 5 Days: Kasol, Tosh & Kheerganga",
   "things-to-do-in-leh": "Things to Do in Leh: Monasteries, Viewpoints & Day Trips",
   ...TRIP_FROM_TITLES,
+  "kashmir-in-december": "Kashmir in December {year}: Snow Trip Packages & 5-Day Plan",
+  "kashmir-in-january": "Kashmir in January {nextSeason}: Snow Packages, Weather & Plan",
+  "kashmir-in-february": "Kashmir in February {nextSeason}: Ski & Snow Packages, Weather",
+  "gulmarg-in-winter-guide": "Gulmarg in Winter {year}: Snow, Gondola & Ski Packages",
 };

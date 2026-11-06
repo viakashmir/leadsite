@@ -3,11 +3,18 @@
 # to each page after a deploy waits for it to be rendered).
 name: Warm cache after deploy
 
-on: deployment_status
+# Vercel reports each finished build as a commit status ("Vercel - leadsite",
+# success, "Deployment has completed"). Only builds of commits on main are
+# production deploys.
+on: status
 
 jobs:
   warm:
-    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production'
+    if: >-
+      github.event.state == 'success' &&
+      startsWith(github.event.context, 'Vercel') &&
+      contains(github.event.description, 'completed') &&
+      contains(join(github.event.branches.*.name, ','), 'main')
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:

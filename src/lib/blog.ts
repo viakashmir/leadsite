@@ -12,8 +12,15 @@ const bySlug = new Map(BLOG_POSTS.map((p) => [p.slug, p]));
 export const getPost = (slug: string) => bySlug.get(slug);
 
 // Search title for a post, with {year} filled in; falls back to the H1.
-export const metaTitle = (post: BlogPost) =>
-  (META_TITLES[post.slug] ?? post.title).replace("{year}", String(new Date().getFullYear()));
+// {nextSeason} is for New Year, January and February trips: from July on,
+// people are planning the coming winter, so it shows next year.
+export const metaTitle = (post: BlogPost) => {
+  const now = new Date();
+  const year = now.getFullYear();
+  return (META_TITLES[post.slug] ?? post.title)
+    .replace("{year}", String(year))
+    .replace("{nextSeason}", String(now.getMonth() >= 6 ? year + 1 : year));
+};
 
 // Newest first; on the same date the featured region's guides come first.
 const featuredFirst = (p: { destination: string }) => (p.destination === FEATURED_DESTINATION.slug ? 0 : 1);
@@ -50,6 +57,10 @@ export function relatedPosts(post: BlogPost, n = 3) {
 }
 
 // Theme package page that matches a post's category, where one exists.
+// Winter, snow and New Year posts also link to the destination's winter packages page.
+export const isWinterPost = (post: Pick<BlogPost, "slug" | "title">) =>
+  /winter|snow|december|january|february|new-year|christmas|chillai|ski/i.test(`${post.slug} ${post.title}`);
+
 export const CATEGORY_THEME: Partial<Record<BlogCategory, string>> = {
   Honeymoon: "honeymoon-packages",
   Family: "family-packages",

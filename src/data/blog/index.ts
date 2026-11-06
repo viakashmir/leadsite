@@ -52,6 +52,7 @@ import { SHIMLA_GUIDES } from "./shimla-guides";
 import { MANALI_GUIDES } from "./manali-guides";
 import { KASOL_GUIDES } from "./kasol-guides";
 import { HIMACHAL_UPGRADES } from "./himachal-upgrades";
+import { KASHMIR_WINTER_UPGRADES } from "./kashmir-winter-upgrades";
 
 import { SUPERSEDED_POSTS } from "./superseded";
 export { SUPERSEDED_POSTS };
@@ -117,6 +118,7 @@ const UPGRADE_BATCHES: [Record<string, Pick<BlogPost, "intro" | "sections" | "fa
   [KASHMIR_UPGRADES_5, "2026-11-03"],
   [ANDAMAN_UPGRADES, "2026-11-02"],
   [THAILAND_UPGRADES, "2026-11-02"],
+  [KASHMIR_WINTER_UPGRADES, "2026-11-06"],
 ];
 const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs" | "updated">> = Object.fromEntries(
   UPGRADE_BATCHES.flatMap(([batch, updated]) => Object.entries(batch).map(([slug, u]) => [slug, { ...u, updated }])),

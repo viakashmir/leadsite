@@ -11,7 +11,7 @@ import { isPhoto } from "@/lib/media";
 import { absoluteUrl } from "@/lib/site";
 import { webPageSchema } from "@/lib/schema";
 import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
-import { BLOG_PATH, CATEGORY_THEME, getPost, metaTitle, postUrl, readMinutes, relatedPosts } from "@/lib/blog";
+import { BLOG_PATH, CATEGORY_THEME, getPost, isWinterPost, metaTitle, postUrl, readMinutes, relatedPosts } from "@/lib/blog";
 import { createLinker, entitiesFor } from "@/lib/entityLinks";
 
 // No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
@@ -81,6 +81,9 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
     ...(destination ? [{ label: `${destination.name} tour packages`, href: tourPackagesUrl(destination.slug) }] : []),
     ...(destination && theme
       ? [{ label: `${destination.name} ${post.category.toLowerCase()} packages`, href: themeUrl(theme, destination.slug) }]
+      : []),
+    ...(destination && isWinterPost(post)
+      ? [{ label: `${destination.name} winter packages`, href: themeUrl("winter-tour-packages", destination.slug) }]
       : []),
     ...(destination ? [{ label: `${destination.name} travel guide`, href: guideUrl(destination.slug, city?.slug) }] : []),
   ];
