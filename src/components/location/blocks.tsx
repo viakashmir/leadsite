@@ -1,7 +1,7 @@
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import EnquiryForm from "@/components/EnquiryForm";
-import PackageCard from "@/components/PackageCard";
+import TripCard from "@/components/TripCard";
 import TrustTicks from "@/components/TrustTicks";
 import QuoteButton from "@/components/QuoteButton";
 import { EDITORIAL_TEAM, SITE_URL } from "@/lib/site";
@@ -238,7 +238,7 @@ export function PackageGrid({
       }
     >
       {packages.map((p) => (
-        <PackageCard
+        <TripCard
           key={p.id}
           slug={p.slug}
           title={p.title}
@@ -327,7 +327,7 @@ export async function QuoteBox({
 }) {
   const options = await getEnquiryOptions();
   return (
-    <div id="get-quotes" className="no-scrollbar scroll-mt-20 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
+    <div id="get-quotes" className="scroll-mt-20 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
       <EnquiryForm
         destinations={options}
         defaultDestinationId={destinationId}

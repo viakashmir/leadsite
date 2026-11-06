@@ -224,17 +224,19 @@ export default async function PackagePage({
           )}
         </div>
 
-        <div id="get-quotes" className="scroll-mt-20 lg:sticky lg:top-20 lg:self-start">
-          <div className="mb-3 rounded-[14px] bg-zinc-50 p-4">
-            <p className="flex items-center gap-3 text-xs text-ink-soft">
-              <span>{pkg.durationNights}N/{pkg.durationDays}D</span>
-              <span>{pkg.destination.name}</span>
+        <div id="get-quotes" className="scroll-mt-20 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:self-start lg:overflow-y-auto">
+          <div className="mb-2.5 flex items-center justify-between gap-3 rounded-[14px] bg-zinc-50 px-4 py-2.5">
+            <p className="text-ink">
+              <span className="block text-[11px] text-ink-soft">Starting price</span>
+              <span className="text-xl font-bold">{formatINR(pkg.price)}</span>{" "}
+              <span className="text-xs text-ink-soft">/ person</span>
             </p>
-            <p className="mt-1.5 text-ink">
-              <span className="text-2xl font-bold">{formatINR(pkg.price)}</span>{" "}
-              <span className="text-sm text-ink-soft">per person, starting price</span>
+            <p className="text-right text-xs text-ink-soft">
+              <span className="block font-semibold text-ink">
+                {pkg.durationNights}N/{pkg.durationDays}D
+              </span>
+              {pkg.destination.name}
             </p>
-            <p className="mt-0.5 text-xs text-ink-soft">Agents tailor hotels, days and transport to your plan.</p>
           </div>
           <EnquiryForm
             destinations={allDestinations}

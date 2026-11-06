@@ -3,9 +3,9 @@ import Image from "next/image";
 import { isPhoto } from "@/lib/media";
 import { formatINR } from "@/lib/format";
 import { absoluteUrl, SITE_NAME, WHATSAPP_DIGITS, WHATSAPP_NUMBER } from "@/lib/site";
-import { routeFromSummary, STYLE_TAGS, TIER_LABEL, TIERS } from "@/components/PackageCard";
+import { routeFromSummary, STYLE_TAGS, TIER_LABEL, TIERS } from "@/lib/packageTags";
 
-// Catalogue card for the homepage rows: photo, duration chip, title, the
+// Package card used everywhere (homepage rows and listing pages): photo, duration chip, title, the
 // route as a compact "2N Srinagar • 1N Gulmarg +2" strip, per-person price,
 // and three quick actions (call, WhatsApp, request quotes). Everything shown
 // comes from the package itself.

@@ -21,9 +21,6 @@ const BUDGET_BANDS = [
   { value: "Above ₹60,000 per person", label: "60k+" },
 ];
 
-// Place chips shown before "+N more".
-const PLACES_SHOWN = 6;
-
 // Destination pre-selected on forms that don't already know the place.
 const DEFAULT_DESTINATION_SLUG = "kashmir";
 
@@ -72,10 +69,7 @@ export default function EnquiryForm({
   dense?: boolean; // the same tight layout on a plain card, for page sidebars
   brand?: boolean; // traveller-facing homepage copy: our trip experts, no quotes/agents talk
 }) {
-  const tight = compact || dense;
-  const field = `${fieldBase} ${tight ? "h-9 rounded-md px-2 text-[13px]" : "h-10 rounded-lg px-2.5 text-sm"}`;
-  // Grid spans: 6 columns normally, 12 in the tight layouts.
-  const span = (normal: string, tightSpan: string) => (tight ? tightSpan : normal);
+  const field = `${fieldBase} h-9 rounded-md px-2 text-[13px]`;
   const uid = useId();
   const id = (name: string) => `${uid}-${name}`;
   // Pages about a place pre-select it; everywhere else Kashmir is the default
@@ -86,13 +80,11 @@ export default function EnquiryForm({
   // Places within the destination: travellers can pick several (or none =
   // anywhere). The first is the lead's main place; agents get the full list.
   const [cityIds, setCityIds] = useState<string[]>(defaultCityId ? [defaultCityId] : []);
-  const [allPlaces, setAllPlaces] = useState(false);
   const toggleCity = (cid: string) => setCityIds((cur) => (cur.includes(cid) ? cur.filter((x) => x !== cid) : [...cur, cid]));
   const [hotel, setHotel] = useState(HOTEL_BANDS[1].value);
   // Free text, so travellers can write their own budget ("₹50,000 for two");
   // the bands are offered as suggestions.
   const [budget, setBudget] = useState("");
-  const budgetPlaceholder = tight ? "Type, e.g. ₹30,000 pp" : "e.g. ₹30,000 per person";
   const [dialCode, setDialCode] = useState("+91");
   const [more, setMore] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -173,7 +165,7 @@ export default function EnquiryForm({
       ? "rounded-2xl bg-white/95 p-4 shadow-2xl shadow-black/30 ring-1 ring-white/40 backdrop-blur"
       : dense
         ? "rounded-xl border border-zinc-200 bg-white p-3.5 shadow-sm"
-        : "rounded-[14px] border border-zinc-200 bg-white p-4 shadow-sm sm:p-5";
+        : "rounded-[14px] border border-zinc-200 bg-white p-4 shadow-sm";
 
   if (status === "success") {
     return (
@@ -195,11 +187,10 @@ export default function EnquiryForm({
   }
 
   const hasCities = Boolean(selectedDestination && selectedDestination.cities.length > 0);
-  // First few places, plus any already picked (e.g. the page's own place).
-  const visiblePlaces = (selectedDestination?.cities ?? []).filter(
-    (c, i) => allPlaces || i < PLACES_SHOWN || cityIds.includes(c.id),
+  // All places in one swipeable row, the picked ones (e.g. the page's own place) first.
+  const placesInOrder = [...(selectedDestination?.cities ?? [])].sort(
+    (a, b) => Number(cityIds.includes(b.id)) - Number(cityIds.includes(a.id)),
   );
-  const hiddenPlaces = (selectedDestination?.cities.length ?? 0) - visiblePlaces.length;
 
   // Five short rows, sized so the whole form (and its button) fits beside the
   // content on a laptop screen and inside one phone screen.
@@ -212,15 +203,17 @@ export default function EnquiryForm({
           <input type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
         </label>
       </div>
-      <p className={`font-display font-extrabold leading-tight tracking-tight text-ink ${compact ? "text-base" : "text-lg"}`}>
+      <p className="font-display text-base font-extrabold leading-tight tracking-tight text-ink">
         {titleCase(title)}
       </p>
       <p className="mt-0.5 text-[11px] text-ink-soft">
         <span className="font-semibold text-brand">Free</span> · {brand ? "Fully customisable" : "No booking fee · Up to 3 quotes"}
       </p>
 
-      <div className={`grid gap-x-2 ${tight ? "mt-2.5 grid-cols-12 gap-y-2" : "mt-3 grid-cols-6 gap-y-2"}`}>
-        <div className={span("col-span-6", "col-span-12")}>
+      {/* One 12-column grid for every variant: five short rows plus an
+          optional row, so the form and its button fit beside page content. */}
+      <div className="mt-2.5 grid grid-cols-12 gap-x-2 gap-y-2">
+        <div className="col-span-12">
           <label className={label} htmlFor={id("dest")}>
             Destination
           </label>
@@ -232,7 +225,6 @@ export default function EnquiryForm({
             onChange={(e) => {
               setDestinationId(e.target.value);
               setCityIds([]);
-              setAllPlaces(false);
             }}
             className={field}
           >
@@ -247,12 +239,13 @@ export default function EnquiryForm({
           </select>
         </div>
         {hasCities && (
-          <div className={span("col-span-6", "col-span-12")} role="group" aria-labelledby={id("places")}>
+          <div className="col-span-12 min-w-0" role="group" aria-labelledby={id("places")}>
             <p id={id("places")} className={label}>
-              Places <span className="font-normal">(pick any, or leave for anywhere)</span>
+              Places <span className="font-normal">(optional, pick any)</span>
             </p>
-            <div className="flex flex-wrap gap-1.5">
-              {visiblePlaces.map((c) => {
+            {/* One swipeable row; picked places first. */}
+            <div className="no-scrollbar -mx-1 flex gap-1.5 overflow-x-auto px-1 pb-0.5">
+              {placesInOrder.map((c) => {
                 const on = cityIds.includes(c.id);
                 return (
                   <button
@@ -260,7 +253,7 @@ export default function EnquiryForm({
                     type="button"
                     aria-pressed={on}
                     onClick={() => toggleCity(c.id)}
-                    className={`rounded-full border px-2.5 py-1 text-xs font-medium transition ${
+                    className={`shrink-0 whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-medium transition ${
                       on ? "border-brand bg-brand text-white" : "border-zinc-200 bg-white text-ink hover:border-brand/40"
                     }`}
                   >
@@ -269,26 +262,17 @@ export default function EnquiryForm({
                   </button>
                 );
               })}
-              {hiddenPlaces > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setAllPlaces(true)}
-                  className="rounded-full px-2 py-1 text-xs font-semibold text-brand hover:underline"
-                >
-                  +{hiddenPlaces} more
-                </button>
-              )}
             </div>
           </div>
         )}
 
-        <div className={span("col-span-3", "col-span-7")}>
+        <div className="col-span-7">
           <label className={label} htmlFor={id("date")}>
             Travel date
           </label>
           <input id={id("date")} name="travelDate" type="date" required min={todayIso()} className={field} />
         </div>
-        <div className={span("col-span-3", "col-span-5")}>
+        <div className="col-span-5">
           <label className={label} htmlFor={id("days")}>
             Days
           </label>
@@ -301,11 +285,11 @@ export default function EnquiryForm({
           </select>
         </div>
 
-        <div className={span("col-span-2", "col-span-3")}>
+        <div className="col-span-2">
           <label className={label} htmlFor={id("adults")}>
             Adults
           </label>
-          <select id={id("adults")} name="adults" defaultValue="2" className={field}>
+          <select id={id("adults")} name="adults" defaultValue="2" className={`${field} px-1.5`}>
             {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
               <option key={n} value={n}>
                 {n}
@@ -313,11 +297,11 @@ export default function EnquiryForm({
             ))}
           </select>
         </div>
-        <div className={span("col-span-2", "col-span-3")}>
+        <div className="col-span-2">
           <label className={label} htmlFor={id("children")}>
             Kids
           </label>
-          <select id={id("children")} name="children" defaultValue="0" className={field}>
+          <select id={id("children")} name="children" defaultValue="0" className={`${field} px-1.5`}>
             {Array.from({ length: 7 }, (_, i) => i).map((n) => (
               <option key={n} value={n}>
                 {n}
@@ -325,115 +309,74 @@ export default function EnquiryForm({
             ))}
           </select>
         </div>
-        {compact ? (
-          // Hero: one tap for hotel, budget on its own row.
-          <>
-          <div className="col-span-6" role="radiogroup" aria-labelledby={id("hotel")}>
-            <span id={id("hotel")} className={label}>
-              Hotel
-            </span>
-            <div className="grid h-9 grid-cols-3 gap-0.5 rounded-md bg-zinc-100 p-0.5">
-              {HOTEL_BANDS.map((b) => (
-                <button
-                  key={b.value}
-                  type="button"
-                  role="radio"
-                  aria-checked={hotel === b.value}
-                  onClick={() => setHotel(b.value)}
-                  className={`whitespace-nowrap rounded px-0.5 text-[11px] font-semibold transition ${
-                    hotel === b.value ? "bg-white text-brand shadow-sm" : "text-ink-soft hover:text-ink"
-                  }`}
-                >
-                  {b.label}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="col-span-12">
-            <label className={label} htmlFor={id("budget")}>
-              Your budget
-            </label>
-            <input
-              id={id("budget")}
-              list={id("budget-options")}
-              value={budget}
-              onChange={(e) => setBudget(e.target.value)}
-              maxLength={60}
-              autoComplete="off"
-              placeholder={budgetPlaceholder}
-              className={field}
-            />
-          </div>
-          </>
-        ) : dense ? (
-          <>
-          <div className="col-span-6">
-            <label className={label} htmlFor={id("hotel")}>
-              Hotel
-            </label>
-            <select id={id("hotel")} value={hotel} onChange={(e) => setHotel(e.target.value)} className={field}>
-              {HOTEL_BANDS.map((b) => (
-                <option key={b.value} value={b.value}>
-                  {b.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col-span-12">
-            <label className={label} htmlFor={id("budget")}>
-              Your budget
-            </label>
-            <input
-              id={id("budget")}
-              list={id("budget-options")}
-              value={budget}
-              onChange={(e) => setBudget(e.target.value)}
-              maxLength={60}
-              autoComplete="off"
-              placeholder={budgetPlaceholder}
-              className={field}
-            />
-          </div>
-          </>
-        ) : (
-          <>
-          <div className="col-span-2">
-            <label className={label} htmlFor={id("hotel")}>
-              Hotel
-            </label>
-            <select id={id("hotel")} value={hotel} onChange={(e) => setHotel(e.target.value)} className={field}>
-              {HOTEL_BANDS.map((b) => (
-                <option key={b.value} value={b.value}>
-                  {b.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col-span-6">
-            <label className={label} htmlFor={id("budget")}>
-              Your budget
-            </label>
-            <input
-              id={id("budget")}
-              list={id("budget-options")}
-              value={budget}
-              onChange={(e) => setBudget(e.target.value)}
-              maxLength={60}
-              autoComplete="off"
-              placeholder={budgetPlaceholder}
-              className={field}
-            />
-          </div>
-          </>
-        )}
+        <div className="col-span-4">
+          <label className={label} htmlFor={id("hotel")}>
+            Hotel
+          </label>
+          <select id={id("hotel")} value={hotel} onChange={(e) => setHotel(e.target.value)} className={`${field} px-1.5`}>
+            {HOTEL_BANDS.map((b) => (
+              <option key={b.value} value={b.value}>
+                {b.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-span-4">
+          <label className={label} htmlFor={id("budget")}>
+            Budget
+          </label>
+          <input
+            id={id("budget")}
+            list={id("budget-options")}
+            value={budget}
+            onChange={(e) => setBudget(e.target.value)}
+            maxLength={60}
+            autoComplete="off"
+            placeholder="₹ /person"
+            className={`${field} px-2`}
+          />
+        </div>
 
-        <div className={span("col-span-3", "col-span-5")}>
+        <div className="col-span-5">
           <label className={label} htmlFor={id("name")}>
             Name
           </label>
           <input id={id("name")} name="name" required minLength={2} autoComplete="name" placeholder="Your name" className={field} />
         </div>
-        <div className={span("col-span-3", "order-last col-span-12")}>
+        <div className="col-span-7">
+          <label className={label} htmlFor={id("phone")}>
+            Mobile (WhatsApp)
+          </label>
+          <div className="flex">
+            <select
+              name="dialCode"
+              aria-label="Country code"
+              value={dialCode}
+              onChange={(e) => setDialCode(e.target.value)}
+              className={`${field.replace("w-full ", "")} w-[64px] shrink-0 rounded-r-none border-r-0 bg-zinc-50 px-1.5`}
+            >
+              {DIAL_CODES.map(([code, country]) => (
+                <option key={`${country}${code}`} value={code}>
+                  {code} {country}
+                </option>
+              ))}
+            </select>
+            <input
+              id={id("phone")}
+              name="phone"
+              required
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel-national"
+              pattern={dialCode === "+91" ? "[0-9\\s\\-]{10,13}" : "[0-9\\s\\-]{6,16}"}
+              title={dialCode === "+91" ? "10-digit mobile number" : "Mobile number without the country code"}
+              placeholder={dialCode === "+91" ? "10-digit mobile" : "Mobile number"}
+              className={`${field} min-w-0 flex-1 rounded-l-none`}
+            />
+          </div>
+        </div>
+
+        <div className="col-span-12">
           <label className={label} htmlFor={id("email")}>
             Email
           </label>
@@ -449,54 +392,21 @@ export default function EnquiryForm({
           />
         </div>
 
-        <div className={span("col-span-6", "col-span-7")}>
-          <label className={label} htmlFor={id("phone")}>
-            Mobile (WhatsApp)
-          </label>
-          <div className="flex">
-            <select
-              name="dialCode"
-              aria-label="Country code"
-              value={dialCode}
-              onChange={(e) => setDialCode(e.target.value)}
-              className={`${field.replace("w-full ", "")} ${tight ? "w-[66px]" : "w-[92px]"} shrink-0 rounded-r-none border-r-0 bg-zinc-50 px-2`}
-            >
-              {DIAL_CODES.map(([code, country]) => (
-                <option key={`${country}${code}`} value={code}>
-                  {tight ? code : `${country} ${code}`}
-                </option>
-              ))}
-            </select>
-            <input
-              id={id("phone")}
-              name="phone"
-              required
-              type="tel"
-              inputMode="tel"
-              autoComplete="tel-national"
-              pattern={dialCode === "+91" ? "[0-9\\s\\-]{10,13}" : "[0-9\\s\\-]{6,16}"}
-              title={dialCode === "+91" ? "10-digit mobile number" : "Mobile number without the country code"}
-              placeholder={dialCode === "+91" ? (tight ? "Mobile" : "10-digit mobile") : "Mobile number"}
-              className={`${field} min-w-0 flex-1 rounded-l-none`}
-            />
-          </div>
-        </div>
-
         {more ? (
           <>
-            <input name="originCity" placeholder="Travelling from (city)" className={`${field} ${span("col-span-6", "order-last col-span-12")}`} />
+            <input name="originCity" placeholder="Travelling from (city)" className={`${field} col-span-12`} />
             <textarea
               name="message"
               rows={2}
               placeholder="Anything else? e.g. honeymoon, senior citizens"
-              className={`${field} ${span("col-span-6", "order-last col-span-12")} h-auto py-2`}
+              className={`${field} col-span-12 h-auto py-2`}
             />
           </>
         ) : (
           <button
             type="button"
             onClick={() => setMore(true)}
-            className={`${span("col-span-6", "order-last col-span-12")} justify-self-start text-[11px] font-semibold text-brand hover:underline`}
+            className="col-span-12 justify-self-start text-[11px] font-semibold text-brand hover:underline"
           >
             + Departure city or a note (optional)
           </button>
@@ -514,7 +424,7 @@ export default function EnquiryForm({
       <button
         type="submit"
         disabled={status === "submitting"}
-        className={`w-full rounded-lg bg-brand text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-60 ${compact ? "mt-2.5 py-2.5" : "mt-3 py-2.5"}`}
+        className="mt-2.5 w-full rounded-lg bg-brand py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-60"
       >
         {status === "submitting" ? "Sending..." : brand ? "Plan My Trip" : "Get Free Quotes"}
       </button>
