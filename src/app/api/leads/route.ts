@@ -2,7 +2,7 @@ import { NextRequest, NextResponse, after } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createLeadSchema } from "@/lib/validation";
 import { clientIp, hit, tooManyRequests } from "@/lib/rateLimit";
-import { notifyNewLead } from "@/lib/email/leadNotifications";
+import { notifyNewLead, notifyRepeatLead } from "@/lib/email/leadNotifications";
 import { refreshPublicLeadPages } from "@/lib/leadPages";
 
 export async function POST(req: NextRequest) {
@@ -56,6 +56,23 @@ export async function POST(req: NextRequest) {
     select: { id: true },
   });
   if (duplicate) {
+    // Still alert the lead desk (with the new details), just don't create a second lead.
+    after(() =>
+      notifyRepeatLead(duplicate.id, {
+        name: data.name,
+        email: data.email || null,
+        phone: data.phone,
+        originCity: data.originCity || null,
+        cityId: city?.id ?? null,
+        sourcePackageId: sourcePackage?.id ?? null,
+        travelDate: data.travelDate ? new Date(data.travelDate) : null,
+        durationDays: data.durationDays ?? null,
+        adults: data.adults,
+        children: data.children,
+        budgetBand: data.budgetBand || null,
+        message: data.message || null,
+      }),
+    );
     return NextResponse.json({ ok: true, leadId: duplicate.id, duplicate: true }, { status: 200 });
   }
 

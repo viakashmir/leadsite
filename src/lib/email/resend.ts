@@ -16,15 +16,38 @@ export type SendEmailResult = { ok: true; id: string } | { ok: false; error: str
 // Until one is verified, onboarding@resend.dev works, but Resend will then
 // deliver ONLY to the email address that owns the Resend account.
 export const EMAIL_FROM = process.env.EMAIL_FROM || "Tavel Package <onboarding@resend.dev>";
-// New-lead alerts go to every address here (comma-separated in the env var).
-export const ADMIN_EMAILS = (process.env.ADMIN_NOTIFY_EMAIL || "arfatshah.qa@gmail.com,aribanigar034@gmail.com")
-  .split(",")
-  .map((e) => e.trim())
-  .filter(Boolean);
+// The lead desk inbox: every new enquiry is always emailed here, whatever the
+// env var below says, so a settings change can never silence lead alerts.
+export const LEAD_DESK_EMAIL = "arfatshah.qa@gmail.com";
+// New-lead alerts go to the lead desk plus every address in ADMIN_NOTIFY_EMAIL
+// (comma-separated), each as its own email so one bad address cannot block the rest.
+export const ADMIN_EMAILS = [
+  ...new Set(
+    [LEAD_DESK_EMAIL, ...(process.env.ADMIN_NOTIFY_EMAIL || "aribanigar034@gmail.com").split(",")]
+      .map((e) => e.trim().toLowerCase())
+      .filter(Boolean),
+  ),
+];
 // Where customers' replies to their thank-you email land.
 export const CUSTOMER_REPLY_TO = process.env.CUSTOMER_REPLY_TO || "aribanigar034@gmail.com";
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+// Sends one email, retrying twice (after 1 s and 3 s) when Resend is briefly
+// unavailable: rate limits, 5xx errors, timeouts and network failures.
+// Rejections such as an invalid address are returned at once, not retried.
 export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult> {
+  let last: SendEmailResult & { retryable?: boolean } = { ok: false, error: "not sent" };
+  for (const wait of [0, 1_000, 3_000]) {
+    if (wait) await sleep(wait);
+    last = await sendOnce(input);
+    if (last.ok || !last.retryable) break;
+  }
+  if (last.ok) return last;
+  return { ok: false, error: last.error };
+}
+
+async function sendOnce(input: SendEmailInput): Promise<SendEmailResult & { retryable?: boolean }> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return { ok: false, error: "RESEND_API_KEY is not set" };
 
@@ -44,9 +67,15 @@ export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult>
       signal: AbortSignal.timeout(10_000),
     });
     const body = (await res.json().catch(() => null)) as { id?: string; message?: string } | null;
-    if (!res.ok || !body?.id) return { ok: false, error: `Resend ${res.status}: ${body?.message ?? "unknown error"}` };
+    if (!res.ok || !body?.id) {
+      return {
+        ok: false,
+        error: `Resend ${res.status}: ${body?.message ?? "unknown error"}`,
+        retryable: res.status === 429 || res.status >= 500,
+      };
+    }
     return { ok: true, id: body.id };
   } catch (err) {
-    return { ok: false, error: err instanceof Error ? err.message : String(err) };
+    return { ok: false, error: err instanceof Error ? err.message : String(err), retryable: true };
   }
 }
