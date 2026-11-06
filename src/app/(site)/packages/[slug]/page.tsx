@@ -4,7 +4,7 @@ import Image from "next/image";
 import { packagePhoto } from "@/lib/media";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { getDestinationsWithCities } from "@/lib/data";
+import { getEnquiryOptions } from "@/lib/locations";
 import EnquiryForm from "@/components/EnquiryForm";
 import JsonLd from "@/components/JsonLd";
 import { formatDate, formatINR } from "@/lib/format";
@@ -58,7 +58,11 @@ export default async function PackagePage({
   const pkg = await getPackage(slug);
   if (!pkg) notFound();
 
-  const allDestinations = await getDestinationsWithCities();
+  const options = await getEnquiryOptions();
+  // Circuit destinations are left out of the form list; keep this package's own.
+  const allDestinations = options.some((d) => d.id === pkg.destinationId)
+    ? options
+    : [{ id: pkg.destination.id, slug: pkg.destination.slug, name: pkg.destination.name, cities: [] }, ...options];
   const photo = packagePhoto(pkg);
   const tags = pkg.theme.split(",").map((t) => t.trim()).filter(Boolean);
   // Lines are usually "Day 1: ..."; split the label off so it can be styled.

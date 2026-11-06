@@ -180,6 +180,19 @@ export const getEnquiryOptions = cache(async () => {
   return rows;
 });
 
+// The quote form only needs ids and names. Passing whole destination rows
+// (summaries, FAQs, page content) to it puts hundreds of KB into every page.
+export function toEnquiryOptions(
+  rows: { id: string; slug: string; name: string; cities: { id: string; slug: string; name: string }[] }[],
+) {
+  return rows.map((d) => ({
+    id: d.id,
+    slug: d.slug,
+    name: d.name,
+    cities: d.cities.map((c) => ({ id: c.id, slug: c.slug, name: c.name })),
+  }));
+}
+
 // Pages stay out of the index until their copy has been written and reviewed.
 export function robotsFor(status: "DRAFT" | "READY") {
   return status === "READY" ? undefined : { index: false, follow: true };

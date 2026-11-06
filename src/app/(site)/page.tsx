@@ -14,6 +14,7 @@ import { formatINR } from "@/lib/format";
 import { isPhoto, packagePhoto } from "@/lib/media";
 import { themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { THEMES } from "@/data/locations";
+import { toEnquiryOptions } from "@/lib/locations";
 import { SITE_NAME, WHATSAPP_DIGITS, WHATSAPP_NUMBER } from "@/lib/site";
 import { ORG_ID, webPageSchema } from "@/lib/schema";
 
@@ -516,7 +517,7 @@ export default async function Home() {
                 Prefer to chat? WhatsApp {WHATSAPP_NUMBER}
               </a>
             </div>
-            <EnquiryForm destinations={destinations} brand title="Plan My Holiday" />
+            <EnquiryForm destinations={toEnquiryOptions(destinations)} brand title="Plan My Holiday" />
           </div>
         </section>
       </div>
