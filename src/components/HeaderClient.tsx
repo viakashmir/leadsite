@@ -5,11 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SITE_NAME } from "@/lib/site";
+import { formatINR } from "@/lib/format";
+import { CheckIcon, TRUST_POINTS } from "@/components/TrustTicks";
 
 export type NavMenu = {
   label: string;
   href: string;
-  columns: { title: string; links: { label: string; href: string }[] }[];
+  columns: {
+    title: string;
+    links: { label: string; href: string; price?: number; popular?: boolean }[];
+  }[];
 };
 
 export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
@@ -77,29 +82,60 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
 
       {openMenu !== null && menus[openMenu] && (
         <div className="absolute inset-x-0 top-full hidden max-h-[75vh] overflow-y-auto border-b border-zinc-200 bg-white shadow-lg lg:block">
-          <div className="mx-auto max-w-7xl px-4 py-6">
-            <div className="grid grid-cols-4 gap-x-8 gap-y-6 xl:grid-cols-5">
-              {menus[openMenu].columns.map((col) => (
-                <div key={col.title}>
-                  <p className="text-xs font-bold tracking-wide text-ink-soft">{col.title}</p>
-                  <ul className="mt-2 space-y-1.5 text-sm">
-                    {col.links.map((link) => (
-                      <li key={link.href}>
-                        <Link href={link.href} className="text-ink hover:text-brand">
-                          {link.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+          <div className="mx-auto flex max-w-7xl gap-8 px-4 py-6">
+            <div className="min-w-0 flex-1">
+              <div className="grid grid-cols-3 gap-x-8 gap-y-6 xl:grid-cols-4">
+                {menus[openMenu].columns.map((col) => (
+                  <div key={col.title}>
+                    <p className="text-xs font-bold tracking-wide text-ink-soft">{col.title}</p>
+                    <ul className="mt-2 space-y-2 text-sm">
+                      {col.links.map((link) => (
+                        <li key={link.href}>
+                          <Link href={link.href} className="group block leading-tight">
+                            <span className="text-ink group-hover:text-brand">{link.label}</span>
+                            {link.popular && (
+                              <span className="ml-1.5 rounded bg-brand-tint px-1.5 py-0.5 align-middle text-[10px] font-semibold text-brand">
+                                Popular
+                              </span>
+                            )}
+                            {link.price ? (
+                              <span className="block text-xs text-ink-soft">
+                                from <span className="font-semibold text-ink">{formatINR(link.price)}</span>
+                              </span>
+                            ) : null}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+              <Link
+                href={menus[openMenu].href}
+                className="mt-6 inline-block text-sm font-semibold text-brand hover:underline"
+              >
+                View all {menus[openMenu].label.toLowerCase()} →
+              </Link>
             </div>
-            <Link
-              href={menus[openMenu].href}
-              className="mt-6 inline-block text-sm font-semibold text-brand hover:underline"
-            >
-              View all {menus[openMenu].label.toLowerCase()} →
-            </Link>
+            <aside className="w-64 shrink-0 self-start rounded-xl bg-surface p-5">
+              <p className="text-base font-bold leading-snug text-ink">
+                Get Free Quotes from Verified Travel Agents
+              </p>
+              <ul className="mt-3 space-y-1.5 text-sm text-ink">
+                {TRUST_POINTS.map((point) => (
+                  <li key={point} className="flex items-center gap-2">
+                    <CheckIcon className="h-4 w-4 shrink-0 text-brand" />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href={`${menus[openMenu].href}#get-quotes`}
+                className="mt-4 block rounded-full bg-brand px-4 py-2 text-center text-sm font-semibold text-white hover:bg-brand-dark"
+              >
+                Get Free Quotes
+              </Link>
+            </aside>
           </div>
         </div>
       )}
@@ -131,6 +167,9 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
                               className="rounded-full bg-surface px-3 py-1.5 text-xs font-medium text-ink"
                             >
                               {link.label}
+                              {link.price ? (
+                                <span className="ml-1 font-normal text-ink-soft">from {formatINR(link.price)}</span>
+                              ) : null}
                             </Link>
                           ))}
                         </div>
