@@ -3,6 +3,8 @@
 import { useId, useState } from "react";
 import { titleCase } from "@/lib/text";
 import { trackEvent } from "@/components/Analytics";
+import { CheckIcon } from "@/components/TrustTicks";
+import { BrandDatePicker, BrandSelect, BrandSuggestInput, fieldClass } from "@/components/form/BrandPickers";
 
 export type DestinationOption = {
   id: string;
@@ -30,9 +32,10 @@ const HOTEL_BANDS = [
   { value: "Luxury (4-5 Star)", label: "Luxury" },
 ];
 
-const fieldBase =
-  "w-full border border-zinc-200 bg-white text-ink outline-none transition placeholder:text-zinc-400 focus:border-brand focus:ring-2 focus:ring-brand-tint";
-const label = "mb-0.5 block text-[11px] font-semibold text-ink-soft";
+const label = "mb-1 block text-[11px] font-semibold tracking-wide text-ink-soft";
+const DAY_OPTIONS = [2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15].map((n) => ({ value: String(n), label: `${n} days` }));
+const ADULT_OPTIONS = Array.from({ length: 12 }, (_, i) => ({ value: String(i + 1), label: String(i + 1) }));
+const KID_OPTIONS = Array.from({ length: 7 }, (_, i) => ({ value: String(i), label: String(i) }));
 
 const todayIso = () => new Date().toISOString().slice(0, 10);
 
@@ -69,7 +72,7 @@ export default function EnquiryForm({
   dense?: boolean; // the same tight layout on a plain card, for page sidebars
   brand?: boolean; // traveller-facing homepage copy: our trip experts, no quotes/agents talk
 }) {
-  const field = `${fieldBase} h-9 rounded-md px-2 text-[13px]`;
+  const field = fieldClass;
   const uid = useId();
   const id = (name: string) => `${uid}-${name}`;
   // Pages about a place pre-select it; everywhere else Kashmir is the default
@@ -86,6 +89,10 @@ export default function EnquiryForm({
   // the bands are offered as suggestions.
   const [budget, setBudget] = useState("");
   const [dialCode, setDialCode] = useState("+91");
+  const [travelDate, setTravelDate] = useState("");
+  const [days, setDays] = useState("5");
+  const [adults, setAdults] = useState("2");
+  const [kids, setKids] = useState("0");
   const [more, setMore] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -98,8 +105,14 @@ export default function EnquiryForm({
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus("submitting");
     setErrorMessage(null);
+    // The branded date picker is not a native required field, so check it here.
+    if (!travelDate) {
+      setErrorMessage("Choose your travel date.");
+      setStatus("error");
+      return;
+    }
+    setStatus("submitting");
 
     const formEl = e.currentTarget;
     const form = new FormData(formEl);
@@ -164,8 +177,8 @@ export default function EnquiryForm({
     : compact
       ? "rounded-2xl bg-white/95 p-4 shadow-2xl shadow-black/30 ring-1 ring-white/40 backdrop-blur"
       : dense
-        ? "rounded-xl border border-zinc-200 bg-white p-3.5 shadow-sm"
-        : "rounded-[14px] border border-zinc-200 bg-white p-4 shadow-sm";
+        ? "rounded-xl border border-gold-soft bg-white p-3.5 shadow-sm"
+        : "rounded-[14px] border border-gold-soft bg-white p-4 shadow-sm";
 
   if (status === "success") {
     return (
@@ -217,26 +230,18 @@ export default function EnquiryForm({
           <label className={label} htmlFor={id("dest")}>
             Destination
           </label>
-          <select
+          <BrandSelect
             id={id("dest")}
             name="destinationId"
-            required
             value={destinationId}
-            onChange={(e) => {
-              setDestinationId(e.target.value);
+            onChange={(v) => {
+              setDestinationId(v);
               setCityIds([]);
             }}
-            className={field}
-          >
-            <option value="" disabled>
-              Choose
-            </option>
-            {destinations.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.name}
-              </option>
-            ))}
-          </select>
+            options={destinations.map((d) => ({ value: d.id, label: d.name }))}
+            placeholder="Where to?"
+            searchable
+          />
         </div>
         {hasCities && (
           <div className="col-span-12 min-w-0" role="group" aria-labelledby={id("places")}>
@@ -253,11 +258,11 @@ export default function EnquiryForm({
                     type="button"
                     aria-pressed={on}
                     onClick={() => toggleCity(c.id)}
-                    className={`shrink-0 whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-medium transition ${
-                      on ? "border-brand bg-brand text-white" : "border-zinc-200 bg-white text-ink hover:border-brand/40"
+                    className={`flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-medium transition ${
+                      on ? "border-brand bg-brand text-white" : "border-gold-soft bg-ivory text-ink hover:border-gold"
                     }`}
                   >
-                    {on ? "✓ " : ""}
+                    {on && <CheckIcon className="h-3 w-3" />}
                     {c.name}
                   </button>
                 );
@@ -270,70 +275,54 @@ export default function EnquiryForm({
           <label className={label} htmlFor={id("date")}>
             Travel date
           </label>
-          <input id={id("date")} name="travelDate" type="date" required min={todayIso()} className={field} />
+          <BrandDatePicker id={id("date")} name="travelDate" value={travelDate} onChange={setTravelDate} min={todayIso()} />
         </div>
         <div className="col-span-5">
           <label className={label} htmlFor={id("days")}>
             Days
           </label>
-          <select id={id("days")} name="durationDays" defaultValue="5" className={field}>
-            {[2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15].map((n) => (
-              <option key={n} value={n}>
-                {n} days
-              </option>
-            ))}
-          </select>
+          <BrandSelect id={id("days")} name="durationDays" value={days} onChange={setDays} options={DAY_OPTIONS} />
         </div>
 
         <div className="col-span-2">
           <label className={label} htmlFor={id("adults")}>
             Adults
           </label>
-          <select id={id("adults")} name="adults" defaultValue="2" className={`${field} px-1.5`}>
-            {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
-              <option key={n} value={n}>
-                {n}
-              </option>
-            ))}
-          </select>
+          <BrandSelect id={id("adults")} name="adults" value={adults} onChange={setAdults} options={ADULT_OPTIONS} minWidth={72} tight />
         </div>
         <div className="col-span-2">
           <label className={label} htmlFor={id("children")}>
             Kids
           </label>
-          <select id={id("children")} name="children" defaultValue="0" className={`${field} px-1.5`}>
-            {Array.from({ length: 7 }, (_, i) => i).map((n) => (
-              <option key={n} value={n}>
-                {n}
-              </option>
-            ))}
-          </select>
+          <BrandSelect id={id("children")} name="children" value={kids} onChange={setKids} options={KID_OPTIONS} minWidth={72} tight />
         </div>
         <div className="col-span-4">
           <label className={label} htmlFor={id("hotel")}>
             Hotel
           </label>
-          <select id={id("hotel")} value={hotel} onChange={(e) => setHotel(e.target.value)} className={`${field} px-1.5`}>
-            {HOTEL_BANDS.map((b) => (
-              <option key={b.value} value={b.value}>
-                {b.label}
-              </option>
-            ))}
-          </select>
+          <BrandSelect
+            id={id("hotel")}
+            value={hotel}
+            onChange={setHotel}
+            options={HOTEL_BANDS.map((b) => ({ value: b.value, label: b.label, hint: b.value.match(/\((.+)\)/)?.[1] }))}
+            minWidth={170}
+            tight
+          />
         </div>
         <div className="col-span-4">
           <label className={label} htmlFor={id("budget")}>
             Budget
           </label>
-          <input
+          <BrandSuggestInput
             id={id("budget")}
-            list={id("budget-options")}
             value={budget}
-            onChange={(e) => setBudget(e.target.value)}
+            onChange={setBudget}
             maxLength={60}
-            autoComplete="off"
             placeholder="₹ /person"
-            className={`${field} px-2`}
+            suggestions={BUDGET_BANDS.filter((b) => b.value).map((b) => ({
+              value: b.value,
+              label: b.value.replace(" per person", ""),
+            }))}
           />
         </div>
 
@@ -348,19 +337,19 @@ export default function EnquiryForm({
             Mobile (WhatsApp)
           </label>
           <div className="flex">
-            <select
-              name="dialCode"
-              aria-label="Country code"
-              value={dialCode}
-              onChange={(e) => setDialCode(e.target.value)}
-              className={`${field.replace("w-full ", "")} w-[64px] shrink-0 rounded-r-none border-r-0 bg-zinc-50 px-1.5`}
-            >
-              {DIAL_CODES.map(([code, country]) => (
-                <option key={`${country}${code}`} value={code}>
-                  {code} {country}
-                </option>
-              ))}
-            </select>
+            <div className="w-[68px] shrink-0">
+              <BrandSelect
+                ariaLabel="Country code"
+                value={dialCode}
+                onChange={setDialCode}
+                options={DIAL_CODES.map(([code, country]) => ({ value: code, label: `${code} ${country}` }))}
+                display={(o) => o.value}
+                minWidth={140}
+                searchable
+                joinedRight
+                tight
+              />
+            </div>
             <input
               id={id("phone")}
               name="phone"
@@ -370,7 +359,7 @@ export default function EnquiryForm({
               autoComplete="tel-national"
               pattern={dialCode === "+91" ? "[0-9\\s\\-]{10,13}" : "[0-9\\s\\-]{6,16}"}
               title={dialCode === "+91" ? "10-digit mobile number" : "Mobile number without the country code"}
-              placeholder={dialCode === "+91" ? "10-digit mobile" : "Mobile number"}
+              placeholder={dialCode === "+91" ? "10 digits" : "Mobile number"}
               className={`${field} min-w-0 flex-1 rounded-l-none`}
             />
           </div>
@@ -399,7 +388,7 @@ export default function EnquiryForm({
               name="message"
               rows={2}
               placeholder="Anything else? e.g. honeymoon, senior citizens"
-              className={`${field} col-span-12 h-auto py-2`}
+              className={`${field} col-span-12 h-auto resize-none py-2`}
             />
           </>
         ) : (
@@ -413,18 +402,12 @@ export default function EnquiryForm({
         )}
       </div>
 
-      <datalist id={id("budget-options")}>
-        {BUDGET_BANDS.filter((b) => b.value).map((b) => (
-          <option key={b.value} value={b.value} />
-        ))}
-      </datalist>
-
-      {errorMessage && <p className="mt-2 text-sm text-red-700">{errorMessage}</p>}
+      {errorMessage && <p className="mt-2 rounded-lg bg-brand-tint px-2.5 py-1.5 text-[13px] font-medium text-brand">{errorMessage}</p>}
 
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-2.5 w-full rounded-lg bg-brand py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark disabled:opacity-60"
+        className="mt-3 w-full rounded-lg bg-brand py-2.5 text-sm font-semibold tracking-wide text-white transition hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-brand/30 focus:ring-offset-2 disabled:opacity-60"
       >
         {status === "submitting" ? "Sending..." : brand ? "Plan My Trip" : "Get Free Quotes"}
       </button>
