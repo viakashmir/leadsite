@@ -36,19 +36,19 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
       className="sticky top-0 z-40 border-b border-zinc-200 bg-white"
       onMouseLeave={() => setOpenMenu(null)}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2.5 sm:py-3">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2.5 sm:py-3 xl:gap-4">
         <Link href="/" aria-label={SITE_NAME} className="shrink-0">
-          <Image src="/logo.svg" priority alt={SITE_NAME} width={1202} height={164} className="h-6 w-auto sm:h-7" />
+          <Image src="/logo.svg" priority alt={SITE_NAME} width={1202} height={164} className="h-6 w-auto sm:h-7 lg:h-6 xl:h-7" />
         </Link>
 
-        <nav className="hidden items-center gap-0.5 whitespace-nowrap text-sm font-semibold text-ink lg:flex">
+        <nav className="hidden items-center gap-0.5 whitespace-nowrap text-[13px] font-semibold text-ink lg:flex xl:text-sm">
           {menus.map((menu, i) => (
             <div key={menu.label} onMouseEnter={() => setOpenMenu(i)}>
               <button
                 type="button"
                 onClick={() => setOpenMenu(openMenu === i ? null : i)}
                 aria-expanded={openMenu === i}
-                className={`flex items-center gap-1 rounded-md px-3 py-2 hover:text-brand ${
+                className={`flex items-center gap-1 rounded-md px-2 py-2 hover:text-brand xl:px-3 ${
                   openMenu === i ? "text-brand" : ""
                 }`}
               >
