@@ -88,6 +88,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: url("/agent/register"), changeFrequency: "monthly", priority: 0.5 },
     { url: url("/about-us"), changeFrequency: "yearly", priority: 0.3 },
     { url: url("/contact-us"), changeFrequency: "yearly", priority: 0.3 },
+    { url: url("/plan-my-trip"), changeFrequency: "monthly", priority: 0.7 },
     { url: url("/editorial-policy"), changeFrequency: "yearly", priority: 0.3 },
     { url: url("/terms-and-conditions"), changeFrequency: "yearly", priority: 0.2 },
     { url: url("/privacy-policy"), changeFrequency: "yearly", priority: 0.2 },

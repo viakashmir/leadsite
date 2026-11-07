@@ -61,23 +61,31 @@ export default function HeaderClient({ menus }: { menus: NavMenu[] }) {
           ))}
         </nav>
 
-        <button
-          type="button"
-          onClick={() => setMenuOpen((o) => !o)}
-          aria-label="Toggle menu"
-          aria-expanded={menuOpen}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200 text-ink lg:hidden"
-        >
-          {menuOpen ? (
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          )}
-        </button>
+        <div className="flex shrink-0 items-center gap-2">
+          <Link
+            href="/plan-my-trip"
+            className="rounded-full bg-brand px-3.5 py-2 text-xs font-semibold text-white transition hover:bg-brand-dark sm:px-5 sm:text-sm"
+          >
+            Plan My Trip
+          </Link>
+          <button
+            type="button"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200 text-ink lg:hidden"
+          >
+            {menuOpen ? (
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
+        </div>
       </div>
 
       {openMenu !== null && menus[openMenu] && (
