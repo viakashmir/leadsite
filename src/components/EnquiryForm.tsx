@@ -4,6 +4,7 @@ import { useId, useState } from "react";
 import { titleCase } from "@/lib/text";
 import { trackEvent } from "@/components/Analytics";
 import { CheckIcon } from "@/components/TrustTicks";
+import AskExpertWhatsApp from "@/components/AskExpertWhatsApp";
 import { BrandDatePicker, BrandSelect, BrandSuggestInput, fieldClass } from "@/components/form/BrandPickers";
 
 export type DestinationOption = {
@@ -195,6 +196,7 @@ export default function EnquiryForm({
             WhatsApp you with customised itineraries and quotes. Compare them and book only if you like one.
           </p>
         )}
+        <AskExpertWhatsApp place={placeName} className="mt-3" />
       </div>
     );
   }
@@ -411,6 +413,7 @@ export default function EnquiryForm({
       >
         {status === "submitting" ? "Sending..." : brand ? "Plan My Trip" : "Get Free Quotes"}
       </button>
+      <AskExpertWhatsApp place={placeName} className="mt-2" />
       <p className="mt-1.5 text-center text-[11px] leading-snug text-ink-soft">
         {brand
           ? "Your number stays private and is used only to plan this trip."
