@@ -7,6 +7,7 @@ import { getLeadPricing, leadPrice } from "@/lib/leadPricing";
 import { maskContactsInText, maskEmail, maskName, maskPhone } from "@/lib/mask";
 import JsonLd from "@/components/JsonLd";
 import { SITE_URL } from "@/lib/site";
+import { ogImages } from "@/lib/og";
 
 // No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
 // crawlers hitting thousands of pages hourly blocked the Vercel account.
@@ -55,7 +56,7 @@ export async function generateMetadata({
     alternates: { canonical: `/leads/${data.destination.slug}/${data.city.slug}` },
     // No leads yet: a thin page, kept out of search until enquiries arrive.
     ...(data.leads.length === 0 ? { robots: { index: false, follow: true } } : {}),
-    openGraph: { title, description, url: `/leads/${data.destination.slug}/${data.city.slug}` },
+    openGraph: { title, description, url: `/leads/${data.destination.slug}/${data.city.slug}`, images: ogImages(title) },
   };
 }
 
