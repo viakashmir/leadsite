@@ -53,6 +53,7 @@ import { MANALI_GUIDES } from "./manali-guides";
 import { KASOL_GUIDES } from "./kasol-guides";
 import { HIMACHAL_UPGRADES } from "./himachal-upgrades";
 import { KASHMIR_WINTER_UPGRADES } from "./kashmir-winter-upgrades";
+import { KASHMIR_KW_BLOG_ADDITIONS } from "./kashmir-keyword-additions";
 
 import { SUPERSEDED_POSTS } from "./superseded";
 export { SUPERSEDED_POSTS };
@@ -124,8 +125,31 @@ const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs" | "u
   UPGRADE_BATCHES.flatMap(([batch, updated]) => Object.entries(batch).map(([slug, u]) => [slug, { ...u, updated }])),
 );
 
+// Additions append sections and FAQs to a post (after any rewrite) without
+// replacing its body; the batch date becomes the post's updated date.
+const ADDITION_BATCHES: [Record<string, Partial<Pick<BlogPost, "sections" | "faqs">>>, string][] = [
+  [KASHMIR_KW_BLOG_ADDITIONS, "2026-11-07"],
+];
+
+function withAdditions(p: BlogPost): BlogPost {
+  let out = p;
+  for (const [batch, updated] of ADDITION_BATCHES) {
+    const a = batch[p.slug];
+    if (!a) continue;
+    const heads = new Set(out.sections.map((s) => s.h.toLowerCase()));
+    const qs = new Set(out.faqs.map((f) => f.q.toLowerCase()));
+    out = {
+      ...out,
+      sections: [...out.sections, ...(a.sections ?? []).filter((s) => !heads.has(s.h.toLowerCase()))],
+      faqs: [...out.faqs, ...(a.faqs ?? []).filter((f) => !qs.has(f.q.toLowerCase()))],
+      updated: updated > (out.updated ?? out.date) ? updated : out.updated,
+    };
+  }
+  return out;
+}
+
 export const BLOG_POSTS: BlogPost[] = ALL_POSTS.filter((p) => !(p.slug in SUPERSEDED_POSTS)).map((p) => {
   const u = UPGRADES[p.slug];
-  if (!u) return p;
-  return { ...p, ...u, updated: u.updated && u.updated > p.date ? u.updated : undefined };
+  if (!u) return withAdditions(p);
+  return withAdditions({ ...p, ...u, updated: u.updated && u.updated > p.date ? u.updated : undefined });
 });

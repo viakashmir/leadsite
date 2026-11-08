@@ -115,7 +115,7 @@ export default async function DurationPage({ params }: PageProps<"/tour-packages
       <TwoColumn
         main={
           <>
-            <Section title={`${d.nights} Nights ${d.days} Days ${name} Plan`}>
+            <Section title={`${d.nights} Nights ${d.days} Days ${name} ${itinerary ? "Itinerary" : "Plan"}`}>
               {itinerary ? (
                 <ol className="space-y-1.5">
                   {itinerary.days.map((day, i) => (

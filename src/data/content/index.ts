@@ -28,6 +28,9 @@ import { KASHMIR_WINTER_DESTINATION } from "./kashmir-winter";
 import { KASHMIR_PACKAGES_DESTINATION } from "./kashmir-packages-hub";
 import { STATES_BATCH_1 } from "./states-batch-1";
 import { PG1_CITIES, PG1_PLACES } from "./places-gaps-1";
+import { KASHMIR_KW_DESTINATION } from "./kashmir-keywords";
+import { KASHMIR_KW_CITIES, KASHMIR_KW_PLACES } from "./kashmir-keywords-towns";
+import { mergeEach } from "@/lib/content-merge";
 
 // Supplements add FAQs, blocks and section copy on top of base content:
 // lists are appended, sections and packages are merged one level deep.
@@ -68,7 +71,7 @@ const BASE: Record<string, GuideContent> = {
   ...STATES_BATCH_1,
 };
 
-export const DESTINATION_CONTENT: Record<string, GuideContent> = Object.fromEntries(
+const DESTINATION_CONTENT_BASE: Record<string, GuideContent> = Object.fromEntries(
   Object.entries({ ...Object.fromEntries([...Object.keys(RJ_DESTINATIONS), ...Object.keys(TN_MH_DESTINATIONS), ...Object.keys(GUP_DESTINATIONS), ...Object.keys(EAST_DESTINATIONS), ...Object.keys(INTL_DESTINATIONS), ...Object.keys(REST_DESTINATIONS)].map((k) => [k, {}])), ...BASE, ...CIRCUIT_CONTENT } as Record<string, GuideContent>).map(([slug, c]) => [
     slug,
     [DESTINATION_EXTRAS, DESTINATION_SUPPLEMENTS, { ...CULTURE_DESTINATIONS, goa: GOA_DESTINATION }, SOUTH_DESTINATIONS, RJ_DESTINATIONS, TN_MH_DESTINATIONS, KASHMIR_ORIGIN_DESTINATION, KASHMIR_WINTER_DESTINATION, KASHMIR_PACKAGES_DESTINATION, GUP_DESTINATIONS, GUP_DESTINATION_FAQS, EAST_DESTINATIONS, INTL_DESTINATIONS, REST_DESTINATIONS, FINAL_DESTINATIONS].reduce(
@@ -79,7 +82,7 @@ export const DESTINATION_CONTENT: Record<string, GuideContent> = Object.fromEntr
 );
 
 // City slug -> guide content for /{dest}-tourism/{city} and its sections.
-export const CITY_CONTENT: Record<string, GuideContent> = mergeAll( mergeAll(
+const CITY_CONTENT_BASE: Record<string, GuideContent> = mergeAll( mergeAll(
   mergeAll(
   mergeAll(
   mergeAll(
@@ -96,7 +99,7 @@ export const CITY_CONTENT: Record<string, GuideContent> = mergeAll( mergeAll(
 );
 
 // Place path (e.g. "manali/places-to-visit/rohtang-pass") -> place page content.
-export const PLACE_CONTENT: Record<string, GuideContent> = mergeAll(
+const PLACE_CONTENT_BASE: Record<string, GuideContent> = mergeAll(
   mergeAll(
   mergeAll(
   { ...MANALI_PLACES, ...HIMACHAL_PLACES, ...LADAKH_PLACES, ...GOA_PLACES, ...SOUTH_PLACES, ...RJ_PLACES, ...TN_MH_PLACES, ...KASHMIR_PLACES, ...GUP_PLACES, ...EAST_PLACES, ...REST_PLACES },
@@ -106,3 +109,10 @@ export const PLACE_CONTENT: Record<string, GuideContent> = mergeAll(
   ),
   PG1_PLACES,
 );
+
+// Keyword passes merged additively (src/lib/content-merge.ts): they only add
+// FAQs, blocks, months, routes and missing text, the same way
+// scripts/push-kashmir-keywords.ts adds them to the live database.
+export const DESTINATION_CONTENT: Record<string, GuideContent> = mergeEach(DESTINATION_CONTENT_BASE, KASHMIR_KW_DESTINATION);
+export const CITY_CONTENT: Record<string, GuideContent> = mergeEach(CITY_CONTENT_BASE, KASHMIR_KW_CITIES);
+export const PLACE_CONTENT: Record<string, GuideContent> = mergeEach(PLACE_CONTENT_BASE, KASHMIR_KW_PLACES);
