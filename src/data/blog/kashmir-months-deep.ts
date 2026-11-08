@@ -79,7 +79,7 @@ export const KASHMIR_MONTHS_DEEP: BlogPost[] = [
       },
     ],
     faqs: [
-      { q: "Is March a good time to visit Kashmir?", a: "Yes. You get snow in Gulmarg, almond blossom and the start of tulip season in Srinagar, with fewer crowds than April and May." },
+      { q: "Is March a good month to visit Kashmir?", a: "Yes. You get snow in Gulmarg, almond blossom and the start of tulip season in Srinagar, with fewer crowds than April and May." },
       { q: "What is the temperature in Kashmir in March?", a: "Srinagar is about 12 to 16°C by day and 2 to 5°C at night; Gulmarg stays below 8°C by day with sub-zero nights." },
       { q: "Is there snowfall in Kashmir in March?", a: "Fresh snowfall is possible in Gulmarg and the high valleys early in March; Srinagar rarely gets snow this late." },
       { q: "When does the Tulip Garden open in March?", a: "In mid to late March: 16 March in 2026 and 26 March in 2025. The exact date is announced each year by the Floriculture Department." },
@@ -235,7 +235,7 @@ export const KASHMIR_MONTHS_DEEP: BlogPost[] = [
       },
     ],
     faqs: [
-      { q: "Is May a good time to visit Kashmir?", a: "Yes. Everything is open, the meadows are green and the weather is pleasant. It is busy with school holidays, so book early." },
+      { q: "Is May a good month to visit Kashmir?", a: "Yes. Everything is open, the meadows are green and the weather is pleasant. It is busy with school holidays, so book early." },
       { q: "Is there snow in Kashmir in May?", a: "Yes, at Apharwat (Gulmarg Gondola Phase 2), the Thajiwas glacier in Sonamarg and Chandanwari in Pahalgam, but not in the towns." },
       { q: "What is the temperature in Kashmir in May?", a: "Srinagar is about 22 to 26°C by day and 10 to 13°C at night; Gulmarg and Pahalgam are a few degrees cooler." },
       { q: "Is Kashmir crowded in May?", a: "Yes, especially in the second half of the month. Midweek travel and early starts help." },
@@ -394,7 +394,7 @@ export const KASHMIR_MONTHS_DEEP: BlogPost[] = [
       },
     ],
     faqs: [
-      { q: "Is October a good time to visit Kashmir?", a: "Yes. It has clear skies, autumn chinar colours, the apple harvest and the saffron bloom, with fewer crowds and better value than summer." },
+      { q: "Is October, including the end of October, a good time to visit Kashmir?", a: "Yes. It has clear skies, autumn chinar colours, the apple harvest and the saffron bloom, with fewer crowds and better value than summer." },
       { q: "What is the temperature in Kashmir in October?", a: "Srinagar is about 17 to 23°C by day and 3 to 7°C at night; Gulmarg drops to around freezing at night." },
       { q: "Is there snowfall in Kashmir in October?", a: "Not in the towns. The first snow can dust Apharwat and the high peaks late in the month." },
       { q: "When do the chinar leaves change colour in Kashmir?", a: "From about mid-October into early November, peaking in the last week of October in most years." },
