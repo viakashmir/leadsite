@@ -13,6 +13,7 @@ import { webPageSchema } from "@/lib/schema";
 import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { BLOG_PATH, CATEGORY_THEME, getPost, isWinterPost, metaTitle, postUrl, readMinutes, relatedPosts } from "@/lib/blog";
 import { createLinker, entitiesFor } from "@/lib/entityLinks";
+import { ogImages } from "@/lib/og";
 
 // No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
 // crawlers hitting thousands of pages hourly blocked the Vercel account.
@@ -52,12 +53,21 @@ export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): P
   if (!post) return {};
   const path = postUrl(post.slug);
   const title = metaTitle(post);
+  const { destination, city } = await placeFor(post.destination, post.city);
   return {
     // Absolute: the keyword-led title uses the full width Google shows, without the site suffix.
     title: { absolute: title },
     description: post.description,
     alternates: { canonical: path },
-    openGraph: { type: "article", title, description: post.description, url: path, publishedTime: post.date },
+    openGraph: {
+      type: "article",
+      title,
+      description: post.description,
+      url: path,
+      publishedTime: post.date,
+      ...(post.updated ? { modifiedTime: post.updated } : {}),
+      images: ogImages(post.title, city?.heroImage, destination?.heroImage),
+    },
   };
 }
 

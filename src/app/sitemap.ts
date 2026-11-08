@@ -4,7 +4,7 @@ import { SITE_URL, absoluteUrl } from "@/lib/site";
 import { isPhoto, packagePhoto } from "@/lib/media";
 import { allRoutes } from "@/data/routes";
 import { durationsFor } from "@/lib/durations";
-import { THEMES } from "@/data/locations";
+import { ORIGIN_CITIES, THEMES } from "@/data/locations";
 import { fromToUrl, guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { readContent } from "@/lib/locations";
 import { BLOG_PATH, allPosts, postUrl } from "@/lib/blog";
@@ -47,8 +47,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         slug: true,
         updatedAt: true,
         heroImage: true,
-        city: { select: { heroImage: true } },
-        destination: { select: { heroImage: true } },
+        theme: true,
+        city: { select: { slug: true, heroImage: true } },
+        destination: { select: { slug: true, heroImage: true } },
       },
     }),
     // Lead marketplace pages, only where there are leads (empty ones are noindex).
@@ -113,12 +114,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ].filter((x): x is string => typeof x === "string");
   };
 
-  // Theme and origin slices that have their own copy are distinct, indexable pages.
-  const slices = (slug: string, content: Parameters<typeof readContent>[0], lastModified: Date) => {
+  // Published packages per destination or city slug, overall and per theme tag,
+  // to mirror packagesPageMetadata(): a theme slice, or a major departure city,
+  // is also indexable without its own copy once it has MIN_SLICE packages.
+  const MIN_SLICE = 3;
+  const pkgCount = new Map<string, number>();
+  const bump = (key: string) => pkgCount.set(key, (pkgCount.get(key) ?? 0) + 1);
+  for (const p of packages) {
+    // "d:" and "c:" keys: a destination and a city can share a slug.
+    const scopes = [p.destination?.slug && `d:${p.destination.slug}`, p.city?.slug && `c:${p.city.slug}`].filter(Boolean) as string[];
+    for (const scope of scopes) {
+      bump(scope);
+      for (const t of THEMES) if (p.theme?.toLowerCase().includes(t.tag.toLowerCase())) bump(`${scope}|${t.tag}`);
+    }
+  }
+
+  // Theme and origin slices that have their own copy, or enough packages, are distinct, indexable pages.
+  const slices = (slug: string, content: Parameters<typeof readContent>[0], lastModified: Date, isCity = false) => {
     const p = readContent(content).packages;
+    const themes = new Set(Object.keys(p?.themes ?? {}));
+    const origins = new Set(Object.keys(p?.fromOrigins ?? {}));
+    const key = `${isCity ? "c" : "d"}:${slug}`;
+    for (const t of THEMES) if ((pkgCount.get(`${key}|${t.tag}`) ?? 0) >= MIN_SLICE) themes.add(t.prefix);
+    // Origin pages for a city exist only with the city's own copy.
+    if (!isCity && (pkgCount.get(key) ?? 0) >= MIN_SLICE)
+      for (const o of ORIGIN_CITIES) if (o.major && o.slug !== slug) origins.add(o.slug);
     return [
-      ...Object.keys(p?.fromOrigins ?? {}).map((o) => fromToUrl(o, slug)),
-      ...Object.keys(p?.themes ?? {}).map((t) => themeUrl(t, slug)),
+      ...[...origins].map((o) => fromToUrl(o, slug)),
+      ...[...themes].map((t) => themeUrl(t, slug)),
       ...durationsFor(readContent(content)).map((d) => `${tourPackagesUrl(slug)}/${d.slug}`),
     ].map((path) => ({ url: url(path), lastModified, changeFrequency: "weekly" as const, priority: 0.7 }));
   };
@@ -161,7 +184,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
       priority: 0.5,
     })),
-    ...slices(c.slug, c.content, c.updatedAt),
+    ...slices(c.slug, c.content, c.updatedAt, true),
   ]);
 
   const placeRoutes: MetadataRoute.Sitemap = places.map((p) => ({

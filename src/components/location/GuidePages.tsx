@@ -38,6 +38,7 @@ import {
 import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { clusterByCategory, postsForDestination, postsForPlace } from "@/lib/topicLinks";
 import { ArticleCluster, TopicArticles } from "@/components/location/TopicArticles";
+import { ogImages } from "@/lib/og";
 
 type SectionSlug = (typeof GUIDE_SECTIONS)[number]["slug"];
 
@@ -175,7 +176,7 @@ export async function guideMetadata(r: GuideRoute): Promise<Metadata> {
       title: t,
       description: desc,
       alternates: { canonical: pathOf(r) },
-      openGraph: { title: t, description: desc, url: pathOf(r) },
+      openGraph: { title: t, description: desc, url: pathOf(r), images: ogImages(t, r.city.heroImage, r.destination.heroImage) },
       robots: (await indexable(r)) ? undefined : { index: false, follow: true },
     };
   }
@@ -190,7 +191,12 @@ export async function guideMetadata(r: GuideRoute): Promise<Metadata> {
     title: `${title} ${new Date().getFullYear()}`,
     description,
     alternates: { canonical: pathOf(r) },
-    openGraph: { title, description, url: pathOf(r) },
+    openGraph: {
+      title,
+      description,
+      url: pathOf(r),
+      images: ogImages(title, r.kind === "place" ? r.place.heroImage : null, r.city?.heroImage, r.destination.heroImage),
+    },
     robots: (await indexable(r)) ? undefined : { index: false, follow: true },
   };
 }

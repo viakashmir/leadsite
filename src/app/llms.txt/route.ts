@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
-import { guideUrl, tourPackagesUrl } from "@/lib/urls";
+import { fromToUrl, guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
+import { ORIGIN_CITIES, THEMES } from "@/data/locations";
+import { readContent } from "@/lib/locations";
 import { BLOG_PATH, allPosts, postUrl } from "@/lib/blog";
 
 // llms.txt (llmstxt.org): a plain-markdown map of the site for AI assistants.
@@ -12,7 +14,7 @@ export async function GET() {
     prisma.destination.findMany({
       where: { contentStatus: "READY", kind: { not: "CIRCUIT" } },
       orderBy: [{ tier: "asc" }, { name: "asc" }],
-      select: { slug: true, name: true },
+      select: { slug: true, name: true, content: true },
     }),
     prisma.city.findMany({
       where: { contentStatus: "READY" },
@@ -57,6 +59,23 @@ export async function GET() {
           "",
         ]
       : []),
+    // Theme and departure-city collections that have their own copy (the same
+    // pages the sitemap lists from content).
+    ...(() => {
+      const items = destinations.flatMap((d) => {
+        const p = readContent(d.content).packages;
+        const themes = Object.keys(p?.themes ?? {}).map((t) => {
+          const th = THEMES.find((x) => x.prefix === t);
+          return th ? `- [${d.name} ${th.name.toLowerCase()} packages](${u(themeUrl(t, d.slug))})` : null;
+        });
+        const origins = Object.keys(p?.fromOrigins ?? {}).map((o) => {
+          const oc = ORIGIN_CITIES.find((x) => x.slug === o);
+          return oc ? `- [${d.name} tour packages from ${oc.name}](${u(fromToUrl(o, d.slug))})` : null;
+        });
+        return [...themes, ...origins].filter((x): x is string => Boolean(x));
+      });
+      return items.length ? ["## Package collections by theme and departure city", ...items, ""] : [];
+    })(),
     "## Travel guides",
     ...destinations.map((d) => `- [${d.name} tourism guide](${u(guideUrl(d.slug))})`),
     ...cities.map((c) => `- [${c.name}, ${c.destination.name} travel guide](${u(guideUrl(c.destination.slug, c.slug))})`),

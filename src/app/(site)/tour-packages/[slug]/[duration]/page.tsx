@@ -7,6 +7,7 @@ import { getPackagesFor, readContent, resolveTarget, robotsFor, targetName, type
 import { durationBySlug, durationsFor, type Duration } from "@/lib/durations";
 import { webPageSchema } from "@/lib/schema";
 import { guideUrl, tourPackagesUrl } from "@/lib/urls";
+import { ogImages } from "@/lib/og";
 
 // No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
 // crawlers hitting thousands of pages hourly blocked the Vercel account.
@@ -41,7 +42,12 @@ export async function generateMetadata({ params }: PageProps<"/tour-packages/[sl
     title: t,
     description,
     alternates: { canonical: path(r.target, r.duration) },
-    openGraph: { title: t, description, url: path(r.target, r.duration) },
+    openGraph: {
+      title: t,
+      description,
+      url: path(r.target, r.duration),
+      images: ogImages(t, r.target.type === "city" ? r.target.city.heroImage : null, r.target.destination.heroImage),
+    },
     robots: robotsFor(status),
   };
 }

@@ -87,6 +87,21 @@ export async function getPackagesFor(t: Target, opts: { themeTag?: string; take?
   });
 }
 
+// Titles and links of the published packages in scope that the main grid
+// (newest 24) does not show, so every package page has an internal link.
+export async function getMorePackageLinks(t: Target, opts: { themeTag?: string; skip?: number } = {}) {
+  return prisma.package.findMany({
+    where: {
+      published: true,
+      ...packageScope(t),
+      ...(opts.themeTag ? { theme: { contains: opts.themeTag, mode: "insensitive" } } : {}),
+    },
+    select: { slug: true, title: true },
+    orderBy: { createdAt: "desc" },
+    skip: opts.skip ?? 24,
+  });
+}
+
 // Live price guide for a packages page, from every published package in
 // scope (not just the cards shown). Prices are per person, as listed.
 export type PriceGuide = {

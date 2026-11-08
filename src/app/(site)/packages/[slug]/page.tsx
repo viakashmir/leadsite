@@ -12,6 +12,7 @@ import { EDITORIAL_TEAM, SITE_URL } from "@/lib/site";
 import { ORG_ID, webPageSchema } from "@/lib/schema";
 import TrustTicks from "@/components/TrustTicks";
 import { Faqs } from "@/components/location/blocks";
+import { ogImages } from "@/lib/og";
 
 // No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
 // crawlers hitting thousands of pages hourly blocked the Vercel account.
@@ -45,7 +46,7 @@ export async function generateMetadata({
     title: pkg.title,
     description: pkg.summary,
     alternates: { canonical: `/packages/${pkg.slug}` },
-    openGraph: { title: pkg.title, description: pkg.summary, url: `/packages/${pkg.slug}` },
+    openGraph: { title: pkg.title, description: pkg.summary, url: `/packages/${pkg.slug}`, images: ogImages(pkg.title, pkg.heroImage) },
   };
 }
 

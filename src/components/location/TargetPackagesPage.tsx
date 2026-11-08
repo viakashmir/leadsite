@@ -30,6 +30,7 @@ import TrustTicks from "@/components/TrustTicks";
 import { formatINR } from "@/lib/format";
 import { GUIDE_SECTIONS, ORIGIN_CITIES, THEMES } from "@/data/locations";
 import {
+  getMorePackageLinks,
   getPackagesFor,
   getPriceGuide,
   readContent,
@@ -41,6 +42,7 @@ import {
 } from "@/lib/locations";
 import { SITE_URL } from "@/lib/site";
 import { fromToUrl, guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
+import { ogImages } from "@/lib/og";
 
 type Theme = (typeof THEMES)[number];
 type Origin = (typeof ORIGIN_CITIES)[number];
@@ -105,7 +107,7 @@ export async function packagesPageMetadata(t: Target, v: PackagesPageVariant): P
     title,
     description,
     alternates: { canonical: path },
-    openGraph: { title, description, url: path },
+    openGraph: { title, description, url: path, images: ogImages(title, t.type === "city" ? t.city.heroImage : null, t.destination.heroImage) },
     robots: sliceReady ? robotsFor(statusOf(t)) : { index: false, follow: true },
   };
 }
@@ -121,10 +123,19 @@ export default async function TargetPackagesPage({
   const slug = targetSlug(t);
   const dest = t.destination;
   const content = readContent(t.type === "city" ? t.city.content : dest.content);
-  const [packages, priceGuide] = await Promise.all([
+  const [packages, priceGuide, morePackages] = await Promise.all([
     getPackagesFor(t, { themeTag: v.theme?.tag }),
     getPriceGuide(t, { themeTag: v.theme?.tag }),
+    // Origin pages show the same packages as the hub; list the rest only there.
+    v.origin ? Promise.resolve([]) : getMorePackageLinks(t, { themeTag: v.theme?.tag }),
   ]);
+  // State hubs link every major departure city; city and circuit hubs link the
+  // departure cities they have their own copy for (other origin pages 404 there).
+  const originLinks = ORIGIN_CITIES.filter(
+    (o) =>
+      o.slug !== slug &&
+      (Boolean(content.packages?.fromOrigins?.[o.slug]) || (o.major && t.type === "destination")),
+  );
   const heading = packagesPageTitle(t, v);
   const copy = sliceContent(content, v);
   const itineraries = (copy as { itineraries?: Itinerary[] } | undefined)?.itineraries;
@@ -271,6 +282,19 @@ export default async function TargetPackagesPage({
                 }.`}
               />
             </Section>
+            {morePackages.length > 0 && (
+              <Section title={`More ${heading}`} subtitle="Every published package in this collection, newest first.">
+                <ul className="grid gap-x-6 gap-y-1.5 text-sm sm:grid-cols-2">
+                  {morePackages.map((p) => (
+                    <li key={p.slug}>
+                      <Link href={`/packages/${p.slug}`} className="text-ink hover:text-brand hover:underline">
+                        {p.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </Section>
+            )}
             {priceGuide && (
               <Section title={`${heading} price guide`} subtitle="Live starting prices per person from the packages listed here.">
                 <PriceGuideBlock name={v.theme ? `${name} ${v.theme.name}` : name} guide={priceGuide} />
@@ -323,12 +347,10 @@ export default async function TargetPackagesPage({
               </Section>
             )}
 
-            {!v.origin && !isCircuit && t.type === "destination" && (
+            {!v.origin && originLinks.length > 0 && (
               <Section title={`${name} tour packages from top cities`}>
                 <ChipLinks
-                  links={ORIGIN_CITIES.filter(
-                    (o) => o.slug !== slug && (o.major || Boolean(content.packages?.fromOrigins?.[o.slug])),
-                  ).map((o) => ({
+                  links={originLinks.map((o) => ({
                     label: `From ${o.name}`,
                     href: fromToUrl(o.slug, slug),
                   }))}

@@ -16,6 +16,7 @@ import {
   readMinutes,
 } from "@/lib/blog";
 import { guideUrl, tourPackagesUrl } from "@/lib/urls";
+import { ogImages } from "@/lib/og";
 
 // No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
 // crawlers hitting thousands of pages hourly blocked the Vercel account.
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: BLOG_PATH },
-  openGraph: { title: TITLE, description: DESCRIPTION, url: BLOG_PATH },
+  openGraph: { title: TITLE, description: DESCRIPTION, url: BLOG_PATH, images: ogImages(TITLE) },
 };
 
 const anchor = (h: string) =>
