@@ -39,6 +39,9 @@ import { SPITI_MONTHS } from "./spiti-months";
 import { KINNAUR_LAHAUL_GUIDES } from "./kinnaur-lahaul-guides";
 import { withSpitiKinnaurExtras } from "./spiti-kinnaur-extras";
 import { KASHMIR_WINTER_MONTHS } from "./kashmir-winter-months";
+import { KASHMIR_MONTHS_DEEP } from "./kashmir-months-deep";
+import { KASHMIR_PLACES_DEEP } from "./kashmir-places-deep";
+import { withDeepMore } from "./kashmir-deep-more";
 import { KASHMIR_PLANNING_DEEP } from "./kashmir-planning-deep";
 import { KASHMIR_LOCAL_GUIDES } from "./kashmir-local-guides";
 import { withKashmirExtras } from "./kashmir-extras";
@@ -60,7 +63,7 @@ export { SUPERSEDED_POSTS };
 
 const ALL_POSTS: BlogPost[] = [
   ...KASHMIR_CORE,
-  ...withKashmirExtras([...KASHMIR_WINTER_MONTHS, ...KASHMIR_PLANNING_DEEP, ...KASHMIR_LOCAL_GUIDES]),
+  ...withKashmirExtras([...KASHMIR_WINTER_MONTHS, ...withDeepMore([...KASHMIR_MONTHS_DEEP, ...KASHMIR_PLACES_DEEP]), ...KASHMIR_PLANNING_DEEP, ...KASHMIR_LOCAL_GUIDES]),
   ...KASHMIR_GUIDES,
   ...KASHMIR_LADAKH,
   ...HIMACHAL_UTTARAKHAND,

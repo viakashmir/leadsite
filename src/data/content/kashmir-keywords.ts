@@ -46,7 +46,7 @@ export const KASHMIR_KW_DESTINATION: Record<string, Partial<GuideContent>> = {
         month: "March",
         tempC: "Srinagar day 12 to 16°C, night 2 to 5°C",
         weather: C("Spring arrives in Srinagar: almond blossom at Badamwari in the first half of the month, rain showers and cool evenings. Gulmarg and Sonamarg keep their snow, and fresh snowfall is still possible in the hills."),
-        goodFor: C("Snow in Gulmarg plus blossom in Srinagar on the same trip; the Tulip Garden usually opens in the last week of March."),
+        goodFor: C("Snow in Gulmarg plus blossom in Srinagar on the same trip; the Tulip Garden opens in mid to late March (16 March in 2026, 26 March in 2025)."),
       },
       {
         month: "April",
@@ -128,7 +128,7 @@ export const KASHMIR_KW_DESTINATION: Record<string, Partial<GuideContent>> = {
           },
           {
             heading: "Kashmir flower season",
-            body: C("Kashmir's flower season starts with almond blossom at Badamwari in early to mid March, followed by tulips at the Indira Gandhi Memorial Tulip Garden from the last week of March to about the third week of April. The Mughal gardens are in full bloom in April and May, wildflowers cover the high meadows of Gulmarg, Sonamarg and Pahalgam in June and July, and purple saffron flowers bloom in Pampore from late October into early November."),
+            body: C("Kashmir's flower season starts with almond blossom at Badamwari in early to mid March, followed by tulips at the Indira Gandhi Memorial Tulip Garden from mid to late March to about the third week of April. The Mughal gardens are in full bloom in April and May, wildflowers cover the high meadows of Gulmarg, Sonamarg and Pahalgam in June and July, and purple saffron flowers bloom in Pampore from late October into early November."),
           },
           {
             heading: "Kashmir winter season: what to expect",

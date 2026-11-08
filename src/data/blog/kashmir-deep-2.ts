@@ -210,7 +210,7 @@ export const KASHMIR_UPGRADES_2: Record<string, Pick<BlogPost, "intro" | "sectio
       {
         h: "When does the tulip garden open?",
         p: [
-          "The garden usually opens in the last week of March and stays open for about three to four weeks, while the tulips bloom. Peak bloom typically falls in the first two weeks of April, though a cold or warm spring can move it by a week or more. Plan your Srinagar days around early April for the best chance, and check the announced dates before booking.",
+          "The garden opens in mid to late March (16 March in 2026, 26 March in 2025) and stays open for about three to four weeks, while the tulips bloom. Peak bloom typically falls in the first two weeks of April, though a cold or warm spring can move it by a week or more. Plan your Srinagar days around early April for the best chance, and check the announced dates before booking.",
         ],
       },
       {

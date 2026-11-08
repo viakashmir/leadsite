@@ -9,7 +9,7 @@ export const KASHMIR_KW_CITIES: Record<string, Partial<GuideContent>> = {
     months: [
       { month: "January", tempC: "Day 4 to 8°C, night minus 2 to minus 6°C", weather: "The coldest month, in the middle of Chillai Kalan. Snowfall on some days, frosty mornings and short, clear days between spells. The edges of Dal Lake can freeze in a long cold spell.", goodFor: "Snow views, heated houseboats and harissa breakfasts in the old city." },
       { month: "February", tempC: "Day 6 to 10°C, night minus 2 to 1°C", weather: "Still cold, with snow possible early in the month. Days get longer and sunnier towards the end.", goodFor: "Quiet sightseeing and day trips to Gulmarg's snow." },
-      { month: "March", tempC: "Day 12 to 16°C, night 2 to 5°C", weather: "Early spring with showers. Almond trees blossom at Badamwari in the first half of the month and the Tulip Garden usually opens in the last week.", goodFor: "Blossom, Navroz and the start of tulip season." },
+      { month: "March", tempC: "Day 12 to 16°C, night 2 to 5°C", weather: "Early spring with showers. Almond trees blossom at Badamwari in the first half of the month and the Tulip Garden opens in mid to late March (16 March in 2026).", goodFor: "Blossom, Navroz and the start of tulip season." },
       { month: "April", tempC: "Day 17 to 21°C, night 6 to 9°C", weather: "Mild and fresh, the city's prettiest month: tulips, flowering Mughal gardens and snow on the surrounding peaks.", goodFor: "Tulip Festival, gardens, honeymoons and families." },
       { month: "May", tempC: "Day 22 to 26°C, night 10 to 13°C", weather: "Warm days and cool evenings, long light for shikara rides and garden visits.", goodFor: "All sightseeing; busy with school holidays." },
       { month: "June", tempC: "Day 26 to 30°C, night 14 to 17°C", weather: "Warm and sunny, the peak of the summer season. Evenings on Dal Lake are pleasant.", goodFor: "Escaping the plains heat; day trips to Sonamarg and Gulmarg." },
@@ -265,16 +265,16 @@ export const KASHMIR_KW_PLACES: Record<string, Partial<GuideContent>> = {
   },
   "srinagar/places-to-visit/indira-gandhi-tulip-garden": {
     facts: [
-      { label: "Season", value: "Usually last week of March to about the third week of April" },
+      { label: "Season", value: "Mid to late March to about the third week of April (opened 16 March in 2026)" },
       { label: "Location", value: "Siraj Bagh, foothills of the Zabarwan range, near Dal Lake" },
     ],
     blocks: [
-      { heading: "Indira Gandhi Memorial Tulip Garden: Kashmir season and opening dates", body: "The Indira Gandhi Memorial Tulip Garden in Srinagar, Asia's largest tulip garden, opens to the public for a few weeks each spring, usually from the last week of March to about the third week of April. Exact opening dates are announced by the Floriculture Department each year depending on the bloom; the peak is usually the first two weeks of April. The J&K Tourism Tulip Festival is held in the garden during the bloom." },
+      { heading: "Indira Gandhi Memorial Tulip Garden: Kashmir season and opening dates", body: "The Indira Gandhi Memorial Tulip Garden in Srinagar, Asia's largest tulip garden, opens to the public for a few weeks each spring, from mid to late March to about the third week of April; it opened on 16 March in 2026 and on 26 March in 2025. Exact opening dates are announced by the Floriculture Department each year depending on the bloom; the peak is usually the first two weeks of April. The J&K Tourism Tulip Festival is held in the garden during the bloom." },
       { heading: "Tulip Garden ticket price, entry fee and timings", body: "Entry is by ticket, sold at the entrance counters and, in recent seasons, also online. The entry fee is set by the Floriculture Department for each season, with separate rates for adults and children. The garden is open in daytime hours, from morning to early evening. Arrive early on weekends to avoid queues." },
       { heading: "Tulip Garden images and pictures: the best photo spots", body: "The best pictures are from the terraces with the Zabarwan hills behind and from the long rows of red and yellow tulips near the centre. Morning light is softest; weekdays are less crowded." },
     ],
     faqs: [
-      { q: "When is the best time to visit the Tulip Garden in Kashmir?", a: "The first two weeks of April, when most of the tulips are in bloom. The garden usually opens in the last week of March and stays open until about the third week of April." },
+      { q: "When is the best time to visit the Tulip Garden in Kashmir?", a: "The first two weeks of April, when most of the tulips are in bloom. The garden opens in mid to late March (16 March in 2026) and stays open until about the third week of April." },
       { q: "What is the Tulip Garden Srinagar ticket price and entry fee?", a: "A per-person entry ticket, priced by the Floriculture Department for each season. Buy it at the gate or online when available." },
       { q: "What are the Tulip Garden Srinagar timings and opening time?", a: "It is open in daytime, from morning to early evening, during the tulip season. Check the season's notice for exact hours." },
       { q: "Is online booking available for the Tulip Garden?", a: "In recent seasons tickets have been sold online as well as at the gate. Check the J&K Floriculture or Tourism announcement for the current season." },
