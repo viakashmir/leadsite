@@ -388,9 +388,14 @@ export const KASHMIR_DEEP_MORE: Record<string, More> = {
   },
 };
 
+import { KASHMIR_BATCH_2_MORE } from "./kashmir-batch-2-more";
+import { KASHMIR_BATCH_3_MORE } from "./kashmir-batch-3-more";
+
+const ALL_MORE: Record<string, More> = { ...KASHMIR_DEEP_MORE, ...KASHMIR_BATCH_2_MORE, ...KASHMIR_BATCH_3_MORE };
+
 export function withDeepMore(posts: BlogPost[]): BlogPost[] {
   return posts.map((p) => {
-    const m = KASHMIR_DEEP_MORE[p.slug];
+    const m = ALL_MORE[p.slug];
     return m ? { ...p, sections: [...p.sections, ...m.sections], faqs: [...p.faqs, ...m.faqs] } : p;
   });
 }
