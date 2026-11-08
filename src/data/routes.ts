@@ -44,6 +44,21 @@ export const ORIGIN_COORDS: Record<(typeof ORIGIN_CITIES)[number]["slug"], Coord
   imphal: { lat: 24.817, lng: 93.9368, airport: "Imphal (IMF)" },
   aizawl: { lat: 23.7271, lng: 92.7176, airport: "Aizawl Lengpui (AJL)" },
   agartala: { lat: 23.8315, lng: 91.2868, airport: "Agartala (IXA)" },
+  surat: { lat: 21.1702, lng: 72.8311, airport: "Surat (STV)" },
+  vadodara: { lat: 22.3072, lng: 73.1812, airport: "Vadodara (BDQ)" },
+  nagpur: { lat: 21.1458, lng: 79.0882, airport: "Nagpur (NAG)" },
+  bhopal: { lat: 23.2599, lng: 77.4126, airport: "Bhopal (BHO)" },
+  noida: { lat: 28.5355, lng: 77.391, airport: "Delhi (DEL)" },
+  kanpur: { lat: 26.4499, lng: 80.3319, airport: "Lucknow (LKO) or Kanpur (KNU)" },
+  varanasi: { lat: 25.3176, lng: 82.9739, airport: "Varanasi (VNS)" },
+  agra: { lat: 27.1767, lng: 78.0081, airport: "Delhi (DEL) or Agra (AGR)" },
+  ludhiana: { lat: 30.901, lng: 75.8573, airport: "Chandigarh (IXC) or Amritsar (ATQ)" },
+  jalandhar: { lat: 31.326, lng: 75.5762, airport: "Amritsar (ATQ) or Adampur (AIP)" },
+  nashik: { lat: 19.9975, lng: 73.7898, airport: "Mumbai (BOM) or Nashik (ISK)" },
+  coimbatore: { lat: 11.0168, lng: 76.9558, airport: "Coimbatore (CJB)" },
+  madurai: { lat: 9.9252, lng: 78.1198, airport: "Madurai (IXM)" },
+  thiruvananthapuram: { lat: 8.5241, lng: 76.9366, airport: "Thiruvananthapuram (TRV)" },
+  mysuru: { lat: 12.2958, lng: 76.6394, airport: "Bengaluru (BLR)" },
 };
 
 export type RouteTarget = {

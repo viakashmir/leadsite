@@ -651,6 +651,21 @@ export const ORIGIN_CITIES = [
   { slug: "imphal", name: "Imphal", state: "Manipur", major: false },
   { slug: "aizawl", name: "Aizawl", state: "Mizoram", major: false },
   { slug: "agartala", name: "Agartala", state: "Tripura", major: false },
+  { slug: "surat", name: "Surat", state: "Gujarat", major: false },
+  { slug: "vadodara", name: "Vadodara", state: "Gujarat", major: false },
+  { slug: "nagpur", name: "Nagpur", state: "Maharashtra", major: false },
+  { slug: "bhopal", name: "Bhopal", state: "Madhya Pradesh", major: false },
+  { slug: "noida", name: "Noida", state: "Uttar Pradesh", major: false },
+  { slug: "kanpur", name: "Kanpur", state: "Uttar Pradesh", major: false },
+  { slug: "varanasi", name: "Varanasi", state: "Uttar Pradesh", major: false },
+  { slug: "agra", name: "Agra", state: "Uttar Pradesh", major: false },
+  { slug: "ludhiana", name: "Ludhiana", state: "Punjab", major: false },
+  { slug: "jalandhar", name: "Jalandhar", state: "Punjab", major: false },
+  { slug: "nashik", name: "Nashik", state: "Maharashtra", major: false },
+  { slug: "coimbatore", name: "Coimbatore", state: "Tamil Nadu", major: false },
+  { slug: "madurai", name: "Madurai", state: "Tamil Nadu", major: false },
+  { slug: "thiruvananthapuram", name: "Thiruvananthapuram", state: "Kerala", major: false },
+  { slug: "mysuru", name: "Mysuru", state: "Karnataka", major: false },
 ] as const;
 
 // Theme pages: /{prefix}/{destination-or-city}. Prefixes follow TravelTriangle's
