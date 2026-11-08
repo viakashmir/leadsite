@@ -44,6 +44,7 @@ import { KASHMIR_PLACES_DEEP } from "./kashmir-places-deep";
 import { withDeepMore } from "./kashmir-deep-more";
 import { KASHMIR_BATCH_2 } from "./kashmir-batch-2";
 import { KASHMIR_BATCH_3 } from "./kashmir-batch-3";
+import { KASHMIR_BATCH_4 } from "./kashmir-batch-4";
 import { KASHMIR_PLANNING_DEEP } from "./kashmir-planning-deep";
 import { KASHMIR_LOCAL_GUIDES } from "./kashmir-local-guides";
 import { withKashmirExtras } from "./kashmir-extras";
@@ -65,7 +66,7 @@ export { SUPERSEDED_POSTS };
 
 const ALL_POSTS: BlogPost[] = [
   ...KASHMIR_CORE,
-  ...withKashmirExtras([...KASHMIR_WINTER_MONTHS, ...withDeepMore([...KASHMIR_MONTHS_DEEP, ...KASHMIR_PLACES_DEEP, ...KASHMIR_BATCH_2, ...KASHMIR_BATCH_3]), ...KASHMIR_PLANNING_DEEP, ...KASHMIR_LOCAL_GUIDES]),
+  ...withKashmirExtras([...KASHMIR_WINTER_MONTHS, ...withDeepMore([...KASHMIR_MONTHS_DEEP, ...KASHMIR_PLACES_DEEP, ...KASHMIR_BATCH_2, ...KASHMIR_BATCH_3, ...KASHMIR_BATCH_4]), ...KASHMIR_PLANNING_DEEP, ...KASHMIR_LOCAL_GUIDES]),
   ...KASHMIR_GUIDES,
   ...KASHMIR_LADAKH,
   ...HIMACHAL_UTTARAKHAND,
