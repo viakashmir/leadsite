@@ -87,6 +87,53 @@ export async function getPackagesFor(t: Target, opts: { themeTag?: string; take?
   });
 }
 
+// Published packages in scope per theme tag (case-insensitive substring match,
+// same as getPackagesFor's themeTag filter), for deciding which theme slices
+// are real pages worth linking.
+export async function getThemeCounts(t: Target, tags: readonly string[]) {
+  const rows = await prisma.package.findMany({
+    where: { published: true, ...packageScope(t) },
+    select: { theme: true },
+  });
+  const counts = new Map<string, number>();
+  for (const tag of tags)
+    counts.set(tag, rows.filter((r) => r.theme?.toLowerCase().includes(tag.toLowerCase())).length);
+  return counts;
+}
+
+// Destination and circuit slugs whose theme slice (/{theme}/{slug}) is an
+// indexable page: READY, and its own slice copy or MIN 3 themed packages
+// (mirrors packagesPageMetadata). Theme indexes link only these.
+export async function getThemeSliceSlugs(theme: { tag: string; prefix: string }) {
+  const [dests, pkgs] = await Promise.all([
+    prisma.destination.findMany({
+      where: { contentStatus: "READY" },
+      select: { id: true, slug: true, kind: true, content: true, circuitStops: { select: { cityId: true, destinationId: true } } },
+    }),
+    prisma.package.findMany({
+      where: { published: true, theme: { contains: theme.tag, mode: "insensitive" } },
+      select: { destinationId: true, cityId: true },
+    }),
+  ]);
+  const slugs = new Set<string>();
+  for (const d of dests) {
+    if (readContent(d.content).packages?.themes?.[theme.prefix]?.intro) {
+      slugs.add(d.slug);
+      continue;
+    }
+    const destIds = new Set([d.id]);
+    const cityIds = new Set<string>();
+    if (d.kind === "CIRCUIT")
+      for (const s of d.circuitStops) {
+        if (s.destinationId) destIds.add(s.destinationId);
+        if (s.cityId) cityIds.add(s.cityId);
+      }
+    const n = pkgs.filter((p) => destIds.has(p.destinationId) || (p.cityId !== null && cityIds.has(p.cityId))).length;
+    if (n >= 3) slugs.add(d.slug);
+  }
+  return slugs;
+}
+
 // Titles and links of the published packages in scope that the main grid
 // (newest 24) does not show, so every package page has an internal link.
 export async function getMorePackageLinks(t: Target, opts: { themeTag?: string; skip?: number } = {}) {

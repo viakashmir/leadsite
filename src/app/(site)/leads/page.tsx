@@ -87,7 +87,8 @@ export default async function LeadsIndexPage() {
       )}
       <h2 className="mt-8 text-lg font-semibold text-zinc-900">Browse by Destination</h2>
       <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {destinations.map((d) => (
+        {/* Only destinations with leads: empty lead pages are noindex, so don't link them. */}
+        {destinations.filter((d) => d._count.leads > 0).map((d) => (
           <Link
             key={d.id}
             href={`/leads/${d.slug}`}

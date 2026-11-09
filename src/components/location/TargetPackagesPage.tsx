@@ -32,6 +32,7 @@ import { GUIDE_SECTIONS, ORIGIN_CITIES, THEMES } from "@/data/locations";
 import {
   getMorePackageLinks,
   getPackagesFor,
+  getThemeCounts,
   getPriceGuide,
   readContent,
   robotsFor,
@@ -186,7 +187,17 @@ export default async function TargetPackagesPage({
             .filter((p) => p.kind === "PLACE")
             .map((p) => ({ title: p.name, href: guideUrl(dest.slug, p.path) }));
 
-  const themeLinks = THEMES.map((th) => ({
+  // Link only theme slices that are real, indexable pages (own copy or enough
+  // packages, base page READY). Empty slices are noindex and were linked from
+  // every packages page, flooding Search Console with ~5k noindex URLs.
+  const themeCounts = await getThemeCounts(t, THEMES.map((th) => th.tag));
+  const baseReady = !robotsFor(statusOf(t));
+  const themeLinks = THEMES.filter(
+    (th) =>
+      v.theme?.prefix === th.prefix ||
+      (baseReady &&
+        (Boolean(content.packages?.themes?.[th.prefix]?.intro) || (themeCounts.get(th.tag) ?? 0) >= MIN_PACKAGES_FOR_SLICE)),
+  ).map((th) => ({
     label: `${th.name}`,
     href: themeUrl(th.prefix, slug),
     active: v.theme?.prefix === th.prefix,

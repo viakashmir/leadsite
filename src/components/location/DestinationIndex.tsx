@@ -16,6 +16,7 @@ export default async function DestinationIndex({
   scope,
   linkFor = (slug) => tourPackagesUrl(slug),
   showThemes = true,
+  only,
 }: {
   crumbs: Crumb[];
   title: string;
@@ -23,12 +24,16 @@ export default async function DestinationIndex({
   scope?: "india" | "international";
   linkFor?: (slug: string) => string;
   showThemes?: boolean;
+  // When set, list only these slugs (theme indexes: slices that are real pages).
+  only?: Set<string>;
 }) {
   const faqs = HUB_FAQS[crumbs[crumbs.length - 1].href];
   const [zones, circuits] = await Promise.all([getDestinationsByZone(), getCircuits()]);
-  const shownZones = scope ? zones.filter((z) => z.scope === scope) : zones;
+  const shownZones = (scope ? zones.filter((z) => z.scope === scope) : zones)
+    .map((z) => (only ? { ...z, destinations: z.destinations.filter((d) => only.has(d.slug)) } : z))
+    .filter((z) => z.destinations.length > 0);
   const shownCircuits = circuits.filter(
-    (c) => !scope || (scope === "international") === c.isInternational,
+    (c) => (!scope || (scope === "international") === c.isInternational) && (!only || only.has(c.slug)),
   );
 
   return (

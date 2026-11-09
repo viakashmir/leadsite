@@ -4,7 +4,7 @@ import DestinationIndex from "@/components/location/DestinationIndex";
 import GuidePage, { guideMetadata, resolveGuide } from "@/components/location/GuidePages";
 import TargetPackagesPage, { packagesPageMetadata } from "@/components/location/TargetPackagesPage";
 import { THEMES } from "@/data/locations";
-import { resolveTarget } from "@/lib/locations";
+import { getThemeSliceSlugs, resolveTarget } from "@/lib/locations";
 import { themeUrl, tourPackagesUrl } from "@/lib/urls";
 
 // No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
@@ -74,6 +74,7 @@ export default async function Page({ params }: PageProps<"/[section]/[[...path]]
         title={`${r.theme.name} Tour Packages`}
         subtitle={`Pick a destination for ${r.theme.name.toLowerCase()} packages. Every trip is customised by a verified local agent.`}
         linkFor={(slug) => themeUrl(r.theme.prefix, slug)}
+        only={await getThemeSliceSlugs(r.theme)}
         showThemes
       />
     );

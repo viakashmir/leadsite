@@ -17,7 +17,7 @@ export const revalidate = false;
 async function getData(destinationSlug: string) {
   const destination = await prisma.destination.findUnique({
     where: { slug: destinationSlug },
-    include: { cities: { orderBy: { name: "asc" } } },
+    include: { cities: { orderBy: { name: "asc" }, include: { _count: { select: { leads: true } } } } },
   });
   if (!destination) return null;
 
@@ -97,7 +97,8 @@ export default async function DestinationLeadsPage({
         <span className="rounded-full bg-brand px-3 py-1 text-xs font-semibold text-white">
           All
         </span>
-        {destination.cities.map((c) => (
+        {/* Only cities with leads: empty city pages are noindex, so don't link them. */}
+        {destination.cities.filter((c) => c._count.leads > 0).map((c) => (
           <Link
             key={c.id}
             href={`/leads/${destination.slug}/${c.slug}`}
