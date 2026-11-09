@@ -32,7 +32,6 @@ import { GUIDE_SECTIONS, ORIGIN_CITIES, THEMES } from "@/data/locations";
 import {
   getMorePackageLinks,
   getPackagesFor,
-  getThemeCounts,
   getPriceGuide,
   readContent,
   robotsFor,
@@ -44,6 +43,7 @@ import {
 import { SITE_URL } from "@/lib/site";
 import { fromToUrl, guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { ogImages } from "@/lib/og";
+import { indexablePaths, onlyIndexable } from "@/lib/indexable";
 
 type Theme = (typeof THEMES)[number];
 type Origin = (typeof ORIGIN_CITIES)[number];
@@ -166,7 +166,7 @@ export default async function TargetPackagesPage({
   }
 
   // "Places to explore": cities of a destination, stops of a circuit, places of a city.
-  const explore =
+  const explore = await onlyIndexable(
     t.type === "destination"
       ? dest.cities.length > 0
         ? dest.cities.map((c) => ({
@@ -185,23 +185,23 @@ export default async function TargetPackagesPage({
           )
         : t.city.places
             .filter((p) => p.kind === "PLACE")
-            .map((p) => ({ title: p.name, href: guideUrl(dest.slug, p.path) }));
+            .map((p) => ({ title: p.name, href: guideUrl(dest.slug, p.path) })),
+  );
 
-  // Link only theme slices that are real, indexable pages (own copy or enough
-  // packages, base page READY). Empty slices are noindex and were linked from
-  // every packages page, flooding Search Console with ~5k noindex URLs.
-  const themeCounts = await getThemeCounts(t, THEMES.map((th) => th.tag));
-  const baseReady = !robotsFor(statusOf(t));
-  const themeLinks = THEMES.filter(
-    (th) =>
-      v.theme?.prefix === th.prefix ||
-      (baseReady &&
-        (Boolean(content.packages?.themes?.[th.prefix]?.intro) || (themeCounts.get(th.tag) ?? 0) >= MIN_PACKAGES_FOR_SLICE)),
-  ).map((th) => ({
-    label: `${th.name}`,
-    href: themeUrl(th.prefix, slug),
-    active: v.theme?.prefix === th.prefix,
-  }));
+  // Link only theme slices that are indexable pages; empty slices are noindex.
+  const themeLinks = (
+    await onlyIndexable(
+      THEMES.map((th) => ({
+        label: `${th.name}`,
+        href: themeUrl(th.prefix, slug),
+        active: v.theme?.prefix === th.prefix,
+      })),
+    )
+  ).concat(
+    v.theme && !(await indexablePaths()).has(themeUrl(v.theme.prefix, slug))
+      ? [{ label: v.theme.name, href: themeUrl(v.theme.prefix, slug), active: true }]
+      : [],
+  );
 
   const guideCity = t.type === "city" ? t.city.slug : undefined;
   // Topic cluster: the articles about this place, matched to the page's

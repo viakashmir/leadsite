@@ -39,6 +39,7 @@ import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { clusterByCategory, postsForDestination, postsForPlace } from "@/lib/topicLinks";
 import { ArticleCluster, TopicArticles } from "@/components/location/TopicArticles";
 import { ogImages } from "@/lib/og";
+import { onlyIndexable } from "@/lib/indexable";
 
 type SectionSlug = (typeof GUIDE_SECTIONS)[number]["slug"];
 
@@ -305,6 +306,13 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
   // Pages without written copy get a factual intro from our location data.
   const content = raw.intro || raw.highlights?.length ? raw : { ...raw, intro: autoIntro(r) };
   const packagesSlug = r.city ? r.city.slug : d.slug;
+  // Only indexable package pages; a place without packages yet links the state's.
+  const planLinks = await onlyIndexable([
+    { label: `${where} Tour Packages`, href: tourPackagesUrl(packagesSlug) },
+    { label: `${where} Honeymoon Packages`, href: themeUrl("honeymoon-packages", packagesSlug) },
+    { label: `${where} Family Packages`, href: themeUrl("family-packages", packagesSlug) },
+    ...(r.city ? [{ label: `${d.name} Tour Packages`, href: tourPackagesUrl(d.slug) }] : []),
+  ]);
   const updated = r.kind === "place" ? r.place.updatedAt : r.city ? r.city.updatedAt : d.updatedAt;
   const published = r.kind === "place" ? r.place.createdAt : r.city ? r.city.createdAt : d.createdAt;
   const subject =
@@ -604,13 +612,7 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
             {main}
             {articles}
             <Section title={`Plan your ${where} trip`}>
-              <ChipLinks
-                links={[
-                  { label: `${where} Tour Packages`, href: tourPackagesUrl(packagesSlug) },
-                  { label: `${where} Honeymoon Packages`, href: themeUrl("honeymoon-packages", packagesSlug) },
-                  { label: `${where} Family Packages`, href: themeUrl("family-packages", packagesSlug) },
-                ]}
-              />
+              <ChipLinks links={planLinks} />
             </Section>
             {faqs && faqs.length > 0 && (
               <Section title={`${r.kind === "place" ? r.place.name : title} FAQs`}>

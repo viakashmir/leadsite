@@ -14,6 +14,7 @@ import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { BLOG_PATH, CATEGORY_THEME, getPost, isWinterPost, metaTitle, postUrl, readMinutes, relatedPosts } from "@/lib/blog";
 import { createLinker, entitiesFor } from "@/lib/entityLinks";
 import { ogImages } from "@/lib/og";
+import { onlyIndexable } from "@/lib/indexable";
 
 // No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
 // crawlers hitting thousands of pages hourly blocked the Vercel account.
@@ -86,7 +87,7 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
   const related = relatedPosts(post, 6);
   const theme = CATEGORY_THEME[post.category];
 
-  const moneyLinks = [
+  const moneyLinks = await onlyIndexable([
     ...(city ? [{ label: `${city.name} tour packages`, href: tourPackagesUrl(city.slug) }] : []),
     ...(destination ? [{ label: `${destination.name} tour packages`, href: tourPackagesUrl(destination.slug) }] : []),
     ...(destination && theme
@@ -96,7 +97,7 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
       ? [{ label: `${destination.name} winter packages`, href: themeUrl("winter-tour-packages", destination.slug) }]
       : []),
     ...(destination ? [{ label: `${destination.name} travel guide`, href: guideUrl(destination.slug, city?.slug) }] : []),
-  ];
+  ]);
 
   // Topic cluster, spoke to hub: the article sits under its place's guide in
   // the breadcrumb, and the first mention of each place links to its guide.
