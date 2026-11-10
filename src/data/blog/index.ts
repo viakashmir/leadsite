@@ -61,6 +61,13 @@ import { HIMACHAL_UPGRADES } from "./himachal-upgrades";
 import { KASHMIR_WINTER_UPGRADES } from "./kashmir-winter-upgrades";
 import { KASHMIR_KW_BLOG_ADDITIONS } from "./kashmir-keyword-additions";
 
+import { KASHMIR_ROUTES } from "./kashmir-routes";
+import { KASHMIR_STAYS } from "./kashmir-stays";
+import { KASHMIR_ACTIVITIES } from "./kashmir-activities";
+import { KASHMIR_PLANS } from "./kashmir-plans";
+import { KASHMIR_CULTURE } from "./kashmir-culture";
+import { KASHMIR_WORLD } from "./kashmir-world";
+
 import { SUPERSEDED_POSTS } from "./superseded";
 export { SUPERSEDED_POSTS };
 
@@ -104,6 +111,12 @@ const ALL_POSTS: BlogPost[] = [
   ...withSpitiLadakhExtras([...LADAKH_DEEP_5, ...SPITI_DEEP, ...SPITI_DEEP_2]),
   ...withSpitiKinnaurExtras([...SPITI_MONTHS, ...KINNAUR_LAHAUL_GUIDES]),
   ...KASOL_GUIDES,
+  ...KASHMIR_ROUTES,
+  ...KASHMIR_STAYS,
+  ...KASHMIR_ACTIVITIES,
+  ...KASHMIR_PLANS,
+  ...KASHMIR_CULTURE,
+  ...KASHMIR_WORLD,
 ];
 
 // Full rewrites keep the published slug, title and description and replace
