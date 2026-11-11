@@ -950,3 +950,274 @@ for (const p of KASHMIR_STAYS) {
   const e = EXTRA_1[p.slug];
   if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
 }
+
+const EXTRA_2: Record<string, { sections: BlogSection[]; faqs: BlogPost["faqs"] }> = {
+  "luxury-hotels-in-kashmir": {
+    sections: [
+      { h: "The LaLiT Grand Palace in more detail", p: ["The LaLiT Grand Palace stands on Gupkar Road above the southern shore of Dal Lake, in grounds that slope down towards the water. It was built in the early 20th century as a palace for Maharaja Pratap Singh and later used by Maharaja Hari Singh, and it still has the feel of a royal residence: high ceilings, chandeliers, old portraits, wooden floors and verandas looking over lawns shaded by chinar trees said to be centuries old. Rooms are split between the heritage palace wing and newer cottages and suites in the grounds.", "It is the choice for travellers who want history and space, and its lawns are famous in autumn, when the chinars turn red and gold. Book well ahead for October and for the tulip season, when the lawns and nearby gardens are at their best."] },
+      { h: "Taj Dal View in more detail", p: ["Taj Dal View sits on Kralsangri hill in the Zabarwan foothills, above the southern end of Dal Lake and close to the Botanical Garden and the Tulip Garden. Its main appeal is the view: most rooms and the terraces look over the lake, the Hari Parbat fort and the city. It is quieter than the hotels on Boulevard Road and suits honeymooners and travellers who want to stay in, with a spa and dining on site. A car is needed to go anywhere, but the gardens along the Zabarwan side are close."] },
+      { h: "Riverfront and city luxury hotels", p: ["The Radisson Collection Hotel and Spa, Riverfront, sits on the Jhelum and brings an international upscale hotel with a spa and modern rooms to the city centre. Four Points by Sheraton and the Radisson Hotel Srinagar offer international-brand comfort, reliable heating and good service. Fortune Resort Heevan is a long-standing upscale hotel with a central location. These hotels are well placed for Lal Chowk, Residency Road and the old city, and are good for travellers who prefer brand standards over heritage."] },
+      { h: "Gulmarg luxury: Khyber and Highlands Park", p: ["Khyber Himalayan Resort and Spa stands at the edge of the Gulmarg meadow close to the Gondola, with views over the forest and peaks. It is Gulmarg's best-known luxury resort, with heated rooms, a spa, a heated indoor pool and restaurants that matter in a town where little stays open late in winter. It books out early for the ski season and Christmas and New Year.", "The Hotel Highlands Park is a heritage property with wooden cottages and old-world interiors on the meadow, and Nedou's, one of Gulmarg's oldest hotels, has history dating back to the British era. Both appeal to travellers who prefer character to modern amenities."] },
+      { h: "Pahalgam luxury along the Lidder", p: ["Welcomhotel Pine N Peak, run by ITC, is set near the town with views of the pine-clad hills and the river valley, and is one of Pahalgam's best-known upscale hotels. Other upscale riverside hotels line the Lidder close to the main market, many with lawns, river-view rooms and good heating. Luxury in Pahalgam is about the setting: wake to the sound of the river, walk along the bank before breakfast and take a private union taxi round of Aru and Betaab at your own pace."] },
+      { h: "Luxury houseboats on Dal and Nigeen", p: ["The top houseboats are Deluxe category boats with carved walnut ceilings and panelling, Kashmiri carpets, chandeliers, sitting and dining rooms and bedrooms with attached bathrooms. The best are run by families with decades of experience and offer personal service: kahwa on arrival, home-cooked Kashmiri meals, a private shikara and an attendant on call.", "Sukoon is a well-known luxury houseboat on Dal Lake. On Nigeen, WelcomHeritage Gurkha Houseboats is a long-established group with several boats. For privacy, book the whole boat, and check recent reviews, heating in winter and what is included before you confirm."] },
+      { h: "A 7-night honeymoon luxury plan", p: ["Night 1: Deluxe houseboat on Nigeen, private sunset shikara. Night 2 and 3: palace or lake-view hotel in Srinagar, with the Mughal gardens and a private wazwan dinner. Night 4: Gulmarg resort near the Gondola, spa in the evening. Night 5 and 6: riverside hotel in Pahalgam, with private union taxi rounds of Aru and Betaab. Night 7: back to a Dal Lake Deluxe houseboat for a final evening on the water. Transfers throughout in an Innova Crysta or premium SUV."] },
+      { h: "Luxury in winter: what changes", p: ["From December to February, luxury in Kashmir is about warmth. Choose hotels with central heating and backup power, heated bathrooms and indoor dining. Khyber in Gulmarg, the palace and lake-view hotels in Srinagar and the riverside hotels in Pahalgam handle winter well. Houseboats can be beautiful in snow but need strong heating; pick one Deluxe boat that confirms it. Arrange 4x4 transfers for Gulmarg and Sonamarg."] },
+      { h: "What luxury costs, and what drives the price", p: ["Rates at Kashmir's top hotels move with the season more than in most of India. They peak in May and June, during the tulip weeks, and from Christmas to New Year, and fall noticeably in March, October and November. Room category matters: lake-view or meadow-view rooms cost more than garden or forest-facing ones. Meal plans, airport transfers, private shikaras and spa treatments add to the bill. Ask for a quote that names the room category and meal plan in each hotel."] },
+    ],
+    faqs: [
+      { q: "Which luxury hotel in Srinagar has the best view of Dal Lake?", a: "Taj Dal View on Kralsangri hill is known for its lake views. The LaLiT Grand Palace also overlooks the lake from its lawns." },
+      { q: "Is The LaLiT Grand Palace a real palace?", a: "Yes. It was built in the early 20th century as a palace for the Maharaja of Kashmir." },
+      { q: "Does Khyber in Gulmarg have a heated pool?", a: "Yes, it has a heated indoor pool and spa, which is rare in Gulmarg." },
+      { q: "When are luxury hotels in Kashmir cheapest?", a: "In March, October and November, outside the tulip season, summer holidays and the winter festive period." },
+      { q: "Are luxury houseboats better than luxury hotels?", a: "They offer a different experience: privacy, home-cooked food and the lake at your door. Most luxury travellers combine one or two houseboat nights with hotels." },
+    ],
+  },
+  "houseboat-vs-hotel-in-srinagar": {
+    sections: [
+      { h: "The history of Srinagar's houseboats", p: ["Houseboats on Srinagar's lakes date back to the late 19th century, when the Dogra rulers of Kashmir did not allow outsiders to own land. British visitors and officials who wanted to stay through the summer began living on boats instead, and Kashmiri boatmen and carpenters built larger, more comfortable boats to rent to them. Over time these became the elaborate cedar and walnut houseboats moored on Dal and Nigeen today, with their carved ceilings, verandas and names painted on the front.", "Many boats are still run by families who have owned them for generations, and staying on one is as much about meeting a Kashmiri family as about the boat itself."] },
+      { h: "Houseboat categories and what they mean", p: ["The J&K Tourism Department grades houseboats into categories, with Deluxe at the top, followed by lower classes. The grade reflects size, furnishing, bathrooms and facilities. A Deluxe boat usually has a large sitting room, a dining room, two to four bedrooms with attached bathrooms and hot water, carved woodwork and good furnishings. Lower categories are smaller and simpler, with fewer comforts. Within each category, quality varies, so recent reviews and photos matter as much as the grade."] },
+      { h: "Hotel categories in Srinagar", p: ["Srinagar's hotels range from guest houses and simple budget hotels in the lanes behind Boulevard Road to mid-range hotels in Rajbagh and Lal Chowk, upscale lakefront hotels on Boulevard Road and the palace and international-brand hotels on Gupkar Road and the Jhelum riverfront. Higher categories bring central heating, lifts, room service and restaurants, which matter most in winter and for elderly travellers."] },
+      { h: "Food on a houseboat vs a hotel", p: ["Houseboat meals are cooked by the family, usually breakfast and dinner, served in the boat's dining room. Expect home-style Kashmiri food such as rogan josh, yakhni, haak and dum aloo, along with simpler dishes if you ask. Hotels offer menus, buffets and room service, with more choice for children and fussy eaters. On a houseboat, tell the cook your preferences in advance, especially for vegetarian, Jain or mild food."] },
+      { h: "Getting around from a houseboat", p: ["From a Dal Lake houseboat, every trip ashore is by shikara to a Boulevard Road ghat, where your taxi waits. It adds a few minutes to each outing and can be awkward late at night, though houseboats keep a shikara on call. Many Nigeen houseboats are moored by the shore and reached on foot, which is easier for families. From a hotel, your car is at the door, which saves time on early-morning trips to Gulmarg and Sonamarg."] },
+      { h: "Safety and comfort on a houseboat", p: ["Registered houseboats are a long-established, regulated form of stay. Lock your room and keep valuables in a bag you keep with you, as you would in a guest house. Children should be supervised on the deck and in shikaras. In winter, ask about heating and check that heaters are safe and that rooms are ventilated. Choose boats with recent reviews and an owner who responds clearly to questions."] },
+      { h: "Booking tips for both", p: ["Book houseboats directly through trusted agents or well-reviewed platforms; avoid touts at the airport or ghats offering boats on the spot. Ask for the boat's name and category. For hotels, ask for the exact room category and whether it faces the lake, garden or road. In both cases, confirm the meal plan, heating, and whether transfers and the first shikara ride are included."] },
+      { h: "Which to choose by traveller type", p: ["Honeymooners: a Deluxe houseboat for one or two nights, then a lake-view hotel. Families with young children: a Nigeen boat reached on foot, or a hotel with a lawn. Elderly travellers: a hotel with a lift, or a Nigeen boat reached from the shore. Budget travellers: a lower category houseboat or a guest house near Dal Gate. Winter travellers: a centrally heated hotel, with one night on a well-heated Deluxe boat."] },
+      { h: "Houseboat vs hotel in each season", p: ["Spring and autumn are perfect for houseboats: mild days, cool nights and beautiful light on the water. Summer is lively on the lake but can be warm in the afternoons on older boats without good ventilation. Winter is magical but cold; hotels win for comfort. If you visit in deep winter, keep the houseboat stay to one night."] },
+    ],
+    faqs: [
+      { q: "Why are there houseboats in Srinagar?", a: "They began in the late 19th century, when outsiders could not own land in Kashmir and British visitors lived on boats instead." },
+      { q: "What is a Deluxe houseboat?", a: "The top category set by the J&K Tourism Department, with large rooms, attached bathrooms, carved woodwork and good furnishings." },
+      { q: "Do houseboats serve vegetarian food?", a: "Yes. Tell the cook in advance, and they will prepare vegetarian or Jain meals." },
+      { q: "Is it easy to go out at night from a Dal Lake houseboat?", a: "The houseboat's shikara takes you ashore at any reasonable hour, but plan late returns with the owner." },
+    ],
+  },
+  "nigeen-lake-houseboats": {
+    sections: [
+      { h: "Where Nigeen Lake is", p: ["Nigeen lies to the north of Dal Lake, joined to it by channels and bridges, and is bounded by the old neighbourhoods around Hazratbal, the University of Kashmir and the slopes of Hari Parbat. It is sometimes described as part of the Dal lake system but feels separate: smaller, greener and more enclosed by willows and residential houses. The main houseboat moorings are along its western and southern shores, many with gardens and steps leading down from the road."] },
+      { h: "What a day on a Nigeen houseboat looks like", p: ["Early morning: tea on the front deck as mist lifts off the water and the first shikaras of vegetable sellers and flower sellers paddle past. Breakfast in the dining room with Kashmiri bread, eggs and noon chai. Mid-morning: a shikara through the channels into Dal or a walk to Hazratbal. Afternoon: a day trip, or rest on the deck with a book. Evening: sunset over Hari Parbat, dinner cooked by the family and the quiet of the lake at night, broken only by the call to prayer and the sound of water."] },
+      { h: "Nigeen houseboats by category", p: ["Nigeen has Deluxe houseboats and lower category boats, like Dal. Many of the best-known family-run Deluxe boats are on Nigeen, chosen by travellers who want calm. Lower category boats are cheaper and simpler. As always, the category sets expectations, but the specific boat, its family and its recent reviews decide the experience."] },
+      { h: "Booking a Nigeen houseboat", p: ["Ask for the boat's name, its category and photos of the rooms you will use. Check whether it is reached on foot or by shikara, whether breakfast and dinner are included, whether the shikara ride is included, and how heating works in winter. Confirm check-in time and share your arrival details so the family is ready. Avoid touts offering houseboats on arrival at the airport or the ghats."] },
+      { h: "Nigeen for honeymooners", p: ["Nigeen is a favourite with honeymooners because it is quiet and romantic. Book a full boat or a boat with only one or two bedrooms for privacy. Ask the owner to arrange a decorated shikara at sunset, a candlelight dinner on the deck and a slow morning shikara to the floating market in Dal. Two nights is ideal: one to arrive and settle in, one to simply enjoy the lake."] },
+      { h: "Nigeen in winter", p: ["Winter on Nigeen is cold, still and beautiful, with mist, occasional snow on the boat roofs and very few visitors. Choose a Deluxe boat that confirms central heating or good heaters, hot water at all hours and extra blankets. Expect thick fog some mornings and short days. One night is usually enough in deep winter; spend the rest of the trip in a heated hotel."] },
+      { h: "Nigeen vs Dal: a summary", p: ["Choose Nigeen for calm, a residential setting, boats reached on foot and quiet nights. Choose Dal for the classic view, the lively lake, easy access to Boulevard Road and many shikara routes. Many travellers who stay twice in Srinagar try one of each."] },
+    ],
+    faqs: [
+      { q: "Is Nigeen Lake part of Dal Lake?", a: "It is connected to Dal by channels and often counted as part of the lake system, but it is a separate, quieter lake to the north." },
+      { q: "Are Nigeen houseboats good for families?", a: "Yes. Calm water and boats reached on foot make Nigeen easy for families with children and elderly parents." },
+      { q: "How do I avoid houseboat touts?", a: "Book in advance through a trusted agent or well-reviewed platform, and ignore offers on arrival at the airport or ghats." },
+      { q: "Can I see the floating market from Nigeen?", a: "Yes, by an early-morning shikara through the channels into Dal." },
+    ],
+  },
+};
+for (const p of KASHMIR_STAYS) {
+  const e = EXTRA_2[p.slug];
+  if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
+}
+
+const EXTRA_3: Record<string, { sections: BlogSection[]; faqs: BlogPost["faqs"] }> = {
+  "luxury-hotels-in-kashmir": {
+    sections: [
+      { h: "Luxury hotels by location in Srinagar", p: ["Gupkar Road and the Zabarwan foothills are home to the city's most exclusive stays, including The LaLiT Grand Palace and Taj Dal View. They are quiet, green and elevated, with the best views over Dal Lake, but you need a car for everything. Boulevard Road has upscale hotels right on the lakefront, with shikaras across the road and lively evenings, though traffic can be heavy in season. The Jhelum riverfront and Rajbagh have international-brand hotels close to Lal Chowk, Residency Road and the old city, which suits travellers who want shopping and food within reach."] },
+      { h: "Dining at Kashmir's luxury hotels", p: ["Top hotels in Srinagar, Gulmarg and Pahalgam serve Kashmiri, North Indian, continental and pan-Asian menus, but their real strength is Kashmiri food. Ask for a traditional wazwan dinner, prepared by a waza, with rista, rogan josh, tabak maaz and gushtaba served on a copper trami. Several hotels can arrange a private wazwan on a lawn or terrace with notice. Vegetarian, Jain and children's menus are available on request. In winter, dinner by a fire or a bukhari is part of the experience."] },
+      { h: "Spas, wellness and slow days", p: ["Luxury hotels in Srinagar and Gulmarg offer spas with massages and treatments, some using Kashmiri saffron and walnut oil, and heated indoor spaces that matter in winter. Plan at least one slow day in a luxury trip: a late breakfast on the terrace, a private shikara in the afternoon and a spa treatment before dinner. After long drives to Gulmarg, Pahalgam or Sonamarg, a spa evening is the best way to recover."] },
+      { h: "Private experiences luxury hotels can arrange", p: ["Private shikara at sunrise with breakfast on board, or at sunset with kahwa and snacks. A guided heritage walk through old Srinagar with a historian. A private visit to a pashmina or carpet workshop to watch master craftsmen at work. A Gondola trip in Gulmarg timed to avoid queues, with a guide on Apharwat. A private union taxi day in Pahalgam with a picnic lunch by the Lidder. A round of golf at Royal Springs, Gulmarg or Pahalgam. Ask your hotel concierge or agent well in advance."] },
+      { h: "Luxury for families", p: ["For families, choose hotels with connecting rooms or suites, lawns or play areas, and dining that suits children. The LaLiT Grand Palace's lawns, the Pahalgam riverside hotels and the Gulmarg resorts near the meadow work well. Book a Deluxe houseboat with two or three bedrooms for a family stay on the water. Ask for a vehicle with child seats and enough space for luggage, such as an Innova Crysta or two cars for larger families."] },
+      { h: "Luxury Kashmir packages: what to check", p: ["A luxury package should name each hotel and room category, the houseboat and its category, the vehicle model, private transfers, meal plans and the experiences included, such as a private shikara or wazwan dinner. Ask whether hotels are confirmed or 'similar', and insist on named properties. Check that winter heating and festive surcharges are covered, and that the agent will help if a flight is delayed and a night needs to be moved."] },
+    ],
+    faqs: [
+      { q: "Can I have a wazwan dinner at a luxury hotel in Srinagar?", a: "Yes. Many luxury hotels arrange a traditional wazwan with a waza on request; ask a day or two ahead." },
+      { q: "Do luxury hotels in Kashmir have spas?", a: "Yes. Several in Srinagar and Gulmarg have spas, some with saffron and walnut oil treatments." },
+      { q: "Are luxury hotels in Kashmir good for families?", a: "Yes. Look for suites, connecting rooms, lawns and children's menus." },
+    ],
+  },
+  "houseboat-vs-hotel-in-srinagar": {
+    sections: [
+      { h: "Houseboat vs hotel: cost compared", p: ["A Deluxe houseboat usually costs about the same as a good upscale hotel in Srinagar, often with breakfast and dinner included, which makes it good value for the experience. Lower category boats are cheaper than most hotels but simpler. Hotels range more widely, from budget guest houses to luxury palaces. When comparing, add up meals, transfers and shikara rides: on a houseboat they are often included, while in a hotel they may be extra."] },
+      { h: "What to pack for a houseboat stay", p: ["Light clothes and a warm layer for evenings on the deck in summer; thermals, socks and a warm jacket in winter. Slip-on shoes, because you remove them inside the boat. A torch for the walk to the shikara at night. Any medicines and toiletries you need, as shops are ashore. A small bag for the shikara rides, so you do not carry large luggage back and forth."] },
+      { h: "Houseboat etiquette", p: ["Remove shoes before walking on the carpets inside. Tell the family your meal times and preferences in advance. Keep noise down at night, because other guests and the family live close by. Ask before inviting outside guests on board. Tip the staff who served you at the end of your stay if you are happy with the service; it is appreciated but not compulsory."] },
+      { h: "When a hotel is clearly the better choice", p: ["When you have very early starts every day for Gulmarg, Sonamarg or Pahalgam. When you are travelling with someone who cannot step into a shikara easily. When you visit in deep winter and want guaranteed heating. When you need a business centre, a gym or reliable fast Wi-Fi. When you are arriving late at night or leaving very early. In these cases, a lakefront hotel on Boulevard Road keeps the view and makes logistics easy."] },
+      { h: "When a houseboat is clearly the better choice", p: ["When it is your first visit and you want the defining Kashmir experience. When you are on a honeymoon or a special trip. When you want home-cooked Kashmiri food and a family welcome. When you want to see the lake at dawn, the floating market and the sunset without travelling. When the weather is mild, from April to November. For most visitors, one or two nights on a houseboat is the highlight of the trip."] },
+      { h: "Dal Lake houseboat areas", p: ["Dal's houseboats are moored in long lines along the lake opposite Boulevard Road, reached from the numbered ghats, and in quieter clusters deeper in the lake and towards Nehru Park and the Golden Lake area. Boats near the Boulevard are convenient and lively, while those further in are quieter but involve longer shikara rides. Ask the owner where the boat is moored and how long the shikara transfer takes."] },
+    ],
+    faqs: [
+      { q: "Do I need to remove shoes on a houseboat?", a: "Yes. Houseboats have carpets inside, and guests remove shoes at the entrance." },
+      { q: "Is Wi-Fi available on houseboats?", a: "Many Deluxe boats offer Wi-Fi, but speeds vary. Ask before booking if you need to work." },
+      { q: "Should I tip houseboat staff?", a: "It is appreciated if you are happy with the service, but not compulsory." },
+    ],
+  },
+  "nigeen-lake-houseboats": {
+    sections: [
+      { h: "Things to do from Nigeen", p: ["Walk or take a short ride to Hazratbal Shrine on the lake shore, one of Kashmir's most important Muslim shrines. Take a shikara through the channels to Dal, the floating market, Char Chinar and the lotus gardens. Visit the University of Kashmir's lakeside campus area, the Naseem Bagh chinar grove and the old neighbourhoods around Nigeen. Drive up Hari Parbat to the fort and the shrine of Makhdoom Sahib for views over both lakes. The Mughal gardens of Nishat and Shalimar are about 20 to 30 minutes away."] },
+      { h: "Food on a Nigeen houseboat", p: ["Breakfast and dinner are cooked by the houseboat family, usually Kashmiri home food: rogan josh, yakhni, rista, haak, nadru and dum aloo, with rice and bread. Many families also cook simpler North Indian or continental dishes on request. Kahwa is served on arrival and often in the evening. For lunch, most guests are out on day trips. If you are vegetarian, Jain or want mild food, tell the family when you book."] },
+      { h: "Nigeen for photographers", p: ["Nigeen's calm water gives perfect reflections of the houseboats, willows and Hari Parbat in the early morning. Shikaras of vegetable sellers, kingfishers on the branches and the wooden houses on the shore make good subjects. Autumn brings golden willows and chinars, and winter brings mist and occasional snow. Ask before photographing people, especially in the residential areas."] },
+      { h: "Getting to Nigeen", p: ["From Srinagar airport, Nigeen is about 15 km and 30 to 40 minutes by taxi through the northern side of the city. From Srinagar railway station at Nowgam, allow 40 to 50 minutes. From Dal Gate and Boulevard Road, it is 15 to 20 minutes by road, or a long, beautiful shikara ride through the channels. Share your houseboat's name and the owner's number with your driver."] },
+      { h: "How long to stay on Nigeen", p: ["One night gives you the evening and the morning on the lake. Two nights gives you a full slow day and is ideal for honeymooners. Longer stays are lovely if you are not planning many day trips, but for Gulmarg, Sonamarg and Pahalgam, a hotel near Boulevard Road can be more convenient for early departures."] },
+    ],
+    faqs: [
+      { q: "How far is Hazratbal from Nigeen?", a: "It is close, on the lake shore, a short walk or drive from many Nigeen houseboats." },
+      { q: "Is Nigeen quieter than Dal at night?", a: "Yes. Nigeen is residential and has fewer boats, so nights are very quiet." },
+    ],
+  },
+};
+for (const p of KASHMIR_STAYS) {
+  const e = EXTRA_3[p.slug];
+  if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
+}
+
+const EXTRA_4: Record<string, { sections: BlogSection[]; faqs: BlogPost["faqs"] }> = {
+  "luxury-hotels-in-kashmir": {
+    sections: [
+      { h: "Luxury in spring: tulips, blossom and palace lawns", p: ["Spring is when Kashmir's luxury hotels look their finest. From late March, the Tulip Garden on the Zabarwan slopes bursts into colour a short drive from Taj Dal View and The LaLiT Grand Palace, while almond blossom fills Badamwari and cherry and apple trees flower across the valley. The lawns of the palace hotels turn bright green, and mornings on terraces overlooking Dal are cool and clear. It is also one of the busiest periods for top hotels, especially during the first two weeks of April when the tulips peak, so book lake-view rooms two to three months ahead.", "In Gulmarg, spring brings a rare combination: green patches on the meadow below and snow on Apharwat above, with spring skiing on the upper slopes. A night at a Gulmarg resort in April gives you both, with far shorter Gondola queues than in winter."] },
+      { h: "Luxury in autumn: chinars, saffron and clear skies", p: ["From late October to mid-November, the chinar trees of Srinagar turn red, orange and gold. The LaLiT Grand Palace's old chinars, the Naseem Bagh grove and the Mughal gardens of Nishat and Shalimar are at their most beautiful, and the light over Dal is soft and golden. At the same time, the saffron fields of Pampore bloom purple and farmers pick the flowers at dawn. Skies are clear, days pleasant and nights crisp. Rates are often lower than in spring and summer, which makes autumn the best value season for a luxury trip."] },
+      { h: "Arriving in style: transfers and first impressions", p: ["A luxury trip starts at the airport. Ask your hotel or agent for a premium vehicle such as an Innova Crysta, Fortuner or another SUV, with a driver who meets you inside the arrivals area where permitted, handles your bags and briefs you on the drive. If you are starting on a Deluxe houseboat, a decorated shikara can collect you from the ghat, with kahwa served on arrival. Small touches like these set the tone, and good hotels arrange them without fuss if asked in advance."] },
+      { h: "How to choose between the top Srinagar hotels", p: ["Choose The LaLiT Grand Palace for history, grand public rooms and spacious lawns; Taj Dal View for views over the lake, a quiet hillside setting and contemporary comfort; the Radisson Collection Riverfront for a central, modern base on the Jhelum; and a Deluxe houseboat for intimacy and the lake at your door. Many luxury travellers split their Srinagar nights: two in a palace or lake-view hotel and one or two on a houseboat."] },
+    ],
+    faqs: [
+      { q: "What is the best season for a luxury Kashmir trip?", a: "Spring for tulips and blossom, autumn for golden chinars and better value, and winter for snow at Gulmarg resorts." },
+      { q: "Can luxury hotels arrange airport pickups in premium cars?", a: "Yes. Ask for an Innova Crysta, Fortuner or another SUV when you book." },
+    ],
+  },
+  "houseboat-vs-hotel-in-srinagar": {
+    sections: [
+      { h: "A first night on a houseboat: what to expect", p: ["You arrive at a ghat on Boulevard Road or at Nigeen, where the houseboat's shikara or the owner meets you. Bags go in the shikara, and a short ride across the water brings you to the boat's front deck, where you remove your shoes. Inside, you are welcomed with kahwa in a sitting room panelled in carved walnut, with carpets, low sofas and old photographs. The owner shows you your bedroom, explains meal times and hot water, and asks about your plans. Dinner is home-cooked and served in the dining room.", "At night, the lake is quiet apart from the water lapping against the hull and the distant call to prayer. In the morning, flower and vegetable sellers paddle up to the deck, and the light on the lake is soft and still. Most guests say this first morning is when Kashmir really begins."] },
+      { h: "A first night in a Srinagar hotel: what to expect", p: ["Your driver drops you at the door, and staff take your bags to a room with a private bathroom, heating or air-conditioning and room service. You can rest, go out for dinner on Boulevard Road or Residency Road, and leave early the next morning without arranging a shikara. Lakefront hotels give you the view across the road; quieter hotels in Rajbagh or on the gardens side give you calm. It is less memorable than a houseboat, but easier, especially after a long journey."] },
+      { h: "Houseboat vs hotel for business and work travellers", p: ["If you need to work during your trip, a hotel is usually more practical: desks, reliable Wi-Fi, power backup and quiet rooms. Some Deluxe houseboats offer Wi-Fi and are pleasant for light work on the deck, but speeds and power can vary. If you combine work with leisure, stay in a hotel for working days and spend one night on a houseboat at the weekend."] },
+      { h: "Our recommendation", p: ["For most travellers, the best answer is one or two nights on a well-reviewed Deluxe houseboat, either at the start or the end of the trip, and hotels for the rest. Choose Nigeen for quiet and easy access, Dal for the classic view. In deep winter or with mobility needs, choose a hotel and visit the lake by shikara in the afternoon."] },
+    ],
+    faqs: [
+      { q: "What is the best time of year to stay on a houseboat?", a: "April to November, when days are mild and the lake is at its best. Winter stays are lovely but cold." },
+    ],
+  },
+  "nigeen-lake-houseboats": {
+    sections: [
+      { h: "A short history of Nigeen's houseboats", p: ["Nigeen was one of the first lakes where Srinagar's houseboats were moored when they became popular with summer visitors in the late 19th and early 20th centuries, at a time when outsiders could not own land in Kashmir. British families and officials who spent summers in Srinagar often preferred Nigeen for its quiet and its cooler, greener setting. Many of the boats moored here today belong to families who have run them for three or four generations, and some keep old guest books and photographs from those early years."] },
+      { h: "What to check in a Nigeen houseboat room", p: ["Look at the bedroom size and bed type, whether the bathroom is attached and has hot water at all hours, how the room is heated in winter and ventilated in summer, and whether the windows look onto the lake or the side of the next boat. Ask whether the boat has a front deck or a rooftop where you can sit, how many other guests may be on board, and whether the common sitting room is shared. Recent guest photos are more reliable than the owner's best pictures."] },
+      { h: "Nigeen with children and elderly parents", p: ["Nigeen is the easier lake for families. Many boats are moored by the shore with steps or a gangway, so there is no need to step into a shikara for every trip. The water is calm and there is less boat traffic than on Dal. Supervise children on the deck, which may not have high railings, and ask the family for a ground-level room if an elderly parent finds steps difficult. Ask for milder food for children and older travellers."] },
+      { h: "Combining Nigeen with the rest of your trip", p: ["A typical plan is one or two nights on Nigeen at the start of the trip, then a hotel for day trips to Gulmarg and Sonamarg, two nights in Pahalgam, and a final night back in Srinagar. Alternatively, finish the trip on Nigeen to unwind before flying home. Because Nigeen is on the north side of the city, allow 30 to 40 minutes to the airport, plus the airport gate check."] },
+    ],
+    faqs: [
+      { q: "How old are Nigeen's houseboats?", a: "Many families have run their boats for generations, and houseboats on Nigeen date back to the late 19th and early 20th centuries." },
+      { q: "Do Nigeen houseboats have lake-view rooms?", a: "Many do, but some rooms face the side of a neighbouring boat. Ask for a lake-facing room." },
+    ],
+  },
+};
+for (const p of KASHMIR_STAYS) {
+  const e = EXTRA_4[p.slug];
+  if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
+}
+
+const EXTRA_5: Record<string, { sections: BlogSection[]; faqs: BlogPost["faqs"] }> = {
+  "luxury-hotels-in-kashmir": {
+    sections: [
+      { h: "Luxury in summer: Gulmarg meadows and Pahalgam rivers", p: ["From May to August, the plains of India swelter while Kashmir stays cool, which makes summer the busiest season for luxury travel. Srinagar's days are warm and long, ideal for lake terraces in the evening. Gulmarg's resorts look over green meadows and forests, with the Gondola running to snow patches on Apharwat, and Pahalgam's riverside hotels are at their best, with the Lidder running fast and the valleys of Aru and Betaab bright green. Book early for May and June, when school holidays fill the top hotels, and ask for rooms with balconies facing the river or meadow."] },
+      { h: "Signs of a genuinely luxury stay in Kashmir", p: ["Real luxury in Kashmir shows in details: a room that is properly warm in winter without noisy heaters, hot water at any hour, staff who know the valley and can rearrange a day when the weather changes, a car and driver who arrive early, a kitchen that can cook a proper wazwan and a simple meal for a tired child, and quiet. Hotels that deliver these consistently are worth their rates; impressive lobbies without them are not. Recent guest reviews that mention winter heating, service and food are the best guide."] },
+    ],
+    faqs: [
+      { q: "Do I need to book luxury hotels in Kashmir early for summer?", a: "Yes. May and June are among the busiest months; book two to three months ahead for river- or lake-view rooms." },
+    ],
+  },
+  "houseboat-vs-hotel-in-srinagar": {
+    sections: [
+      { h: "Common houseboat mistakes", p: ["Booking through a tout on arrival rather than a known boat. Not asking for the boat's name and category. Assuming all houseboats are on Dal, when many of the best are on Nigeen. Taking very large suitcases that are difficult to move by shikara. Choosing an old boat in deep winter without confirming heating. Staying four or five nights on a houseboat and then struggling with early starts for Gulmarg and Sonamarg. Avoid these and the houseboat night will be a highlight."] },
+      { h: "Common hotel mistakes in Srinagar", p: ["Booking a hotel described as 'on Dal Lake' that is actually several lanes behind it. Not checking the room view: lake-facing rooms cost more for a reason. Choosing a budget hotel in winter without confirming room heating. Staying in Lal Chowk when you wanted quiet, or in the gardens side when you wanted to walk to restaurants. Ask for the exact address and the room category before you pay."] },
+    ],
+    faqs: [
+      { q: "Can I stay on a houseboat and a hotel on the same trip?", a: "Yes, and most travellers do: one or two houseboat nights, then a hotel for day trips." },
+    ],
+  },
+  "nigeen-lake-houseboats": {
+    sections: [
+      { h: "Nigeen by month", p: ["March and April: willows turn green, almond and cherry blossom near the shores, cool nights. May and June: warm days, busy summer season, long evenings on the deck. July and August: lotus flowers on parts of the lake and lush shores. September to November: the most beautiful months, with golden willows and chinars and clear skies. December to February: cold, misty and quiet, sometimes with snow on the roofs; strong heating is essential."] },
+      { h: "Is Nigeen Lake right for you?", p: ["Nigeen suits travellers who want peace more than activity: honeymooners, families with young children, elderly travellers, writers and photographers. If you want to be in the middle of the action, with shops and restaurants a short shikara ride away and the full panorama of Dal, choose a Dal Lake houseboat or a Boulevard Road hotel instead."] },
+    ],
+    faqs: [
+      { q: "Is Nigeen good for a first visit to Kashmir?", a: "Yes, especially if you want a calm first night. Dal is better if you want the classic busy lake view." },
+    ],
+  },
+  "where-to-stay-in-sonamarg": {
+    sections: [
+      { h: "Hotels on the main road: what to expect", p: ["Most of Sonamarg's hotels line the main road through the town, the same road that continues to Zojila and Ladakh. They range from simple lodges to comfortable mid-range hotels, many with rooms looking across the Sindh river or up the Thajiwas valley. Expect clean, simple rooms, hot water from geysers, heating by electric heaters on cold nights and dining rooms serving North Indian and Kashmiri food. Upper-floor, river-facing rooms are quieter than those overlooking the road, where trucks to Ladakh pass early in the morning."] },
+      { h: "JKTDC huts and tourist complex", p: ["The Jammu and Kashmir Tourism Development Corporation runs huts and rooms at Sonamarg, well located for the meadow and the Thajiwas path. They are simple, practical and good value, popular with families and groups. Book ahead for June to August through the official JKTDC booking channels, because they fill quickly in summer."] },
+      { h: "Camps near Thajiwas and along the Sindh", p: ["In summer, tented camps set up near the Thajiwas valley and along the river. Most provide beds, blankets, attached or shared washrooms and meals, and some offer bonfires in the evening. Camps are popular with trekkers starting the Great Lakes trek, with groups and with young travellers. Nights in a tent are cold even in July, so check the bedding and carry warm layers."] },
+      { h: "Baltal camps during the Amarnath Yatra", p: ["Baltal, about 15 km beyond Sonamarg, becomes a large base camp during the Amarnath Yatra in July and August, with tents, langars and facilities for registered pilgrims. It is not a general tourist stay. If you are on the yatra, your registration and package will specify where you stay; if not, stay in Sonamarg and expect busier roads."] },
+      { h: "A Sonamarg stay on a Ladakh road trip", p: ["If you are driving from Srinagar to Leh, spending the first night in Sonamarg lets you cross Zojila early the next morning, in the first traffic window. Choose a hotel at the eastern end of the town, closer to the Zojila road, ask for an early breakfast or a packed one, and fill up with fuel. The next night is usually in Kargil or Drass."] },
+      { h: "Sonamarg for honeymooners", p: ["For couples, a summer night in Sonamarg can be very special: an evening walk by the Sindh, a quiet dinner, and an early morning at Thajiwas glacier before the day visitors arrive. Choose a river-facing room in a comfortable hotel, and keep the night between a Srinagar houseboat and Pahalgam on your itinerary. In winter, most hotels are closed, so Sonamarg is better as a day trip."] },
+    ],
+    faqs: [
+      { q: "How do I book JKTDC huts in Sonamarg?", a: "Through the official JKTDC booking channels. Book early for June to August." },
+      { q: "Are Sonamarg camps comfortable?", a: "Most provide beds, blankets and meals. Nights are cold, so check the bedding and carry warm layers." },
+      { q: "Can I stay at Baltal?", a: "Baltal is mainly an Amarnath Yatra base camp in July and August. Most travellers stay in Sonamarg." },
+    ],
+  },
+  "where-to-stay-in-gulmarg": {
+    sections: [
+      { h: "Staying near the Gondola base in detail", p: ["Hotels close to the Gondola base station put you within a short walk of the cable car, the ski school area and the gentle beginner slopes. This is the most practical place to stay in ski season, when you carry boots and skis every morning, and for anyone who wants to be in the first Gondola cabins. Rooms here are in high demand from December to March, so book early. In summer, the area is busy with day visitors from late morning to afternoon but quiet in the evening."] },
+      { h: "Staying on the main meadow", p: ["The hotels and cottages around the main meadow and the golf course are in the oldest part of Gulmarg, close to St Mary's Church, the Maharani temple and the bus stand area. They offer wide views of the meadow and the surrounding forest and are good for walks, golf and photography. In winter, the meadow becomes a snowfield and the walk to the Gondola takes 10 to 20 minutes over snow, or a short taxi ride."] },
+      { h: "Staying in Tangmarg", p: ["Tangmarg, 13 km below Gulmarg, has more guest houses and budget hotels, local restaurants and shops where you can hire snow gear. Rates are lower than in Gulmarg, and it is a convenient base if Gulmarg is fully booked. The disadvantage is the daily drive up and down the hairpins, which can be slow in peak season and after snowfall, when vehicles are checked for chains."] },
+      { h: "JKTDC huts in Gulmarg", p: ["The Jammu and Kashmir Tourism Development Corporation runs huts and cottages on the Gulmarg meadow, simple but well located, with heating in winter. They are good value for families and groups. Book through the official JKTDC channels, early for ski season and summer holidays."] },
+      { h: "Gulmarg for skiers: a 5-night stay", p: ["Night 1: arrive from Srinagar, collect ski equipment and settle in. Day 2: lessons with a registered instructor on the beginner slopes near the base. Day 3: more lessons, or the Gondola to Kongdoori for intermediate runs. Day 4: Phase 2 to Apharwat if open, for longer runs, with a guide if you go beyond the marked areas. Day 5: a rest morning, sledging or snowshoeing, then a last afternoon on the slopes. Day 6: return to Srinagar."] },
+      { h: "Gulmarg for honeymooners", p: ["For a honeymoon, one night in Gulmarg is ideal: arrive in the afternoon, walk on the meadow at sunset, take the first Gondola cabin the next morning and spend the afternoon on the snow or on a pony ride to Khilanmarg. Choose a resort with heating and good dining, a meadow-facing room, and ask the hotel to arrange a candlelight dinner. In winter, a fireside evening after a day in the snow is the classic Gulmarg experience."] },
+    ],
+    faqs: [
+      { q: "Where is the best place to stay in Gulmarg for skiing?", a: "Near the Gondola base, within walking distance of the cable car and ski school." },
+      { q: "Are there budget hotels in Gulmarg?", a: "A few, plus JKTDC huts. Tangmarg below Gulmarg has more budget options." },
+      { q: "How far is Tangmarg from Gulmarg?", a: "About 13 km of hairpin road, 30 to 45 minutes depending on traffic and snow." },
+    ],
+  },
+  "where-to-stay-in-pahalgam": {
+    sections: [
+      { h: "Staying by the Lidder in detail", p: ["The riverside hotels along the Lidder are the classic Pahalgam stay. Rooms facing the river let you hear the water day and night, and many hotels have lawns or terraces on the bank. They are within a few minutes of the main market and the union taxi stand. Ask for a river-facing room on a higher floor, and check that the hotel is on the near side of the river, which avoids extra bridges and traffic."] },
+      { h: "Staying in the main market area", p: ["Hotels around the main market and bus stand are practical: restaurants, shops, pharmacies and the union taxi stand are all within walking distance. They are good for families, elderly travellers and anyone who wants to step out easily for meals. Rooms on the main road can be noisy during the day in peak season, so ask for rooms at the back or on higher floors."] },
+      { h: "Staying on the Aru and Chandanwari roads", p: ["Hotels on the Aru road sit in pine forest a few minutes from town, with quieter surroundings and views across the valley. Those on the Chandanwari road are closer to Betaab Valley and the Amarnath Yatra route, which makes them convenient but busier in July and August. Both suit travellers with a car or who are happy to take short taxi rides into town."] },
+      { h: "Homestays and village stays", p: ["Down the valley, villages such as Aishmuqam, Mattan and others along the Lidder have homestays and guest houses with home-cooked food. Further up, Aru village has a few simple guest houses used by trekkers. These stays are quieter and cheaper than the town, and give a glimpse of rural Kashmiri life. They suit independent travellers and those planning walks from Aru."] },
+      { h: "Pahalgam for families: a 3-night stay", p: ["Night 1: arrive via Pampore and Awantipora, walk by the river in the evening. Day 2: union taxi to Betaab Valley and Chandanwari, picnic by the river, children's park in the evening. Day 3: union taxi to Aru Valley, pony ride for the children, gentle rafting for older children in season. Day 4: slow morning and return to Srinagar. Choose a hotel with family rooms, a lawn and a restaurant that can cook simple food."] },
+      { h: "Pahalgam in winter: where to stay", p: ["Some Pahalgam hotels close in winter, but many stay open with heating, especially near the main market and along the river. Choose a hotel with central heating or reliable room heaters, hot water and power backup, and confirm it is open on your dates. Betaab Valley is usually reachable through winter; Aru depends on road clearance; Chandanwari often closes after heavy snow."] },
+    ],
+    faqs: [
+      { q: "Is it better to stay by the river or near the market in Pahalgam?", a: "By the river for atmosphere, near the market for convenience. Both are close to the union taxi stand." },
+      { q: "Are there homestays near Pahalgam?", a: "Yes, in villages down the valley and a few in Aru." },
+      { q: "Are Pahalgam hotels busy during the Amarnath Yatra?", a: "Yes, in July and August. Book early and expect heavier security and traffic." },
+    ],
+  },
+  "best-areas-to-stay-in-srinagar": {
+    sections: [
+      { h: "Boulevard Road in more detail", p: ["Boulevard Road runs along the southern and eastern shores of Dal Lake, from Dal Gate past Nehru Park towards Nishat. The stretch closest to Dal Gate is the busiest, with hotels, restaurants, shops and shikara ghats; further along, towards Nishat, it becomes quieter and greener. Hotels on the lake side of the road have views over the water; those on the other side are cheaper. In peak season, evening traffic on the Boulevard can be slow, so plan dinners close to your hotel."] },
+      { h: "Rajbagh and the Jhelum Bund", p: ["Rajbagh is a leafy residential area on the Jhelum, connected to the city centre by bridges. The Jhelum Bund, a riverside promenade, is pleasant for evening walks. Hotels here are quieter than on Boulevard Road and often better value, and Lal Chowk, Residency Road and Dal Gate are a few minutes away by taxi. It suits families, elderly travellers and anyone who wants calm evenings without being far from the city."] },
+      { h: "Hazratbal and the north shore", p: ["The area around Hazratbal and Nigeen on the north side of the city is quieter and more residential, with houseboats on Nigeen and some guest houses. It is close to Hazratbal shrine and the university area and about 15 to 20 minutes from Boulevard Road. It suits travellers who want a calm base and do not mind taking taxis into the centre."] },
+      { h: "Staying near the airport or railway station", p: ["If you have a very early flight or train, a hotel near the airport or on the southern side of the city can save time, but there is little to see or do there. Most travellers prefer to stay near Dal Lake and leave early. Remember to allow extra time for the airport gate check, which matters more than distance."] },
+      { h: "Srinagar areas for each type of traveller", p: ["Honeymooners: a Deluxe houseboat on Nigeen or Dal, then a lake-view hotel on Gupkar or Boulevard Road. Families: Rajbagh or the gardens side, with lawns and calm. Elderly parents: a hotel with a lift in Rajbagh or on the Boulevard, close to the car. Budget travellers: guest houses near Dal Gate. Shoppers and food lovers: Lal Chowk and Residency Road. Photographers: a lakefront hotel or houseboat for dawn light."] },
+    ],
+    faqs: [
+      { q: "Is Rajbagh a good area to stay in Srinagar?", a: "Yes. It is quiet, central and residential, a few minutes from Lal Chowk and Dal Gate." },
+      { q: "Which area is closest to the Mughal gardens?", a: "The Nishat and Brein area on the eastern shore of Dal Lake." },
+    ],
+  },
+  "hotels-in-katra-near-vaishno-devi": {
+    sections: [
+      { h: "Katra's main areas compared", p: ["The main bazaar and bus stand area is the heart of Katra, with hotels, restaurants, shops and the Yatra Registration counters. It is busy and lively at all hours, especially in Navratri, and you can walk to Banganga, the start of the trek, in 15 to 20 minutes. The Banganga road has hotels closer to the trek start and is quieter at night. The railway station area, a few kilometres from town, has newer hotels with more space and parking, convenient for trains but needing a short taxi ride to the yatra start."] },
+      { h: "Shrine Board accommodation in detail", p: ["The Shri Mata Vaishno Devi Shrine Board runs accommodation complexes in Katra and on the route, with rooms and dormitories at low rates. In Katra, its complexes near the bus stand and railway station are well kept and secure. On the route, there are rooms and dormitories at Adhkuwari and near the Bhawan, useful if you want to rest overnight during the yatra. Booking is only on the Shrine Board's official website, and slots open in advance. Rooms near the Bhawan are in high demand in peak periods."] },
+      { h: "What Katra hotels typically offer", p: ["Most Katra hotels are vegetarian, with dining rooms serving North Indian, South Indian and Gujarati food, and many offer early breakfast or packed meals for pilgrims starting before dawn. Rooms range from simple budget rooms to comfortable mid-range hotels with lifts and heating. Many hotels help with yatra registration, helicopter information and taxis. Check-in times are often flexible because pilgrims arrive and leave at all hours."] },
+      { h: "Katra with elderly parents", p: ["Choose a hotel with a lift, close to the bus stand or Banganga, or near the helipad if you have helicopter tickets. Ask for a room on a lower floor and a quiet side. Plan the yatra with a helicopter, pony, palki or battery car, and book a rest day after the darshan before travelling on to Srinagar. Carry warm layers for the Bhawan, which is much colder than Katra."] },
+      { h: "Katra in peak periods and what to expect", p: ["During Navratri, the summer holidays and the New Year, Katra fills up, queues at registration counters grow long and hotel rates rise. Book well ahead, register for the yatra online where possible, and start the climb at off-peak hours such as late evening or very early morning. Keep a flexible extra night in your plan."] },
+    ],
+    faqs: [
+      { q: "Can I book Shrine Board rooms at Adhkuwari or the Bhawan?", a: "Yes, on the Shrine Board's official website, subject to availability." },
+      { q: "Do Katra hotels serve non-vegetarian food?", a: "No. Katra is a vegetarian town; hotels and restaurants serve vegetarian food." },
+    ],
+  },
+  "budget-hotels-in-srinagar": {
+    sections: [
+      { h: "What you get for a budget room in Srinagar", p: ["A typical budget room in Srinagar is clean and simple, with a double or twin bed, an attached bathroom with a geyser, a television and sometimes Wi-Fi. Breakfast may be included. In winter, heating is usually an electric heater, sometimes charged extra. Views are of the lane or the building next door rather than the lake. Service is friendly but basic. For most travellers who spend their days sightseeing, this is enough."] },
+      { h: "Budget stays by season", p: ["Peak periods, when budget rooms are scarce and rates rise, are the tulip weeks in April, May and June, and the Christmas to New Year week. Best value comes in March, October and November. In deep winter, budget rooms are available but heating becomes the main concern, so a slightly higher budget for a better-heated room is worth it."] },
+      { h: "Budget hostels and backpacker stays", p: ["Srinagar has a few backpacker hostels and dormitory-style stays, mostly around Dal Gate and the Boulevard back lanes, popular with young travellers and solo trekkers. They offer bunk beds, shared bathrooms and common areas, and are good places to meet other travellers and share cabs. Check reviews for cleanliness and safety, and ask about lockers."] },
+    ],
+    faqs: [
+      { q: "Are there hostels in Srinagar?", a: "Yes, a few backpacker hostels, mainly around Dal Gate. Check reviews for cleanliness and safety." },
+      { q: "Is heating included in budget hotels in Srinagar?", a: "Sometimes. Electric heaters are often charged extra in winter; confirm before booking." },
+    ],
+  },
+};
+for (const p of KASHMIR_STAYS) {
+  const e = EXTRA_5[p.slug];
+  if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
+}
