@@ -95,6 +95,50 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "Can I take photographs inside the Amarnath cave?", a: "No. Photography is not permitted inside the cave." },
     ],
   },
+  "atv-ride-in-gulmarg": {
+    sections: [
+      { h: "ATV rides with children", p: ["Children usually ride as passengers behind an adult or with the operator driving. Check the operator's age rules, make sure helmets fit, and choose a gentle route."] },
+      { h: "ATV safety in snow", p: ["In snow, ATVs can slide on slopes and icy patches. Ride slowly, follow the operator's route, keep a safe distance from other vehicles and pedestrians, and wear a helmet and gloves. Avoid ATV rides in poor visibility."] },
+    ],
+    faqs: [
+      { q: "Can children ride ATVs in Gulmarg?", a: "Usually as passengers, with a helmet and according to the operator's age rules." },
+      { q: "Are ATV rides safe in Gulmarg snow?", a: "Yes, if you ride slowly, follow the route and wear a helmet." },
+      { q: "How long is an ATV ride in Gulmarg?", a: "Usually 30 minutes to an hour, depending on the route chosen." },
+    ],
+  },
+  "best-areas-to-stay-in-srinagar": {
+    sections: [
+      { h: "Areas near the airport and railway station", p: ["Travellers with early flights or trains sometimes stay near the airport in Humhama or Budgam, or near Nowgam railway station. These areas have fewer hotels and less atmosphere than the Boulevard, but they save time on departure days. Most visitors still prefer the lake areas for the rest of the trip."] },
+      { h: "Best area for families and seniors", p: ["Families and seniors usually find the Boulevard, Rajbagh and Sonwar the most convenient, with level streets, lifts in many hotels, restaurants nearby and short drives to the Mughal Gardens and Dal Lake's ghats. Nigeen suits those who want quiet, and a houseboat night can be added for the experience."] },
+    ],
+    faqs: [
+      { q: "Are there hotels near Srinagar airport?", a: "A few, in Humhama and Budgam, useful for very early flights." },
+      { q: "Which area of Srinagar is best for families?", a: "The Boulevard, Rajbagh and Sonwar, with lifts, restaurants and short drives to sights." },
+      { q: "Is Nigeen good for a quiet stay in Srinagar?", a: "Yes. Nigeen Lake is residential and quieter than Dal, with houseboats reached by walkways or short shikara hops. It suits couples and families." },
+    ],
+  },
+  "bike-rental-in-srinagar-and-leh": {
+    sections: [
+      { h: "Bike rental checklist", p: ["Check the bike's registration, insurance and pollution certificates, inspect tyres, brakes, chain and lights, take photographs of any damage, confirm the fuel level and the spare parts included, and agree on what happens in case of a breakdown in a remote area. Carry your driving licence and ID, and wear a proper helmet."] },
+      { h: "Riding gear and safety", p: ["Wear a full-face helmet, riding jacket, gloves, boots and knee guards, and carry rain covers. Ride only in daylight, avoid long distances on the first day in Leh because of altitude, and travel with at least one other rider on remote routes. Keep a basic tool kit, spare tube and puncture kit."] },
+    ],
+    faqs: [
+      { q: "What documents do I need to rent a bike in Leh?", a: "A valid driving licence, ID and the bike's registration, insurance and pollution certificates." },
+      { q: "What gear do I need for a bike trip in Ladakh?", a: "A full-face helmet, riding jacket, gloves, boots, knee guards, rain covers and a basic tool kit." },
+      { q: "Should I ride alone in Ladakh?", a: "It is safer to ride with at least one other rider on remote routes, in daylight, with a tool kit and spare tube." },
+    ],
+  },
+  "budget-hotels-in-srinagar": {
+    sections: [
+      { h: "Budget hotels in winter", p: ["In winter, budget hotels may rely on electric heaters or bukharis rather than central heating, and hot water can be limited. Ask about heating, power backup and blankets, and choose a room on a higher floor, which is often warmer. Some budget hotels close in the coldest weeks."] },
+      { h: "Budget hotels near Dal Lake", p: ["Many budget hotels are in the lanes behind the Boulevard near Dalgate and in Rajbagh, within walking distance of the lake and restaurants. Rooms are simple, so check reviews for cleanliness, hot water and noise, and ask whether breakfast is included."] },
+    ],
+    faqs: [
+      { q: "Do budget hotels in Srinagar have heating?", a: "Many provide heaters or bukharis; ask about heating and power backup in winter." },
+      { q: "Where are budget hotels in Srinagar?", a: "Mostly in the lanes behind the Boulevard near Dalgate and in Rajbagh." },
+      { q: "Do budget hotels in Srinagar include breakfast?", a: "Some do; ask when booking, and check reviews for cleanliness and hot water. Breakfast is usually simple: eggs, bread and tea." },
+    ],
+  },
   "camping-in-gurez-valley": {
     sections: [
       { h: "Camping in Tulail in detail", p: ["Tulail, beyond Dawar along the Kishanganga, has quieter riverside meadows and wooden villages such as Badwan and Chakwali. Camps here are simpler than in Dawar, with fewer facilities and limited network. It suits travellers who want peace and village life. Check that your camp is permitted and confirm road conditions."] },
@@ -107,6 +151,15 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "What is Habba Khatoon peak?", a: "A pyramid-shaped peak overlooking Dawar, named after the 16th-century Kashmiri poet-queen." },
       { q: "When do Gurez camps close?", a: "Usually by October or November, before snow closes Razdan Pass." },
       { q: "Is September good for camping in Gurez?", a: "Yes, with clear skies, golden willows and fewer campers, though nights are cold. Check with your camp before travelling." },
+    ],
+  },
+  "golf-in-kashmir-royal-springs-gulmarg-pahalgam": {
+    sections: [
+    ],
+    faqs: [
+      { q: "When is golf season in Kashmir?", a: "Roughly April to November, depending on snow." },
+      { q: "Can visitors play golf at Royal Springs?", a: "Yes, visitors can book rounds; ask about equipment hire." },
+      { q: "Is Gulmarg's golf course open in summer?", a: "Yes, it is usually open in the warmer months." },
     ],
   },
   "gulmarg-gondola-guide": {
@@ -206,6 +259,17 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "What should I pack for Hanle?", a: "A down jacket, thermals, caps, gloves, a red-light torch, a tripod, cash and supplies from Leh." },
       { q: "Can I go from Pangong to Hanle?", a: "Yes, via Chushul on newer roads, with the right permits and an experienced driver." },
       { q: "What camera settings work for the Milky Way at Hanle?", a: "A wide lens at a fast aperture, manual focus on a bright star, and exposures of about 15 to 25 seconds at high ISO." },
+    ],
+  },
+  "hotels-in-katra-near-vaishno-devi": {
+    sections: [
+      { h: "Hotels near the Katra railway station", p: ["Hotels near Shri Mata Vaishno Devi Katra station suit pilgrims arriving by train and those taking the Vande Bharat to Srinagar. They are a short drive from the Banganga starting point and the helipad."] },
+      { h: "Hotels for helicopter pilgrims", p: ["Pilgrims flying to Sanjichhat should stay close to the Katra helipad to reach it early for reporting. Several hotels lie within a short drive. Confirm your helicopter time and ask the hotel for an early breakfast or packed meal."] },
+    ],
+    faqs: [
+      { q: "Are there hotels near Katra railway station?", a: "Yes, convenient for train arrivals and the Vande Bharat to Srinagar." },
+      { q: "Where should helicopter pilgrims stay in Katra?", a: "Close to the helipad, to report early for the flight." },
+      { q: "Can Katra hotels arrange an early breakfast for the yatra?", a: "Many can serve an early breakfast or pack a meal if you ask the evening before. This helps you reach the helipad or Banganga early." },
     ],
   },
   "how-to-plan-a-kashmir-trip": {
@@ -327,6 +391,9 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { h: "Where to eat on a 3-day trip", p: ["Day 1 in Srinagar: lunch at a restaurant on Boulevard Road or Residency Road, and dinner on your houseboat or at a Kashmiri restaurant for rista, rogan josh and yakhni. Day 2 in Gulmarg: lunch near the Gondola base or at a hotel on the meadow; tea and snacks at Tangmarg on the way. Day 3 in Sonamarg: a simple dhaba lunch on the main road, or in Pahalgam a riverside cafe. Try kahwa and Kashmiri bakery breads at least once each day."] },
       { h: "3-day Kashmir for first-time visitors: what to prioritise", p: ["If you only remember three things from a short trip, make them a sunset on Dal Lake by shikara, the Gulmarg Gondola above the snow line and a walk to a glacier or a river valley. Everything else, from shopping to extra gardens, is a bonus. Keep the pace relaxed, start early each day and leave buffer time for traffic and queues."] },
       { h: "Is a 3-day package better than booking yourself?", p: ["For a short trip, a package saves time: the car, hotels, transfers and shikara are arranged, and the driver plans the days around Gondola slots and traffic. Booking yourself can be cheaper if you are flexible and comfortable negotiating taxis, but it takes more time on the ground. Many first-time visitors choose a package for three days and plan independently on later trips."] },
+      { h: "3 days in Kashmir for pilgrims", p: ["Pilgrims arriving from Katra by Vande Bharat can spend three days in Kashmir: day 1 at Hazratbal, Shankaracharya temple and a shikara ride; day 2 at Kheer Bhawani in Tulmulla and the Mughal Gardens; day 3 at Gulmarg with the gondola before returning to Katra or flying home."] },
+      { h: "3-day plan with a Sonamarg focus", p: ["For snow in late spring or early summer, spend day 1 in Srinagar, day 2 at Sonamarg's Thajiwas glacier, and day 3 at Gulmarg, returning to the airport in the evening if your flight allows."] },
+      { h: "3 days in winter", p: ["In winter, spend day 1 in Srinagar with a shikara ride and the old city, day 2 overnight in Gulmarg for snow, sledging and the gondola, and day 3 back to Srinagar for an afternoon flight. Keep the plan flexible for snow, and choose heated hotels."] },
     ],
     faqs: [
       { q: "Can I see Gulmarg and Sonamarg in 3 days?", a: "Yes, with Srinagar as the base: Gulmarg on day 2 and Sonamarg on day 3." },
@@ -337,6 +404,8 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "Is 3 days enough to see snow in Kashmir?", a: "Yes. Gulmarg reliably has snow from December to March, and Sonamarg is reachable on most winter days." },
       { q: "What should I eat in Kashmir on a short trip?", a: "A wazwan dish such as rista or rogan josh, kahwa, noon chai and fresh bakery bread." },
       { q: "Should I book a 3-day Kashmir package?", a: "For first-time visitors, a package saves time and handles the car, hotels and transfers." },
+      { q: "Can pilgrims see Kashmir in 3 days?", a: "Yes: Hazratbal and Shankaracharya, Kheer Bhawani and the gardens, then Gulmarg." },
+      { q: "What is the best 3-day Kashmir plan in winter?", a: "Srinagar on day 1, an overnight in Gulmarg for snow and the gondola on day 2, and back to Srinagar for an afternoon flight on day 3. Choose heated hotels." },
     ],
   },
   "kashmir-7-day-itinerary": {
@@ -357,6 +426,9 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { h: "Where to stay on a 7-day trip", p: ["Night 1: a Deluxe houseboat on Dal or Nigeen. Nights 2 to 4: a hotel on Boulevard Road or in Rajbagh, so the car is at the door for early starts. Nights 5 and 6: a riverside hotel on the Lidder in Pahalgam. Optional night 7: back on a houseboat if your flight is the next morning. In winter, choose centrally heated hotels and limit the houseboat to one night."] },
       { h: "Food highlights across 7 days", p: ["Try a full wazwan meal once, ideally on your last Srinagar evening; harissa at dawn in the old city if you visit in winter; kahwa after every meal; noon chai and girda at breakfast; nadru monje from a street stall; Pampore saffron and dry fruit on the drive to Pahalgam; and trout in Pahalgam, where some restaurants serve it fresh from local farms."] },
       { h: "A 7-day Kashmir honeymoon variation", p: ["Day 1: Nigeen houseboat, decorated sunset shikara. Day 2: Mughal gardens and a candlelight dinner. Day 3: Gulmarg overnight at a resort near the Gondola. Day 4: first Gondola cabin, back to Srinagar. Day 5: Pahalgam riverside hotel. Day 6: Betaab and Aru at a slow pace. Day 7: Dal Lake houseboat for the final night, flying out on day 8. This keeps drives short and adds two special nights."] },
+      { h: "7 days in Kashmir in winter", p: ["Day 1: Srinagar, with a short shikara ride and an early dinner. Day 2: old city and Mughal Gardens under snow or frost. Days 3 and 4: two nights in Gulmarg for snow play, sledging, skiing lessons and the gondola. Day 5: back to Srinagar and on to Pahalgam for the snowbound river valley. Day 6: Pahalgam sightseeing by union taxi where roads are open. Day 7: return to Srinagar and fly home, keeping a buffer for winter delays."] },
+      { h: "7 days with Doodhpathri instead of Sonamarg", p: ["For a quieter week, swap the Sonamarg day for Doodhpathri, about 42 km from Srinagar, with meadows and the Shaliganga stream. It works well for families and repeat visitors, and is less crowded than Sonamarg in summer."] },
+      { h: "7 days for honeymooners", p: ["Honeymooners can spend night 1 on a Deluxe houseboat, nights 2 and 3 in a Gulmarg resort, nights 4 and 5 in a riverside cottage in Pahalgam, night 6 back in Srinagar with a sunset shikara, and fly home on day 7. Add a Sonamarg day trip from Srinagar if you have energy, and ask for room decoration and candlelight dinners."] },
     ],
     faqs: [
       { q: "What is the best order for a 7-day Kashmir trip?", a: "Srinagar first with a houseboat night, Gulmarg and Sonamarg as day trips, then two nights in Pahalgam before returning to Srinagar." },
@@ -366,6 +438,18 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "What should I pack for a 7-day Kashmir trip?", a: "Layers, a warm jacket, comfortable shoes, sunglasses, a rain jacket in spring, modest clothes, IDs and a postpaid SIM." },
       { q: "Where should I stay on a 7-day Kashmir trip?", a: "One houseboat night, three nights in a Srinagar hotel and two nights in Pahalgam by the river." },
       { q: "Is a 7-day itinerary good for a honeymoon?", a: "Yes. Add a Gulmarg overnight and a final houseboat night for a slower, more romantic trip." },
+      { q: "Is 7 days enough for Kashmir in winter?", a: "Yes, with two nights in Gulmarg, a Pahalgam stay and a buffer day for delays." },
+      { q: "Is 7 days enough for a Kashmir honeymoon?", a: "Yes, with a houseboat, two nights in Gulmarg and two in Pahalgam." },
+    ],
+  },
+  "kashmir-cab-types-innova-crysta-ertiga-dzire": {
+    sections: [
+      { h: "Cab types for winter", p: ["In winter, an SUV with chains is safest on mountain roads."] },
+    ],
+    faqs: [
+      { q: "Which cab is best in winter?", a: "An SUV with chains." },
+      { q: "Is a Dzire good for Kashmir sightseeing?", a: "Yes for couples on main roads; an Innova Crysta is better for families, luggage and mountain roads." },
+      { q: "Is an Ertiga good for a family of five?", a: "Yes, with limited luggage; an Innova Crysta is roomier." },
     ],
   },
   "kashmir-christmas-new-year-trip": {
@@ -858,6 +942,8 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { h: "Getting around Kashmir as a foreign visitor", p: ["Foreign visitors get around Kashmir the same way as Indian travellers: a private car with driver for the whole trip, booked through a package or a trusted agent, is the easiest choice. In Pahalgam and Sonamarg, local union taxis serve the sightseeing points; in Gulmarg, you walk, ride a pony or take the Gondola. Shikaras cross Dal and Nigeen. App cabs are limited in Srinagar, so rely on your driver or hotel. Carry your passport at all times, because security checkpoints are routine and hotels need it for registration.", "English is widely spoken in hotels, by drivers and in tourist areas, along with Hindi, Urdu and Kashmiri. Drivers and guides are used to foreign visitors and are usually happy to explain local customs."] },
       { h: "Health, insurance and medical facilities", p: ["Travel insurance that explicitly covers Jammu and Kashmir, and Ladakh if you go there, is strongly advised, because some policies exclude regions under travel advisories. Srinagar has major hospitals, and towns have clinics and pharmacies; remote areas such as Gurez and the high passes have limited facilities. Carry any regular medicines with prescriptions, a basic first-aid kit and, for Ladakh, any altitude medication your doctor recommends. Drink bottled or filtered water, and in winter keep warm to avoid colds."] },
       { h: "Where international travellers like to stay", p: ["International visitors often prefer a Deluxe houseboat for one or two nights, a centrally heated international-brand or heritage hotel in Srinagar, a resort near the Gondola in Gulmarg and a riverside hotel in Pahalgam. Ask for hotels experienced with foreign guests: they handle Form C registration smoothly and understand dietary needs. In winter, confirm heating in every hotel and houseboat."] },
+      { h: "Kashmir in summer for Gulf travellers", p: ["Gulf travellers often visit Kashmir in June, July and August to escape the summer heat at home. Kashmir's days are pleasant and nights cool, especially in Gulmarg, Pahalgam and Sonamarg. Book flights and hotels early, since this is also the Indian school holiday season."] },
+      { h: "Family travel from the Gulf", p: ["Gulf families often travel in large groups with grandparents and children. Book a tempo traveller or two cars, family rooms or a whole houseboat, and hotels used to hosting families. Halal food, nearby mosques and Arabic-speaking guides in some hotels make Kashmir comfortable for Gulf visitors."] },
     ],
     faqs: [
       { q: "What is the time difference between Qatar, Oman, Kuwait and Bahrain and India?", a: "India is 2.5 hours ahead of Qatar, Kuwait and Bahrain, and 1.5 hours ahead of Oman." },
@@ -865,6 +951,9 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "How many days do I need for Kashmir from the Gulf?", a: "Six to eight days for Srinagar, Gulmarg, Sonamarg and Pahalgam, plus travel time and a buffer before your flight home." },
       { q: "Is English spoken in Kashmir?", a: "Yes, widely in hotels, by drivers and in tourist areas, along with Hindi, Urdu and Kashmiri." },
       { q: "Do I need travel insurance for Kashmir?", a: "It is strongly advised. Make sure the policy explicitly covers Jammu and Kashmir, and Ladakh if you go there." },
+      { q: "Is summer a good time for Gulf travellers to visit Kashmir?", a: "Yes, Kashmir's cool weather is a welcome escape from the Gulf heat." },
+      { q: "Is Kashmir good for large Gulf families?", a: "Yes, with family rooms, tempo travellers and halal food everywhere." },
+      { q: "Are Arabic-speaking guides available in Kashmir?", a: "Some hotels and agents can arrange them; ask in advance." },
     ],
   },
   "kashmir-tour-packages-from-saudi-arabia": {
@@ -947,6 +1036,9 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { h: "Getting around Kashmir as a foreign visitor", p: ["Foreign visitors get around Kashmir the same way as Indian travellers: a private car with driver for the whole trip, booked through a package or a trusted agent, is the easiest choice. In Pahalgam and Sonamarg, local union taxis serve the sightseeing points; in Gulmarg, you walk, ride a pony or take the Gondola. Shikaras cross Dal and Nigeen. App cabs are limited in Srinagar, so rely on your driver or hotel. Carry your passport at all times, because security checkpoints are routine and hotels need it for registration.", "English is widely spoken in hotels, by drivers and in tourist areas, along with Hindi, Urdu and Kashmiri. Drivers and guides are used to foreign visitors and are usually happy to explain local customs."] },
       { h: "Health, insurance and medical facilities", p: ["Travel insurance that explicitly covers Jammu and Kashmir, and Ladakh if you go there, is strongly advised, because some policies exclude regions under travel advisories. Srinagar has major hospitals, and towns have clinics and pharmacies; remote areas such as Gurez and the high passes have limited facilities. Carry any regular medicines with prescriptions, a basic first-aid kit and, for Ladakh, any altitude medication your doctor recommends. Drink bottled or filtered water, and in winter keep warm to avoid colds."] },
       { h: "Where international travellers like to stay", p: ["International visitors often prefer a Deluxe houseboat for one or two nights, a centrally heated international-brand or heritage hotel in Srinagar, a resort near the Gondola in Gulmarg and a riverside hotel in Pahalgam. Ask for hotels experienced with foreign guests: they handle Form C registration smoothly and understand dietary needs. In winter, confirm heating in every hotel and houseboat."] },
+      { h: "Kashmir for Sri Lankan pilgrims and families", p: ["Many Sri Lankan travellers combine Kashmir with a pilgrimage circuit in north India or with Vaishno Devi. Families enjoy the snow in Gulmarg, the houseboats and shikara rides. Vegetarian food is widely available, and hotels can cook mild meals. Carry your passport and visa, register at hotels and buy travel insurance that covers J&K."] },
+      { h: "Weather for Sri Lankan travellers", p: ["Kashmir is far colder than Sri Lanka in every season. Even in summer, evenings in Gulmarg and Sonamarg need a warm jacket, and from December to February temperatures fall below freezing. Pack thermals and layers, or buy them in Srinagar."] },
+      { h: "Flights and visas for Sri Lankans", p: ["Sri Lankan citizens need an Indian visa or e-Visa. Flights from Colombo usually connect through Chennai, Bengaluru, Mumbai or Delhi to Srinagar, often on the same day. Allow a buffer on the return in case of weather delays at Srinagar, especially in winter, before your international connection."] },
     ],
     faqs: [
       { q: "What is the time difference between Sri Lanka and India?", a: "India and Sri Lanka share the same time zone, so there is no time difference." },
@@ -954,6 +1046,8 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "How many days do I need for Kashmir from Sri Lanka?", a: "Six to eight days for Srinagar, Gulmarg, Sonamarg and Pahalgam, plus travel time and a buffer before your flight home." },
       { q: "Is English spoken in Kashmir?", a: "Yes, widely in hotels, by drivers and in tourist areas, along with Hindi, Urdu and Kashmiri." },
       { q: "Do I need travel insurance for Kashmir?", a: "It is strongly advised. Make sure the policy explicitly covers Jammu and Kashmir, and Ladakh if you go there." },
+      { q: "Is vegetarian food available for Sri Lankan travellers in Kashmir?", a: "Yes, widely in hotels and restaurants, and hotels can cook mild meals." },
+      { q: "How do Sri Lankans fly to Srinagar?", a: "From Colombo via Chennai, Bengaluru, Mumbai or Delhi, often reaching Srinagar the same day. Keep a buffer day before the return flight to Colombo. Book well ahead for winter." },
     ],
   },
   "kashmir-tour-packages-from-uae": {
@@ -1001,6 +1095,8 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { h: "Getting around Kashmir as a foreign visitor", p: ["Foreign visitors get around Kashmir the same way as Indian travellers: a private car with driver for the whole trip, booked through a package or a trusted agent, is the easiest choice. In Pahalgam and Sonamarg, local union taxis serve the sightseeing points; in Gulmarg, you walk, ride a pony or take the Gondola. Shikaras cross Dal and Nigeen. App cabs are limited in Srinagar, so rely on your driver or hotel. Carry your passport at all times, because security checkpoints are routine and hotels need it for registration.", "English is widely spoken in hotels, by drivers and in tourist areas, along with Hindi, Urdu and Kashmiri. Drivers and guides are used to foreign visitors and are usually happy to explain local customs."] },
       { h: "Health, insurance and medical facilities", p: ["Travel insurance that explicitly covers Jammu and Kashmir, and Ladakh if you go there, is strongly advised, because some policies exclude regions under travel advisories. Srinagar has major hospitals, and towns have clinics and pharmacies; remote areas such as Gurez and the high passes have limited facilities. Carry any regular medicines with prescriptions, a basic first-aid kit and, for Ladakh, any altitude medication your doctor recommends. Drink bottled or filtered water, and in winter keep warm to avoid colds."] },
       { h: "Where international travellers like to stay", p: ["International visitors often prefer a Deluxe houseboat for one or two nights, a centrally heated international-brand or heritage hotel in Srinagar, a resort near the Gondola in Gulmarg and a riverside hotel in Pahalgam. Ask for hotels experienced with foreign guests: they handle Form C registration smoothly and understand dietary needs. In winter, confirm heating in every hotel and houseboat."] },
+      { h: "Kashmir for UK families", p: ["UK families often visit in the Easter, summer or October half-term holidays. Kashmir's houseboats, snow and gardens appeal to children, and English is widely understood in hotels."] },
+      { h: "Flights from the UK", p: ["UK travellers usually fly from London to Delhi or Mumbai and connect to Srinagar, sometimes on the same day. Allow a buffer day before your return flight to the UK in case of weather delays at Srinagar, especially in winter."] },
     ],
     faqs: [
       { q: "What is the time difference between the UK and India?", a: "India is 5.5 hours ahead of the UK in winter and 4.5 hours ahead during British Summer Time. Overnight flights from London land in Delhi in the morning or early afternoon." },
@@ -1008,6 +1104,9 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "How many days do I need for Kashmir from the UK?", a: "Six to eight days for Srinagar, Gulmarg, Sonamarg and Pahalgam, plus travel time and a buffer before your flight home." },
       { q: "Is English spoken in Kashmir?", a: "Yes, widely in hotels, by drivers and in tourist areas, along with Hindi, Urdu and Kashmiri." },
       { q: "Do I need travel insurance for Kashmir?", a: "It is strongly advised. Make sure the policy explicitly covers Jammu and Kashmir, and Ladakh if you go there." },
+      { q: "When do UK families visit Kashmir?", a: "Often in the Easter, summer or October half-term holidays." },
+      { q: "How do UK travellers reach Srinagar?", a: "Via Delhi or Mumbai, with a connecting flight to Srinagar." },
+      { q: "Is English spoken in Kashmir hotels?", a: "Yes, widely in hotels and by many drivers." },
     ],
   },
   "kashmir-tour-packages-from-usa": {
@@ -1028,6 +1127,7 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { h: "Getting around Kashmir as a foreign visitor", p: ["Foreign visitors get around Kashmir the same way as Indian travellers: a private car with driver for the whole trip, booked through a package or a trusted agent, is the easiest choice. In Pahalgam and Sonamarg, local union taxis serve the sightseeing points; in Gulmarg, you walk, ride a pony or take the Gondola. Shikaras cross Dal and Nigeen. App cabs are limited in Srinagar, so rely on your driver or hotel. Carry your passport at all times, because security checkpoints are routine and hotels need it for registration.", "English is widely spoken in hotels, by drivers and in tourist areas, along with Hindi, Urdu and Kashmiri. Drivers and guides are used to foreign visitors and are usually happy to explain local customs."] },
       { h: "Health, insurance and medical facilities", p: ["Travel insurance that explicitly covers Jammu and Kashmir, and Ladakh if you go there, is strongly advised, because some policies exclude regions under travel advisories. Srinagar has major hospitals, and towns have clinics and pharmacies; remote areas such as Gurez and the high passes have limited facilities. Carry any regular medicines with prescriptions, a basic first-aid kit and, for Ladakh, any altitude medication your doctor recommends. Drink bottled or filtered water, and in winter keep warm to avoid colds."] },
       { h: "Where international travellers like to stay", p: ["International visitors often prefer a Deluxe houseboat for one or two nights, a centrally heated international-brand or heritage hotel in Srinagar, a resort near the Gondola in Gulmarg and a riverside hotel in Pahalgam. Ask for hotels experienced with foreign guests: they handle Form C registration smoothly and understand dietary needs. In winter, confirm heating in every hotel and houseboat."] },
+      { h: "Kashmir for US families", p: ["US families often combine Kashmir with Delhi and Agra."] },
     ],
     faqs: [
       { q: "What is the time difference between the US and India?", a: "India is 10.5 hours ahead of US Eastern time in winter and 9.5 hours during daylight saving time; it is 13.5 or 12.5 hours ahead of Pacific time. Plan a night in Delhi to recover before flying on to Srinagar." },
@@ -1035,6 +1135,9 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "How many days do I need for Kashmir from the US?", a: "Six to eight days for Srinagar, Gulmarg, Sonamarg and Pahalgam, plus travel time and a buffer before your flight home." },
       { q: "Is English spoken in Kashmir?", a: "Yes, widely in hotels, by drivers and in tourist areas, along with Hindi, Urdu and Kashmiri." },
       { q: "Do I need travel insurance for Kashmir?", a: "It is strongly advised. Make sure the policy explicitly covers Jammu and Kashmir, and Ladakh if you go there." },
+      { q: "Can US visitors combine Kashmir with Agra?", a: "Yes, via Delhi." },
+      { q: "How many days do US visitors need for Kashmir?", a: "Seven to ten nights covers Srinagar, Gulmarg, Pahalgam and Sonamarg with a buffer day." },
+      { q: "How do US visitors reach Srinagar?", a: "Via Delhi or Mumbai, with a connecting flight to Srinagar. Many connect the same day." },
     ],
   },
   "kashmir-trip-cost-guide": {
@@ -1417,6 +1520,16 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "Do I need a permit for Leh town?", a: "No. Leh town and the nearby monasteries such as Thiksey, Shey and Hemis do not need an inner line permit." },
     ],
   },
+  "nigeen-lake-houseboats": {
+    sections: [
+      { h: "Nigeen houseboats in autumn", p: ["Autumn brings golden chinars and still water to Nigeen."] },
+    ],
+    faqs: [
+      { q: "Is Nigeen good in autumn?", a: "Yes, with golden chinars." },
+      { q: "Is Nigeen quieter than Dal Lake?", a: "Yes. Nigeen has fewer vendors and less traffic, which suits families and couples." },
+      { q: "How do I reach a Nigeen houseboat?", a: "Many are reached by a short walkway or a quick shikara hop from the shore near Hazratbal. Ask your host." },
+    ],
+  },
   "nubra-valley-travel-guide": {
     sections: [
       { h: "Diskit monastery and the Maitreya statue", p: ["Diskit, the main town of Nubra, has the oldest and largest monastery in the valley, perched on a hillside above the Shyok river. Below it stands a giant seated statue of Maitreya Buddha, more than 30 m tall, facing down the valley towards the border. Visit in the early morning for the monastery's prayers and the best light on the statue. The monastery has a small entry fee."] },
@@ -1666,6 +1779,16 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "Is self-drive easy in Srinagar city?", a: "Traffic is busy and parking limited around Lal Chowk and the Boulevard in the evenings, so plan city drives in the morning." },
     ],
   },
+  "shikara-ride-dal-lake-guide": {
+    sections: [
+      { h: "Shikara ride in winter", p: ["Winter shikara rides are calm and misty; carry a blanket and warm drinks."] },
+    ],
+    faqs: [
+      { q: "Can I take a shikara ride in winter?", a: "Yes, rides run in winter on most days." },
+      { q: "What should I wear for a winter shikara ride?", a: "Warm layers, a jacket, gloves and a cap; many shikaras provide blankets." },
+      { q: "Is the floating market open every day?", a: "It usually runs at dawn on most days; ask your houseboat host or shikara operator the evening before." },
+    ],
+  },
   "sim-card-and-mobile-network-in-kashmir": {
     sections: [
       { h: "Why prepaid SIMs from outside J&K do not work", p: ["For security reasons, mobile operators do not allow prepaid connections issued outside Jammu and Kashmir to roam within the region. This rule has been in place for many years and also applies in Ladakh. Postpaid connections, which involve more detailed verification, roam normally. The rule affects every major operator, so switching from one prepaid network to another does not help; you need a postpaid connection or a locally issued SIM."] },
@@ -1784,6 +1907,28 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "Should the houseboat night be at the start or end of a trip?", a: "Either works. The first night helps you rest after the flight; the last night keeps you close to the airport and shops." },
     ],
   },
+  "srinagar-to-doodhpathri-taxi": {
+    sections: [
+      { h: "Doodhpathri taxi in winter", p: ["In winter, Doodhpathri is covered with snow, and the road may need chains after snowfall. Check with your driver the evening before, dress warmly and carry snacks."] },
+      { h: "Doodhpathri taxi with Yusmarg", p: ["Doodhpathri and Yusmarg lie on different roads from Srinagar, so most visitors see them on separate days. If you want both in one day, start very early and accept limited time at each. A full-day taxi from Srinagar can cover both with an experienced driver."] },
+    ],
+    faqs: [
+      { q: "Is Doodhpathri open in winter?", a: "Usually yes when the road is clear; it may need chains after snowfall." },
+      { q: "Can I visit Doodhpathri and Yusmarg in one taxi day?", a: "Yes, with a very early start, but time at each is limited." },
+      { q: "How long is the drive to Doodhpathri?", a: "About 1.5 to 2 hours from Srinagar." },
+    ],
+  },
+  "srinagar-to-gurez-taxi": {
+    sections: [
+      { h: "Gurez taxi in autumn", p: ["September and October are excellent for a Gurez taxi trip, with clear skies and golden willows. Leave Srinagar early, since daylight is shorter, and plan to return before snow closes Razdan Pass, usually by November."] },
+      { h: "Checkpoints on the Gurez road", p: ["There are checkpoints at Bandipora and near Razdan Pass where IDs are recorded. Carry original photo ID for everyone, with copies, and foreign nationals should check current rules, since Gurez may be restricted for them. Ask your driver about any registration needed."] },
+    ],
+    faqs: [
+      { q: "Is autumn good for a Gurez trip?", a: "Yes, September and October bring clear skies and golden colours." },
+      { q: "Are there checkpoints on the Gurez road?", a: "Yes, at Bandipora and near Razdan Pass; carry original IDs and copies." },
+      { q: "Can foreigners take a taxi to Gurez?", a: "Gurez may be restricted for foreign nationals; check current rules first." },
+    ],
+  },
   "srinagar-to-leh-road-trip-guide": {
     sections: [
       { h: "Day 1 in detail: Srinagar to Kargil", p: ["Leave Srinagar by 6 am, or Sonamarg by 7 am if you spent the night there, to reach Zojila in the first traffic window. The road follows the Sindh river through Ganderbal, Kangan and Gund to Sonamarg, then climbs from Baltal in steep loops to the pass at about 3,500 m. Expect gravel, mud after rain, snow walls in early season and slow convoys. On the far side, the landscape changes from forest to bare mountains as you descend to Drass, one of the coldest inhabited places in India.", "Stop at the Kargil War Memorial beyond Drass, at the foot of Tololing, where a museum and the names of the fallen tell the story of the 1999 conflict. The road then follows the Drass and Suru rivers to Kargil, about 205 km from Srinagar, where most travellers spend the night. Kargil has hotels, restaurants, fuel and ATMs."] },
@@ -1836,6 +1981,37 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "Is the Leh to Srinagar drive easier than Srinagar to Leh?", a: "Altitude is less of a concern when descending, but the road, passes and timing are the same." },
       { q: "Is the Srinagar to Leh road better than flying?", a: "For acclimatisation and scenery, yes; flying is quicker but takes you straight to high altitude." },
       { q: "Where is the best lunch stop on day 2?", a: "Lamayuru, which has simple cafes and guesthouses beside the monastery and moonland viewpoints." },
+    ],
+  },
+  "srinagar-to-leh-taxi": {
+    sections: [
+      { h: "Srinagar to Leh taxi for families", p: ["Families should break the journey in Kargil and rest a day in Leh."] },
+    ],
+    faqs: [
+      { q: "Is a Srinagar to Leh taxi good for families?", a: "Yes, with a night in Kargil." },
+      { q: "Where should families stop overnight on the Srinagar to Leh road?", a: "In Kargil, which has comfortable hotels and breaks the journey for acclimatisation." },
+      { q: "How many days does a Srinagar to Leh taxi take?", a: "Two days, with a night in Kargil, or three with a stop at Lamayuru or Alchi." },
+    ],
+  },
+  "srinagar-to-yusmarg-taxi": {
+    sections: [
+      { h: "Yusmarg taxi with Charar-e-Sharif", p: ["Many travellers ask their driver to stop at the shrine of Sheikh Noor-ud-Din Noorani at Charar-e-Sharif on the way to Yusmarg. Allow about 30 to 45 minutes for the visit, dress modestly and cover your head."] },
+      { h: "Best time of day for a Yusmarg taxi", p: ["Leave Srinagar by 8 or 9 am to reach Yusmarg by mid-morning, spend three to four hours walking or riding to Nilnag and the Doodh Ganga, and start back by mid-afternoon. In winter, start earlier and return before dark, since the forest road can be icy in the evening."] },
+    ],
+    faqs: [
+      { q: "Can my Yusmarg taxi stop at Charar-e-Sharif?", a: "Yes, it is on the way; allow 30 to 45 minutes for the visit." },
+      { q: "What time should I leave Srinagar for Yusmarg?", a: "By 8 or 9 am, returning by mid-afternoon." },
+      { q: "How long should I spend in Yusmarg?", a: "Three to four hours is enough to walk or ride to Nilnag lake and the Doodh Ganga and enjoy the meadow before driving back. Carry snacks, water and warm layers." },
+    ],
+  },
+  "tempo-traveller-in-kashmir": {
+    sections: [
+      { h: "Tempo traveller for pilgrim groups", p: ["Pilgrim groups often hire a tempo traveller from Jammu or Katra for Vaishno Devi, Srinagar and the Amarnath base camps."] },
+      { h: "Tempo traveller in winter", p: ["In winter, ask for a vehicle with good tyres, chains and a working heater."] },
+    ],
+    faqs: [
+      { q: "Can a tempo traveller go to Gulmarg in winter?", a: "Yes, usually with chains after snowfall." },
+      { q: "Which tempo traveller size is best for 12 people?", a: "A 12 or 13 seater with roof carrier, or a 17 seater for extra space and luggage." },
     ],
   },
   "turtuk-travel-guide": {
@@ -1937,6 +2113,28 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "Do houseboats serve vegetarian food?", a: "Yes. Tell your host at check-in, and they will cook vegetarian or Jain meals." },
       { q: "Is vegetarian food available in Ladakh?", a: "Yes, widely in Leh and as simple buffets in Nubra and Pangong camps." },
       { q: "Can Jain food be arranged in Gulmarg and Pahalgam?", a: "Yes, hotel kitchens can usually cook without onion, garlic and root vegetables if asked a day ahead." },
+    ],
+  },
+  "where-to-stay-in-gulmarg": {
+    sections: [
+      { h: "Staying near the gondola base", p: ["Hotels within walking distance of the gondola base make early starts easier, especially in the ski season. Others are a short drive away along the main road. Ask how far the hotel is from the gondola and whether it offers transfers in snow."] },
+      { h: "Gulmarg stays for skiers", p: ["Skiers should stay close to the gondola base, choose hotels with ski storage and drying rooms, and book well ahead for January to March. Many hotels can arrange ski hire, instructors and guides for Apharwat. Check the avalanche advisory each morning."] },
+    ],
+    faqs: [
+      { q: "Which Gulmarg hotels are near the gondola?", a: "Several hotels are within walking distance; ask about distance and snow transfers when booking." },
+      { q: "Where should skiers stay in Gulmarg?", a: "Close to the gondola base, in hotels with ski storage and drying rooms." },
+      { q: "When should I book Gulmarg hotels for skiing?", a: "Well ahead for January to March, the busiest ski months. Hotels near the gondola fill first." },
+    ],
+  },
+  "where-to-stay-in-pahalgam": {
+    sections: [
+      { h: "Pahalgam stays near the taxi stand", p: ["Hotels near the main market and union taxi stand are convenient for early starts to Aru, Betaab and Chandanwari, and for walking to restaurants in the evening. They can be busier and noisier, especially in peak season. Riverside hotels a little away from the market are quieter, with views of the Lidder."] },
+      { h: "Pahalgam stays for the Amarnath Yatra", p: ["During the yatra in July and August, hotels near Nunwan base camp and on the Chandanwari road are in high demand. Book early, confirm convoy timings with your hotel, and expect heavy traffic and security checks."] },
+      { h: "Pahalgam stays in winter", p: ["From December to February, many smaller guesthouses close, while larger hotels and resorts stay open with heating. Choose a hotel with central heating or reliable heaters, power backup and hot water, and confirm it is open on your dates. Snow makes Pahalgam beautiful and quiet in winter."] },
+    ],
+    faqs: [
+      { q: "Should I stay near the market in Pahalgam?", a: "It is convenient for union taxis and restaurants; riverside hotels are quieter." },
+      { q: "Are Pahalgam hotels open in winter?", a: "Larger hotels and resorts usually stay open with heating, while many small guesthouses close. Confirm your hotel is open on your dates. Snow makes it beautiful." },
     ],
   },
   "where-to-stay-in-sonamarg": {
