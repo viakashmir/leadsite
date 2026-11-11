@@ -791,6 +791,78 @@ export const KASHMIR_DEPTH_DESTINATIONS: Record<string, Partial<GuideContent>> =
         {
           "q": "Can I start a Ladakh package from Srinagar?",
           "a": "Yes, by road via Zojila and Kargil in summer, which helps acclimatisation."
+        },
+        {
+          "a": "Six to eight days covers Leh, Nubra Valley and Pangong Lake with time to acclimatise. Add two or three days for Tso Moriri, Turtuk or a road trip from Srinagar or Manali.",
+          "q": "How many days do I need for Ladakh?"
+        },
+        {
+          "a": "May to September, when the weather is mild and all routes are open. The highways from Srinagar and Manali usually open from late May or June.",
+          "q": "When is the best time to visit Ladakh?"
+        },
+        {
+          "a": "Leh town does not need one, but Nubra Valley, Pangong, Tso Moriri and other protected areas need a permit and environment fees. Agents and hotels arrange this for you.",
+          "q": "Do I need a permit for Ladakh?"
+        },
+        {
+          "a": "Spend the first one to two days in Leh resting, drink water, avoid alcohol and climb gradually. Speak to a doctor before travel if you have heart or lung conditions.",
+          "q": "How do I avoid altitude sickness in Ladakh?"
+        },
+        {
+          "a": "Flying is faster and easier, especially for families. Driving from Manali or Srinagar adds two days but acclimatises you gradually and shows some of the most dramatic mountain roads in India.",
+          "q": "Is it better to fly or drive to Ladakh?"
+        },
+        {
+          "a": "Yes, by flight. Winter trips focus on Leh, frozen landscapes, the Chadar trek and snow leopard tours, but temperatures fall well below freezing and some areas are closed.",
+          "q": "Can I visit Ladakh in winter?"
+        },
+        {
+          "a": "Yes. Camps and simple guesthouses operate along the lake in season, and an overnight stay lets you see the lake at sunrise and sunset.",
+          "q": "Can I stay overnight at Pangong Lake?"
+        },
+        {
+          "a": "Share your dates and whether you want to fly in or drive. Up to 3 verified agents who run Ladakh trips send itineraries with acclimatisation days, permits and stays included.",
+          "q": "How do Ladakh quotes on Tavel Package work?"
+        },
+        {
+          "a": "Leh town does not need a permit. For protected areas such as Nubra, Pangong and Tso Moriri, register and pay the fees on lahdclehpermit.in; foreign nationals need a Protected Area Permit through a registered agent.",
+          "q": "Do I need an ILP for Leh Ladakh?"
+        },
+        {
+          "a": "Monastery visits, the drives over Khardung La and Chang La, camel rides at Hunder, rafting on the Zanskar, camping at Pangong and Tso Moriri, and motorbike tours.",
+          "q": "What are the best activities to do in Leh Ladakh?"
+        },
+        {
+          "a": "Within a day of Leh: Thiksey, Hemis, Shey, Stok, Alchi, Likir, Magnetic Hill and the Indus Zanskar Sangam. Overnight: Nubra Valley, Pangong Tso and Tso Moriri.",
+          "q": "What are the places to see near Leh Ladakh?"
+        },
+        {
+          "a": "June is the start of peak season, with days of about 20 to 25°C in Leh, freezing nights at the lakes, and both the Manali and Srinagar highways usually open during the month.",
+          "q": "How is Leh Ladakh in June?"
+        },
+        {
+          "a": "Yes. By the end of June both highways are normally open, all circuits including Tso Moriri are accessible, and Leh has warm days of about 24°C.",
+          "q": "Is Ladakh good in June end?"
+        },
+        {
+          "a": "Clear and calm, with days around 20 to 23°C in Leh and nights near freezing. It is one of the best months for photography and the Ladakh Festival.",
+          "q": "How is Leh Ladakh in September?"
+        },
+        {
+          "a": "In June and August, light layers for the day plus a fleece and a down jacket for nights and passes. In September add thermal inner wear. Always carry sunglasses, a sun hat and sunscreen.",
+          "q": "What clothes should I wear in Leh Ladakh in June, August and September?"
+        },
+        {
+          "a": "Ride Delhi to Manali (2 days), Manali to Leh via Jispa or Sarchu (2 days), spend 4 to 5 days on Leh, Nubra and Pangong, then return via Kargil and Srinagar (3 to 4 days). Allow 12 to 14 days in total.",
+          "q": "How do I plan a Delhi to Ladakh bike trip?"
+        },
+        {
+          "a": "Riders usually choose a 350 to 450 cc motorcycle such as the Royal Enfield Classic, Bullet or Himalayan, rented in Leh or Manali. Carry spares and check the rental's rules for Nubra and Pangong.",
+          "q": "Which bike is best for a Ladakh trip?"
+        },
+        {
+          "a": "Dry and sunny, with Leh averaging a high of about 28°C and a low of about 16°C (IMD normals), and very little rain. Nights at Pangong and the passes are much colder.",
+          "q": "What is the climate in Leh Ladakh in July?"
         }
       ]
     }
