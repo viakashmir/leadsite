@@ -1576,3 +1576,189 @@ for (const p of KASHMIR_ROUTES) {
   const e = EXTRA_7[p.slug];
   if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
 }
+
+const EXTRA_8: Record<string, { sections: BlogSection[]; faqs: BlogPost["faqs"] }> = {
+  "srinagar-airport-taxi": {
+    sections: [
+      { h: "About Srinagar airport", p: ["Srinagar's airport, Sheikh ul-Alam International Airport (code SXR), is a civil enclave at an Indian Air Force base on the city's southern side, near Budgam. It handles domestic flights from Delhi, Mumbai, Bengaluru, Hyderabad, Kolkata, Chandigarh, Jammu, Leh and other cities, mostly in daylight hours. Because it shares space with the air force, security is stricter than at most Indian airports, and some rules, such as limits on loitering at the terminal and checks at the outer gate, apply to everyone."] },
+      { h: "Arrival step by step", p: ["After you collect your bags, walk out to the arrivals area, where the prepaid taxi counter and hotel and package drivers wait. If your driver is meeting you, he will usually stand outside the exit with a name card; call him if you cannot see him, because waiting areas are controlled. At the prepaid counter, tell the clerk your destination, pay the fixed fare and take the slip to the taxi rank. Keep the slip until you reach your hotel."] },
+      { h: "Departure step by step", p: ["Leave your hotel at least 3 hours before departure, or 3.5 hours in peak season and after snowfall. At the outer gate, vehicles stop and are checked, and passengers may walk through a screening point with their bags. At the terminal, there is a further security check before check-in. Keep your ID and boarding pass handy. Power banks and batteries must go in hand luggage, as at all Indian airports."] },
+      { h: "Airport to popular destinations", p: ["Dal Lake ghats and Boulevard Road: about 12 to 15 km, 30 to 45 minutes. Rajbagh and Lal Chowk: about 12 km. Nigeen Lake: about 15 km. Srinagar railway station at Nowgam: about 15 km. Gulmarg: about 55 km, 1.5 to 2 hours. Sonamarg: about 90 km, about 3 hours. Pahalgam: about 100 km, about 3 hours. Doodhpathri: about 40 km. Yusmarg: about 45 km. Plan direct onward trips only if your flight lands by noon."] },
+      { h: "Late arrivals and winter delays", p: ["In winter, fog in Delhi and snow in Srinagar can delay flights by hours. If you land late in the afternoon, go straight to your Srinagar hotel and save the hill station for the next day. Do not attempt Gulmarg or Pahalgam after dark in winter. If you are on a package, tell your agent immediately about any delay so the driver waits and the hotel holds your room."] },
+    ],
+    faqs: [
+      { q: "What is Srinagar airport's code?", a: "SXR. The airport is Sheikh ul-Alam International Airport, on the city's southern side." },
+      { q: "Can I be dropped at the terminal door at Srinagar airport?", a: "Vehicles are checked at the outer gate and then allowed towards the terminal. Leave extra time for the gate check." },
+      { q: "How do I find my driver at Srinagar airport?", a: "He usually waits outside the arrivals exit with a name card. Share your flight number and keep his phone number handy." },
+      { q: "Is there a taxi from Srinagar airport to Pahalgam?", a: "Yes. It is about 100 km, roughly 3 hours. Leave the airport by early afternoon to arrive in daylight." },
+    ],
+  },
+  "tempo-traveller-in-kashmir": {
+    sections: [
+      { h: "Group routes: Srinagar to Gurez, Kargil, Leh and Jammu", p: ["Srinagar to Gurez by tempo traveller takes 5 to 6 hours over Razdan Pass, from about June to October. The vehicle should be in good condition with strong brakes, and the driver experienced on the pass. Srinagar to Kargil takes 7 to 8 hours over Zojila, and on to Leh another 7 to 8 hours, from about May to November. In Ladakh, the group switches to Ladakh-registered vehicles for sightseeing. Srinagar to Jammu takes 6 to 8 hours on NH 44, and many groups now prefer a tempo traveller to Katra for the Vande Bharat or onward travel.", "On all long routes, ask about the driver's allowance and night halt, and whether the vehicle has a roof carrier for luggage."] },
+      { h: "Tempo traveller comfort and features", p: ["Most Kashmir tempo travellers have push-back seats, air-conditioning and heating, a music system and a roof carrier. Newer Force Urbania vans have better suspension, larger windows and more legroom, which makes a real difference on the Jammu highway and Zojila. Ask about seat layout: some 12 seaters have a front row facing backwards. In winter, check that the heater works well and that the van carries chains."] },
+      { h: "Typical group packages by tempo traveller", p: ["A 5-night group plan covers Srinagar, a Gulmarg day trip, a Sonamarg day trip and two nights in Pahalgam, with the tempo traveller for all transfers and union taxis paid locally in Pahalgam and Sonamarg. A 7-night plan adds Doodhpathri and a houseboat night. A 10-night plan adds Ladakh by road. Ask your agent for a single quote covering hotels, the vehicle and transfers, so the group pays one invoice."] },
+      { h: "Tempo traveller for weddings, schools and corporate groups", p: ["Wedding parties visiting Kashmir often book several tempo travellers or Urbanias, sometimes with decorations. School groups need vehicles with seat belts, a verified driver and a fixed daily schedule. Corporate offsites usually combine a Srinagar hotel base with day trips and team activities such as rafting or snow games. In all cases, book early in peak season, share a passenger list for checkposts and appoint a group lead."] },
+    ],
+    faqs: [
+      { q: "Can a tempo traveller go to Gurez?", a: "Yes, from about June to October, with an experienced driver. The road over Razdan Pass is steep and rough in places." },
+      { q: "Is a tempo traveller comfortable for the Jammu to Srinagar drive?", a: "Yes, especially a Force Urbania with better suspension. Allow 6 to 8 hours." },
+      { q: "Do tempo travellers in Kashmir have heaters?", a: "Most do. Check that the heater works before winter trips." },
+    ],
+  },
+  "kashmir-cab-types-innova-crysta-ertiga-dzire": {
+    sections: [
+      { h: "Innova cab service in Kashmir in detail", p: ["The Toyota Innova and Innova Crysta are the most common tourist vehicles in Kashmir. Both have seven seats, good ground clearance and enough boot space with the third row folded. The Crysta, the newer model, is quieter, smoother and better finished, with captain seats in some versions. They handle the Gulmarg hairpins, the Pahalgam road and winter snow with chains, and drivers who use them usually have years of experience on Kashmir routes."] },
+      { h: "Ertiga, Dzire and Etios: the budget choices", p: ["The Maruti Ertiga is a light six-to-seven seater that suits budget families. The Swift Dzire and Toyota Etios are four-seat sedans for couples and small groups, the cheapest way to travel by private cab. All three are comfortable on Kashmir's main roads from April to November. In winter snow, their lower ground clearance makes them less suitable for Gulmarg and Sonamarg, and drivers may switch to a bigger vehicle or fit chains."] },
+      { h: "Fortuner, Tavera, Xylo and Scorpio", p: ["The Toyota Fortuner is the premium SUV choice, with 4x4 on many units, used for luxury trips and winter travel. The Chevrolet Tavera and Mahindra Xylo are older seven-to-nine seaters still common with local drivers; they are rugged and roomy if less refined. The Mahindra Scorpio is a popular 4x4 for snow, Gurez and rough roads. Ask for photos of the actual vehicle, because condition varies widely with age."] },
+      { h: "Urbania, tempo travellers and mini buses", p: ["For groups, the Force Urbania is the most comfortable van, in 10 to 17 seat layouts. Traditional tempo travellers come in 9 to 17 seat versions, and mini buses carry 20 to 26 people on the main routes. Large vehicles can be restricted on Gulmarg's last climb after snowfall, so groups often switch to smaller cabs at Tangmarg."] },
+      { h: "How to check the cab before you start", p: ["Look at the tyres for tread depth, especially in winter. Check that seat belts work in every row, that the heater or air-conditioning works, and that there is a spare tyre and tools. Ask whether the vehicle carries chains from December to March. Confirm the driver's name and phone number, and save the vehicle registration number. Reputable operators are happy to share these details."] },
+    ],
+    faqs: [
+      { q: "Is Innova Crysta better than Innova for Kashmir?", a: "Yes, for comfort. The Crysta is quieter and smoother on long days. Both handle Kashmir's roads well." },
+      { q: "Is a Dzire okay for Gulmarg?", a: "In summer, yes. In winter snow, a vehicle with more ground clearance and chains is better." },
+      { q: "Which cab is best for Gurez?", a: "An SUV such as a Scorpio, Innova or Tavera with good ground clearance." },
+    ],
+  },
+  "self-drive-car-rental-in-kashmir": {
+    sections: [
+      { h: "Car rental in Srinagar: with driver or self-drive", p: ["Most visitors to Kashmir rent a car with a driver rather than self-drive. A car with driver comes with local knowledge of routes, union taxi rules, parking, winter conditions and checkpoints, and the fare usually includes fuel within an agreed distance, tolls and the driver's allowance. Self-drive gives privacy and freedom but puts all of that on you. In peak season, cars with drivers are easier to find than self-drive cars, which are fewer and book out early."] },
+      { h: "How self-drive rental works in Srinagar", p: ["Self-drive cars are offered by local rental owners and a few app-based platforms. You choose a car, share your driving licence and ID, pay a refundable deposit and the rental, and collect the car at an agreed point, often your hotel or the airport. Rentals are usually priced per day, with a daily kilometre limit and a charge for extra kilometres. Fuel is your responsibility: you take the car with a fuel level and return it at the same level."] },
+      { h: "Self-drive Thar, Scorpio, Swift and Innova compared", p: ["The Mahindra Thar is the favourite for snow and adventure: 4x4, high clearance and fun to drive, though it seats only four comfortably and has little boot space. The Scorpio is a seven-seat 4x4 with more room. The Swift is the economical choice for couples in summer. The Innova is for families who want to drive themselves on long days. Match the car to your group and season, not just the price."] },
+      { h: "Insurance and damage", p: ["Ask what insurance covers the car and what your liability is in case of damage or an accident. Many rental owners hold back part or all of the deposit for scratches, dents or tyre damage, so inspect and photograph the car carefully at pickup and return. Ask how traffic fines and tolls are settled, and keep receipts for fuel and any repairs you pay for."] },
+      { h: "Parking and union taxis with a self-drive car", p: ["In Gulmarg, you can drive to the meadow and park in marked areas, and the Gondola is a short walk. In Pahalgam and Sonamarg, local union taxis serve the sightseeing points, and self-drive visitors are usually expected to park in town and take a union cab to Aru, Betaab, Chandanwari or Zero Point. Ask locally on arrival; rules and enforcement can change."] },
+      { h: "Self-drive in winter: a checklist", p: ["Drive only if you have real experience on snow and ice. Choose a 4x4 or carry chains and learn to fit them before you need them. Start late enough for the sun to soften overnight ice and finish before 3.30 pm. Keep a full tank, a blanket, water and snacks. Watch for black ice in shaded bends. Follow police instructions at Tangmarg and other checkpoints, and turn back if conditions look beyond your skill."] },
+    ],
+    faqs: [
+      { q: "Is it better to rent a car with driver or self-drive in Kashmir?", a: "For first-time visitors, families and winter trips, a car with driver. Self-drive suits experienced drivers in summer and autumn." },
+      { q: "Do self-drive rentals in Srinagar include fuel?", a: "Usually not. You collect the car with a fuel level and return it at the same level." },
+      { q: "Can I pick up a self-drive car at Srinagar airport?", a: "Many owners deliver to the airport or your hotel. Agree the place and time in advance." },
+    ],
+  },
+  "bike-rental-in-srinagar-and-leh": {
+    sections: [
+      { h: "Bike rental in Srinagar in detail", p: ["Srinagar has a smaller bike rental market than Leh, with Royal Enfield Classic 350s, Himalayans and scooters offered by local renters. Bikes are good for day rides to Gulmarg, Sonamarg, Doodhpathri, Yusmarg and the Mughal gardens from May to October, when roads are dry. Expect to show your licence and ID and pay a refundable deposit. Ask whether the renter allows rides to Gurez or over Zojila, because many restrict long-distance use."] },
+      { h: "Bike rental in Leh in detail", p: ["Leh's main bazaar and Changspa area have dozens of rental shops, with Royal Enfield Classics, Himalayans, Bullets and some KTM and Bajaj models. Rentals are by the day, with discounts for longer hires. Most renters supply helmets and basic tools, and some include riding jackets. The season runs from about May to September, peaking in July and August, when it is wise to book ahead. Check the bike in daylight before signing."] },
+      { h: "Royal Enfield Himalayan rental: why riders choose it", p: ["The Royal Enfield Himalayan was designed for roads like Ladakh's: long-travel suspension, a 21-inch front wheel, good ground clearance and an upright riding position. It handles gravel, water crossings and broken tarmac better than the Classic 350, and the newer 450 version adds more power and a modern engine. For a first Ladakh ride with rough sections such as Khardung La, the Shyok road and Chang La, it is the safest choice."] },
+      { h: "Permits, documents and checkposts", p: ["Carry your original driving licence, ID, the bike's registration papers and insurance, and copies of your inner line permits for Nubra, Pangong, Tso Moriri and other protected areas. Checkposts at South Pullu, Tangtse and other points stamp or record your permit. Foreign riders need a Protected Area Permit arranged through an agent in Leh."] },
+      { h: "Group rides and backup vehicles", p: ["Many riders join organised group tours with a road captain, a mechanic and a backup vehicle carrying luggage, fuel and spares. This is safer for first-time Ladakh riders and lets non-riders travel in the car. If you ride independently, travel in at least pairs, share your route with your hotel and carry a basic repair kit."] },
+    ],
+    faqs: [
+      { q: "Can I rent a bike in Srinagar to ride in Kashmir valley?", a: "Yes. Royal Enfields and scooters are rented for day rides to Gulmarg, Sonamarg, Doodhpathri and Yusmarg in season." },
+      { q: "Which is better for Ladakh: Himalayan or Classic 350?", a: "The Himalayan, for its suspension and ground clearance on rough roads. The Classic is fine on tarmac." },
+      { q: "When should I book a bike in Leh?", a: "Book ahead for July and August. In May, June and September you can usually find bikes on arrival." },
+    ],
+  },
+};
+for (const p of KASHMIR_ROUTES) {
+  const e = EXTRA_8[p.slug];
+  if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
+}
+
+const EXTRA_9: Record<string, { sections: BlogSection[]; faqs: BlogPost["faqs"] }> = {
+  "katra-to-srinagar-taxi-or-train": {
+    sections: [
+      { h: "Stations on the way: Reasi, Sangaldan, Banihal and Qazigund", p: ["Between Katra and Srinagar, the line passes through stations such as Reasi, Sangaldan and Banihal before entering the valley at Qazigund, then runs on through Anantnag, Awantipora and Pampore towards Srinagar. Not every train stops at every station; check the stops for your train on IRCTC. Banihal is the gateway from the Jammu side to the Kashmir valley, and the longest tunnels on the route lie on either side of it.", "Some travellers use the train to reach Anantnag or Qazigund directly for Pahalgam or south Kashmir, which can save an hour of road travel. Ask your package driver to meet you at the station that suits your plan."] },
+      { h: "Katra to Srinagar with a tour package", p: ["On a Vaishno Devi and Kashmir package, the agent books or helps you book the train, arranges a drop at Katra station and a pickup at Srinagar station, and plans the first afternoon in Srinagar. If train seats are not available, the package switches to a road transfer, so ask in advance what the fallback is and whether the price changes. The package should state clearly whether train tickets are included or booked separately by you on IRCTC."] },
+      { h: "Katra to Srinagar distance by road and rail", p: ["By road, Katra to Srinagar is about 240 km through Udhampur, the Chenani-Nashri tunnel, Ramban and Banihal. By rail, the route is shorter in time but longer in tunnel: much of the line runs underground or on bridges through the Pir Panjal and the Reasi hills. Distance matters less than reliability here: the rail route avoids the landslide-prone road sections entirely."] },
+      { h: "What to do on your first evening in Srinagar", p: ["If you arrive by a morning or midday train, you have time for a sunset shikara on Dal Lake, a walk on Boulevard Road and dinner at a Kashmiri restaurant. If you arrive late, rest at your hotel and start the next day early with the Mughal gardens or a Gulmarg day trip. Pilgrims arriving from the yatra often prefer a quiet first evening on a houseboat."] },
+    ],
+    faqs: [
+      { q: "Does the Vande Bharat stop at Banihal?", a: "Most services stop at a few stations such as Banihal. Check the exact stops for your train on IRCTC." },
+      { q: "Can I get off the train at Anantnag for Pahalgam?", a: "Where your train stops there, yes. It can save time for Pahalgam and south Kashmir; arrange a pickup in advance." },
+    ],
+  },
+  "srinagar-to-yusmarg-taxi": {
+    sections: [
+      { h: "Yusmarg on a Kashmir itinerary", p: ["Yusmarg fits on a spare day in Srinagar, after Gulmarg, Sonamarg and Pahalgam, or as a quieter alternative to Gulmarg in peak weeks when the Gondola queues are long. Because you return to Srinagar the same evening, it does not change your hotel plan. Add it to a 6 or 7 night trip as a named day so the taxi time is included, or combine it with an afternoon in the old city on the way back. Photographers and walkers often rate it as the most peaceful meadow within easy reach of Srinagar."] },
+      { h: "Yusmarg vs Doodhpathri: which to choose", p: ["Both are Budgam meadows less than 50 km from Srinagar, and both are quiet compared with Gulmarg. Choose Yusmarg for pine forest, a real walk to Nilnag lake and the Charar-e-Sharief shrine on the way. Choose Doodhpathri for wide open meadows, the white Shaliganga stream and easy flat walking for children and elderly parents. With two spare days, see both."] },
+    ],
+    faqs: [
+      { q: "Can I stay overnight in Yusmarg in winter?", a: "A few JKTDC huts may stay open, with limited services. Confirm before travelling and carry warm clothes and food." },
+    ],
+  },
+  "srinagar-to-doodhpathri-taxi": {
+    sections: [
+      { h: "Where to stay near Doodhpathri", p: ["Doodhpathri has only a handful of basic huts and guest houses, mostly used by local visitors and shepherds' families in summer. Most travellers stay in Srinagar and visit as a day trip. If you want to stay close, some homestays in the villages around Khansahib offer simple rooms and home-cooked food; book through a trusted contact and carry warm clothes. In winter, overnight stays are not practical for most visitors."] },
+      { h: "Photography at Doodhpathri", p: ["Morning light on the Shaliganga stream, with mist over the meadow and the pine forest behind, gives the best photographs. In June the meadows are full of wildflowers; in September and October the grass turns golden. Shepherds' huts and flocks make good subjects, but ask before photographing people."] },
+    ],
+    faqs: [
+      { q: "Can I camp in Doodhpathri?", a: "Camping is not commonly organised. Visit as a day trip or stay at basic huts with local guidance." },
+    ],
+  },
+  "srinagar-to-leh-taxi": {
+    sections: [
+      { h: "Srinagar to Leh taxi or flight: which is better", p: ["A direct flight to Leh takes about an hour from Delhi, but lands you at 3,500 m with no acclimatisation. The road from Srinagar takes two days but lets your body adjust gradually through Sonamarg and Kargil, and shows you the change from Kashmir to Ladakh. Choose the road if you are combining Kashmir and Ladakh, have time and want the journey itself. Choose the flight if you have only a few days in Ladakh and are in good health; rest for a full day on arrival."] },
+      { h: "Packing for the Srinagar to Leh drive", p: ["Carry layers you can reach easily in the car: a warm jacket for Zojila and Fotu La, a cap and gloves, sunglasses and sunscreen for the strong high-altitude sun, water, snacks, motion-sickness tablets if you need them and any medicines your doctor recommends. Keep IDs and permit copies in a folder for checkposts."] },
+    ],
+    faqs: [
+      { q: "Do I need warm clothes in July on the Srinagar to Leh road?", a: "Yes. Zojila and Fotu La are cold and windy even in summer." },
+    ],
+  },
+  "srinagar-to-gurez-taxi": {
+    sections: [
+      { h: "Gurez on a Kashmir itinerary", p: ["Gurez needs at least two nights, so it fits best on a longer trip of 8 to 10 nights, after the classic Srinagar, Gulmarg, Sonamarg and Pahalgam circuit. Many travellers place it at the end of the trip for a slow, remote finish. Return to Srinagar with a free evening before your flight, because the Razdan Pass road can be slow."] },
+    ],
+    faqs: [
+      { q: "Is Gurez worth visiting?", a: "For travellers who want remote, traditional Kashmir with few tourists, yes. Plan at least two nights." },
+    ],
+  },
+  "jammu-to-srinagar-taxi": {
+    sections: [
+      { h: "Jammu to Srinagar for groups", p: ["Groups of 9 to 17 usually take a tempo traveller or Force Urbania on this route. Large vehicles are more affected by one-way traffic days and heavy-vehicle restrictions, so confirm the day's advisory before departure. Plan longer meal stops and share a passenger list with IDs for checkpoints."] },
+    ],
+    faqs: [
+      { q: "Can a tempo traveller go from Jammu to Srinagar?", a: "Yes, it is a common group transfer, about 6 to 8 hours on NH 44." },
+    ],
+  },
+  "srinagar-airport-taxi": {
+    sections: [
+      { h: "Airport transfer with a Kashmir package", p: ["On most Kashmir packages, both airport transfers are included in the car for the trip. The driver tracks your flight, meets you outside arrivals and drops you at your hotel or houseboat ghat. On departure, the driver collects you with enough time for the gate check. Confirm the pickup time the evening before."] },
+    ],
+    faqs: [
+      { q: "Are airport transfers included in Kashmir packages?", a: "Usually yes, for both arrival and departure. Check the itinerary." },
+    ],
+  },
+  "tempo-traveller-in-kashmir": {
+    sections: [
+      { h: "Tempo traveller in winter: a group checklist", p: ["Ask the operator in advance how winter snow is handled at Tangmarg, Sonamarg and Pahalgam, and who pays if the group must switch into smaller 4x4 taxis. Confirm the van carries chains and has a working heater. Plan shorter days, starting after the morning ice softens and ending before 4 pm. Keep blankets, water and snacks on board for delays, and keep one buffer day before flights."] },
+      { h: "Tempo traveller for pilgrim groups", p: ["Pilgrim groups visiting Vaishno Devi, Kheer Bhawani, Shankaracharya and the Amarnath Yatra base camps often book a tempo traveller for the whole trip. For the Amarnath Yatra, the vehicle can drop at Baltal or Nunwan near Pahalgam, but the yatra itself is on foot, by pony or helicopter. Plan fixed pickup times and share them with every group member."] },
+    ],
+    faqs: [
+      { q: "Can a tempo traveller drop pilgrims at Baltal?", a: "Yes, in season, subject to yatra traffic arrangements. The yatra itself is on foot, by pony or helicopter." },
+    ],
+  },
+  "kashmir-cab-types-innova-crysta-ertiga-dzire": {
+    sections: [
+      { h: "Cab type by season", p: ["Spring and autumn: any vehicle works on the main routes; choose by group size. Summer: air-conditioning matters on the Jammu highway and in Srinagar's afternoon heat in July. Winter: ground clearance, snow chains and a strong heater matter most; choose an Innova, Scorpio, Fortuner or another 4x4 for Gulmarg and Sonamarg days, and expect sedans to be switched at Tangmarg after heavy snow."] },
+    ],
+    faqs: [
+      { q: "Which cab is best for a Kashmir honeymoon?", a: "An Innova Crysta, for comfort and space on long days, or a premium SUV for winter." },
+    ],
+  },
+  "self-drive-car-rental-in-kashmir": {
+    sections: [
+      { h: "A 5-day self-drive plan from Srinagar", p: ["Day 1: collect the car, drive around Dal Lake and the Mughal gardens. Day 2: Srinagar to Gulmarg and back, with Drung waterfall on the way. Day 3: Srinagar to Sonamarg, park in town and take a union taxi or pony for Thajiwas and Zero Point. Day 4: Srinagar to Pahalgam via Pampore and Awantipora, park in town and take a union taxi to the valleys. Day 5: Pahalgam back to Srinagar and return the car.", "This plan works from May to October. In winter, swap self-drive for a car with driver on the Gulmarg and Sonamarg days."] },
+      { h: "Road conditions you should expect", p: ["Main roads to Gulmarg, Sonamarg and Pahalgam are paved and well maintained, but narrow in places, with blind bends, pedestrians, livestock and occasional potholes after winter. Expect speed breakers in towns and villages, and security checkpoints where you slow down and show ID if asked. The Jammu highway has fast four-lane stretches and slow gorge sections. Night driving is not recommended outside Srinagar."] },
+      { h: "Who should not self-drive in Kashmir", p: ["Drivers new to hill roads, anyone uncomfortable with heavy traffic and unpredictable road users, travellers in deep winter without snow experience, and groups who want to relax and enjoy the views are all better off with a driver. Many confident drivers still choose a driver for Kashmir simply for local knowledge and stress-free days."] },
+    ],
+    faqs: [
+      { q: "Can I self-drive from Jammu to Srinagar?", a: "Yes, if the rental owner allows it. The NH 44 drive is 6 to 8 hours with slow gorge sections; travel in daylight." },
+      { q: "Is parking easy in Srinagar?", a: "Parking near Boulevard Road and Lal Chowk can be tight. Hotels usually have parking; use marked areas elsewhere." },
+    ],
+  },
+  "bike-rental-in-srinagar-and-leh": {
+    sections: [
+      { h: "A 4-day Kashmir valley ride from Srinagar", p: ["Day 1: Srinagar to Gulmarg via Tangmarg, back by evening. Day 2: Srinagar to Sonamarg along the Sindh river, a short walk to Thajiwas. Day 3: Srinagar to Pahalgam via Pampore and Awantipora, night in Pahalgam. Day 4: Pahalgam to Srinagar via Achabal or Kokernag. Ride from May to October, start early, and keep rain gear handy."] },
+      { h: "What a fair bike rental quote includes", p: ["The daily rate, the deposit and refund terms, whether a helmet, riding jacket and tools are included, the late-return charge, any distance limits, who pays for breakdown recovery far from town, and whether the bike may be taken out of the region. In Leh, ask whether the bike's papers include the permits needed for checkposts."] },
+    ],
+    faqs: [
+      { q: "Can I rent a scooter in Leh?", a: "Yes, for town use. For Khardung La, Nubra and Pangong, a motorcycle is safer." },
+      { q: "Is there a deposit for bike rental in Srinagar?", a: "Yes. Renters ask for a refundable deposit and ID. Agree the refund terms in writing." },
+    ],
+  },
+};
+for (const p of KASHMIR_ROUTES) {
+  const e = EXTRA_9[p.slug];
+  if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
+}
