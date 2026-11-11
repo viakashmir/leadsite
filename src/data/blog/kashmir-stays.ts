@@ -1221,3 +1221,184 @@ for (const p of KASHMIR_STAYS) {
   const e = EXTRA_5[p.slug];
   if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
 }
+
+const EXTRA_6: Record<string, { sections: BlogSection[]; faqs: BlogPost["faqs"] }> = {
+  "where-to-stay-in-gulmarg": {
+    sections: [
+      { h: "Winter in a Gulmarg hotel: what it is really like", p: ["In January and February, Gulmarg is deep in snow, nights fall well below freezing and the town is quiet after dark. Hotel life revolves around warmth: rooms heated by central systems, electric heaters or bukharis, hot water bottles at bedtime and dinner in a warm dining room. Paths between buildings are cleared but icy, so wear boots with grip. Mornings bring brilliant sunshine on fresh snow and the first Gondola cabins at opening time. Power cuts can happen, which is why a generator matters more here than almost anywhere else in Kashmir.", "Plan to be indoors by early evening, carry a headtorch for the short walk to dinner if your cottage is separate, and keep your phone and batteries warm, since cold drains them fast."] },
+      { h: "Summer in a Gulmarg hotel", p: ["From May to September, Gulmarg's hotels look out over green meadows and pine forest, and days are pleasant for walking, golf and pony rides. Nights are cool enough for a light jacket. The town is busy with day visitors from about 10 am to 4 pm and calm in the evening, which is the best reason to stay over. Summer rooms are easier to book than winter ones, except during school holidays in June."] },
+      { h: "Gulmarg hotels for groups", p: ["Groups of 10 or more should book early and look for hotels with several cottages or a block of rooms together, a dining hall and parking for a tempo traveller. JKTDC huts are a good option for groups on a budget. In winter, remember that large vehicles may be stopped at Tangmarg after snowfall, so ask your hotel whether it can arrange 4x4 shuttles for the last stretch."] },
+      { h: "How to get from your Gulmarg hotel to the slopes", p: ["From hotels near the Gondola base, walk. From the main meadow, walk 10 to 20 minutes or take a short local taxi. In deep snow, local sledge pullers will take you and your luggage across the snow for a fixed fee. Ski equipment can be hired near the Gondola base and at some hotels, which saves carrying it far."] },
+    ],
+    faqs: [
+      { q: "Is it very cold in Gulmarg hotels in winter?", a: "Rooms are heated, but outside it is well below freezing at night. Choose a hotel with good heating and power backup." },
+      { q: "Can groups stay in Gulmarg?", a: "Yes. Book early and look for hotels with several cottages, a dining hall and parking." },
+    ],
+  },
+  "where-to-stay-in-pahalgam": {
+    sections: [
+      { h: "Pahalgam for honeymooners: where to stay", p: ["For a honeymoon, choose a riverside hotel with a balcony or lawn on the Lidder, a room on an upper floor and a quiet location slightly away from the market. Two nights give you one unhurried day for Aru or Betaab and one slow morning by the river. Many hotels arrange flower decorations, a candlelight dinner or a riverside bonfire with notice. In autumn, the golden light on the valley makes Pahalgam one of the most romantic places in Kashmir."] },
+      { h: "Pahalgam for elderly travellers: where to stay", p: ["Pick a hotel close to the main market, with a lift or ground-floor rooms, a level path to the entrance and a dining room on the same floor. Avoid properties with long steep driveways or many steps. Ask for rooms on the quieter side, away from traffic. Union taxis can collect you at the hotel for the valley trips, and the riverside walks near the town are flat and easy."] },
+      { h: "Budget stays in Pahalgam", p: ["Budget travellers can choose guest houses near the bus stand, JKTDC huts and homestays in villages down the valley. Rates are lowest in March, April before the summer rush, and from September to November. Basic rooms have attached bathrooms and geysers; in winter, ask whether heating is included. Eating in the market's dhabas keeps costs down."] },
+      { h: "What Pahalgam hotels include", p: ["Most Pahalgam hotels quote rates with breakfast, or breakfast and dinner, especially in winter when few restaurants stay open late. Parking is usually available. Many hotels help book union taxis and ponies, and some arrange rafting. Wi-Fi is common but speeds vary, and mobile signal is good in town but weaker in the side valleys."] },
+    ],
+    faqs: [
+      { q: "Which Pahalgam hotels are best for honeymooners?", a: "Riverside hotels with balconies over the Lidder, slightly away from the market." },
+      { q: "Do Pahalgam hotels include meals?", a: "Usually breakfast, or breakfast and dinner. Confirm the meal plan when booking." },
+    ],
+  },
+  "where-to-stay-in-sonamarg": {
+    sections: [
+      { h: "What Sonamarg hotels include", p: ["Most Sonamarg hotels quote with breakfast, or breakfast and dinner, because restaurants are few and close early. Parking is available at most properties. Hot water comes from geysers, and rooms are heated by electric heaters on cold nights. Wi-Fi is available at many hotels but can be slow, and mobile signal is good in the town but fades towards Thajiwas and Zojila. Hotels can call ponies for Thajiwas and union taxis for Zero Point."] },
+      { h: "Booking tips for Sonamarg", p: ["Book ahead for June to August, when trekkers, families and Amarnath Yatra traffic all compete for rooms. Ask for a river-facing room on an upper floor. Confirm that the hotel is open on your dates in the shoulder months of April, May, October and November. If you are going on to Ladakh, ask about early breakfast. If you are on the Great Lakes trek, ask whether the hotel can store excess luggage until you return."] },
+      { h: "Sonamarg for families", p: ["For families, choose a hotel close to the main parking area so the Thajiwas ponies and the meadow are easy to reach, with family rooms and a dining room that can cook simple food for children. The river is fast and cold, so keep children away from the banks. Plan the glacier walk for the morning and keep the afternoon free for rest or a gentle walk."] },
+    ],
+    faqs: [
+      { q: "Can I store luggage in Sonamarg during the Great Lakes trek?", a: "Many hotels and trek operators store luggage for trekkers; ask in advance." },
+      { q: "Is Wi-Fi available in Sonamarg hotels?", a: "At many hotels, though speeds vary. Mobile signal is good in town." },
+    ],
+  },
+  "best-areas-to-stay-in-srinagar": {
+    sections: [
+      { h: "Getting around from each area", p: ["From Boulevard Road, walk to the ghats and restaurants and take a short taxi to the Mughal gardens or Lal Chowk. From Rajbagh, taxis reach Dal Gate and Lal Chowk in a few minutes. From Lal Chowk and Residency Road, walk to shops and the old city's edge. From the gardens side, you need a taxi for the city centre in the evening. From Gupkar and the Zabarwan foothills, you need a car for everything. Auto-rickshaws and taxis are easy to find in the centre; app cabs are limited."] },
+      { h: "Where to stay in Srinagar in winter", p: ["In winter, choose an area and hotel for warmth rather than view. Centrally heated hotels on Boulevard Road, in Rajbagh and on the Jhelum riverfront are the most comfortable. Lal Chowk is lively even in winter, while the gardens side is very quiet. If you want a houseboat night, pick a Deluxe boat on Nigeen or Dal that confirms good heating, and spend the rest of the stay in a hotel."] },
+    ],
+    faqs: [
+      { q: "Which area of Srinagar is best in winter?", a: "Boulevard Road, Rajbagh or the Jhelum riverfront, in a centrally heated hotel." },
+      { q: "Are app cabs available in Srinagar?", a: "Availability is limited. Use hotel taxis, taxi stands or a package driver." },
+    ],
+  },
+  "hotels-in-katra-near-vaishno-devi": {
+    sections: [
+      { h: "Katra hotels for families", p: ["Families travelling with children should choose a hotel close to the bus stand or Banganga, with family rooms, a lift and a dining room serving simple vegetarian food. Many families start the yatra in the evening, rest at Adhkuwari or the Bhawan, and return the next morning, so ask the hotel whether you can keep luggage and use the room for a late check-out. Ponies and palkis are available for children who cannot walk the full distance."] },
+      { h: "Things to see in and around Katra", p: ["Besides the yatra, visitors to Katra often see the Banganga river and ghats at the start of the trek, the Bhairon temple above the Bhawan, the Shiv Khori cave shrine in Reasi district, a few hours away, and Nau Devi temple near Katra. Patnitop, about 2.5 hours away, makes a good cool break in summer. Most pilgrims keep the trip simple: yatra, rest and onward travel."] },
+    ],
+    faqs: [
+      { q: "Can I see Shiv Khori from Katra?", a: "Yes. Shiv Khori is in Reasi district, a few hours from Katra, usually as a day trip." },
+    ],
+  },
+  "budget-hotels-in-srinagar": {
+    sections: [
+      { h: "Budget houseboats vs budget hotels", p: ["A budget houseboat gives you the lake experience, home-cooked meals and a family atmosphere for a modest rate, but rooms are small and heating basic. A budget hotel gives you easier car access, more privacy and often better hot water. Many budget travellers spend one night on a lower category houseboat for the experience and the rest of their stay in a guest house near Dal Gate."] },
+    ],
+    faqs: [
+      { q: "Is a budget houseboat comfortable?", a: "It is simple but clean on well-reviewed boats. Expect small rooms and basic heating in winter." },
+    ],
+  },
+  "nigeen-lake-houseboats": {
+    sections: [
+      { h: "Nigeen houseboat rates: what affects them", p: ["Houseboat rates on Nigeen depend on the category, the number of bedrooms you take, the season and what is included. Deluxe boats cost more than lower categories, peak months such as April to June and the winter holidays cost more than March, October and November, and booking the whole boat costs more than one room but gives you privacy. Most rates include breakfast and often dinner. Ask whether the shikara ride and airport transfers are included."] },
+    ],
+    faqs: [
+      { q: "Are Nigeen houseboat rates per room or per boat?", a: "Usually per room, with an option to book the whole boat for privacy." },
+    ],
+  },
+  "houseboat-vs-hotel-in-srinagar": {
+    sections: [
+      { h: "Houseboat vs hotel for photographers", p: ["Photographers usually prefer a houseboat for at least one night, for dawn light on the lake, mist, reflections and the floating market without travelling. A lakefront hotel on Boulevard Road gives similar views from the shore and easier access to the car for early drives to Gulmarg, Sonamarg and Pahalgam. Combine both for the best of each."] },
+    ],
+    faqs: [
+      { q: "Is a houseboat good for photographers?", a: "Yes, for dawn light, reflections and the floating market on your doorstep." },
+    ],
+  },
+  "luxury-hotels-in-kashmir": {
+    sections: [
+      { h: "Luxury Sonamarg and the rest of Kashmir", p: ["Sonamarg has comfortable mid-range hotels and camps rather than luxury resorts, and most close in winter, so luxury travellers usually visit as a day trip from Srinagar in a private car. Doodhpathri, Yusmarg and Gurez have only simple stays. For luxury outside Srinagar, Gulmarg and Pahalgam are the main choices. In Ladakh, Leh has several upscale hotels and boutique stays for those combining both regions."] },
+    ],
+    faqs: [
+      { q: "Are there luxury hotels in Leh for a Kashmir Ladakh trip?", a: "Yes. Leh has several upscale hotels and boutique stays." },
+    ],
+  },
+};
+for (const p of KASHMIR_STAYS) {
+  const e = EXTRA_6[p.slug];
+  if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
+}
+
+const EXTRA_7: Record<string, { sections: BlogSection[]; faqs: BlogPost["faqs"] }> = {
+  "where-to-stay-in-gulmarg": {
+    sections: [
+      { h: "Gulmarg stay mistakes to avoid", p: ["Booking a room in Tangmarg thinking it is in Gulmarg, then facing a daily drive up the hairpins. Choosing a hotel without power backup for a winter stay. Not checking whether the room is heated, or whether heating is charged extra. Arriving after dark in winter, when the road from Tangmarg is icy. Staying only one night and booking a late Gondola slot the next day, which can leave you rushing back to Srinagar. Expecting restaurants to be open late: in winter, eat at your hotel.", "Check the exact hotel location on a map, confirm heating and meals, arrive by mid-afternoon and book a morning Gondola slot for the day after you arrive."] },
+      { h: "Booking a Gulmarg hotel: a short checklist", p: ["Confirm the exact location: near the Gondola, on the meadow or in Tangmarg. Ask for recent photos of the room category. Check heating, hot water and power backup. Confirm the meal plan. Ask about ski storage and boot drying in winter. Check parking and whether 4x4 shuttles are needed from Tangmarg after snow. Get the cancellation policy in writing, especially for peak weeks."] },
+    ],
+    faqs: [
+      { q: "Is Tangmarg the same as Gulmarg?", a: "No. Tangmarg is the town 13 km below Gulmarg at the start of the climb." },
+    ],
+  },
+  "where-to-stay-in-pahalgam": {
+    sections: [
+      { h: "Pahalgam stay mistakes to avoid", p: ["Staying only one night and trying to see all three valleys plus the drive back. Booking a hotel described as riverside that is actually across the road from the river. Ignoring the Amarnath Yatra dates and finding the town full of pilgrims and security in July and August. Choosing a property far down the valley and spending time in traffic each day. Not confirming heating in winter. Planning around Baisaran, which has been closed since April 2025."] },
+      { h: "Booking a Pahalgam hotel: a short checklist", p: ["Confirm whether the room faces the river. Check the distance to the union taxi stand and market. Ask about heating, hot water and power backup in winter. Confirm the meal plan. Check whether the hotel is open on your dates outside summer. For July and August, ask about yatra traffic and any restrictions. Get the cancellation policy in writing."] },
+      { h: "How many nights in Pahalgam by traveller type", p: ["One night: a short trip that must include Pahalgam, with one valley and a riverside evening. Two nights: the standard, covering Aru, Betaab and Chandanwari without rushing. Three nights: honeymooners, families with young children, elderly travellers and anyone adding rafting or a walk to Lidderwat. Four or more: trekkers using Aru as a base for Kolahoi or Tarsar Marsar."] },
+    ],
+    faqs: [
+      { q: "How many nights should I stay in Pahalgam?", a: "Two nights for most travellers; three for honeymooners, families and slow travellers." },
+    ],
+  },
+  "where-to-stay-in-sonamarg": {
+    sections: [
+      { h: "Sonamarg stay mistakes to avoid", p: ["Booking a winter night without confirming the hotel is open. Choosing a road-facing room and being woken by trucks heading for Zojila at dawn. Not carrying warm layers for the evening, even in July. Expecting reliable mobile signal and Wi-Fi everywhere. Planning Zero Point in April, before Zojila opens. Underestimating Amarnath Yatra crowds in July and August, when rooms and roads are busiest."] },
+      { h: "Booking a Sonamarg hotel: a short checklist", p: ["Confirm the hotel is open on your dates. Ask for a river-facing room on an upper floor. Check heating and hot water. Confirm the meal plan and early breakfast if you are driving to Ladakh or starting a trek. Check parking for your vehicle. In July and August, ask about yatra traffic arrangements for the day you arrive."] },
+      { h: "How Sonamarg compares with Gulmarg and Pahalgam for an overnight", p: ["Gulmarg is the best overnight for skiing and the Gondola, Pahalgam for rivers, valleys and a relaxed two-night stay, and Sonamarg for a glacier walk, the start of the Ladakh road and treks. Sonamarg has the shortest season and the fewest luxury options, so most travellers stay overnight only when it fits a Ladakh drive or a trek."] },
+      { h: "Sonamarg overnight by month", p: ["April: hotels reopening, snow walls and quiet. May: the season begins, Zojila may reopen, crisp nights. June: busy with families and the start of treks. July and August: peak with trekkers and the Amarnath Yatra. September: quiet, clear and beautiful. October: last weeks of the season, very cold nights, hotels starting to close. November to March: mostly closed; day trips only for most travellers."] },
+    ],
+    faqs: [
+      { q: "Which month is best for a Sonamarg overnight?", a: "June or September: open hotels, good weather and fewer crowds than July and August." },
+    ],
+  },
+  "best-areas-to-stay-in-srinagar": {
+    sections: [
+      { h: "Booking a Srinagar hotel: a short checklist", p: ["Check the exact address on a map: many hotels named after Dal Lake are not on the lakefront. Ask whether the room faces the lake, a garden or the road. Confirm heating in winter and air-conditioning in July. Ask whether the hotel has a lift and parking. Confirm the meal plan and whether airport transfers are included. In peak weeks, get the cancellation policy in writing."] },
+      { h: "Srinagar area by season", p: ["Spring: Boulevard Road and the gardens side, close to the Tulip Garden and Mughal gardens. Summer: lakefront hotels and houseboats for evenings on the water. Autumn: the gardens side and Rajbagh for chinars along the Jhelum and in Naseem Bagh. Winter: centrally heated hotels in Rajbagh, on Boulevard Road or on the Jhelum riverfront."] },
+    ],
+    faqs: [
+      { q: "Are hotels named after Dal Lake always on the lake?", a: "No. Many are a few lanes back. Check the exact address and room view." },
+    ],
+  },
+  "hotels-in-katra-near-vaishno-devi": {
+    sections: [
+      { h: "Booking a Katra hotel: a short checklist", p: ["Decide whether you want to be close to Banganga, the bus stand, the helipad or the railway station. Check for a lift if travelling with elderly parents. Ask about early breakfast, late check-out and luggage storage on yatra day. Confirm heating from November to February. For Navratri and summer holidays, book well in advance and keep the booking confirmation handy with your yatra registration."] },
+      { h: "Katra to the rest of your trip", p: ["After Katra, most travellers either take the Vande Bharat to Srinagar for a Kashmir holiday, drive to Patnitop for a cool break, or return to Jammu for flights and trains home. Plan the onward leg for the morning after your yatra, not the same evening."] },
+    ],
+    faqs: [
+      { q: "Should I stay near Banganga or the railway station in Katra?", a: "Near Banganga or the bus stand to walk to the trek start; near the station for early trains." },
+    ],
+  },
+  "budget-hotels-in-srinagar": {
+    sections: [
+      { h: "Budget mistakes to avoid in Srinagar", p: ["Paying full advance to an unknown seller on social media. Booking by name alone without checking the location. Ignoring winter heating charges. Choosing a room on a lane too narrow for your taxi. Booking the cheapest option in peak weeks and finding the room very different from the photos. Read recent reviews, pay a deposit, and confirm in writing what is included."] },
+      { h: "Budget travel tips beyond the hotel", p: ["Use shared cabs from Srinagar's taxi stands to Tangmarg, Kangan and Anantnag. Book the Gulmarg Gondola online. Eat at local restaurants and bakeries. Travel mid-week. Visit the Mughal gardens early, when they are calm. Walk Boulevard Road and the old city rather than paying for every short ride."] },
+    ],
+    faqs: [
+      { q: "What is the cheapest way to see Gulmarg from Srinagar?", a: "A shared cab to Tangmarg and a local taxi up, with Gondola tickets booked online." },
+    ],
+  },
+  "nigeen-lake-houseboats": {
+    sections: [
+      { h: "Nigeen houseboat checklist before you pay", p: ["Boat name and category. Exact location and whether it is reached on foot or by shikara. Recent photos of your room. Heating and hot water. Meals included. Shikara rides included. Wi-Fi and power backup. Check-in and check-out times. Cancellation terms. Contact number of the owner, not just an agent."] },
+    ],
+    faqs: [
+      { q: "Who should I contact on arrival at Nigeen?", a: "The houseboat owner. Keep their number, not just an agent's, and share your arrival time." },
+    ],
+  },
+  "houseboat-vs-hotel-in-srinagar": {
+    sections: [
+      { h: "Houseboat vs hotel: a quick decision guide", p: ["If you are visiting Kashmir for the first time between April and November, book one or two nights on a houseboat. If you have mobility needs, choose a Nigeen boat reached on foot or a hotel. If you travel in deep winter, prefer a centrally heated hotel with one optional houseboat night. If you need to work, choose a hotel. If it is your honeymoon, do both."] },
+    ],
+    faqs: [
+      { q: "Is a houseboat worth it for just one night?", a: "Yes. One night gives you the evening, the dawn and the floating market, which most travellers remember most." },
+    ],
+  },
+  "luxury-hotels-in-kashmir": {
+    sections: [
+      { h: "Booking luxury hotels in Kashmir: a checklist", p: ["Name the hotel and room category in each town. Confirm the view: lake, meadow or river. Check heating, spa and dining hours in winter. Ask about festive surcharges at Christmas and New Year. Confirm private transfers and the vehicle model. List any experiences you want, such as a private shikara or wazwan dinner. Get the cancellation policy in writing."] },
+    ],
+    faqs: [
+      { q: "Do luxury hotels in Kashmir charge extra at New Year?", a: "Many add a gala dinner or festive surcharge. Ask when booking." },
+    ],
+  },
+};
+for (const p of KASHMIR_STAYS) {
+  const e = EXTRA_7[p.slug];
+  if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
+}
