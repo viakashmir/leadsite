@@ -99,6 +99,7 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
     sections: [
       { h: "ATV rides with children", p: ["Children usually ride as passengers behind an adult or with the operator driving. Check the operator's age rules, make sure helmets fit, and choose a gentle route."] },
       { h: "ATV safety in snow", p: ["In snow, ATVs can slide on slopes and icy patches. Ride slowly, follow the operator's route, keep a safe distance from other vehicles and pedestrians, and wear a helmet and gloves. Avoid ATV rides in poor visibility."] },
+      { h: "ATV routes in summer", p: ["In summer, ATV routes run across Gulmarg's green meadows and along forest tracks, with views of the Pir Panjal. Rides are dusty in dry weather, so wear sunglasses and a scarf."] },
     ],
     faqs: [
       { q: "Can children ride ATVs in Gulmarg?", a: "Usually as passengers, with a helmet and according to the operator's age rules." },
@@ -137,6 +138,7 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "Do budget hotels in Srinagar have heating?", a: "Many provide heaters or bukharis; ask about heating and power backup in winter." },
       { q: "Where are budget hotels in Srinagar?", a: "Mostly in the lanes behind the Boulevard near Dalgate and in Rajbagh." },
       { q: "Do budget hotels in Srinagar include breakfast?", a: "Some do; ask when booking, and check reviews for cleanliness and hot water. Breakfast is usually simple: eggs, bread and tea." },
+      { q: "Are budget hotels in Srinagar safe?", a: "Yes, choose registered hotels with recent reviews and staffed reception at night." },
     ],
   },
   "camping-in-gurez-valley": {
@@ -530,6 +532,7 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "How far is Gurez from Srinagar?", a: "About 125 to 130 km via Bandipora and Razdan Pass, usually 5 to 6 hours." },
       { q: "How far is Keran from Srinagar?", a: "About 150 km via Kupwara and Pharkian Gali, usually 5 to 6 hours." },
       { q: "How far is Hazratbal from the Boulevard?", a: "About 10 km, usually 25 to 30 minutes by car." },
+      { q: "How far is Shankaracharya temple from Dal Gate?", a: "About 5 to 6 km, around 15 to 20 minutes by car, followed by a climb of more than 200 steps." },
     ],
   },
   "kashmir-family-trip-plan": {
@@ -1332,6 +1335,8 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { h: "Kashmiri food on a budget", p: ["Budget travellers can eat well in Kashmir: bread from a kandur with noon chai for breakfast, rice with rajma or haak at a local eatery for lunch, and kebabs or tujj at Khayam Chowk in the evening. Wazwan dishes à la carte cost more, but a single rogan josh or rista with rice makes a satisfying meal."] },
       { h: "Food etiquette in Kashmiri homes", p: ["If invited into a Kashmiri home, remove your shoes, sit on the floor cushions if offered, wash your hands before eating, and accept tea or kahwa, which is a sign of hospitality. Eat with your right hand if others do. Hosts may offer more food repeatedly; it is polite to accept a little."] },
       { h: "Kashmiri food for vegetarians in brief", p: ["Vegetarians can enjoy dum aloo, haak, rajma, chaman kaliya, nadru yakhni and monje haak, with rice, along with bakery breads and kahwa. Most hotels and many restaurants in Srinagar serve good vegetarian food, and Jain meals can be arranged with notice."] },
+      { h: "Kashmiri food on a houseboat", p: ["Houseboat hosts cook home-style Kashmiri meals: rajma, haak, dum aloo, chicken or mutton curries and rice, with kahwa after dinner. Ask a day ahead for a small wazwan, nadru dishes or trout."] },
+      { h: "Kashmiri food in winter", p: ["Winter brings harissa at dawn, dried vegetables called hokh syun, fish with nadru, and more noon chai and kahwa through the day to keep warm."] },
     ],
     faqs: [
       { q: "Where can I try trout in Kashmir?", a: "In Pahalgam, Kokernag and Daksum, where trout is farmed and caught in cold streams." },
@@ -1787,6 +1792,7 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "Can I take a shikara ride in winter?", a: "Yes, rides run in winter on most days." },
       { q: "What should I wear for a winter shikara ride?", a: "Warm layers, a jacket, gloves and a cap; many shikaras provide blankets." },
       { q: "Is the floating market open every day?", a: "It usually runs at dawn on most days; ask your houseboat host or shikara operator the evening before." },
+      { q: "How long is a standard shikara ride?", a: "About one to two hours, depending on the route you agree." },
     ],
   },
   "sim-card-and-mobile-network-in-kashmir": {
@@ -2002,12 +2008,15 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
       { q: "Can my Yusmarg taxi stop at Charar-e-Sharif?", a: "Yes, it is on the way; allow 30 to 45 minutes for the visit." },
       { q: "What time should I leave Srinagar for Yusmarg?", a: "By 8 or 9 am, returning by mid-afternoon." },
       { q: "How long should I spend in Yusmarg?", a: "Three to four hours is enough to walk or ride to Nilnag lake and the Doodh Ganga and enjoy the meadow before driving back. Carry snacks, water and warm layers." },
+      { q: "Is the road to Yusmarg good?", a: "Yes, it is good most of the way via Budgam and Charar-e-Sharif, climbing gently through pine forest." },
     ],
   },
   "tempo-traveller-in-kashmir": {
     sections: [
       { h: "Tempo traveller for pilgrim groups", p: ["Pilgrim groups often hire a tempo traveller from Jammu or Katra for Vaishno Devi, Srinagar and the Amarnath base camps."] },
       { h: "Tempo traveller in winter", p: ["In winter, ask for a vehicle with good tyres, chains and a working heater."] },
+      { h: "Tempo traveller from Srinagar to Gurez", p: ["The Gurez road over Razdan Pass is narrow and steep in places, so choose an experienced driver and a well-maintained 12 or 13 seater. Start early from Srinagar and carry IDs for the checkpoints at Bandipora and Razdan."] },
+      { h: "Tempo traveller from Srinagar to Jammu", p: ["The Srinagar to Jammu highway via the Navyug and Banihal tunnels takes about 6 to 8 hours. A tempo traveller is comfortable for groups with luggage; leave early to avoid traffic at Ramban and Udhampur."] },
     ],
     faqs: [
       { q: "Can a tempo traveller go to Gulmarg in winter?", a: "Yes, usually with chains after snowfall." },
@@ -2135,6 +2144,7 @@ export const KASHMIR_DEPTH_ADDITIONS: Record<string, Addition> = {
     faqs: [
       { q: "Should I stay near the market in Pahalgam?", a: "It is convenient for union taxis and restaurants; riverside hotels are quieter." },
       { q: "Are Pahalgam hotels open in winter?", a: "Larger hotels and resorts usually stay open with heating, while many small guesthouses close. Confirm your hotel is open on your dates. Snow makes it beautiful." },
+      { q: "Which Pahalgam area is best for families?", a: "Riverside hotels with lawns, a short walk from the market." },
     ],
   },
   "where-to-stay-in-sonamarg": {
