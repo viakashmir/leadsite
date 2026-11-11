@@ -799,3 +799,211 @@ for (const p of KASHMIR_ACTIVITIES) {
   const e = EXTRA_1[p.slug];
   if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
 }
+
+const EXTRA_2: Record<string, { sections: BlogSection[]; faqs: BlogPost["faqs"] }> = {
+  "vaishno-devi-helicopter-booking-guide": {
+    sections: [
+      { h: "How the helicopter service works", p: ["The Shri Mata Vaishno Devi Shrine Board contracts licensed helicopter operators to run shuttle flights between the Katra helipad and Sanjichhat, a ridge on the yatra route about 2.5 km before the Bhawan. Flights carry a small number of passengers each and run many sorties a day in good weather, from morning until afternoon. The flight itself is a few minutes long, climbing over the Trikuta hills with views of the yatra path below. Weight and baggage limits apply, and passengers are weighed with their bags at check-in."] },
+      { h: "Booking opening and how seats sell out", p: ["Helicopter bookings open on the Shrine Board website for dates some time in advance, and the most popular dates sell out within minutes or hours of opening: weekends, Navratri, summer holidays, New Year and festival days. Plan your yatra dates early, note when booking opens for those dates, and be ready to book as soon as slots appear. Keep IDs and payment details ready. If seats are gone, check again closer to the date for cancellations, but do not rely on it."] },
+      { h: "Reporting time, check-in and security", p: ["On the day, reach the Katra helipad well before the reporting time printed on your ticket. Carry the original ID used for booking, your ticket and your yatra RFID card. At check-in, staff verify documents, weigh passengers and baggage and run security screening. Late arrivals can lose their seats. Once flights begin, boarding is quick; follow staff instructions around the rotors and keep loose items secure."] },
+      { h: "Weather, delays and cancellations", p: ["Helicopter flights depend on visibility and wind. Low cloud, rain, fog and strong winds can delay or suspend flights for hours or a whole day, more often in the monsoon months and in winter. When flights are suspended, the Shrine Board's rules decide refunds or rescheduling. Keep your plan flexible: if flights stop, you can still walk, take a pony or palki, or wait at Katra for the next day. Do not book onward travel tightly on helicopter day."] },
+      { h: "From Sanjichhat to the Bhawan and back", p: ["Sanjichhat has a helipad, waiting areas and food stalls. From here, a mostly paved path of about 2.5 km leads to the Bhawan, partly downhill on the way in, which means uphill on the way back. Ponies and palkis are available at Shrine Board rates. After darshan, many pilgrims take the ropeway to Bhairon temple. Leave enough time to walk or ride back to Sanjichhat before your return flight slot, and allow extra time on crowded days when queues at the Bhawan are long."] },
+      { h: "Darshan and the Bhawan: what to expect", p: ["At the Bhawan, pilgrims queue for darshan of the three pindies in the holy cave. Queues can take minutes or several hours depending on the day. Lockers are available for phones, bags, leather items and cameras, which are not allowed in the cave area. The Bhawan has bhojanalayas serving vegetarian food, drinking water, medical facilities and rest areas. Nights at the Bhawan are cold in every season."] },
+      { h: "Helicopter tickets with a tour package", p: ["Tour operators often cannot guarantee helicopter seats, because booking is done only through the Shrine Board in the pilgrim's name. A good Vaishno Devi package helps you plan the date and reminds you when booking opens, but you book the helicopter yourself or with the operator's help using your own details. Be wary of any agent who promises guaranteed seats for a premium."] },
+      { h: "Helicopter for elderly and disabled pilgrims", p: ["The helicopter is the easiest way up for elderly pilgrims, those with heart or knee problems and disabled pilgrims, but Sanjichhat still involves a 2.5 km walk, pony or palki to the Bhawan. Book a palki in advance at Sanjichhat if walking is difficult. The battery car on the newer track from Adhkuwari is another option for those who cannot walk far. Carry medicines and inform staff of any medical needs."] },
+    ],
+    faqs: [
+      { q: "How many minutes is the Vaishno Devi helicopter ride?", a: "A few minutes from Katra to Sanjichhat. Check-in and security take much longer." },
+      { q: "Is there a weight limit for the Vaishno Devi helicopter?", a: "Yes. Passengers and baggage are weighed at check-in, and limits apply." },
+      { q: "Can I book the helicopter on the day at Katra?", a: "Sometimes, if seats are left, but do not rely on it in peak periods. Book online in advance." },
+      { q: "Can agents guarantee Vaishno Devi helicopter seats?", a: "No. Seats are booked only through the Shrine Board in the pilgrim's name. Avoid agents promising guarantees." },
+      { q: "Is the walk from Sanjichhat to the Bhawan difficult?", a: "It is about 2.5 km on a mostly paved path, easier on the way in. Ponies and palkis are available." },
+    ],
+  },
+  "camping-in-gurez-valley": {
+    sections: [
+      { h: "A day at a Gurez riverside camp", p: ["Morning starts cold, often near freezing even in July, with tea by the tent and the sound of the Kishanganga. After breakfast, walk along the river into Dawar village to see the log houses and fields, or drive towards Wanpora and Badwan. Lunch is back at camp or at a dhaba in Dawar. In the afternoon, visit the Habba Khatoon spring, fish for trout with a permit, or simply sit by the river. Evenings bring a bonfire where allowed, a simple dinner and a sky full of stars."] },
+      { h: "Camping gear: what camps provide and what to bring", p: ["Organised camps in Gurez provide the tent, beds or mattresses, blankets or sleeping bags, meals and washroom access. Bring your own warm layers, including a down jacket, thermal base layers, woollen socks and a cap, as well as a torch, a power bank, personal toiletries, a water bottle and basic medicines. A light rain jacket is useful in summer showers. If you are wild camping with local permission, you will need full camping equipment."] },
+      { h: "Food at Gurez camps", p: ["Meals at camps are simple and hearty: rice, dal, rajma, seasonal vegetables, chicken or mutton dishes and roti, with tea and kahwa. Local produce such as potatoes, peas and walnuts appears on the menu. Vegetarian and mild food can be arranged with notice. Fresh supplies come over Razdan Pass from Bandipora, so choice is limited; carry snacks you cannot do without."] },
+      { h: "Fishing in Gurez", p: ["The Kishanganga and its side streams hold trout, and fishing is one of the quiet pleasures of a Gurez stay. A fishing permit is required from the J&K Fisheries Department for trout beats; ask your camp host how to arrange one. Follow catch rules and handle fish carefully. Local guides know the best stretches and seasons."] },
+      { h: "Camping vs homestay vs JKTDC huts", p: ["Camps give the riverside setting, bonfires and a sense of adventure, but are cold at night and basic. Homestays offer warm rooms in log houses, home-cooked food and time with a Gurezi family. JKTDC huts in Dawar are simple, solid rooms with more comfort than tents. Many visitors spend one night in a camp and one in a homestay or hut."] },
+      { h: "Weather and seasons for camping", p: ["June nights are very cold and the river is high with snowmelt. July and August are the warmest months, with occasional rain. September brings clear skies, golden fields and cold nights. Most camps close by early October. Snow closes Razdan Pass from about November to May. Check the weather and the pass status before you travel."] },
+      { h: "Getting to Gurez camps", p: ["Gurez is about 5 to 6 hours from Srinagar via Bandipora and Razdan Pass. Most camps are near Dawar, the main village. Travel in an SUV with an experienced local driver, leave Srinagar by 7 am, and carry original IDs for every traveller for checkposts. Camps can usually arrange transport from Srinagar as part of a package."] },
+      { h: "Camping responsibly in a border valley", p: ["Gurez is close to the Line of Control and is home to a traditional community. Camp only at organised sites or with local and administrative permission. Keep music low, carry waste back, avoid plastic and use the camp's toilets. Do not photograph army installations or people without permission. Ask your host before walking beyond the village."] },
+    ],
+    faqs: [
+      { q: "Do I need my own tent for camping in Gurez?", a: "Not at organised camps, which provide tents and bedding. Bring warm layers and a torch." },
+      { q: "Can I fish in Gurez?", a: "Yes, with a permit from the J&K Fisheries Department for trout waters." },
+      { q: "When do Gurez camps close?", a: "Most close by early October as nights get very cold." },
+      { q: "Is a homestay better than camping in Gurez?", a: "A homestay is warmer and more comfortable; a camp gives the riverside experience. Many visitors try both." },
+    ],
+  },
+  "shikara-ride-dal-lake-guide": {
+    sections: [
+      { h: "Shikara routes on Dal Lake in detail", p: ["The classic one-hour ride from the Boulevard ghats passes the rows of houseboats opposite the road, the waterfront of Nehru Park and the open water with views of Shankaracharya hill and Hari Parbat. A two-hour ride adds Char Chinar, a small island with chinar trees in the Bod Dal section, and the floating shops of Meena Bazaar. Longer rides of three hours or more go deeper into the lake: past the floating gardens where farmers grow vegetables on mats of reeds, the lotus beds in summer, the old lake villages with wooden houses and the channels leading north to Nigeen."] },
+      { h: "The floating vegetable market in detail", p: ["Before dawn, farmers from the lake villages paddle their shikaras to a stretch of water in the Dal near the old lake settlements, loaded with vegetables grown on the floating gardens: lotus stems, collard greens, radishes, pumpkins and more. Trading happens boat to boat, in the half-light, and is over by around 7 am. Visitors watch from their own shikaras. Book your shikara the evening before, leave at about 5 am, carry a warm layer and do not crowd the farmers' boats."] },
+      { h: "Life on the lake: what you see from a shikara", p: ["Dal is not just a tourist lake. Thousands of people live on and around it, in the lake villages and on the floating gardens. From a shikara you see children paddling to school, women washing at the water's edge, farmers tending floating gardens, vendors selling flowers, saffron and handicrafts from their boats, and the wooden mosques and shops of the lake villages. Ask before photographing people, and respect their homes."] },
+      { h: "Shikara ride for honeymooners", p: ["Honeymoon couples often book a decorated shikara with flower garlands, cushions and curtains, sometimes heart-shaped, for a sunset ride. Some boatmen offer a photographer and Kashmiri costumes. Ask for a longer ride towards Char Chinar or the quieter parts of the lake, away from the busiest stretch near the ghats. A sunrise ride with kahwa on board is equally special and much quieter."] },
+      { h: "Shikara rides on Nigeen and other lakes", p: ["Nigeen Lake, north of Dal, offers quieter shikara rides past residential houses and willows, with views of Hari Parbat. A long ride from Nigeen through the channels to Dal is one of the best ways to see lake life. Manasbal lake near Ganderbal also has shikara rides, especially beautiful when lotuses bloom in summer. Wular lake is larger and wilder, with boat rides near Bandipora."] },
+      { h: "Vendors on the lake: how to handle them", p: ["During a shikara ride, vendors in their own boats will come alongside offering saffron, jewellery, shawls, papier mache, kahwa, flowers and photographs in Kashmiri dress. Some sell good products; others sell imitations. You are under no obligation to buy. A polite 'no, thank you' is enough. If you want saffron or shawls, it is safer to buy from trusted shops ashore with receipts."] },
+      { h: "Shikara safety", p: ["Shikaras are stable on calm water but tip if passengers stand or move suddenly. Sit down, keep children in the middle, and ask for life jackets where available. Do not take a shikara out in strong wind or storms, which can rise quickly in summer afternoons. Choose registered boatmen from the official ghats, and agree the route before you leave."] },
+    ],
+    faqs: [
+      { q: "What is Char Chinar?", a: "A small island in Dal Lake with chinar trees, a popular stop on a two-hour shikara ride." },
+      { q: "Can I book a shikara for sunrise?", a: "Yes. Book the evening before with your houseboat or a boatman at the ghat." },
+      { q: "Is it safe to take children on a shikara?", a: "Yes, if they sit in the middle and wear life jackets where available. Avoid windy weather." },
+      { q: "Is there shikara ride at Manasbal Lake?", a: "Yes. Manasbal near Ganderbal has shikara rides, especially lovely when lotuses bloom in summer." },
+    ],
+  },
+};
+for (const p of KASHMIR_ACTIVITIES) {
+  const e = EXTRA_2[p.slug];
+  if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
+}
+
+const EXTRA_3: Record<string, { sections: BlogSection[]; faqs: BlogPost["faqs"] }> = {
+  "atv-ride-in-gulmarg": {
+    sections: [
+      { h: "ATV routes around Gulmarg", p: ["Operators run ATVs on fixed loops that change with the season. In winter, loops cross the snowfields around the main meadow and the slopes near the Gondola area, giving you a fast ride over fresh snow with forest and peaks around you. In summer and autumn, loops follow dirt tracks across the meadow edges and into the forest fringes towards viewpoints. Longer loops of 45 minutes to an hour go further out; short loops of 15 to 20 minutes stay close to the start. Ask the operator to show you the route before you set off."] },
+      { h: "Riding an ATV: a quick how-to", p: ["An ATV has a thumb throttle on the right handlebar and brakes on the levers, and some have a foot brake. Start slowly, keep your feet on the footrests, look where you want to go and lean into turns. On snow, brake gently and early, because the quad slides. On downhill sections, slow down before the slope, not on it. The operator or guide rides with you or leads the way on another quad; follow their line and speed."] },
+      { h: "ATV vs snow scooter vs sledge in Gulmarg", p: ["ATVs work in all seasons and are easy to ride. Snow scooters and snowmobiles run only on snow, are faster on open snowfields and usually ride with a driver. Sledges are pulled by local sledge operators on the slopes and are gentle, ideal for children and older travellers. Many visitors do a short ATV ride and a sledge run on the same afternoon."] },
+      { h: "Gulmarg ATV for families", p: ["Children usually ride as passengers with an adult or guide, and age and height rules vary by operator. Choose a short loop for a first ride, keep speeds low and make sure everyone wears a helmet and warm, waterproof gloves. Pregnant women, people with back or neck problems and anyone with heart conditions should skip ATV rides."] },
+      { h: "Avoiding disputes with ATV operators", p: ["Agree the loop, the duration, the number of riders and the total price before you start, and ask whether helmets and gloves are included. Pay at the end. Avoid operators who refuse to show a rate card or who pressure you into longer loops. If you are unsure, ask your hotel or driver to recommend an operator."] },
+    ],
+    faqs: [
+      { q: "Is it easy to ride an ATV in Gulmarg?", a: "Yes, for most adults. Start slowly on a short loop and follow the guide." },
+      { q: "What should I wear for an ATV ride in winter?", a: "Waterproof jacket and trousers, gloves, snow boots, a helmet and sunglasses." },
+      { q: "Can I ride an ATV in Gulmarg in summer?", a: "Yes. Summer loops follow dirt tracks around the meadow and forest edges." },
+    ],
+  },
+  "paragliding-in-kashmir": {
+    sections: [
+      { h: "What a tandem flight feels like", p: ["After a briefing on the take-off run and landing position, the pilot clips you into a harness attached to the glider. On the pilot's signal, you run a few steps downhill; the wing fills, lifts and you are suddenly in the air, sitting comfortably in the harness. The first minutes are quiet and smooth, with wide views over the valley. In good conditions, the pilot may climb in rising air before gliding down. Landing is a gentle run or a slide onto a field. Most first-timers find it far calmer than they expected."] },
+      { h: "Weather and the best time of day", p: ["Paragliding depends on wind, thermals and visibility. Mornings are usually calmer and safer for tandem flights; strong afternoon winds or thermals can stop flights in summer. Rain, low cloud and gusty wind cancel flights. The best months are from April to October, with the clearest views in spring and autumn. Pilots decide on the day, so keep the plan flexible and do not argue with a cancellation: it is for your safety."] },
+      { h: "How to book paragliding in Kashmir", p: ["Ask your hotel or travel agent which registered operators are flying that season, at Astanmarg near Srinagar or at Sonamarg. Confirm the take-off site, the flight duration, what is included (transport to take-off, video, insurance) and the cancellation policy. Pay a deposit only to a known operator and the balance after the flight. Tell the operator your weight and any health conditions in advance."] },
+      { h: "Astanmarg as a half-day trip", p: ["Astanmarg is a meadow on the ridge above the Harwan side of Srinagar, reached by a winding road. Combine a morning flight with a visit to Shalimar Bagh and Harwan on the way back. The ridge has views over Dal Lake and the city, so even non-flyers in the group enjoy the trip. Carry water and a warm layer, as it is breezy at the top."] },
+      { h: "Paragliding for groups and couples", p: ["Groups and couples can book several tandem flights back to back with one operator, but each passenger flies with their own pilot. Non-flying members can watch from the take-off or landing site. Expect waiting time between flights if pilots are few. Book early in peak season, and agree the order of flyers in advance."] },
+    ],
+    faqs: [
+      { q: "What is the best time of day for paragliding in Kashmir?", a: "Usually morning, when winds are calmer. Afternoon winds can stop flights." },
+      { q: "Can non-flyers come to Astanmarg?", a: "Yes. The ridge has views over Dal Lake and Srinagar and is worth the trip." },
+      { q: "Does paragliding in Kashmir include a video?", a: "Many operators offer a GoPro video, sometimes for an extra charge. Ask when booking." },
+    ],
+  },
+  "pre-wedding-photoshoot-in-kashmir": {
+    sections: [
+      { h: "Spring shoot in detail", p: ["From late March to April, the Tulip Garden, Badamwari almond garden and the Mughal gardens are in bloom, and snow still covers the peaks around the valley. Shoot among the tulip rows early in the morning before crowds, under almond or cherry blossom in Badamwari, and on the terraces of Nishat or Shalimar with the fountains running. Pastel and bright outfits suit the flowers. A Gulmarg morning gives a snow backdrop on the same trip."] },
+      { h: "Autumn shoot in detail", p: ["From late October to mid-November, the chinars of Srinagar turn red and gold, making it the most photogenic season for many photographers. Shoot under the chinars of Naseem Bagh, in the Mughal gardens, on the lawns of heritage hotels and along the Jhelum in the old city. Saffron fields at Pampore bloom purple at the same time. Warm tones such as maroon, gold, rust and deep green work beautifully."] },
+      { h: "Winter shoot in detail", p: ["From December to February, Gulmarg and Pahalgam are white with snow and Srinagar's lake is misty at dawn. Shoot in Gulmarg's meadow, around St Mary's Church and the Gondola, and in Pahalgam's snowy pine forests along the Lidder. Bright reds, emerald greens and deep blues stand out against the snow. Plan short shoots with warm breaks, carry hand warmers and keep camera batteries warm."] },
+      { h: "Summer shoot in detail", p: ["From May to August, Gulmarg's meadows are green, Pahalgam's valleys lush and Sonamarg's glacier valley full of snow patches and wildflowers. Shoot in Betaab Valley, on the riverbanks of the Lidder, on the Sonamarg meadows and on a Dal Lake shikara at sunset. Long daylight gives more shooting hours, but midday light is harsh, so plan early and late sessions."] },
+      { h: "Working with local photographers", p: ["Srinagar has photographers who specialise in pre-wedding shoots and know the gardens, permissions and the best light. They can arrange costumes, props, shikaras and drone permissions where possible. Ask for full galleries of past Kashmir shoots, agree the number of edited photos and videos, delivery time and travel costs in writing, and confirm who handles garden permissions and fees."] },
+    ],
+    faqs: [
+      { q: "Which season is most popular for pre-wedding shoots in Kashmir?", a: "Spring for tulips and autumn for golden chinars are the most popular; winter is chosen for snow." },
+      { q: "Can a photographer arrange a decorated shikara?", a: "Yes. Most local photographers can arrange shikaras, costumes and props." },
+    ],
+  },
+  "golf-in-kashmir-royal-springs-gulmarg-pahalgam": {
+    sections: [
+      { h: "Royal Springs course character", p: ["Royal Springs is laid out on the lower slopes of the Zabarwan range, with natural springs, streams and old trees woven into the design and views across Dal Lake to the city and Hari Parbat. The course rises and falls with the land, so many holes play uphill or downhill, and water comes into play from the springs. Its clubhouse overlooks the lake. It is a course that rewards accuracy, and golfers often say the setting is as memorable as the golf."] },
+    ],
+    faqs: [
+      { q: "Who designed Royal Springs Golf Course?", a: "Robert Trent Jones Jr. designed the course on the Zabarwan slopes above Dal Lake." },
+    ],
+  },
+  "vaishno-devi-helicopter-booking-guide": {
+    sections: [
+      { h: "Combining the helicopter with walking", p: ["A popular plan is to fly up to Sanjichhat in the morning, walk or take a pony to the Bhawan, do darshan, take the ropeway to Bhairon temple, and then walk all the way down to Katra via Adhkuwari, about 13 km mostly downhill. Others walk up overnight and fly down in the morning. Both halves of the yatra use the same paved path with shelters, water points and food stalls."] },
+      { h: "Best months for the helicopter yatra", p: ["March to June and September to November usually bring the most reliable flying weather. July and August, the monsoon months, see frequent cloud and rain, with more suspensions. December to February can bring fog in the morning and snow at higher levels. Navratri in spring and autumn is extremely busy, so book the day booking opens."] },
+      { h: "What to carry in the helicopter", p: ["Carry only a small bag within the weight limit, your ID, ticket, yatra RFID card, water, a light warm layer and any essential medicines. Leave large luggage at your Katra hotel. Leather items, phones and cameras must be deposited in lockers before the cave area at the Bhawan."] },
+    ],
+    faqs: [
+      { q: "Can I walk down after flying up to Sanjichhat?", a: "Yes. Many pilgrims fly up and walk back to Katra via Adhkuwari, about 13 km mostly downhill." },
+    ],
+  },
+  "camping-in-gurez-valley": {
+    sections: [
+      { h: "A 2-night Gurez camping trip", p: ["Day 1: leave Srinagar early, stop at Wular lake viewpoints and Tragbal, cross Razdan Pass and reach the Dawar camp by afternoon. Evening walk by the Kishanganga. Day 2: Dawar villages and Habba Khatoon spring in the morning, a drive towards Wanpora and Badwan in the afternoon, bonfire at camp. Day 3: early start back over Razdan Pass to Srinagar. Add a third night to include Tulail."] },
+      { h: "Camping safety by the Kishanganga", p: ["The river is fast, cold and deep in places, especially in June with snowmelt. Do not swim, and keep children well away from the banks. Pitch tents only where the camp operator indicates, above the river level. Store food securely; dogs and wildlife can visit at night. Keep a torch by your bed and follow your host's advice on walks."] },
+    ],
+    faqs: [
+      { q: "Is it safe to swim in the Kishanganga?", a: "No. The river is fast, cold and deep in places. Enjoy it from the bank." },
+    ],
+  },
+  "shikara-ride-dal-lake-guide": {
+    sections: [
+      { h: "Shikara ride with a houseboat stay", p: ["Most houseboats include a shikara transfer between the ghat and the boat, and many offer a free or discounted ride on the lake. Ask the owner to arrange a dawn ride to the floating market and a sunset ride on another day. Houseboat boatmen know the quieter routes and are often more relaxed than ghat boatmen."] },
+    ],
+    faqs: [
+      { q: "Is a shikara ride included with a houseboat stay?", a: "Often the transfer is included and many houseboats offer a ride. Confirm when you book." },
+    ],
+  },
+};
+for (const p of KASHMIR_ACTIVITIES) {
+  const e = EXTRA_3[p.slug];
+  if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
+}
+
+const EXTRA_4: Record<string, { sections: BlogSection[]; faqs: BlogPost["faqs"] }> = {
+  "vaishno-devi-helicopter-booking-guide": {
+    sections: [
+      { h: "The full yatra route, for context", p: ["The traditional route from Katra begins at Banganga, where pilgrims cross the stream and climb past Charan Paduka, said to hold the footprints of the goddess. Further up, Adhkuwari has the narrow Garbh Joon cave and is roughly halfway. From Adhkuwari, the older route climbs steeply via Sanjichhat to the Bhawan, while the newer, gentler track runs around the hill and is used by battery cars. The helicopter lands at Sanjichhat, cutting out the climb from Katra to that point. The whole route is paved, lit at night and lined with shelters, water points, food stalls and medical posts."] },
+      { h: "Katra helipad: location and arrival", p: ["The Katra helipad is on the edge of town, a short taxi or auto ride from the main bazaar and the railway station. Hotels can arrange a drop. Arrive well before the reporting time, as queues at document checks and weighing can take time on busy mornings. There are waiting areas, toilets and refreshments. Keep your phone charged and your tickets accessible, either printed or on your phone."] },
+      { h: "Helicopter vs ropeway vs battery car: what each covers", p: ["The helicopter flies from Katra to Sanjichhat and saves most of the climb. The battery car runs on part of the newer track from Adhkuwari towards the Bhawan and is meant mainly for elderly and disabled pilgrims; seats are limited. The passenger ropeway connects the Bhawan with Bhairon temple, saving a steep 1.5 km climb. Many pilgrims use a combination: helicopter up, ropeway to Bhairon, then walk down."] },
+      { h: "Avoiding fake Vaishno Devi helicopter websites", p: ["Search results and social media often show pages that look like official booking sites, sometimes with similar names and logos. They ask for advance payment and deliver nothing. Always type the Shrine Board's official website address yourself or use its official app, check that the domain is correct, and never pay through personal bank accounts, wallets or WhatsApp links. If in doubt, call the Shrine Board's official helpline listed on its website."] },
+    ],
+    faqs: [
+      { q: "Where is the Katra helipad?", a: "On the edge of Katra town, a short taxi or auto ride from the bazaar and railway station." },
+      { q: "How can I spot a fake helicopter booking site?", a: "Check the domain carefully, use only the Shrine Board's official website or app, and never pay into personal accounts or through WhatsApp links." },
+    ],
+  },
+  "camping-in-gurez-valley": {
+    sections: [
+      { h: "Gurez camping for families and groups", p: ["Families with older children enjoy Gurez camps for the river, bonfires and open space, but nights are cold, so pack thermals and extra blankets. Groups should book several tents at the same camp and confirm meal times and washroom facilities. Larger groups often arrange a tempo traveller or several SUVs from Srinagar and plan a fixed departure time to cross Razdan Pass together. Share a list of all travellers' IDs with the camp in advance, as it helps at checkposts."] },
+      { h: "Stargazing in Gurez", p: ["With almost no light pollution, Gurez has some of the darkest night skies in Kashmir. On clear nights from July to September, the Milky Way stretches above the valley. Step away from the camp lights, let your eyes adjust for 15 to 20 minutes and use a stargazing app to find constellations. Bring a warm jacket and something to sit on: it gets cold fast after sunset."] },
+      { h: "Photography in Gurez", p: ["The best photographs come at dawn and dusk: mist on the Kishanganga, the wooden houses of Dawar in low sun and Habba Khatoon peak glowing in the evening light. Autumn colours in September and early October are especially beautiful. Do not photograph army installations, checkposts or bridges, and always ask before photographing people, especially women and children."] },
+    ],
+    faqs: [
+      { q: "Is Gurez good for stargazing?", a: "Yes. With little light pollution, clear nights from July to September show the Milky Way." },
+    ],
+  },
+  "shikara-ride-dal-lake-guide": {
+    sections: [
+      { h: "Photography from a shikara", p: ["Sit at the front for an unobstructed view. Early morning gives soft light, mist and calm water for reflections; sunset gives warm colours behind the Pir Panjal. Ask the boatman to slow down or stop for a shot. Keep cameras and phones on a strap, and avoid leaning out over the side."] },
+    ],
+    faqs: [
+
+    ],
+  },
+  "paragliding-in-kashmir": {
+    sections: [
+      { h: "Paragliding in Kashmir vs Bir Billing and Manali", p: ["Bir Billing in Himachal is India's best-known paragliding site, with many operators, longer flights and an international competition history. Solang near Manali also has a busy paragliding scene. Kashmir's sites are fewer and smaller, with shorter flights and more weather dependence, but the views over Dal Lake from Astanmarg and the glacier valley at Sonamarg are unique. If you want a single tandem flight on a Kashmir holiday, Kashmir works well; if paragliding is your main goal, Bir Billing is the better base."] },
+      { h: "Paragliding safety: red flags", p: ["Walk away if the operator cannot show registration, if the pilot will not discuss certification, if the harness or glider looks worn or patched, if there is no reserve parachute, if the operator pushes you to fly in strong wind, or if there is no clear landing area. A good operator is happy to answer questions and will cancel without hesitation in bad weather."] },
+    ],
+    faqs: [
+      { q: "Is Kashmir better than Bir Billing for paragliding?", a: "Bir Billing has more operators and longer flights. Kashmir is good for a single scenic tandem flight on a holiday." },
+    ],
+  },
+  "pre-wedding-photoshoot-in-kashmir": {
+    sections: [
+      { h: "Budgeting for a Kashmir pre-wedding shoot", p: ["The total cost depends on the photographer and team, the number of shoot days, travel and stays, garden fees and permissions, costumes and props, and edited photo and video deliverables. Local Srinagar photographers save travel costs for the team. Packages that combine stays, a car and the shoot schedule can simplify planning. Get a written quote listing every item, and keep a buffer for weather days."] },
+      { h: "A 4-day shoot itinerary", p: ["Day 1: arrive in Srinagar, houseboat evening shoot and sunset shikara. Day 2: sunrise on Dal, Nishat and Shalimar Bagh in the morning, Pari Mahal at sunset. Day 3: Gulmarg meadow or snow, St Mary's Church and Gondola views. Day 4: Pahalgam or Sonamarg river and forest shoot, or the old city and Jhelum for a heritage look, then depart."] },
+    ],
+    faqs: [
+      { q: "How much time should I keep for weather in a Kashmir shoot?", a: "Keep at least one buffer day, especially in spring and winter when weather changes quickly." },
+    ],
+  },
+  "atv-ride-in-gulmarg": {
+    sections: [
+      { h: "Best time of day for ATV rides", p: ["In winter, mornings are best: the snow is firmer, the light is clear and queues are shorter. By afternoon, snow softens and gets churned up, and the light flattens. In summer, early morning and late afternoon are cooler and less dusty. On weekends and during the Christmas to New Year week, go early to avoid waiting."] },
+      { h: "ATV rides and the rest of a Gulmarg day", p: ["Plan the Gondola first, because its time slot is fixed, then fit the ATV ride around lunch. A typical winter afternoon combines a 30 minute ATV loop, a sledge run and photos at St Mary's Church before leaving at about 3.30 pm. In summer, combine the ATV with a pony ride to Khilanmarg or a walk on the golf course edges."] },
+    ],
+    faqs: [
+      { q: "When is the best time for an ATV ride in Gulmarg?", a: "Mornings in winter, when snow is firm, and early morning or late afternoon in summer." },
+    ],
+  },
+};
+for (const p of KASHMIR_ACTIVITIES) {
+  const e = EXTRA_4[p.slug];
+  if (e) { p.sections = [...p.sections, ...e.sections]; p.faqs = [...p.faqs, ...e.faqs]; }
+}
