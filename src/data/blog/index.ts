@@ -60,6 +60,7 @@ import { KASOL_GUIDES } from "./kasol-guides";
 import { HIMACHAL_UPGRADES } from "./himachal-upgrades";
 import { KASHMIR_WINTER_UPGRADES } from "./kashmir-winter-upgrades";
 import { KASHMIR_KW_BLOG_ADDITIONS } from "./kashmir-keyword-additions";
+import { KASHMIR_DEPTH_ADDITIONS } from "./kashmir-depth";
 
 import { KASHMIR_ROUTES } from "./kashmir-routes";
 import { KASHMIR_STAYS } from "./kashmir-stays";
@@ -148,6 +149,7 @@ const UPGRADES: Record<string, Pick<BlogPost, "intro" | "sections" | "faqs" | "u
 // replacing its body; the batch date becomes the post's updated date.
 const ADDITION_BATCHES: [Record<string, Partial<Pick<BlogPost, "sections" | "faqs">>>, string][] = [
   [KASHMIR_KW_BLOG_ADDITIONS, "2026-11-07"],
+  [KASHMIR_DEPTH_ADDITIONS, "2026-11-11"],
 ];
 
 function withAdditions(p: BlogPost): BlogPost {
