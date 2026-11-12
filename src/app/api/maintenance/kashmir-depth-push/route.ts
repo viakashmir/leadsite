@@ -16,7 +16,7 @@ import { KASHMIR_DEPTH_CITIES, KASHMIR_DEPTH_DESTINATIONS, KASHMIR_DEPTH_PLACES 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const TOKEN_SHA256 = "5d3c25499d62646700e3764aa7e37acd6c0edaa63eef9ab0efc5a877a7d5faf2";
+const TOKEN_SHA256 = "a35d43d7ef4324dc03969137a0d04dc0f73de0216417a7b1fe1b4a3d960f9579";
 
 function authorised(token: string | null): boolean {
   if (!token) return false;
