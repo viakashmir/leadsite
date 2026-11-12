@@ -15,15 +15,16 @@ import { BLOG_PATH, CATEGORY_THEME, getPost, isWinterPost, metaTitle, postUrl, r
 import { createLinker, entitiesFor } from "@/lib/entityLinks";
 import { ogImages } from "@/lib/og";
 import { onlyIndexable } from "@/lib/indexable";
+import { prerenderParams } from "@/lib/prerender";
 
 // No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
 // crawlers hitting thousands of pages hourly blocked the Vercel account.
 // Pages refresh on deploy and on demand (admin edits, new leads, unlocks).
 export const revalidate = false;
 
-// Rendered on first visit, then cached (ISR), like the location pages.
+// Every sitemap URL is prerendered at build (see lib/prerender.ts).
 export async function generateStaticParams() {
-  return [];
+  return prerenderParams(([root, slug, ...rest]) => (root === "blog" && slug && rest.length === 0 ? { slug } : null));
 }
 
 const anchor = (h: string) =>

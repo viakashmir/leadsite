@@ -51,3 +51,6 @@ next-env.d.ts
 
 # generated, single-use deploy SQL (regenerate with scripts/generate-deploy-sql.ts)
 /deploy.sql
+
+# photos exported from the database at build (scripts/export-media.ts)
+/public/media/

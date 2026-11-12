@@ -23,6 +23,9 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       { source: "/:path*", headers: SECURITY_HEADERS },
+      // Photos exported to public/media at build (scripts/export-media.ts).
+      // URLs change whenever a photo changes, so they never need revalidating.
+      { source: "/media/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, s-maxage=31536000, immutable" }] },
       { source: "/admin/:path*", headers: PRIVATE_HEADERS },
       { source: "/agent/dashboard/:path*", headers: PRIVATE_HEADERS },
       { source: "/api/:path*", headers: PRIVATE_HEADERS },

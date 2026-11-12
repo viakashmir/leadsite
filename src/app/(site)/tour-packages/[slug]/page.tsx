@@ -8,16 +8,17 @@ import TargetPackagesPage, {
 import { ORIGIN_CITIES } from "@/data/locations";
 import { readContent, resolveTarget } from "@/lib/locations";
 import { parseFromTo, tourPackagesUrl } from "@/lib/urls";
+import { prerenderParams } from "@/lib/prerender";
 
 // No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
 // crawlers hitting thousands of pages hourly blocked the Vercel account.
 // Pages refresh on deploy and on demand (admin edits, new leads, unlocks).
 export const revalidate = false;
 
-// Empty list = nothing prerendered at build; each page is rendered on its first
-// visit and then cached (ISR) instead of hitting the database on every request.
+// Every sitemap URL is prerendered at build (see lib/prerender.ts); anything
+// else renders on its first visit and is then cached.
 export async function generateStaticParams() {
-  return [];
+  return prerenderParams(([root, slug, ...rest]) => (root === "tour-packages" && slug && rest.length === 0 ? { slug } : null));
 }
 
 const SCOPES = {

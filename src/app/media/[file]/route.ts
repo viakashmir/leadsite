@@ -11,7 +11,8 @@ export async function GET(_req: Request, ctx: { params: Promise<{ file: string }
   return new Response(new Uint8Array(asset.bytes), {
     headers: {
       "Content-Type": asset.mime,
-      "Cache-Control": "public, max-age=31536000, immutable",
+      // s-maxage lets Vercel's CDN keep the copy too, not only the browser.
+      "Cache-Control": "public, max-age=31536000, s-maxage=31536000, immutable",
     },
   });
 }

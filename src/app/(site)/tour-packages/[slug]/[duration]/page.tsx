@@ -8,14 +8,18 @@ import { durationBySlug, durationsFor, type Duration } from "@/lib/durations";
 import { webPageSchema } from "@/lib/schema";
 import { guideUrl, tourPackagesUrl } from "@/lib/urls";
 import { ogImages } from "@/lib/og";
+import { prerenderParams } from "@/lib/prerender";
 
 // No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
 // crawlers hitting thousands of pages hourly blocked the Vercel account.
 // Pages refresh on deploy and on demand (admin edits, new leads, unlocks).
 export const revalidate = false;
 
+// Every sitemap URL is prerendered at build (see lib/prerender.ts).
 export async function generateStaticParams() {
-  return [];
+  return prerenderParams(([root, slug, duration, ...rest]) =>
+    root === "tour-packages" && slug && duration && rest.length === 0 ? { slug, duration } : null,
+  );
 }
 
 async function resolve(slug: string, durationSlug: string) {

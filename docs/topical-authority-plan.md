@@ -74,7 +74,7 @@ New articles join their cluster automatically from their `destination`,
 
 ## After every deploy
 
-- Submit changed URLs: `npx tsx scripts/indexnow-submit.ts` (Bing, Yandex,
+- Submit changed URLs: `npx tsx scripts/indexnow-submit.ts --since YYYY-MM-DD` (Bing, Yandex,
   and through them several AI search tools).
 - Search Console: resubmit `sitemap.xml`; watch Pages > "Crawled, currently
   not indexed" for the hubs and articles.
