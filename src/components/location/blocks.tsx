@@ -17,11 +17,14 @@ import {
   type RouteGuide,
 } from "@/lib/locations";
 import type { Prisma } from "@/generated/prisma/client";
+import { linkableTest } from "@/lib/indexable";
 
 export type Crumb = { name: string; href: string };
 
-export function Breadcrumbs({ items }: { items: Crumb[] }) {
+// A crumb whose page is noindex (a draft city, say) shows as text, not a link.
+export async function Breadcrumbs({ items }: { items: Crumb[] }) {
   const all = [{ name: "Home", href: "/" }, ...items];
+  const linkable = await linkableTest();
   return (
     <>
       <JsonLd
@@ -43,6 +46,8 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
             {i > 0 && <span className="mx-1.5 text-zinc-300">/</span>}
             {i === all.length - 1 ? (
               <span className="text-ink">{c.name}</span>
+            ) : !linkable(c.href) ? (
+              <span>{c.name}</span>
             ) : (
               <Link href={c.href} className="hover:text-brand">
                 {c.name}
@@ -140,13 +145,17 @@ export function Section({
 }
 
 // scroll: one swipeable row on phones (section navigation), wrapping on larger screens.
-export function ChipLinks({
-  links,
+// Links to noindex pages (draft guides, empty departure-city slices) are left
+// out: linking them is what put ~1,300 "Excluded by noindex" URLs in Search Console.
+export async function ChipLinks({
+  links: all,
   scroll = false,
 }: {
   links: { label: string; href: string; active?: boolean }[];
   scroll?: boolean;
 }) {
+  const linkable = await linkableTest();
+  const links = all.filter((l) => l.active || linkable(l.href));
   if (links.length === 0) return null;
   return (
     <div
@@ -174,29 +183,43 @@ export function ChipLinks({
   );
 }
 
-export function CardLinks({
+// A card whose page is noindex (a place guide not yet written) keeps its name
+// and summary but is not a link, so crawlers aren't sent to noindex pages.
+export async function CardLinks({
   items,
 }: {
   items: { title: string; href: string; meta?: string; description?: string }[];
 }) {
+  const linkable = await linkableTest();
   return (
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {items.map((item, i) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          className="group rounded-xl border border-zinc-200 bg-white px-3.5 py-3 transition hover:border-zinc-300 hover:shadow-sm"
-        >
-          <div className="flex items-baseline justify-between gap-2">
-            <h3 className="font-bold text-ink group-hover:text-brand">
-              <span className="mr-1.5 text-zinc-400">{i + 1}.</span>
-              {item.title}
-            </h3>
-            {item.meta && <span className="shrink-0 text-xs text-ink-soft">{item.meta}</span>}
+      {items.map((item, i) => {
+        const body = (
+          <>
+            <div className="flex items-baseline justify-between gap-2">
+              <h3 className="font-bold text-ink group-hover:text-brand">
+                <span className="mr-1.5 text-zinc-400">{i + 1}.</span>
+                {item.title}
+              </h3>
+              {item.meta && <span className="shrink-0 text-xs text-ink-soft">{item.meta}</span>}
+            </div>
+            {item.description && <p className="mt-1 line-clamp-2 text-sm text-ink-soft">{item.description}</p>}
+          </>
+        );
+        return linkable(item.href) ? (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="group rounded-xl border border-zinc-200 bg-white px-3.5 py-3 transition hover:border-zinc-300 hover:shadow-sm"
+          >
+            {body}
+          </Link>
+        ) : (
+          <div key={item.href} className="rounded-xl border border-zinc-200 bg-white px-3.5 py-3">
+            {body}
           </div>
-          {item.description && <p className="mt-1 line-clamp-2 text-sm text-ink-soft">{item.description}</p>}
-        </Link>
-      ))}
+        );
+      })}
     </div>
   );
 }

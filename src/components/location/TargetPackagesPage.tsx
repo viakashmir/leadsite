@@ -43,7 +43,7 @@ import {
 import { SITE_URL } from "@/lib/site";
 import { fromToUrl, guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { ogImages } from "@/lib/og";
-import { indexablePaths, onlyIndexable } from "@/lib/indexable";
+import { indexablePaths, linkableTest, onlyIndexable } from "@/lib/indexable";
 
 type Theme = (typeof THEMES)[number];
 type Origin = (typeof ORIGIN_CITIES)[number];
@@ -166,6 +166,7 @@ export default async function TargetPackagesPage({
   }
 
   // "Places to explore": cities of a destination, stops of a circuit, places of a city.
+  const linkable = await linkableTest();
   const explore = await onlyIndexable(
     t.type === "destination"
       ? dest.cities.length > 0
@@ -386,7 +387,7 @@ export default async function TargetPackagesPage({
             <TopicArticles
               title={`Plan your ${name} trip: travel guides`}
               posts={articles}
-              moreHref={`${guideUrl(dest.slug)}#travel-guides`}
+              moreHref={linkable(guideUrl(dest.slug)) ? `${guideUrl(dest.slug)}#travel-guides` : undefined}
               moreLabel={`All ${dest.name} guides`}
             />
 
@@ -424,7 +425,7 @@ export default async function TargetPackagesPage({
               </Section>
             )}
 
-            {t.type === "city" && (
+            {t.type === "city" && linkable(tourPackagesUrl(dest.slug)) && (
               <p className="py-4 text-sm text-ink-soft">
                 Planning more of {dest.name}?{" "}
                 <Link href={tourPackagesUrl(dest.slug)} className="font-semibold text-brand hover:underline">

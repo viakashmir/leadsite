@@ -39,7 +39,7 @@ import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { clusterByCategory, postsForDestination, postsForPlace } from "@/lib/topicLinks";
 import { ArticleCluster, TopicArticles } from "@/components/location/TopicArticles";
 import { ogImages } from "@/lib/og";
-import { onlyIndexable } from "@/lib/indexable";
+import { linkableTest, onlyIndexable } from "@/lib/indexable";
 
 type SectionSlug = (typeof GUIDE_SECTIONS)[number]["slug"];
 
@@ -377,12 +377,14 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
         {places.length > 0 && (
           <Section title={`Places to visit in ${where}`}>
             <CardLinks items={places} />
-            <Link
-              href={guideUrl(...sectionBase, "places-to-visit")}
-              className="mt-3 inline-block text-sm font-semibold text-brand hover:underline"
-            >
-              All places to visit in {where} →
-            </Link>
+            {(await linkableTest())(guideUrl(...sectionBase, "places-to-visit")) && (
+              <Link
+                href={guideUrl(...sectionBase, "places-to-visit")}
+                className="mt-3 inline-block text-sm font-semibold text-brand hover:underline"
+              >
+                All places to visit in {where} →
+              </Link>
+            )}
           </Section>
         )}
         {r.city && (

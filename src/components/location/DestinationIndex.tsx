@@ -6,6 +6,7 @@ import JsonLd from "@/components/JsonLd";
 import { webPageSchema } from "@/lib/schema";
 import { getCircuits, getDestinationsByZone } from "@/lib/locations";
 import { themeUrl, tourPackagesUrl } from "@/lib/urls";
+import { linkableTest } from "@/lib/indexable";
 
 // Zone-by-zone list of destinations. Used by /tour-packages, /tour-packages/india,
 // /tour-packages/international and the theme indexes (/honeymoon-packages...).
@@ -29,8 +30,10 @@ export default async function DestinationIndex({
 }) {
   const faqs = HUB_FAQS[crumbs[crumbs.length - 1].href];
   const [zones, circuits] = await Promise.all([getDestinationsByZone(), getCircuits()]);
+  // Only destinations whose page is indexable (noindex pages are never linked).
+  const linkable = await linkableTest();
   const shownZones = (scope ? zones.filter((z) => z.scope === scope) : zones)
-    .map((z) => (only ? { ...z, destinations: z.destinations.filter((d) => only.has(d.slug)) } : z))
+    .map((z) => ({ ...z, destinations: z.destinations.filter((d) => (!only || only.has(d.slug)) && linkable(linkFor(d.slug))) }))
     .filter((z) => z.destinations.length > 0);
   const shownCircuits = circuits.filter(
     (c) => (!scope || (scope === "international") === c.isInternational) && (!only || only.has(c.slug)),

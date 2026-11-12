@@ -33,3 +33,16 @@ export async function onlyIndexable<T extends { href: string }>(links: T[]): Pro
   const paths = await indexablePaths();
   return links.filter((l) => paths.has(l.href.split(/[?#]/)[0]));
 }
+
+// Location, package and lead URLs are only real pages when they are in the
+// sitemap; everything else (blog, policies, home) is always linkable.
+const GATED = /^\/(tour-packages\/|packages\/|leads\/|[a-z0-9-]+-tourism(\/|$)|[a-z0-9-]+-packages(\/|$))/;
+
+/** Returns a test: may this internal href be linked (not a noindex location page)? */
+export async function linkableTest(): Promise<(href: string) => boolean> {
+  const paths = await indexablePaths();
+  return (href) => {
+    const path = href.split(/[?#]/)[0];
+    return !GATED.test(path) || paths.has(path);
+  };
+}

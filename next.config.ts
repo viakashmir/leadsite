@@ -20,6 +20,10 @@ const PRIVATE_HEADERS = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Every sitemap page is prerendered at build (src/lib/prerender.ts). A page
+  // that times out three times fails the whole deploy, so allow more than the
+  // 60 s default for slow database round trips.
+  staticPageGenerationTimeout: 180,
   async headers() {
     return [
       { source: "/:path*", headers: SECURITY_HEADERS },
