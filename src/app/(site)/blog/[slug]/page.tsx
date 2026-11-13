@@ -27,6 +27,9 @@ export async function generateStaticParams() {
   return prerenderParams(([root, slug, ...rest]) => (root === "blog" && slug && rest.length === 0 ? { slug } : null));
 }
 
+// Jump links shown before "Show all sections" in the contents box.
+const TOC_VISIBLE = 8;
+
 const anchor = (h: string) =>
   h
     .toLowerCase()
@@ -197,10 +200,13 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
             )}
             <p className="text-[17px] leading-relaxed text-ink">{intro}</p>
 
+            {/* Long guides have 30+ sections: show the first few and fold the
+                rest into a native <details>, so the article starts sooner while
+                every jump link stays in the HTML for readers and crawlers. */}
             <nav aria-label="In this guide" className="mt-5 rounded-[14px] bg-zinc-50 p-4">
               <p className="text-sm font-bold text-ink">In this guide</p>
-              <ol className="mt-2 grid gap-1 text-sm sm:grid-cols-2">
-                {post.sections.map((s) => (
+              <ol className="mt-2 grid gap-x-6 gap-y-1 text-sm sm:grid-cols-2">
+                {post.sections.slice(0, TOC_VISIBLE).map((s) => (
                   <li key={s.h}>
                     <a href={`#${anchor(s.h)}`} className="text-ink-soft hover:text-brand">
                       {s.h}
@@ -208,6 +214,23 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
                   </li>
                 ))}
               </ol>
+              {post.sections.length > TOC_VISIBLE && (
+                <details className="group mt-2 text-sm">
+                  <summary className="cursor-pointer list-none font-semibold text-brand hover:underline [&::-webkit-details-marker]:hidden">
+                    <span className="group-open:hidden">Show all {post.sections.length} sections</span>
+                    <span className="hidden group-open:inline">Show fewer</span>
+                  </summary>
+                  <ol start={TOC_VISIBLE + 1} className="mt-2 grid gap-x-6 gap-y-1 sm:grid-cols-2">
+                    {post.sections.slice(TOC_VISIBLE).map((s) => (
+                      <li key={s.h}>
+                        <a href={`#${anchor(s.h)}`} className="text-ink-soft hover:text-brand">
+                          {s.h}
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+                </details>
+              )}
             </nav>
 
             {body}

@@ -31,6 +31,7 @@ import { PG1_CITIES, PG1_PLACES } from "./places-gaps-1";
 import { KASHMIR_KW_DESTINATION } from "./kashmir-keywords";
 import { KASHMIR_KW_CITIES, KASHMIR_KW_PLACES } from "./kashmir-keywords-towns";
 import { KASHMIR_DEPTH_DESTINATIONS, KASHMIR_DEPTH_CITIES, KASHMIR_DEPTH_PLACES } from "./kashmir-depth";
+import { KASHMIR_DEPTH_2_DESTINATIONS, KASHMIR_DEPTH_2_CITIES, KASHMIR_DEPTH_2_PLACES } from "./kashmir-depth-2";
 import { mergeEach } from "@/lib/content-merge";
 
 // Supplements add FAQs, blocks and section copy on top of base content:
@@ -114,6 +115,6 @@ const PLACE_CONTENT_BASE: Record<string, GuideContent> = mergeAll(
 // Keyword passes merged additively (src/lib/content-merge.ts): they only add
 // FAQs, blocks, months, routes and missing text, the same way
 // scripts/push-kashmir-keywords.ts adds them to the live database.
-export const DESTINATION_CONTENT: Record<string, GuideContent> = mergeEach(mergeEach(DESTINATION_CONTENT_BASE, KASHMIR_KW_DESTINATION), KASHMIR_DEPTH_DESTINATIONS);
-export const CITY_CONTENT: Record<string, GuideContent> = mergeEach(mergeEach(CITY_CONTENT_BASE, KASHMIR_KW_CITIES), KASHMIR_DEPTH_CITIES);
-export const PLACE_CONTENT: Record<string, GuideContent> = mergeEach(mergeEach(PLACE_CONTENT_BASE, KASHMIR_KW_PLACES), KASHMIR_DEPTH_PLACES);
+export const DESTINATION_CONTENT: Record<string, GuideContent> = mergeEach(mergeEach(mergeEach(DESTINATION_CONTENT_BASE, KASHMIR_KW_DESTINATION), KASHMIR_DEPTH_DESTINATIONS), KASHMIR_DEPTH_2_DESTINATIONS);
+export const CITY_CONTENT: Record<string, GuideContent> = mergeEach(mergeEach(mergeEach(CITY_CONTENT_BASE, KASHMIR_KW_CITIES), KASHMIR_DEPTH_CITIES), KASHMIR_DEPTH_2_CITIES);
+export const PLACE_CONTENT: Record<string, GuideContent> = mergeEach(mergeEach(mergeEach(PLACE_CONTENT_BASE, KASHMIR_KW_PLACES), KASHMIR_DEPTH_PLACES), KASHMIR_DEPTH_2_PLACES);
