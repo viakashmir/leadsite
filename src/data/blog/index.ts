@@ -71,6 +71,11 @@ import { KASHMIR_ACTIVITIES } from "./kashmir-activities";
 import { KASHMIR_PLANS } from "./kashmir-plans";
 import { KASHMIR_CULTURE } from "./kashmir-culture";
 import { KASHMIR_WORLD } from "./kashmir-world";
+import { KASHMIR_GAPS_1 } from "./kashmir-gaps-1";
+import { withGapExtras } from "./gaps-extras";
+import { KASHMIR_GAPS_2 } from "./kashmir-gaps-2";
+import { LADAKH_GAPS_1 } from "./ladakh-gaps-1";
+import { KASHMIR_GAPS_3 } from "./kashmir-gaps-3";
 
 import { SUPERSEDED_POSTS } from "./superseded";
 export { SUPERSEDED_POSTS };
@@ -121,6 +126,7 @@ const ALL_POSTS: BlogPost[] = [
   ...KASHMIR_PLANS,
   ...KASHMIR_CULTURE,
   ...KASHMIR_WORLD,
+  ...withGapExtras([...KASHMIR_GAPS_1, ...KASHMIR_GAPS_2, ...LADAKH_GAPS_1, ...KASHMIR_GAPS_3]),
 ];
 
 // Full rewrites keep the published slug, title and description and replace
