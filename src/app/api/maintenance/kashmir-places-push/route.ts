@@ -1,5 +1,6 @@
 // ONE-TIME maintenance endpoint (2026-11-15): adds the batch 2 Kashmir place
-// copy (src/data/content/kashmir-places*.ts, the five-competitor study) to the
+// copy (src/data/content/kashmir-places*.ts) and the batch 3 destination and
+// city copy (kashmir-batch-3.ts), from the five-competitor study, to the
 // live database, additively (src/lib/content-merge.ts: new list items only,
 // objects merged key by key, nothing removed or rewritten, so admin edits are
 // kept). Remove after use.
@@ -12,9 +13,12 @@ import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import { readContent } from "@/lib/locations";
+import { durationsFor } from "@/lib/durations";
 import { additiveMerge } from "@/lib/content-merge";
 import { KASHMIR_PLACES_BATCH_2 } from "@/data/content/kashmir-places";
-import { placeUrl } from "@/lib/urls";
+import { KASHMIR_BATCH_3_CITIES, KASHMIR_BATCH_3_DESTINATIONS } from "@/data/content/kashmir-batch-3";
+import { placeUrl, tourPackagesUrl } from "@/lib/urls";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -54,12 +58,45 @@ export async function POST(req: Request) {
     writes.push(() => prisma.place.update({ where: { id: row.id }, data: { content: next as Prisma.InputJsonValue } }));
   }
 
+  const pages = new Map<string, unknown>();
+  for (const [slug, extra] of Object.entries(KASHMIR_BATCH_3_DESTINATIONS)) {
+    const row = await prisma.destination.findUnique({ where: { slug }, select: { id: true, content: true } });
+    if (!row) {
+      report.push(`destination ${slug}: NOT FOUND`);
+      continue;
+    }
+    const cur = (row.content ?? {}) as Record<string, unknown>;
+    const next = additiveMerge(cur, extra);
+    backup[`destination:${slug}`] = cur;
+    report.push(`destination ${slug}: +${size(next) - size(cur)} items`);
+    writes.push(() => prisma.destination.update({ where: { id: row.id }, data: { content: next as Prisma.InputJsonValue } }));
+    pages.set(slug, next);
+  }
+  for (const [slug, extra] of Object.entries(KASHMIR_BATCH_3_CITIES)) {
+    const row = await prisma.city.findUnique({ where: { slug }, select: { id: true, content: true } });
+    if (!row) {
+      report.push(`city ${slug}: NOT FOUND`);
+      continue;
+    }
+    const cur = (row.content ?? {}) as Record<string, unknown>;
+    const next = additiveMerge(cur, extra);
+    backup[`city:${slug}`] = cur;
+    report.push(`city ${slug}: +${size(next) - size(cur)} items`);
+    writes.push(() => prisma.city.update({ where: { id: row.id }, data: { content: next as Prisma.InputJsonValue } }));
+    pages.set(slug, next);
+  }
+
   // Public pages are static: refresh only the place pages written here (an
   // on-demand rebuild of 36 paths, not a timed revalidate), so the copy shows
   // without a redeploy.
   if (!dry) {
     for (const w of writes) await w();
     for (const path of Object.keys(KASHMIR_PLACES_BATCH_2)) revalidatePath(placeUrl("kashmir", path));
+    // Package hubs and their duration pages for each destination or city written.
+    for (const [slug, content] of pages) {
+      revalidatePath(tourPackagesUrl(slug));
+      for (const d of durationsFor(readContent(content as Prisma.JsonValue))) revalidatePath(`${tourPackagesUrl(slug)}/${d.slug}`);
+    }
   }
   return NextResponse.json({ dry, report, written: dry ? 0 : writes.length, backup: dry ? undefined : backup });
 }

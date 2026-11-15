@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import JsonLd from "@/components/JsonLd";
-import { ChipLinks, Faqs, PackageGrid, PageHero, Prose, QuoteBox, Section, TwoColumn } from "@/components/location/blocks";
+import { Blocks, ChipLinks, Faqs, PackageGrid, PageHero, Prose, QuoteBox, Section, TwoColumn } from "@/components/location/blocks";
 import { durationStats, getPackagesFor, readContent, resolveTarget, robotsFor, targetName, type Target } from "@/lib/locations";
 import { durationBySlug, durationsFor, type Duration } from "@/lib/durations";
 import { webPageSchema } from "@/lib/schema";
@@ -79,7 +79,7 @@ export default async function DurationPage({ params }: PageProps<"/tour-packages
     ? [
         stats.count > 0 && stats.fromPrice
           ? `${stats.count} ready ${name} ${stats.count === 1 ? "package runs" : "packages run"} ${d.nights} nights ${d.days} days, starting from ${formatINR(stats.fromPrice)} per person.`
-          : `A ${d.nights} nights ${d.days} days ${name} trip is planned to order by up to 3 verified local agents.`,
+          : `${/^(8|11|18)$/.test(String(d.nights)) ? "An" : "A"} ${d.nights} nights ${d.days} days ${name} trip is planned to order by up to 3 verified local agents.`,
         content.idealDuration ? `Most ${name} trips run ${content.idealDuration}.` : null,
         content.bestMonths ? `Best months: ${content.bestMonths}.` : null,
       ]
@@ -87,7 +87,10 @@ export default async function DurationPage({ params }: PageProps<"/tour-packages
         .join(" ")
     : undefined;
 
-  const faqs = [
+  // Written copy for this length, when there is any (packages.durations).
+  const own = content.packages?.durations?.[d.slug];
+
+  const generated = [
     {
       q: `Is ${d.nights} nights enough for ${name}?`,
       a: content.idealDuration
@@ -105,6 +108,8 @@ export default async function DurationPage({ params }: PageProps<"/tour-packages
       a: content.bestMonths ? `${content.bestMonths}.` : `Ask the agents for the best dates for your plan.`,
     },
   ];
+  const ownQs = new Set((own?.faqs ?? []).map((f) => f.q.toLowerCase()));
+  const faqs = [...(own?.faqs ?? []), ...generated.filter((f) => !ownQs.has(f.q.toLowerCase()))];
 
   return (
     <article>
@@ -142,6 +147,11 @@ export default async function DurationPage({ params }: PageProps<"/tour-packages
         main={
           <>
             <Section title={`${d.nights} Nights ${d.days} Days ${name} ${itinerary ? "Itinerary" : "Plan"}`}>
+              {own?.intro && (
+                <div className="mb-4">
+                  <Prose text={own.intro} />
+                </div>
+              )}
               {itinerary ? (
                 <ol className="space-y-1.5">
                   {itinerary.days.map((day, i) => (
@@ -158,6 +168,7 @@ export default async function DurationPage({ params }: PageProps<"/tour-packages
                 />
               )}
             </Section>
+            <Blocks blocks={own?.blocks} />
             <Section title={`${name} ${d.label} Packages`}>
               <PackageGrid
                 packages={fitting}

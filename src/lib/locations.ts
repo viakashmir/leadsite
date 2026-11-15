@@ -275,6 +275,7 @@ export type Itinerary = { title: string; days: string[] };
 // own copy here is a distinct page and becomes indexable.
 export type PackagesContent = SectionContent & {
   itineraries?: Itinerary[];
+  durations?: Record<string, SectionContent>; // key: duration slug, e.g. "5-nights-6-days"; copy for that length's page
   fromOrigins?: Record<string, SectionContent & { itineraries?: Itinerary[] }>; // key: origin slug, e.g. "delhi"
   themes?: Record<string, SectionContent>; // key: theme prefix, e.g. "honeymoon-packages"
 };
