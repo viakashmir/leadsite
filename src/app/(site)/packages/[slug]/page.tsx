@@ -11,7 +11,9 @@ import { formatDate, formatINR } from "@/lib/format";
 import { EDITORIAL_TEAM, SITE_URL } from "@/lib/site";
 import { ORG_ID, webPageSchema } from "@/lib/schema";
 import TrustTicks from "@/components/TrustTicks";
-import { Faqs } from "@/components/location/blocks";
+import { Faqs, QuickFacts } from "@/components/location/blocks";
+import { buildPackageDepth } from "@/lib/package-depth";
+import { titleCase } from "@/lib/text";
 import { ogImages } from "@/lib/og";
 
 // No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
@@ -95,6 +97,10 @@ export default async function PackagePage({
       ? [{ q: "Who is this package best for?", a: `It suits ${tags.join(", ").toLowerCase()} travellers. Tell the agents about your group and they adjust hotels and pace.` }]
       : []),
   ];
+  // Long-form detail for Kashmir packages, built from this package's own route.
+  const depth = buildPackageDepth(pkg);
+  if (depth) faqs.push(...depth.faqs);
+  const dayDetail = depth?.days;
 
   return (
     <article>
@@ -195,19 +201,60 @@ export default async function PackagePage({
             <TrustTicks className="mt-3" />
           </section>
 
+          {depth && (
+            <section className="mt-4">
+              <h2 className="mb-2 text-xl font-bold tracking-tight text-ink sm:text-2xl">Key Facts</h2>
+              <QuickFacts facts={depth.facts} />
+            </section>
+          )}
+
           <section className="mt-4 rounded-[14px] bg-[#fdf8f3] p-4 sm:p-6">
-            <h2 className="text-xl font-bold tracking-tight text-ink sm:text-2xl">Itinerary</h2>
+            <h2 className="text-xl font-bold tracking-tight text-ink sm:text-2xl">Day-by-Day Itinerary</h2>
             <ol className="mt-3 space-y-2">
               {itineraryDays.map((day, i) => (
                 <li key={i} className="flex items-start gap-3 rounded-xl border border-zinc-200 bg-white p-3 text-sm text-ink">
                   <span className="mt-0.5 shrink-0 rounded-full bg-brand px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
                     {day.label}
                   </span>
-                  <span className="leading-relaxed">{day.text}</span>
+                  <div className="min-w-0 space-y-2 leading-relaxed">
+                    <p>{day.text}</p>
+                    {dayDetail?.[i]?.detail && (
+                      <>
+                        <p className="text-ink-soft">{dayDetail[i].detail!.more}</p>
+                        {dayDetail[i].detail!.optional && (
+                          <p className="text-ink-soft">
+                            <span className="font-semibold text-ink">Optional: </span>
+                            {dayDetail[i].detail!.optional}
+                          </p>
+                        )}
+                      </>
+                    )}
+                    {dayDetail?.[i]?.sleep && dayDetail[i].sleep !== "home" && (
+                      <p className="text-xs font-semibold text-ink-soft">
+                        Overnight: {dayDetail[i].sleep === "houseboat" ? "Houseboat on the lake" : titleCase(dayDetail[i].sleep!)}
+                      </p>
+                    )}
+                  </div>
                 </li>
               ))}
             </ol>
           </section>
+
+          {depth?.sections.map((s) => (
+            <section key={s.h} className="mt-4 rounded-[14px] bg-[#fdf8f3] p-4 sm:p-6">
+              <h2 className="text-xl font-bold tracking-tight text-ink sm:text-2xl">{titleCase(s.h)}</h2>
+              <div className="mt-2 space-y-2.5 leading-relaxed text-ink">
+                {s.p?.map((t, j) => <p key={j}>{t}</p>)}
+                {s.list && (
+                  <ul className="list-disc space-y-1.5 pl-5">
+                    {s.list.map((t) => (
+                      <li key={t}>{t}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </section>
+          ))}
 
           <section className="mt-4">
             <h2 className="mb-3 text-xl font-bold tracking-tight text-ink sm:text-2xl">Questions About This Package</h2>

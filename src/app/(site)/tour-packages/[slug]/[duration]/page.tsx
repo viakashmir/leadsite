@@ -10,6 +10,8 @@ import { webPageSchema } from "@/lib/schema";
 import { guideUrl, tourPackagesUrl } from "@/lib/urls";
 import { ogImages } from "@/lib/og";
 import { prerenderParams } from "@/lib/prerender";
+import PageDepth from "@/components/location/PageDepth";
+import { withDepthFaqs } from "@/data/page-depth";
 
 // No timed rebuilds: every timed ISR rebuild is a billed ISR write, and
 // crawlers hitting thousands of pages hourly blocked the Vercel account.
@@ -109,7 +111,8 @@ export default async function DurationPage({ params }: PageProps<"/tour-packages
     },
   ];
   const ownQs = new Set((own?.faqs ?? []).map((f) => f.q.toLowerCase()));
-  const faqs = [...(own?.faqs ?? []), ...generated.filter((f) => !ownQs.has(f.q.toLowerCase()))];
+  // Written depth (data/page-depth) adds its questions after the page's own.
+  const faqs = withDepthFaqs(path(t, d), [...(own?.faqs ?? []), ...generated.filter((f) => !ownQs.has(f.q.toLowerCase()))]);
 
   return (
     <article>
@@ -175,6 +178,7 @@ export default async function DurationPage({ params }: PageProps<"/tour-packages
                 emptyText={`No ready-made ${d.label} ${name} packages are listed yet. Share your dates and agents will build one for ${d.days} days.`}
               />
             </Section>
+            <PageDepth path={path(t, d)} />
             <Section title={`Plan Your ${name} Trip`}>
               <p className="text-ink">
                 See all{" "}

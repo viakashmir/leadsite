@@ -77,6 +77,7 @@ import { withGapExtras } from "./gaps-extras";
 import { KASHMIR_GAPS_2 } from "./kashmir-gaps-2";
 import { LADAKH_GAPS_1 } from "./ladakh-gaps-1";
 import { KASHMIR_GAPS_3 } from "./kashmir-gaps-3";
+import { PACKAGE_KEYWORD_ADDITIONS, PACKAGE_KEYWORD_ADDITIONS_2, PACKAGE_KEYWORD_ADDITIONS_3, PACKAGE_KEYWORD_ADDITIONS_4, PACKAGE_KEYWORD_POSTS } from "./package-keywords";
 
 import { SUPERSEDED_POSTS } from "./superseded";
 export { SUPERSEDED_POSTS };
@@ -128,6 +129,7 @@ const ALL_POSTS: BlogPost[] = [
   ...KASHMIR_CULTURE,
   ...KASHMIR_WORLD,
   ...withGapExtras([...KASHMIR_GAPS_1, ...KASHMIR_GAPS_2, ...LADAKH_GAPS_1, ...KASHMIR_GAPS_3]),
+  ...PACKAGE_KEYWORD_POSTS,
 ];
 
 // Full rewrites keep the published slug, title and description and replace
@@ -163,6 +165,10 @@ const ADDITION_BATCHES: [Record<string, Partial<Pick<BlogPost, "sections" | "faq
   [KASHMIR_DEPTH_2_ADDITIONS, "2026-11-13"],
   [KASHMIR_DEPTH_3_ADDITIONS, "2026-11-13"],
   [KASHMIR_DEPTH_4_ADDITIONS, "2026-11-13"],
+  [PACKAGE_KEYWORD_ADDITIONS, "2026-11-15"],
+  [PACKAGE_KEYWORD_ADDITIONS_2, "2026-11-15"],
+  [PACKAGE_KEYWORD_ADDITIONS_3, "2026-11-15"],
+  [PACKAGE_KEYWORD_ADDITIONS_4, "2026-11-15"],
 ];
 
 function withAdditions(p: BlogPost): BlogPost {

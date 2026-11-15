@@ -1,3 +1,5 @@
+import PageDepth from "@/components/location/PageDepth";
+import { withDepthFaqs } from "@/data/page-depth";
 import type { Metadata } from "next";
 import { postsForPlace, THEME_CATEGORIES } from "@/lib/topicLinks";
 import { TopicArticles } from "@/components/location/TopicArticles";
@@ -143,7 +145,11 @@ export default async function TargetPackagesPage({
   const itineraries = (copy as { itineraries?: Itinerary[] } | undefined)?.itineraries;
   const baseFaqs = copy?.faqs ?? (!v.theme && !v.origin ? content.faqs : undefined);
   // Live price answers first: the questions people (and AI assistants) ask most.
-  const faqs = priceGuide && !v.origin ? [...priceFaqs(v.theme ? `${name} ${v.theme.name}` : name, priceGuide), ...(baseFaqs ?? [])] : baseFaqs;
+  const pagePath = packagesPagePath(t, v);
+  const faqs = withDepthFaqs(
+    pagePath,
+    priceGuide && !v.origin ? [...priceFaqs(v.theme ? `${name} ${v.theme.name}` : name, priceGuide), ...(baseFaqs ?? [])] : baseFaqs,
+  );
   const isCircuit = t.type === "circuit";
   const fromPrice = packages.length > 0 ? Math.min(...packages.map((p) => p.price)) : null;
   // Kashmir hubs open with a direct answer built from live listings (the
@@ -421,6 +427,8 @@ export default async function TargetPackagesPage({
                 <HowToReach howToReach={content.howToReach} />
               </Section>
             )}
+
+            <PageDepth path={pagePath} />
 
             <Section tint="green" title="How booking works on Tavel Package">
               <ol className="grid gap-3 sm:grid-cols-3">

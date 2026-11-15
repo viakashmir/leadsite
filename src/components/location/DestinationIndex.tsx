@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ChipLinks, Faqs, PageHero, QuoteBox, Section, TwoColumn, type Crumb } from "@/components/location/blocks";
 import { THEMES } from "@/data/locations";
 import { HUB_FAQS } from "@/data/hub-faqs";
+import PageDepth from "@/components/location/PageDepth";
+import { withDepthFaqs } from "@/data/page-depth";
 import JsonLd from "@/components/JsonLd";
 import { webPageSchema } from "@/lib/schema";
 import { getCircuits, getDestinationsByZone } from "@/lib/locations";
@@ -28,7 +30,8 @@ export default async function DestinationIndex({
   // When set, list only these slugs (theme indexes: slices that are real pages).
   only?: Set<string>;
 }) {
-  const faqs = HUB_FAQS[crumbs[crumbs.length - 1].href];
+  const pagePath = crumbs[crumbs.length - 1].href;
+  const faqs = withDepthFaqs(pagePath, HUB_FAQS[pagePath]);
   const [zones, circuits] = await Promise.all([getDestinationsByZone(), getCircuits()]);
   // Only destinations whose page is indexable (noindex pages are never linked).
   const linkable = await linkableTest();
@@ -89,7 +92,8 @@ export default async function DestinationIndex({
                 <ChipLinks links={THEMES.map((t) => ({ label: `${t.name} Packages`, href: themeUrl(t.prefix) }))} />
               </Section>
             )}
-            {faqs && (
+            <PageDepth path={pagePath} />
+            {faqs.length > 0 && (
               <Section title={`${title} FAQs`}>
                 <Faqs faqs={faqs} />
               </Section>
