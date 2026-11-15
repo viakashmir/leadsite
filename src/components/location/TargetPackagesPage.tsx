@@ -34,6 +34,7 @@ import {
   getPackagesFor,
   getPriceGuide,
   readContent,
+  scopeStats,
   robotsFor,
   targetName,
   targetSlug,
@@ -145,6 +146,21 @@ export default async function TargetPackagesPage({
   const faqs = priceGuide && !v.origin ? [...priceFaqs(v.theme ? `${name} ${v.theme.name}` : name, priceGuide), ...(baseFaqs ?? [])] : baseFaqs;
   const isCircuit = t.type === "circuit";
   const fromPrice = packages.length > 0 ? Math.min(...packages.map((p) => p.price)) : null;
+  // Kashmir hubs open with a direct answer built from live listings (the
+  // five-competitor study, 2026-11-15): how many packages, how long, from what price.
+  const stats = dest.slug === "kashmir" && !v.origin && packages.length > 0 ? await scopeStats(t, v.theme?.tag) : null;
+  const answer = stats
+    ? [
+        `${stats.count} ready ${name} ${v.theme ? `${v.theme.name.toLowerCase()} packages` : "tour packages"}${
+          stats.minNights && stats.maxNights ? `, ${stats.minNights} to ${stats.maxNights} nights` : ""
+        }${stats.fromPrice ? `, starting from ${formatINR(stats.fromPrice)} per person` : ""}.`,
+        content.bestMonths ? `Best months: ${content.bestMonths}.` : null,
+        content.idealDuration ? `Ideal trip length: ${content.idealDuration}.` : null,
+        "Up to 3 verified local agents customise any of them for your dates.",
+      ]
+        .filter(Boolean)
+        .join(" ")
+    : undefined;
   // Last change to this page's copy or to any package listed on it.
   const updated = new Date(
     Math.max(
@@ -255,7 +271,10 @@ export default async function TargetPackagesPage({
         crumbs={crumbs}
         title={heading}
         updated={updated}
-        subtitle={`Share your dates, group and budget once. Up to 3 verified local agents send customised ${name} quotes, you compare and book the one you like.`}
+        subtitle={
+          answer ??
+          `Share your dates, group and budget once. Up to 3 verified local agents send customised ${name} quotes, you compare and book the one you like.`
+        }
         badges={[
           dest.isInternational ? "International" : "India",
           ...(dest.premium ? ["Premium destination"] : []),

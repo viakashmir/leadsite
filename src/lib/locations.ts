@@ -87,6 +87,34 @@ export async function getPackagesFor(t: Target, opts: { themeTag?: string; take?
   });
 }
 
+// Live count and lowest price of published packages of one length, for the
+// answer line on duration pages (the grid itself shows only the newest 24).
+export async function durationStats(t: Target, nights: number) {
+  const where = { published: true, durationNights: nights, ...packageScope(t) };
+  const [count, min] = await Promise.all([
+    prisma.package.count({ where }),
+    prisma.package.aggregate({ where, _min: { price: true } }),
+  ]);
+  return { count, fromPrice: min._min.price ?? null };
+}
+
+// Live count, length range and lowest price of every published package in
+// scope (not only the newest 24 in the grid), for the hub answer line.
+export async function scopeStats(t: Target, themeTag?: string) {
+  const where = {
+    published: true,
+    ...packageScope(t),
+    ...(themeTag ? { theme: { contains: themeTag, mode: "insensitive" as const } } : {}),
+  };
+  const a = await prisma.package.aggregate({
+    where,
+    _count: { _all: true },
+    _min: { price: true, durationNights: true },
+    _max: { durationNights: true },
+  });
+  return { count: a._count._all, fromPrice: a._min.price, minNights: a._min.durationNights, maxNights: a._max.durationNights };
+}
+
 // Titles and links of the published packages in scope that the main grid
 // (newest 24) does not show, so every package page has an internal link.
 export async function getMorePackageLinks(t: Target, opts: { themeTag?: string; skip?: number } = {}) {

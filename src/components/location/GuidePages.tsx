@@ -32,6 +32,7 @@ import {
   getDestination,
   readContent,
   type CityWithPlaces,
+  type GuideContent,
   type DestinationWithTree,
   availableSections,
 } from "@/lib/locations";
@@ -286,6 +287,57 @@ async function destinationWidePlaces(destinationId: string, kind: "PLACE" | "ACT
   });
 }
 
+// First sentence of a written paragraph, trimmed for the answer line.
+function firstSentence(text?: string, maxWords = 40): string | undefined {
+  const t = text?.split(/\n\s*\n/)[0]?.replace(/\s+/g, " ").trim();
+  if (!t) return undefined;
+  const m = t.match(/^.+?[.!?](?=\s+[A-Z(]|$)/);
+  const sentence = (m ? m[0] : t).trim();
+  return sentence.split(" ").length <= maxWords ? sentence : undefined;
+}
+
+// Answer-first line under the H1 for Kashmir guide pages: the direct answer
+// to the page's question, built only from facts this page already holds.
+async function quickAnswer(r: GuideRoute, c: GuideContent, where: string): Promise<string | undefined> {
+  const parts: (string | undefined)[] = [];
+  const sec = r.kind === "section" ? c.sections?.[r.section] : undefined;
+  if (r.kind === "overview" || r.kind === "place") {
+    parts.push(firstSentence(c.intro));
+    if (c.bestMonths) parts.push(`Best months: ${c.bestMonths}.`);
+    if (c.idealDuration) parts.push(`Ideal stay: ${c.idealDuration}.`);
+    if (r.kind === "overview" && c.gateway) parts.push(`Main gateway: ${c.gateway}.`);
+  } else if (r.kind === "section") {
+    switch (r.section) {
+      case "best-time-to-visit":
+        {
+          const written = firstSentence(sec?.intro) ?? firstSentence(c.bestTimeToVisit);
+          if (c.bestMonths && !/best time/i.test(written ?? "")) parts.push(`The best time to visit ${where} is ${c.bestMonths}.`);
+          parts.push(written);
+        }
+        break;
+      case "how-to-reach":
+        parts.push(firstSentence(sec?.intro) ?? firstSentence(c.howToReach?.air) ?? firstSentence(c.howToReach?.road));
+        if (c.gateway) parts.push(`Main gateway: ${c.gateway}.`);
+        break;
+      case "places-to-visit":
+      case "things-to-do": {
+        const kind = r.section === "places-to-visit" ? "PLACE" : "ACTIVITY";
+        const names = (r.city || r.destination.cities.length === 0 ? placesOf(r, kind) : await destinationWidePlaces(r.destination.id, kind))
+          .slice(0, 5)
+          .map((p) => p.name);
+        if (names.length >= 2)
+          parts.push(`${r.section === "places-to-visit" ? "Top places to visit" : "Top things to do"} in ${where} include ${listNames(names)}.`);
+        parts.push(firstSentence(sec?.intro));
+        break;
+      }
+      default:
+        parts.push(firstSentence(sec?.intro));
+    }
+  }
+  const out = parts.filter(Boolean).join(" ");
+  return out.split(" ").length >= 12 ? out : undefined;
+}
+
 export default async function GuidePage({ route: r }: { route: GuideRoute }) {
   const d = r.destination;
   if (r.kind === "route") {
@@ -305,6 +357,8 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
   const raw = readContent(r.kind === "place" ? r.place.content : r.city ? r.city.content : d.content);
   // Pages without written copy get a factual intro from our location data.
   const content = raw.intro || raw.highlights?.length ? raw : { ...raw, intro: autoIntro(r) };
+  // Kashmir guides open with a direct answer (the five-competitor study, 2026-11-15).
+  const answer = d.slug === "kashmir" ? await quickAnswer(r, content, where) : undefined;
   const packagesSlug = r.city ? r.city.slug : d.slug;
   // Only indexable package pages; a place without packages yet links the state's.
   const planLinks = await onlyIndexable([
@@ -599,9 +653,10 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
         title={title}
         updated={updated}
         subtitle={
-          r.kind === "place"
+          answer ??
+          (r.kind === "place"
             ? `Part of a ${where} trip? Get customised packages that include ${r.place.name}.`
-            : `Everything you need to plan ${where}: places, seasons, routes and tips, plus quotes from verified local agents.`
+            : `Everything you need to plan ${where}: places, seasons, routes and tips, plus quotes from verified local agents.`)
         }
       >
         <div className="mt-5">

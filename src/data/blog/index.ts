@@ -1,3 +1,4 @@
+import { questionHeading } from "@/lib/questionHeadings";
 import type { BlogPost } from "./types";
 import { KASHMIR_CORE } from "./kashmir-core";
 import { KASHMIR_GUIDES } from "./kashmir-guides";
@@ -181,8 +182,14 @@ function withAdditions(p: BlogPost): BlogPost {
   return out;
 }
 
+// Kashmir posts get question-led H2s where the heading reads as a search
+// question (see lib/questionHeadings). Applied last, after rewrites and
+// additions, which match sections by their written heading.
+const withQuestions = (p: BlogPost): BlogPost =>
+  p.destination === "kashmir" ? { ...p, sections: p.sections.map((s) => ({ ...s, h: questionHeading(s.h) })) } : p;
+
 export const BLOG_POSTS: BlogPost[] = ALL_POSTS.filter((p) => !(p.slug in SUPERSEDED_POSTS)).map((p) => {
   const u = UPGRADES[p.slug];
-  if (!u) return withAdditions(p);
-  return withAdditions({ ...p, ...u, updated: u.updated && u.updated > p.date ? u.updated : undefined });
+  if (!u) return withQuestions(withAdditions(p));
+  return withQuestions(withAdditions({ ...p, ...u, updated: u.updated && u.updated > p.date ? u.updated : undefined }));
 });

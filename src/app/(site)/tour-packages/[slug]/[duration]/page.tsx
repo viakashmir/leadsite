@@ -1,9 +1,10 @@
+import { formatINR } from "@/lib/format";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import JsonLd from "@/components/JsonLd";
 import { ChipLinks, Faqs, PackageGrid, PageHero, Prose, QuoteBox, Section, TwoColumn } from "@/components/location/blocks";
-import { getPackagesFor, readContent, resolveTarget, robotsFor, targetName, type Target } from "@/lib/locations";
+import { durationStats, getPackagesFor, readContent, resolveTarget, robotsFor, targetName, type Target } from "@/lib/locations";
 import { durationBySlug, durationsFor, type Duration } from "@/lib/durations";
 import { webPageSchema } from "@/lib/schema";
 import { guideUrl, tourPackagesUrl } from "@/lib/urls";
@@ -71,6 +72,21 @@ export default async function DurationPage({ params }: PageProps<"/tour-packages
   const others = durationsFor(content).filter((o) => o.slug !== d.slug);
   const updated = t.type === "city" ? t.city.updatedAt : dest.updatedAt;
 
+  // Kashmir duration pages open with a direct answer from live listings and
+  // the place's own facts (the five-competitor study, 2026-11-15).
+  const stats = dest.slug === "kashmir" ? await durationStats(t, d.nights) : null;
+  const answer = stats
+    ? [
+        stats.count > 0 && stats.fromPrice
+          ? `${stats.count} ready ${name} ${stats.count === 1 ? "package runs" : "packages run"} ${d.nights} nights ${d.days} days, starting from ${formatINR(stats.fromPrice)} per person.`
+          : `A ${d.nights} nights ${d.days} days ${name} trip is planned to order by up to 3 verified local agents.`,
+        content.idealDuration ? `Most ${name} trips run ${content.idealDuration}.` : null,
+        content.bestMonths ? `Best months: ${content.bestMonths}.` : null,
+      ]
+        .filter(Boolean)
+        .join(" ")
+    : undefined;
+
   const faqs = [
     {
       q: `Is ${d.nights} nights enough for ${name}?`,
@@ -108,7 +124,7 @@ export default async function DurationPage({ params }: PageProps<"/tour-packages
           { name: d.label, href: path(t, d) },
         ]}
         title={title(t, d)}
-        subtitle={`A ${d.nights} nights ${d.days} days (${d.label}) ${name} trip, customised by up to 3 verified local agents.`}
+        subtitle={answer ?? `A ${d.nights} nights ${d.days} days (${d.label}) ${name} trip, customised by up to 3 verified local agents.`}
         updated={updated}
       >
         {others.length > 0 && (

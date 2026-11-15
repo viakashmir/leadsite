@@ -14,6 +14,7 @@ import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { BLOG_PATH, CATEGORY_THEME, getPost, isWinterPost, metaTitle, postUrl, readMinutes, relatedPosts } from "@/lib/blog";
 import { createLinker, entitiesFor } from "@/lib/entityLinks";
 import { ogImages } from "@/lib/og";
+import { tableRows } from "@/lib/questionHeadings";
 import { onlyIndexable } from "@/lib/indexable";
 import { prerenderParams } from "@/lib/prerender";
 
@@ -82,8 +83,18 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
   if (!post) notFound();
 
   const { destination, city } = await placeFor(post.destination, post.city);
-  const place = city ?? destination;
-  const placeName = place?.name ?? post.destination;
+  // The place the post is about: its town only when the post names that town
+  // and no other, so a Kashmir-wide guide tagged with Srinagar says "Kashmir"
+  // and "Gulmarg vs Pahalgam vs Sonamarg" is not filed under one of them.
+  const named = ` ${post.title} ${post.slug.replace(/-/g, " ")} `.toLowerCase();
+  const towns = destination
+    ? await prisma.city.findMany({ where: { destination: { slug: destination.slug } }, select: { name: true } })
+    : [];
+  const townsNamed = towns.filter((c) => named.includes(` ${c.name.toLowerCase()}`)).length;
+  const placeName =
+    city && named.includes(` ${city.name.toLowerCase()}`) && townsNamed <= 1
+      ? city.name
+      : (destination?.name ?? city?.name ?? post.destination);
   const photo = [city?.heroImage, destination?.heroImage].find((src) => isPhoto(src)) ?? null;
   const published = new Date(`${post.date}T00:00:00+05:30`);
   const modified = post.updated ? new Date(`${post.updated}T00:00:00+05:30`) : published;
@@ -107,12 +118,14 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
   // the breadcrumb, and the first mention of each place links to its guide.
   const destinationGuide = destination?.contentStatus === "READY" ? guideUrl(destination.slug) : null;
   const cityGuide = destination && city?.contentStatus === "READY" ? guideUrl(destination.slug, city.slug) : null;
+  const subjectGuide = city && placeName === city.name ? (cityGuide ?? destinationGuide) : destinationGuide;
   const crumbs = [
     ...(destination && destinationGuide ? [{ name: `${destination.name} Travel Guide`, href: destinationGuide }] : [{ name: "Travel Blog", href: BLOG_PATH }]),
     ...(city && cityGuide ? [{ name: city.name, href: cityGuide }] : []),
     { name: post.title, href: postUrl(post.slug) },
   ];
   const linker = createLinker(await entitiesFor(post.destination));
+  const tables = post.destination === "kashmir";
   const intro = linker.link(post.intro);
   const body = (
     <>
@@ -121,7 +134,22 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
         <Section id={anchor(s.h)} title={s.h} tint={s.days ? "warm" : undefined}>
           <div className="space-y-3 leading-relaxed text-ink">
             {s.p?.map((para, j) => <p key={j}>{linker.link(para)}</p>)}
-            {s.list && (
+            {s.list && (tables ? tableRows(s.list) : null) ? (
+              <div className="overflow-x-auto rounded-xl border border-zinc-200">
+                <table className="w-full text-left text-sm">
+                  <tbody>
+                    {tableRows(s.list)!.map(([label, value], k) => (
+                      <tr key={k} className="border-b border-zinc-200 last:border-0">
+                        <th scope="row" className="w-1/3 bg-zinc-50 px-3 py-2 align-top font-semibold text-ink">
+                          {label}
+                        </th>
+                        <td className="px-3 py-2 align-top text-ink">{linker.link(value)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : s.list && (
               <ul className="list-disc space-y-1.5 pl-5">
                 {s.list.map((item, j) => (
                   <li key={j}>{linker.link(item)}</li>
@@ -164,12 +192,12 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
           about: {
             "@type": "TouristDestination",
             name: placeName,
-            ...((cityGuide ?? destinationGuide) && { url: absoluteUrl((cityGuide ?? destinationGuide)!) }),
+            ...(subjectGuide && { url: absoluteUrl(subjectGuide) }),
           },
           ...(mentions.length > 0 && { mentions }),
         })}
       />
-      <QuoteTarget slugs={[post.city ?? "", post.destination].filter(Boolean)} />
+      <QuoteTarget slugs={(city && placeName === city.name ? [city.slug, post.destination] : [post.destination]).filter(Boolean)} />
 
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-4 pb-1 pt-4 sm:pt-6">
