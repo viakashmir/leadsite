@@ -145,7 +145,47 @@ function shortMonths(long: string): string {
     : "April to June, September to October";
 }
 
-export function buildPackageDepth(pkg: Pkg): PackageDepth | null {
+const listJoin = (xs: string[]) => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`);
+
+const STYLE_FIT: Record<Style, string> = {
+  honeymoon: "Couples: the pace leaves free evenings, and the plan includes the lake and meadow days couples ask for most.",
+  family: "Families: the drives are spaced out, with time for pony rides and rest, and rooms can take an extra bed.",
+  friends: "Friends and small groups: a cab for up to five, or a tempo traveller for six or more, keeps the group together.",
+  pilgrim: "Pilgrims who want Vaishno Devi and Kashmir in one trip, with rest built in after the yatra.",
+  classic: "First-time visitors who want the main sights of Kashmir at a steady pace.",
+};
+
+// The longest drive a plan includes, from its day plans (rough door-to-door times).
+const DRIVES: [DayKey, number, string][] = [
+  ["gurezTransfer", 6, "Srinagar to Gurez over Razdan Pass, about 5 to 6 hours"],
+  ["gurezToSrinagar", 6, "Gurez back to Srinagar, about 5 to 6 hours"],
+  ["katraToPahalgam", 7, "Katra to Pahalgam, about 7 to 8 hours by road"],
+  ["patnitopToPahalgam", 6, "Patnitop to Pahalgam, about 5 to 6 hours"],
+  ["sonamargToPahalgam", 5, "Sonamarg to Pahalgam via Srinagar, about 5 to 6 hours"],
+  ["gulmargToPahalgam", 5, "Gulmarg to Pahalgam via Srinagar, about 4 to 5 hours"],
+  ["pahalgamToGulmarg", 5, "Pahalgam to Gulmarg via Srinagar, about 4 to 5 hours"],
+  ["katraToSrinagar", 4, "Katra to Srinagar, about 3 hours by Vande Bharat train or 6 to 8 hours by road"],
+  ["departPahalgam", 3, "Pahalgam to Srinagar airport, about 3 hours"],
+  ["pahalgamToSrinagar", 3, "Pahalgam back to Srinagar, about 3 hours"],
+  ["pahalgamTransfer", 3, "Srinagar to Pahalgam, about 2.5 to 3 hours"],
+  ["sonamargDay", 3, "the Sonamarg day trip, about 2.5 to 3 hours each way"],
+  ["katraToPatnitop", 2, "Katra to Patnitop, about 2.5 hours"],
+];
+function longestDrive(keys: Set<DayKey | undefined>): string | undefined {
+  return DRIVES.filter(([k]) => keys.has(k)).sort((a, b) => b[1] - a[1])[0]?.[2];
+}
+
+// Shortest label that tells this package apart from every other Kashmir
+// package: "Kashmir Smart Saver 5N/6D", or the full title when two packages
+// of the same name and length exist.
+export function packageLabel(pkg: { slug: string; title: string; durationNights: number; durationDays: number }, all: { slug: string; title: string; durationNights: number; durationDays: number }[]): string {
+  const short = (p: typeof pkg) => `${p.title.split(":")[0].trim()} ${p.durationNights}N/${p.durationDays}D`;
+  const mine = short(pkg);
+  const clash = all.some((o) => o.slug !== pkg.slug && short(o).toLowerCase() === mine.toLowerCase());
+  return clash ? pkg.title : mine;
+}
+
+export function buildPackageDepth(pkg: Pkg, label?: string): PackageDepth | null {
   if (pkg.destination.slug !== "kashmir") return null;
   const tags = pkg.theme.split(",").map((t) => t.trim()).filter(Boolean);
   const lines = pkg.itinerary.split("\n").filter(Boolean);
@@ -338,22 +378,103 @@ export function buildPackageDepth(pkg: Pkg): PackageDepth | null {
     ],
   });
 
-  // FAQs: only ones this route makes relevant.
+  // FAQs: every question names this package (its shortest unique label), and
+  // every answer comes from this package's own days, stops, tier and route, so
+  // no two package pages share a question.
+  const L = label ?? pkg.title;
+  const lastIdx = days.length - 1;
+  const routeShort = listJoin([...nightsAt.keys()].map((p) => PLACE_NAME[p]));
+  const drive = longestDrive(keys);
   const faqs: { q: string; a: string }[] = [
-    { q: "Can we change the hotels or add a night?", a: "Yes. Every plan here is a starting point: tell the agents which hotel, extra night or extra place you want and they price it in the quote. Adding a second night in Gulmarg or Pahalgam is the most common change." },
-    { q: "Will our phones work in Kashmir?", a: "Postpaid connections from any Indian operator work. Prepaid SIMs issued outside Jammu and Kashmir do not work there, so carry a postpaid number or buy a local connection with ID. Coverage is good in Srinagar, Gulmarg, Pahalgam and Sonamarg, and patchy in remote valleys." },
-    { q: "How do we reach Srinagar?", a: startsJammu ? "This trip starts in Jammu or Katra. Jammu has direct trains and flights from Delhi and other cities, and Katra has its own station. The trip then continues to Srinagar by road or by the Vande Bharat train from Katra." : "Srinagar airport has direct flights from Delhi (about 1.5 hours), Mumbai, Bengaluru and several other cities. By rail, the Vande Bharat trains from Katra reach Srinagar in about 3 hours." },
-    { q: "Is the trip suitable for senior citizens and young children?", a: `Yes, with the right pace. The longest drive on this plan is ${hasGurez || hasKatra || keys.has("sonamargToPahalgam") || keys.has("gulmargToPahalgam") ? "a full day, so ask for comfortable stops" : "about three hours"}. Pony rides and the gondola make the higher places easy to reach, and agents can add a rest morning.` },
+    {
+      q: `Which places does the ${L} cover, and how many nights in each?`,
+      a: `${pkg.durationNights} nights and ${pkg.durationDays} days: ${routeLine || routeShort}.${
+        [hasGulmarg && !places.has("gulmarg") ? "Gulmarg" : "", hasSonamarg && !places.has("sonamarg") ? "Sonamarg" : "", hasDoodh ? "Doodhpathri" : "", hasYus ? "Yusmarg" : ""].filter(Boolean).length
+          ? ` ${listJoin([hasGulmarg && !places.has("gulmarg") ? "Gulmarg" : "", hasSonamarg && !places.has("sonamarg") ? "Sonamarg" : "", hasDoodh ? "Doodhpathri" : "", hasYus ? "Yusmarg" : ""].filter(Boolean))} ${[hasGulmarg && !places.has("gulmarg"), hasSonamarg && !places.has("sonamarg"), hasDoodh, hasYus].filter(Boolean).length > 1 ? "are day trips" : "is a day trip"} from your base.`
+          : ""
+      }`,
+    },
+    ...days.map((d, i) => ({
+      q: i === 0 ? `What happens on the first day of the ${L}?` : i === lastIdx ? `What happens on the last day of the ${L}?` : `What happens on day ${i + 1} of the ${L}?`,
+      a: `${d.text}${d.detail?.optional ? ` Optional, paid locally: ${d.detail.optional}` : ""}`,
+    })),
+    {
+      q: `Where do we sleep each night on the ${L}?`,
+      a: days
+        .slice(0, lastIdx)
+        .map((d, i) => `Night ${i + 1}: ${d.sleep && d.sleep !== "home" ? (d.sleep === "houseboat" ? "a houseboat on Dal or Nigeen Lake" : PLACE_NAME[d.sleep]) : "as arranged"}`)
+        .join("; ")
+        .concat(".")
+        .concat(hasHouseboat && !places.has("houseboat") ? " One of the Srinagar nights is spent on a houseboat on Dal or Nigeen Lake." : ""),
+    },
+    {
+      q: `What kind of hotels does the ${L} use?`,
+      a: `${TIER_STAY[tier].charAt(0).toUpperCase()}${TIER_STAY[tier].slice(1)}${hasHouseboat ? ", plus a houseboat night" : ""}. The agent you choose names each hotel in the written quote, and you can ask for a specific one.`,
+    },
+    {
+      q: `What does the ${L} price include?`,
+      a: `${included.slice(0, 4).join("; ")}. Read each quote line by line, since agents differ on meals and cab type.`,
+    },
+    {
+      q: `What is not included in the ${L}?`,
+      a: `${excluded.slice(0, 5).join("; ")}.`,
+    },
+    {
+      q: `When is the best time to take the ${L}?`,
+      a: bestMonths,
+    },
+    {
+      q: `Who is the ${L} best for?`,
+      a: `${STYLE_FIT[style]}${tags.length ? ` It is tagged ${listJoin(tags.map((t) => t.toLowerCase()))}.` : ""}`,
+    },
+    {
+      q: `What is the longest drive on the ${L}?`,
+      a: drive
+        ? `${drive}. Ask the agent for a comfortable cab and a stop on the way if you are travelling with older parents or small children.`
+        : "No single drive is longer than about two hours each way; most days start and end in Srinagar.",
+    },
+    {
+      q: `Can we add a night or upgrade the hotels on the ${L}?`,
+      a: `Yes. The plan is a starting point, and agents price changes in their quotes. ${
+        !places.has("gulmarg") && hasGulmarg
+          ? "The most useful change on this route is a night in Gulmarg, so you see the meadow early and late without the day-trip crowds."
+          : !places.has("pahalgam") && hasPahalgam
+            ? "The most useful change on this route is a night in Pahalgam, which leaves time for Aru, Betaab and Chandanwari."
+            : (nightsAt.get("pahalgam") ?? 0) === 1
+              ? "The most useful change on this route is a second night in Pahalgam, for a slow day by the Lidder."
+              : tier === "Budget"
+                ? "Upgrading one stop, usually Gulmarg or Pahalgam, to a 3-star hotel is the most common change."
+                : "Adding a houseboat night or a day for Doodhpathri are the most common changes."
+      }`,
+    },
+    {
+      q: `Is the ${L} suitable for senior citizens and young children?`,
+      a: `Yes, with the right pace. ${drive ? `The longest drive is ${drive}, so ask for stops.` : "Drives are short on this plan."} ${hasGulmarg ? "The gondola's first phase suits older travellers; the second phase is high and cold. " : ""}Pony rides help on the meadows, and agents can add a rest morning.`,
+    },
+    {
+      q: `How do we reach the start of the ${L}?`,
+      a: startsJammu
+        ? "It starts in Jammu or Katra. Jammu has trains and flights from Delhi and other cities, and Katra has its own station. The trip then continues to Srinagar by road or by the Vande Bharat train from Katra, about 3 hours."
+        : "It starts at Srinagar airport, which has direct flights from Delhi (about 1.5 hours), Mumbai, Bengaluru and other cities. By rail, Vande Bharat trains from Katra reach Srinagar in about 3 hours.",
+    },
+    {
+      q: `What should we pack for the ${L}?`,
+      a: winter
+        ? "Thermals, a down jacket, waterproof snow boots, gloves, a woollen cap and sunglasses for the snow glare. Snow boots can also be rented in Gulmarg."
+        : `Layers, a light jacket, comfortable walking shoes, sunscreen and sunglasses${hasGulmarg || hasSonamarg || hasGurez ? ", plus a warm layer for the higher stops on this route" : ""}.`,
+    },
+    {
+      q: `Will our phones work on the ${L} route?`,
+      a: `Postpaid connections from any Indian operator work; prepaid SIMs issued outside Jammu and Kashmir do not. ${hasGurez ? "In Gurez, coverage is patchy and electricity can be limited, so tell family before you go." : `Coverage is good in ${routeShort || "Srinagar"}.`}`,
+    },
   ];
-  if (hasGulmarg) faqs.push({ q: "Are Gulmarg Gondola tickets included?", a: "Usually not. Tickets are sold online by the Jammu and Kashmir Cable Car Corporation and sell out on busy days. Phase 1 goes to Kongdoori, Phase 2 to Apharwat; Phase 2 closes in high wind or heavy snow. Book as soon as your dates are fixed." });
-  if (hasPahalgam) faqs.push({ q: "Can our cab take us to Aru, Betaab and Chandanwari?", a: "No. Only local union taxis from Pahalgam's taxi stand are allowed to these points, at fixed rates per circuit, paid locally. Your package cab takes you to Pahalgam and back." });
-  if (hasPahalgam) faqs.push({ q: "Is Baisaran meadow open?", a: "No. Baisaran has been closed to visitors since April 2025 and is not part of this plan. Aru, Betaab and Chandanwari remain open." });
-  if (hasSonamarg) faqs.push({ q: "Is Zero Point included in the Sonamarg day?", a: "Zero Point lies over the Zojila pass, beyond where outside cabs may go, so it is a local taxi trip paid at the stand. It is possible only when Zojila is open, usually June to October." });
-  if (hasGurez) faqs.push({ q: "Do we need a permit for Gurez?", a: "Indian nationals do not need a separate permit, but must carry original photo ID and register at the check posts on the way. Foreign nationals are not allowed to visit Gurez." });
-  if (hasKatra) faqs.push({ q: "How long is the Vaishno Devi trek?", a: "About 12 km on the old track from Banganga, or about 13 km on the Himkoti route, usually 4 to 6 hours up. A helicopter from Katra to Sanjichhat leaves about 2.5 km to walk. Yatra registration is required." });
-  if (hasHouseboat) faqs.push({ q: "Is a houseboat night safe and comfortable?", a: "Houseboats are graded and registered by the tourism department, and families have run them for generations. Deluxe boats have attached bathrooms and heating. Ask the agent for the boat's name and category in the quote." });
-  if (winter) faqs.push({ q: "Will the roads be open in winter?", a: "Srinagar, Gulmarg and Pahalgam stay reachable through winter, though the road from Tangmarg to Gulmarg can need snow chains or a 4x4 after fresh snow. Sonamarg is reachable year-round since the Z-Morh tunnel opened in 2025. Keep a buffer day before your flight." });
-  faqs.push({ q: "What should we pack?", a: winter ? "Thermals, a down jacket, waterproof snow boots, gloves, a woollen cap and sunglasses for the snow glare." : "Layers, a light jacket, comfortable walking shoes, sunscreen and sunglasses, plus a warm layer for evenings in the hill resorts." });
+  if (hasGulmarg) faqs.push({ q: `Are Gulmarg Gondola tickets included in the ${L}?`, a: "Usually not. Tickets are sold online by the Jammu and Kashmir Cable Car Corporation and sell out on busy days. Phase 1 goes to Kongdoori, Phase 2 to Apharwat; Phase 2 closes in high wind or heavy snow. Book as soon as your dates are fixed." });
+  if (hasPahalgam) faqs.push({ q: `Can the ${L} cab take us to Aru, Betaab and Chandanwari?`, a: "No. Only local union taxis from Pahalgam's taxi stand are allowed to these points, at fixed rates per circuit, paid locally. Your package cab takes you to Pahalgam and back. Baisaran meadow has been closed to visitors since April 2025." });
+  if (hasSonamarg) faqs.push({ q: `Can we see Zero Point on the ${L}?`, a: "Only when Zojila is open, usually June to October, and only by local union taxi from Sonamarg, paid at the stand; outside cabs may not go beyond the town." });
+  if (hasGurez) faqs.push({ q: `Do we need a permit for Gurez on the ${L}?`, a: "Indian nationals do not need a separate permit, but must carry original photo ID and register at the check posts on the way. Foreign nationals are not allowed to visit Gurez." });
+  if (hasKatra) faqs.push({ q: `How long is the Vaishno Devi trek on the ${L}?`, a: "About 12 km on the old track from Banganga, or about 13 km on the Himkoti route, usually 4 to 6 hours up. A helicopter from Katra to Sanjichhat leaves about 2.5 km to walk. Yatra registration is required." });
+  if (hasHouseboat) faqs.push({ q: `Is the houseboat night on the ${L} comfortable?`, a: "Houseboats are graded and registered by the tourism department, and families have run them for generations. Deluxe boats have attached bathrooms and heating. Ask the agent for the boat's name and category in the quote." });
+  if (winter) faqs.push({ q: `Will the roads be open for the ${L} in winter?`, a: "Srinagar, Gulmarg and Pahalgam stay reachable through winter, though the road from Tangmarg to Gulmarg can need snow chains or a 4x4 after fresh snow. Sonamarg is reachable year-round since the Z-Morh tunnel opened in 2025. Keep a buffer day before your flight." });
 
   return { days, facts, sections, faqs };
 }

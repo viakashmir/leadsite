@@ -12,7 +12,7 @@ import { EDITORIAL_TEAM, SITE_URL } from "@/lib/site";
 import { ORG_ID, webPageSchema } from "@/lib/schema";
 import TrustTicks from "@/components/TrustTicks";
 import { Faqs, QuickFacts } from "@/components/location/blocks";
-import { buildPackageDepth } from "@/lib/package-depth";
+import { buildPackageDepth, packageLabel } from "@/lib/package-depth";
 import { titleCase } from "@/lib/text";
 import { ogImages } from "@/lib/og";
 
@@ -98,8 +98,17 @@ export default async function PackagePage({
       : []),
   ];
   // Long-form detail for Kashmir packages, built from this package's own route.
-  const depth = buildPackageDepth(pkg);
-  if (depth) faqs.push(...depth.faqs);
+  // Its FAQs name the package by its shortest unique label and replace the
+  // generic questions above (all but the price), so no two pages share one.
+  const siblings =
+    pkg.destination.slug === "kashmir"
+      ? await prisma.package.findMany({
+          where: { published: true, destination: { slug: "kashmir" } },
+          select: { slug: true, title: true, durationNights: true, durationDays: true },
+        })
+      : [];
+  const depth = buildPackageDepth(pkg, packageLabel(pkg, siblings));
+  if (depth) faqs.splice(1, faqs.length - 1, ...depth.faqs);
   const dayDetail = depth?.days;
 
   return (
