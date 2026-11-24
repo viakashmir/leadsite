@@ -14,6 +14,9 @@ import { HUB_PAGE_DEPTH_2 } from "./hubs-2";
 import { LAYER_3 } from "./layer-3";
 import { LAYER_4 } from "./layer-4";
 import { LAYER_5, LAYER_6 } from "./layer-5";
+import { KASHMIR_GUIDES_DEPTH } from "./kashmir-guides";
+import { KASHMIR_GUIDES_DEPTH_2 } from "./kashmir-guides-2";
+import { KASHMIR_GUIDES_DEPTH_3 } from "./kashmir-guides-3";
 
 export type Faq = { q: string; a: string };
 export type PageDepthEntry = { sections: BlogSection[]; faqs: Faq[] };
@@ -31,6 +34,9 @@ const LAYERS: Record<string, PageDepthEntry>[] = [
   LAYER_4,
   LAYER_5,
   LAYER_6,
+  KASHMIR_GUIDES_DEPTH,
+  KASHMIR_GUIDES_DEPTH_2,
+  KASHMIR_GUIDES_DEPTH_3,
 ];
 const ALL: Record<string, PageDepthEntry> = {};
 for (const layer of LAYERS) {

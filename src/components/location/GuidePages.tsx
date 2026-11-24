@@ -40,6 +40,8 @@ import { guideUrl, themeUrl, tourPackagesUrl } from "@/lib/urls";
 import { clusterByCategory, postsForDestination, postsForPlace } from "@/lib/topicLinks";
 import { ArticleCluster, TopicArticles } from "@/components/location/TopicArticles";
 import { ogImages } from "@/lib/og";
+import PageDepth from "@/components/location/PageDepth";
+import { withDepthFaqs } from "@/data/page-depth";
 import { linkableTest, onlyIndexable } from "@/lib/indexable";
 
 type SectionSlug = (typeof GUIDE_SECTIONS)[number]["slug"];
@@ -633,7 +635,8 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
     articles = <TopicArticles title={`Guides that cover ${r.place.name}`} posts={posts} />;
   }
 
-  const faqs = r.kind === "section" ? content.sections?.[r.section]?.faqs : content.faqs;
+  // Written depth for this exact path (data/page-depth), FAQs after the page's own.
+  const faqs = withDepthFaqs(pathOf(r), r.kind === "section" ? content.sections?.[r.section]?.faqs : content.faqs);
 
   return (
     <article>
@@ -667,6 +670,7 @@ export default async function GuidePage({ route: r }: { route: GuideRoute }) {
         main={
           <>
             {main}
+            <PageDepth path={pathOf(r)} />
             {articles}
             <Section title={`Plan your ${where} trip`}>
               <ChipLinks links={planLinks} />
