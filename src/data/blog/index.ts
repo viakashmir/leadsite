@@ -72,6 +72,10 @@ import { TDI_DEPTH_4_ADDITIONS } from "./tdi-depth-4";
 import { TDI_DEPTH_5_ADDITIONS } from "./tdi-depth-5";
 import { TDI_DEPTH_6_ADDITIONS } from "./tdi-depth-6";
 import { TDI_DEPTH_7_ADDITIONS } from "./tdi-depth-7";
+import { TDI_DEPTH_8_ADDITIONS } from "./tdi-depth-8";
+import { TDI_DEPTH_9_ADDITIONS } from "./tdi-depth-9";
+import { TDI_DEPTH_10_ADDITIONS } from "./tdi-depth-10";
+import { TDI_DEPTH_11_ADDITIONS } from "./tdi-depth-11";
 
 import { KASHMIR_ROUTES } from "./kashmir-routes";
 import { KASHMIR_STAYS } from "./kashmir-stays";
@@ -183,6 +187,10 @@ const ADDITION_BATCHES: [Record<string, Partial<Pick<BlogPost, "sections" | "faq
   [TDI_DEPTH_5_ADDITIONS, "2026-11-25"],
   [TDI_DEPTH_6_ADDITIONS, "2026-11-25"],
   [TDI_DEPTH_7_ADDITIONS, "2026-11-25"],
+  [TDI_DEPTH_8_ADDITIONS, "2026-11-25"],
+  [TDI_DEPTH_9_ADDITIONS, "2026-11-25"],
+  [TDI_DEPTH_10_ADDITIONS, "2026-11-25"],
+  [TDI_DEPTH_11_ADDITIONS, "2026-11-25"],
 ];
 
 function withAdditions(p: BlogPost): BlogPost {
